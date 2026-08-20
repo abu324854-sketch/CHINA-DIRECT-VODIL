@@ -1016,6 +1016,35 @@ async function saveSettings(){
 
 updateCartUI();
 </script>
+  <script>
+function cropImage(e) {
+  if (e) e.preventDefault();
+  if (!cropper) return;
+
+  const targetWidth = 800;
+  const targetHeight = 800;
+
+  const canvas = cropper.getCroppedCanvas({
+    width: targetWidth,
+    height: targetHeight
+  });
+
+  croppedImageBase64 = canvas.toDataURL('image/jpeg', 0.85);
+
+  const preview = document.getElementById('imgPreview');
+  if (preview) {
+    preview.src = croppedImageBase64;
+    preview.style.display = 'block';
+  }
+
+  alert("Rasm katalog uchun mukammal o'lchamda tayyorlandi!");
+  
+  const container = document.getElementById('cropContainer');
+  const cropBtn = document.getElementById('cropBtn');
+  if (container) container.style.display = 'none';
+  if (cropBtn) cropBtn.style.display = 'none';
+}
+</script>
 
 </body>
 </html>
