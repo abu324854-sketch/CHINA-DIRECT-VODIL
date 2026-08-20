@@ -7,31 +7,6 @@
 
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-  <script>
-    // Buyurtma oynasini ochish
-    function openOrderStatusModal() {
-        document.getElementById('orderStatusModal').style.display = 'flex';
-    }
-
-    // Buyurtma oynasini yopish
-    function closeOrderStatusModal() {
-        document.getElementById('orderStatusModal').style.display = 'none';
-    }
-
-    // Holatni tekshirish
-    function searchOrderStatus() {
-        var inputVal = document.getElementById('modalOrderInput').value;
-        var resultDiv = document.getElementById('modalOrderResult');
-        var statusText = document.getElementById('modalStatusText');
-        
-        if(inputVal.trim() !== "") {
-            resultDiv.style.display = 'block';
-            statusText.innerText = "Yo'lda (Xitoydan jo'natilgan)";
-        } else {
-            alert("Iltimos, buyurtma raqamini kiriting!");
-        }
-    }
-</script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 <style>
@@ -183,7 +158,6 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
     <div class="header-actions">
       <button class="btn btn-secondary" onclick="openCart()">🛒 Savat<span class="cart-badge hidden" id="cartBadge">0</span></button>
       <button class="btn btn-secondary" id="adminBtn" onclick="toggleAdminView()">🔐 Admin</button>
-      <button class="btn btn-secondary" onclick="openOrderStatusModal()">📦 Buyurtma holati</button>
     </div>
   </div>
 </header>
@@ -921,33 +895,27 @@ async function saveSettings(){
 }
 
 updateCartUI();
-  <script>
-   
- 
-  <!-- Buyurtma holatini ko'rsatadigan modal oyna -->
-<div id="orderStatusModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
-    <div style="background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; text-align: center; position: relative;">
-        <h3>📦 Buyurtma holatini tekshirish</h3>
-        <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Buyurtma raqamini kiriting</p>
-        
-        <input type="text" id="modalOrderInput" placeholder="Masalan: #1234" style="padding: 10px; width: 100%; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 10px; box-sizing: border-box;">
-        
-        <button onclick="searchOrderStatus()" style="padding: 10px; width: 100%; background: #c62828; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Tekshirish</button>
-        
-        <!-- Natija chiqadigan joy -->
-        <div id="modalOrderResult" style="margin-top: 15px; text-align: left; display: none; font-size: 14px; background: #f9f9f9; padding: 10px; border-radius: 8px;">
-            <p><b>Status:</b> <span id="modalStatusText" style="color: green; font-weight: bold;">Yo'lda</span></p>
-            <div style="font-size: 13px; color: #555; display: flex; flex-direction: column; gap: 4px; margin-top: 5px;">
-                <div>✅ 1. Tasdiqlandi</div>
-                <div>🚚 2. Yo'lda (Xitoydan chiqdi)</div>
-                <div>📦 3. Ferganaga yetib keldi</div>
-                <div>🤝 4. Topshirildi</div>
-            </div>
-        </div>
+</script>
+<!-- Buyurtma holatini tekshirish bo'limi -->
+<div id="orderStatusSection" style="padding: 20px; background: #fff; margin: 10px; border-radius: 12px; text-align: center;">
+    <h3>📦 Buyurtmam holati</h3>
+    <p style="color: #666; font-size: 14px;">Buyurtmangiz qayerdaligini kuzatib boring</p>
+    
+    <div style="display: flex; gap: 8px; justify-content: center; margin-top: 10px;">
+        <input type="text" id="orderSearchInput" placeholder="Buyurtma raqamini kiriting..." style="padding: 10px; width: 70%; border: 1px solid #ccc; border-radius: 8px;">
+        <button onclick="checkOrderStatus()" style="padding: 10px 15px; background: var(--primary, #c62828); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Tekshirish</button>
+    </div>
 
-        <button onclick="closeOrderStatusModal()" style="margin-top: 15px; padding: 5px 15px; background: #ccc; border: none; border-radius: 6px; cursor: pointer;">Yopish</button>
+    <!-- Statuslar chiqadigan joy -->
+    <div id="orderStatusResult" style="margin-top: 15px; text-align: left; display: none;">
+        <p><b>Status:</b> <span id="statusText" style="color: green; font-weight: bold;"></span></p>
+        <div style="font-size: 13px; color: #555; display: flex; flex-direction: column; gap: 5px;">
+            <div>✅ 1. Tasdiqlandi</div>
+            <div>🚚 2. Yo'lda (Xitoydan chiqdi)</div>
+            <div>📦 3. Ferganaga yetib keldi</div>
+            <div>🤝 4. Topshirildi</div>
+        </div>
     </div>
 </div>
-
 </body>
 </html>
