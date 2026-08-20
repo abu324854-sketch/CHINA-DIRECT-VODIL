@@ -694,22 +694,13 @@ orderTable.innerHTML = orders.map(o => `
             <td><strong>${formatPrice(o.total)}</strong></td>
             <td>
                 <span class="status-badge status-${o.status}">
-                    ${o.status == 1 ? 'Tasdiqlandi ✅' : o.status == 2 ? 'Yig\'ilyapti 📦' : o.status == 3 ? 'Xitoydan yo\'lga chiqdi ✈️' : o.status == 4 ? 'O\'zbekistonga yetib keldi 🇺🇿' : o.status == 5 ? 'Topshirildi 🤝' : 'Tasdiqlandi ✅'}
-                </span>
-            </td>
-            <td>
-                <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding: 6px; border-radius: 6px; border: 1px solid #ccc; background: #fff; font-weight: bold; cursor: pointer;">
-                    <option value="1" ${o.status == 1 ? 'selected' : ''}>✅ Tasdiqlandi</option>
-                    <option value="2" ${o.status == 2 ? 'selected' : ''}>📦 Yig'ilyapti</option>
-                    <option value="3" ${o.status == 3 ? 'selected' : ''}>✈️ Xitoydan yo'lga chiqdi</option>
-                    <option value="4" ${o.status == 4 ? 'selected' : ''}>🇺🇿 O'zbekistonga yetib keldi</option>
-                    <option value="5" ${o.status == 5 ? 'selected' : ''}>🤝 Topshirildi</option>
-                </select>
-                <button class="btn btn-sm btn-danger" onclick="deleteOrder('${o.id}')">🗑️</button>
-            </td>
-        </tr>
-    `).join('');
-}
+                  <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding: 5px; border-radius: 5px;">
+    <option value="1">✅ Tasdiqlandi</option>
+    <option value="2">📦 Yig'ilyapti</option>
+    <option value="3">✈️ Xitoydan yo'lga chiqdi</option>
+    <option value="4">🇺🇿 O'zbekistonga yetib keldi</option>
+    <option value="5">🤝 Topshirildi</option>
+</select>
 
 async function updateOrderStatus(id, status){
     try {
