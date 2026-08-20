@@ -694,11 +694,13 @@ function renderAdmin(){
         <td><strong>${formatPrice(o.total)}</strong></td>
         <td><span class="status-badge status-${o.status}">${o.status==='new'?'Yangi':o.status==='confirmed'?'Tasdiqlangan':'Yetkazilgan'}</span></td>
         <td>
-          <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:6px;border-radius:6px;border:1px solid var(--border)">
-            <option value="new" ${o.status==='new'?'selected':''}>Yangi</option>
-            <option value="confirmed" ${o.status==='confirmed'?'selected':''}>Tasdiqlangan</option>
-            <option value="delivered" ${o.status==='delivered'?'selected':''}>Yetkazilgan</option>
-          </select>
+          <select onchange="updateOrderStatus(order.id, this.value)" style="...">
+    <option value="1">✅ Tasdiqlandi</option>
+    <option value="2">📦 Yig'ilyapti</option>
+    <option value="3">✈️ Xitoydan yo'lga chiqdi</option>
+    <option value="4">🇺🇿 O'zbekistonga yetib keldi</option>
+    <option value="5">🤝 Topshirildi</option>
+</select>
           <button class="btn btn-sm btn-danger" onclick="deleteOrder('${o.id}')">🗑️</button>
         </td>
       </tr>
