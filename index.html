@@ -8,82 +8,7 @@
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  // --- 1. MIJOZ UCHUN: Buyurtma holatini chiroyli ko'rsatish ---
-function checkClientOrderStatus() {
-    var orderId = document.getElementById('modalOrderInput').value.trim();
-    var resultDiv = document.getElementById('modalOrderResult');
-    var statusText = document.getElementById('modalStatusText');
-    
-    if(orderId === "") {
-        alert("Iltimos, buyurtma raqamini kiriting!");
-        return;
-    }
-
-    resultDiv.style.display = 'block';
-    
-    let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-    let found = orders.find(o => o.id == orderId || (o.phone && o.phone.includes(orderId)));
-
-    let currentStatus = 1; 
-    if (found && found.status) {
-        currentStatus = Number(found.status);
-    }
-
-    // 5 ta chiroyli status ro'yxati
-    let statuses = {
-        1: "Tasdiqlandi ✅",
-        2: "Yig'ilyapti 📦",
-        3: "Xitoydan yo'lga chiqdi ✈️",
-        4: "O'zbekistonga yetib keldi 🇺🇿",
-        5: "Topshirildi 🤝"
-    };
-
-    statusText.innerText = statuses[currentStatus] || "Tasdiqlandi ✅";
-
-    // Oynadagi bosqichlarni rang va belgilar bilan bo'yash
-    for(let i = 1; i <= 5; i++) {
-        let stepEl = document.getElementById('step' + i);
-        if(stepEl) {
-            if(i < currentStatus) {
-                stepEl.style.color = "green";
-                stepEl.style.fontWeight = "normal";
-            } else if(i === currentStatus) {
-                stepEl.style.color = "#c62828";
-                stepEl.style.fontWeight = "bold";
-            } else {
-                stepEl.style.color = "#888";
-                stepEl.style.fontWeight = "normal";
-            }
-        }
-    }
-}
-
-
-// --- 2. ADMIN UCHUN: Buyurtmalar ro'yxatiga status o'zgartirish menyusini qo'shish ---
-// (Bu funksiya sizning admin panelingizdagi buyurtmalarni chiqarish qismiga ulanadi)
-function getOrderStatusSelectHTML(orderId, currentStatus) {
-    let statusVal = currentStatus || 1;
-    return `
-        <select onchange="updateOrderStatus('${orderId}', this.value)" style="padding: 6px; border-radius: 6px; border: 1px solid #ccc; background: #fff; font-weight: bold; cursor: pointer;">
-            <option value="1" ${statusVal == 1 ? 'selected' : ''}>✅ Tasdiqlandi</option>
-            <option value="2" ${statusVal == 2 ? 'selected' : ''}>📦 Yig'ilyapti</option>
-            <option value="3" ${statusVal == 3 ? 'selected' : ''}>✈️ Xitoydan yo'lga chiqdi</option>
-            <option value="4" ${statusVal == 4 ? 'selected' : ''}>🇺🇿 O'zbekistonga yetib keldi</option>
-            <option value="5" ${statusVal == 5 ? 'selected' : ''}>🤝 Topshirildi</option>
-        </select>
-    `;
-}
-
-// Statusni saqlab qo'yish funksiyasi
-function updateOrderStatus(orderId, newStatus) {
-    let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-    let order = orders.find(o => o.id == orderId);
-    if(order) {
-        order.status = newStatus;
-        localStorage.setItem('orders', JSON.stringify(orders));
-        alert("Buyurtma statusi muvaffaqiyatli yangilandi!");
-    }
-}
+ 
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -1102,5 +1027,81 @@ updateCartUI();
         }
     }
 </script>
+   // --- 1. MIJOZ UCHUN: Buyurtma holatini chiroyli ko'rsatish ---
+function checkClientOrderStatus() {
+    var orderId = document.getElementById('modalOrderInput').value.trim();
+    var resultDiv = document.getElementById('modalOrderResult');
+    var statusText = document.getElementById('modalStatusText');
+    
+    if(orderId === "") {
+        alert("Iltimos, buyurtma raqamini kiriting!");
+        return;
+    }
+
+    resultDiv.style.display = 'block';
+    
+    let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    let found = orders.find(o => o.id == orderId || (o.phone && o.phone.includes(orderId)));
+
+    let currentStatus = 1; 
+    if (found && found.status) {
+        currentStatus = Number(found.status);
+    }
+
+    // 5 ta chiroyli status ro'yxati
+    let statuses = {
+        1: "Tasdiqlandi ✅",
+        2: "Yig'ilyapti 📦",
+        3: "Xitoydan yo'lga chiqdi ✈️",
+        4: "O'zbekistonga yetib keldi 🇺🇿",
+        5: "Topshirildi 🤝"
+    };
+
+    statusText.innerText = statuses[currentStatus] || "Tasdiqlandi ✅";
+
+    // Oynadagi bosqichlarni rang va belgilar bilan bo'yash
+    for(let i = 1; i <= 5; i++) {
+        let stepEl = document.getElementById('step' + i);
+        if(stepEl) {
+            if(i < currentStatus) {
+                stepEl.style.color = "green";
+                stepEl.style.fontWeight = "normal";
+            } else if(i === currentStatus) {
+                stepEl.style.color = "#c62828";
+                stepEl.style.fontWeight = "bold";
+            } else {
+                stepEl.style.color = "#888";
+                stepEl.style.fontWeight = "normal";
+            }
+        }
+    }
+}
+
+
+// --- 2. ADMIN UCHUN: Buyurtmalar ro'yxatiga status o'zgartirish menyusini qo'shish ---
+// (Bu funksiya sizning admin panelingizdagi buyurtmalarni chiqarish qismiga ulanadi)
+function getOrderStatusSelectHTML(orderId, currentStatus) {
+    let statusVal = currentStatus || 1;
+    return `
+        <select onchange="updateOrderStatus('${orderId}', this.value)" style="padding: 6px; border-radius: 6px; border: 1px solid #ccc; background: #fff; font-weight: bold; cursor: pointer;">
+            <option value="1" ${statusVal == 1 ? 'selected' : ''}>✅ Tasdiqlandi</option>
+            <option value="2" ${statusVal == 2 ? 'selected' : ''}>📦 Yig'ilyapti</option>
+            <option value="3" ${statusVal == 3 ? 'selected' : ''}>✈️ Xitoydan yo'lga chiqdi</option>
+            <option value="4" ${statusVal == 4 ? 'selected' : ''}>🇺🇿 O'zbekistonga yetib keldi</option>
+            <option value="5" ${statusVal == 5 ? 'selected' : ''}>🤝 Topshirildi</option>
+        </select>
+    `;
+}
+
+// Statusni saqlab qo'yish funksiyasi
+function updateOrderStatus(orderId, newStatus) {
+    let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+    let order = orders.find(o => o.id == orderId);
+    if(order) {
+        order.status = newStatus;
+        localStorage.setItem('orders', JSON.stringify(orders));
+        alert("Buyurtma statusi muvaffaqiyatli yangilandi!");
+    }
+}
 </body>
 </html>
