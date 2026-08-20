@@ -121,14 +121,27 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
 
 <script>
 // Firebase Sozlamalari (O'zingizning Firebase kalitlaringizni shu yerga qo'ying)
+// Import the functions you need from the SDKs you need
+import { initializeApp } from "firebase/app";
+import { getAnalytics } from "firebase/analytics";
+// TODO: Add SDKs for Firebase products that you want to use
+// https://firebase.google.com/docs/web/setup#available-libraries
+
+// Your web app's Firebase configuration
+// For Firebase JS SDK v7.20.0 and later, measurementId is optional
 const firebaseConfig = {
-  apiKey: "YOUR_API_KEY",
-  authDomain: "YOUR_PROJECT.firebaseapp.com",
-  projectId: "YOUR_PROJECT_ID",
-  storageBucket: "YOUR_PROJECT.appspot.com",
-  messagingSenderId: "YOUR_SENDER_ID",
-  appId: "YOUR_APP_ID"
+  apiKey: "AIzaSyDQi6b_zalmzcUpJq_oSbqKTm7Bv2xQS38",
+  authDomain: "china-direct-vodil.firebaseapp.com",
+  projectId: "china-direct-vodil",
+  storageBucket: "china-direct-vodil.firebasestorage.app",
+  messagingSenderId: "183932106361",
+  appId: "1:183932106361:web:7daad4ff476118cd4506a8",
+  measurementId: "G-0P0W7L46ZF"
 };
+
+// Initialize Firebase
+const app = initializeApp(firebaseConfig);
+const analytics = getAnalytics(app);
 
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
