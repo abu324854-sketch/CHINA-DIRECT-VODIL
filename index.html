@@ -1162,5 +1162,48 @@ updateCartUI();
  <script>
    
 </script>
+ <script>
+    // Faqatgina admin panel ochilganda ishlaydigan va aniq buyurtma bloklariga status qo'shadigan funksiya
+    setInterval(function() {
+        // Faqat admin paneldagi buyurtma elementlarini qidiramiz (masalan, admin konteyneri ichidagi)
+        let adminContainer = document.getElementById('adminPanel') || document.querySelector('.admin-section') || document.getElementById('adminModal');
+        
+        if (adminContainer) {
+            let items = adminContainer.querySelectorAll('div, li, tr');
+            items.forEach(el => {
+                // Agar element ichida "Buyurtma" yoki raqam bo'lsa va hali status qo'shilmagan bo'lsa
+                if (el.innerText && (el.innerText.includes('Buyurtma') || el.innerText.includes('Tel') || el.innerText.includes('Summa')) && !el.dataset.statusAdded) {
+                    el.dataset.statusAdded = "true";
+                    
+                    let select = document.createElement('select');
+                    select.style.cssText = "margin-left: 10px; padding: 4px; border-radius: 6px; font-weight: bold; background: #fff; cursor: pointer; border: 1px solid #ccc;";
+                    select.innerHTML = `
+                        <option value="1">✅ Tasdiqlandi</option>
+                        <option value="2">📦 Yig'ilyapti</option>
+                        <option value="3">✈️ Xitoydan yo'lga chiqdi</option>
+                        <option value="4">🇺🇿 O'zbekistonga yetib keldi</option>
+                        <option value="5">🤝 Topshirildi</option>
+                    `;
+                    
+                    select.onchange = function() {
+                        let text = el.innerText;
+                        let match = text.match(/\d+/);
+                        let orderId = match ? match[0] : 1;
+                        
+                        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+                        let order = orders.find(o => o.id == orderId) || orders[0];
+                        if(order) {
+                            order.status = this.value;
+                            localStorage.setItem('orders', JSON.stringify(orders));
+                            alert("Buyurtma statusi yangilandi!");
+                        }
+                    };
+                    
+                    el.appendChild(select);
+                }
+            });
+        }
+    }, 1500);
+</script>
 </body>
 </html>
