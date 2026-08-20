@@ -897,31 +897,7 @@ async function saveSettings(){
 
 updateCartUI();
   <script>
-    // Buyurtma oynasini ochish
-    function openOrderStatusModal() {
-        document.getElementById('orderStatusModal').style.display = 'flex';
-    }
-
-    // Buyurtma oynasini yopish
-    function closeOrderStatusModal() {
-        document.getElementById('orderStatusModal').style.display = 'none';
-    }
-
-    // Holatni tekshirish
-    function searchOrderStatus() {
-        var inputVal = document.getElementById('modalOrderInput').value;
-        var resultDiv = document.getElementById('modalOrderResult');
-        var statusText = document.getElementById('modalStatusText');
-        
-        if(inputVal.trim() !== "") {
-            resultDiv.style.display = 'block';
-            statusText.innerText = "Yo'lda (Xitoydan jo'natilgan)";
-        } else {
-            alert("Iltimos, buyurtma raqamini kiriting!");
-        }
-    }
-</script>
-</script>
+   
  
   <!-- Buyurtma holatini ko'rsatadigan modal oyna -->
 <div id="orderStatusModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
