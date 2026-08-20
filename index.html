@@ -132,6 +132,7 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
 .text-center{text-align:center}
 .mt-4{margin-top:16px}
 .w-full{width:100%}
+ /* Telefon ekranida yonma-yon 2 ta rasm chiqishi uchun */
   @media (max-width: 768px) {
     #productsGrid, .products-container, .catalog-grid { 
       display: grid !important;
@@ -139,13 +140,10 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
       gap: 8px !important;
       padding: 8px !important;
     }
-    .product-card, .catalog-card {
-      width: 100% !important;
-      margin-bottom: 10px !important;
-    }
     .product-card img, .catalog-card img {
       width: 100% !important;
-      height: 140px !important;
+      height: auto !important; /* Balandligi o'lchamiga qarab o'zi moslashadi */
+      max-height: 200px !important; /* Juda cho'zilib ketishining oldini oladi */
       object-fit: contain !important;
     }
   }
