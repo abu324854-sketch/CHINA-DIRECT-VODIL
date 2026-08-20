@@ -896,26 +896,6 @@ async function saveSettings(){
 
 updateCartUI();
 </script>
-<!-- Buyurtma holatini tekshirish bo'limi -->
-<div id="orderStatusSection" style="padding: 20px; background: #fff; margin: 10px; border-radius: 12px; text-align: center;">
-    <h3>📦 Buyurtmam holati</h3>
-    <p style="color: #666; font-size: 14px;">Buyurtmangiz qayerdaligini kuzatib boring</p>
-    
-    <div style="display: flex; gap: 8px; justify-content: center; margin-top: 10px;">
-        <input type="text" id="orderSearchInput" placeholder="Buyurtma raqamini kiriting..." style="padding: 10px; width: 70%; border: 1px solid #ccc; border-radius: 8px;">
-        <button onclick="checkOrderStatus()" style="padding: 10px 15px; background: var(--primary, #c62828); color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Tekshirish</button>
-    </div>
 
-    <!-- Statuslar chiqadigan joy -->
-    <div id="orderStatusResult" style="margin-top: 15px; text-align: left; display: none;">
-        <p><b>Status:</b> <span id="statusText" style="color: green; font-weight: bold;"></span></p>
-        <div style="font-size: 13px; color: #555; display: flex; flex-direction: column; gap: 5px;">
-            <div>✅ 1. Tasdiqlandi</div>
-            <div>🚚 2. Yo'lda (Xitoydan chiqdi)</div>
-            <div>📦 3. Ferganaga yetib keldi</div>
-            <div>🤝 4. Topshirildi</div>
-        </div>
-    </div>
-</div>
 </body>
 </html>
