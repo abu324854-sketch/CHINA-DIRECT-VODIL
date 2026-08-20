@@ -5,103 +5,94 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CHINA DIRECT VODIL</title>
   <style>
-    body { font-family: Arial, sans-serif; margin: 0; padding: 15px; background: #f4f4f9; }
-    header { display: flex; justify-content: space-between; align-items: center; background: #e63946; color: white; padding: 15px; border-radius: 8px; }
-    h1 { margin: 0; font-size: 20px; }
-    button { cursor: pointer; padding: 8px 15px; border: none; border-radius: 5px; font-weight: bold; }
-    .btn-admin { background: #1d3557; color: white; }
-    .btn-add { background: #2a9d8f; color: white; padding: 10px 20px; margin-top: 10px; }
-    #admin-panel { display: none; background: white; padding: 15px; border-radius: 8px; margin-top: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .input-group { margin-bottom: 10px; }
-    .input-group input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-    .products-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 15px; margin-top: 20px; }
-    .product-card { background: white; padding: 10px; border-radius: 8px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-    .product-card img { width: 100%; height: 140px; object-fit: cover; border-radius: 5px; }
+    * { box-sizing: border-box; font-family: sans-serif; }
+    body { margin: 0; padding: 0; background-color: #f4f4f9; }
+    header { background-color: #e63946; color: white; padding: 15px 20px; display: flex; justify-content: space-between; align-items: center; }
+    header h1 { margin: 0; font-size: 22px; }
+    .admin-btn { background-color: #1d3557; color: white; border: none; padding: 10px 18px; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .container { padding: 20px; }
+    h2 { margin-top: 0; }
+    
+    /* Modal / Admin oyna */
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); justify-content: center; align-items: center; }
+    .modal-content { background: white; padding: 25px; border-radius: 10px; width: 90%; max-width: 400px; }
+    .modal-content h3 { margin-top: 0; }
+    .modal-content input { width: 100%; padding: 10px; margin: 8px 0; border: 1px solid #ccc; border-radius: 5px; }
+    .modal-content button { width: 100%; padding: 10px; background: #2a9d8f; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+    .close-btn { background: #e63946 !important; margin-top: 5px !important; }
+
+    /* Mahsulotlar katagi */
+    .product-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr)); gap: 15px; margin-top: 15px; }
+    .product-card { background: white; border-radius: 8px; padding: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+    .product-card img { width: 100%; height: 150px; object-fit: cover; border-radius: 6px; }
+    .product-card h4 { margin: 10px 0 5px; font-size: 16px; }
+    .product-card p { margin: 0; color: #e63946; font-weight: bold; }
   </style>
 </head>
 <body>
 
 <header>
   <h1>CHINA DIRECT VODIL</h1>
-  <button class="btn-admin" onclick="openAdmin()">🔐 Admin</button>
+  <button class="admin-btn" onclick="openAdminModal()">🔒 Admin</button>
 </header>
 
-<div id="admin-panel">
-  <h3>Yangi mahsulot qo'shish</h3>
-  <div class="input-group"><input type="text" id="title" placeholder="Mahsulot nomi"></div>
-  <div class="input-group"><input type="text" id="price" placeholder="Narxi (masalan: 120 000 so'm)"></div>
-  <div class="input-group"><input type="text" id="image" placeholder="Rasm havolasi (URL)"></div>
-  <button class="btn-add" onclick="addProduct()">➕ Saqlash</button>
+<div class="container">
+  <h2>Mahsulotlar katalogi</h2>
+  <div class="product-grid" id="product-list">
+    <!-- Mahsulotlar shu yerda chiqadi -->
+  </div>
 </div>
 
-<h2>Mahsulotlar katalogi</h2>
-<div class="products-grid" id="products"></div>
+<!-- Admin Panel Modal -->
+<div class="modal" id="adminModal">
+  <div class="modal-content">
+    <h3>Yangi mahsulot qo'shish</h3>
+    <input type="text" id="pTitle" placeholder="Mahsulot nomi">
+    <input type="text" id="pPrice" placeholder="Narxi">
+    <input type="text" id="pImage" placeholder="Rasm URL havolasi">
+    <button onclick="saveProduct()">Saqlash</button>
+    <button class="close-btn" onclick="closeAdminModal()">Yopish</button>
+  </div>
+</div>
 
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-  import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
-
-  const firebaseConfig = {
-    apiKey: "AIzaSyD4m_9D31jA3SskvN91xS4Xz7I-Q11a-0A",
-    authDomain: "china-direct-vodil.firebaseapp.com",
-    projectId: "china-direct-vodil",
-    storageBucket: "china-direct-vodil.appspot.com",
-    messagingSenderId: "183932106361",
-    appId: "1:183932106361:web:21200df1542f2ee06bbda3"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const db = getFirestore(app);
-
-  // Admin tugmasi ishlashi uchun funksiya
-  window.openAdmin = function() {
-    const pass = prompt("Admin parolini kiriting:");
+<script>
+  function openAdminModal() {
+    let pass = prompt("Admin parolini kiriting:");
     if (pass === "admin123") {
-      document.getElementById("admin-panel").style.display = "block";
-      alert("Xush kelibsiz!");
+      document.getElementById("adminModal").style.display = "flex";
     } else if (pass !== null) {
       alert("Parol noto'g'ri!");
     }
-  };
+  }
 
-  // Eski versiyadagi tugma nomi uchun ham muvofiqlik
-  window.openAdminModal = window.openAdmin;
+  function closeAdminModal() {
+    document.getElementById("adminModal").style.display = "none";
+  }
 
-  window.addProduct = async function() {
-    const title = document.getElementById("title").value;
-    const price = document.getElementById("price").value;
-    const image = document.getElementById("image").value;
+  function saveProduct() {
+    let title = document.getElementById("pTitle").value;
+    let price = document.getElementById("pPrice").value;
+    let image = document.getElementById("pImage").value;
 
     if (!title || !price || !image) {
       alert("Barcha maydonlarni to'ldiring!");
       return;
     }
 
-    try {
-      await addDoc(collection(db, "products"), { title, price, image });
-      alert("Mahsulot muvaffaqiyatli qo'shildi!");
-      document.getElementById("title").value = "";
-      document.getElementById("price").value = "";
-      document.getElementById("image").value = "";
-    } catch (e) {
-      alert("Xatolik yuz berdi: " + e.message);
-    }
-  };
+    let container = document.getElementById("product-list");
+    container.innerHTML += `
+      <div class="product-card">
+        <img src="${image}" alt="${title}">
+        <h4>${title}</h4>
+        <p>${price}</p>
+      </div>
+    `;
 
-  onSnapshot(collection(db, "products"), (snapshot) => {
-    const container = document.getElementById("products");
-    container.innerHTML = "";
-    snapshot.forEach((doc) => {
-      const data = doc.data();
-      container.innerHTML += `
-        <div class="product-card">
-          <img src="${data.image}" alt="${data.title}">
-          <h4>${data.title}</h4>
-          <p><b>${data.price}</b></p>
-        </div>
-      `;
-    });
-  });
+    document.getElementById("pTitle").value = "";
+    document.getElementById("pPrice").value = "";
+    document.getElementById("pImage").value = "";
+    closeAdminModal();
+  }
 </script>
 
 </body>
