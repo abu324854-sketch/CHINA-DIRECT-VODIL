@@ -1041,7 +1041,8 @@ function initCropper(event) {
   reader.readAsDataURL(file);
 }
 
-function cropImage() {
+function cropImage(e) {
+  if (e) e.preventDefault();
   if (!cropper) return;
 
   const canvas = cropper.getCroppedCanvas({
@@ -1050,6 +1051,11 @@ function cropImage() {
   });
 
   croppedImageBase64 = canvas.toDataURL('image/jpeg', 0.85);
+
+  if (document.getElementById('imgPreview')) {
+    document.getElementById('imgPreview').src = croppedImageBase64;
+    document.getElementById('imgPreview').style.display = 'block';
+  }
 
   alert("Rasm muvaffaqiyatli qirqildi va tayyorlandi!");
   document.getElementById('cropContainer').style.display = 'none';
