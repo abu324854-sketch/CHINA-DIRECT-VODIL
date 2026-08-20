@@ -1015,18 +1015,14 @@ async function saveSettings(){
 }
 
 updateCartUI();
-</script>
-  <script>
+<script>
 function cropImage(e) {
   if (e) e.preventDefault();
   if (!cropper) return;
 
-  const targetWidth = 800;
-  const targetHeight = 800;
-
   const canvas = cropper.getCroppedCanvas({
-    width: targetWidth,
-    height: targetHeight
+    width: 800,
+    height: 800
   });
 
   croppedImageBase64 = canvas.toDataURL('image/jpeg', 0.85);
