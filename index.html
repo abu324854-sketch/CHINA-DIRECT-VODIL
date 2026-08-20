@@ -685,40 +685,37 @@ function renderAdmin(){
   if(orders.length === 0){
     orderTable.innerHTML = '<tr><td colspan="7" class="text-center" style="padding:30px;color:var(--text-secondary)">Buyurtmalar mavjud emas</td></tr>';
    } else {
-    orderTable.innerHTML = orders.map(o => `
 orderTable.innerHTML = orders.map(o => `
-    <tr>
-        <td>${o.id.slice(-5)}</td>
-        <td><strong>${o.customer}</strong></td>
-        <td>${o.phone}</td>
-        <td>${o.items ? o.items.length : 0} xil mahsulot</td>
-        <td><strong>${formatPrice(o.total)}</strong></td>
-        <td>
-            <span class="status-badge status-${o.status}">
-                ${o.status == 1 ? 'Tasdiqlandi ✅' : o.status == 2 ? 'Yig\'ilyapti 📦' : o.status == 3 ? 'Xitoydan yo\'lga chiqdi ✈️' : o.status == 4 ? 'O\'zbekistonga yetib keldi 🇺🇿' : o.status == 5 ? 'Topshirildi 🤝' : 'Tasdiqlandi ✅'}
-            </span>
-        </td>
-        <td>
-            <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding: 6px; border-radius: 6px; border: 1px solid #ccc; background: #fff; font-weight: bold; cursor: pointer;">
-                <option value="1" ${o.status == 1 ? 'selected' : ''}>✅ Tasdiqlandi</option>
-                <option value="2" ${o.status == 2 ? 'selected' : ''}>📦 Yig'ilyapti</option>
-                <option value="3" ${o.status == 3 ? 'selected' : ''}>✈️ Xitoydan yo'lga chiqdi</option>
-                <option value="4" ${o.status == 4 ? 'selected' : ''}>🇺🇿 O'zbekistonga yetib keldi</option>
-                <option value="5" ${o.status == 5 ? 'selected' : ''}>🤝 Topshirildi</option>
-            </select>
-            <button class="btn btn-sm btn-danger" onclick="deleteOrder('${o.id}')">🗑️</button>
-        </td>
-    </tr>
-`).join('');
+        <tr>
+            <td>${o.id.slice(-5)}</td>
+            <td><strong>${o.customer}</strong></td>
+            <td>${o.phone}</td>
+            <td>${o.items ? o.items.length : 0} xil mahsulot</td>
+            <td><strong>${formatPrice(o.total)}</strong></td>
+            <td>
+                <span class="status-badge status-${o.status}">
+                    ${o.status == 1 ? 'Tasdiqlandi ✅' : o.status == 2 ? 'Yig\'ilyapti 📦' : o.status == 3 ? 'Xitoydan yo\'lga chiqdi ✈️' : o.status == 4 ? 'O\'zbekistonga yetib keldi 🇺🇿' : o.status == 5 ? 'Topshirildi 🤝' : 'Tasdiqlandi ✅'}
+                </span>
+            </td>
+            <td>
+                <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding: 6px; border-radius: 6px; border: 1px solid #ccc; background: #fff; font-weight: bold; cursor: pointer;">
+                    <option value="1" ${o.status == 1 ? 'selected' : ''}>✅ Tasdiqlandi</option>
+                    <option value="2" ${o.status == 2 ? 'selected' : ''}>📦 Yig'ilyapti</option>
+                    <option value="3" ${o.status == 3 ? 'selected' : ''}>✈️ Xitoydan yo'lga chiqdi</option>
+                    <option value="4" ${o.status == 4 ? 'selected' : ''}>🇺🇿 O'zbekistonga yetib keldi</option>
+                    <option value="5" ${o.status == 5 ? 'selected' : ''}>🤝 Topshirildi</option>
+                </select>
+                <button class="btn btn-sm btn-danger" onclick="deleteOrder('${o.id}')">🗑️</button>
+            </td>
+        </tr>
+    `).join('');
 }
 
 async function updateOrderStatus(id, status){
     try {
         await db.collection("orders").doc(id).update({ status: Number(status) });
         showToast('Buyurtma holati yangilandi!');
-        // Sahifadagi jadvalni qaytadan yangilab yuborish uchun (agar loadOrders funksiyangiz bo'lsa)
         if(typeof loadOrders === 'function') loadOrders();
-        else location.reload();
     } catch(e) {
         showToast('Xatolik: ' + e.message, 'error');
     }
