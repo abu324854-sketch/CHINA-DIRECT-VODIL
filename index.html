@@ -1206,6 +1206,58 @@ updateCartUI();
             });
         }
     }, 1500);
+  </script>
+  </script>
+  function checkClientOrderStatus() {
+        var orderId = document.getElementById('modalOrderInput').value.trim();
+        var resultDiv = document.getElementById('modalOrderResult');
+        var statusText = document.getElementById('modalStatusText');
+        
+        if(orderId === "") {
+            alert("Iltimos, buyurtma raqamini kiriting!");
+            return;
+        }
+
+        if(resultDiv) {
+            resultDiv.style.display = 'block';
+        }
+        
+        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        let found = orders.find(o => o.id == orderId || (o.phone && o.phone.includes(orderId)));
+
+        let currentStatus = 1; 
+        if (found && found.status) {
+            currentStatus = Number(found.status);
+        }
+
+        let statuses = {
+            1: "Tasdiqlandi ✅",
+            2: "Yig'ilyapti 📦",
+            3: "Xitoydan yo'lga chiqdi ✈️",
+            4: "O'zbekistonga yetib keldi 🇺🇿",
+            5: "Topshirildi 🤝"
+        };
+
+        if(statusText) {
+            statusText.innerText = statuses[currentStatus] || "Tasdiqlandi ✅";
+        }
+
+        for(let i = 1; i <= 5; i++) {
+            let stepEl = document.getElementById('step' + i);
+            if(stepEl) {
+                if(i < currentStatus) {
+                    stepEl.style.color = "green";
+                    stepEl.style.fontWeight = "normal";
+                } else if(i === currentStatus) {
+                    stepEl.style.color = "#c62828";
+                    stepEl.style.fontWeight = "bold";
+                } else {
+                    stepEl.style.color = "#888";
+                    stepEl.style.fontWeight = "normal";
+                }
+            }
+        }
+    }
 </script>
 </body>
 </html>
