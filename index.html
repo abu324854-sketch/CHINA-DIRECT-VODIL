@@ -172,527 +172,75 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
 <div class="modal" id="loginModal"><div class="modal-content" style="max-width:400px"><div class="modal-header"><h3>🔐 Admin paneli</h3><button class="close-btn" id="closeLoginModal">×</button></div><div class="modal-body"><form id="loginForm"><div class="form-group"><label>Parol</label><input type="password" id="adminPassword" required="" placeholder="Parolni kiriting"></div><button type="submit" class="btn btn-primary w-full">Kirish</button></form></div></div></div>
 
 <div class="toast-container" id="toastContainer"></div>
+<script type="module">
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+  import { getFirestore, collection, addDoc, onSnapshot } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
-<script>
+  const firebaseConfig = {
+    apiKey: "AIzaSyD4m_9D31jA3SskvN91xS4Xz7I-Q11a-0A",
+    authDomain: "china-direct-vodil.firebaseapp.com",
+    projectId: "china-direct-vodil",
+    storageBucket: "china-direct-vodil.appspot.com",
+    messagingSenderId: "183932106361",
+    appId: "1:183932106361:web:21200df1542f2ee06bbda3"
+  };
 
-// Settings
-var settings={yuanRate:2150,usdRate:12700,aviaRate:9.5,avtoRate:6,markup:45};
-var products=[];
-var orders=[];
-var cart=[];
-var isAdmin=false;
-var currentImage=null;
-var ADMIN_PASS="admin123";
+  const app = initializeApp(firebaseConfig);
+  const db = getFirestore(app);
 
-function initData(){
-  if(typeof window.EMBEDDED_DATA!=='undefined'&&window.EMBEDDED_DATA){
-    products=window.EMBEDDED_DATA.products||[];
-    orders=window.EMBEDDED_DATA.orders||[];
-    if(window.EMBEDDED_DATA.settings)settings=window.EMBEDDED_DATA.settings;
-  }else{
-    var sp=localStorage.getItem('cdv_products');
-    var so=localStorage.getItem('cdv_orders');
-    var ss=localStorage.getItem('cdv_settings');
-    if(sp)products=JSON.parse(sp);
-    if(so)orders=JSON.parse(so);
-    if(ss)settings=JSON.parse(ss);
-  }
-  var sc=localStorage.getItem('cdv_cart');
-  if(sc)cart=JSON.parse(sc);
-}
+  // Admin panelni ochish
+  window.openAdminModal = function() {
+    let pass = prompt("Admin parolini kiriting:");
+    if (pass === "admin123") {
+      document.getElementById("adminModal").style.display = "flex";
+    } else if (pass !== null) {
+      alert("Parol noto'g'ri!");
+    }
+  };
 
-function saveData(){
-  localStorage.setItem('cdv_products',JSON.stringify(products));
-  localStorage.setItem('cdv_orders',JSON.stringify(orders));
-  localStorage.setItem('cdv_settings',JSON.stringify(settings));
-  localStorage.setItem('cdv_cart',JSON.stringify(cart));
-}
+  window.closeAdminModal = function() {
+    document.getElementById("adminModal").style.display = "none";
+  };
 
-function calculatePrice(p){
-  var chinaCost=p.priceYuan*settings.yuanRate;
-  var shippingRate=p.shipping==='avia'?settings.aviaRate:settings.avtoRate;
-  var shippingCost=p.weight*shippingRate*settings.usdRate;
-  var totalCost=chinaCost+shippingCost;
-  var finalPrice=Math.round(totalCost*(1+settings.markup/100));
-  return{chinaCost:chinaCost,shippingCost:shippingCost,totalCost:totalCost,finalPrice:finalPrice};
-}
+  // Firebase bazasiga yangi mahsulot qo'shish
+  window.saveProduct = async function() {
+    let title = document.getElementById("pTitle").value;
+    let price = document.getElementById("pPrice").value;
+    let image = document.getElementById("pImage").value;
 
-function formatPrice(price){
-  return price.toLocaleString('uz-UZ')+" so'm";
-}
+    if (!title || !price || !image) {
+      alert("Barcha maydonlarni to'ldiring!");
+      return;
+    }
 
-function $(id){return document.getElementById(id);}
+    try {
+      await addDoc(collection(db, "products"), { title, price, image });
+      alert("Mahsulot muvaffaqiyatli qo'shildi!");
+      document.getElementById("pTitle").value = "";
+      document.getElementById("pPrice").value = "";
+      document.getElementById("pImage").value = "";
+      closeAdminModal();
+    } catch (e) {
+      alert("Xatolik yuz berdi: " + e.message);
+    }
+  };
 
-function showToast(msg,type){
-  type=type||'success';
-  var container=$('toastContainer');
-  var toast=document.createElement('div');
-  toast.className='toast '+type;
-  toast.textContent=msg;
-  container.appendChild(toast);
-  setTimeout(function(){toast.remove();},3000);
-}
-
-function openModal(id){$(id).classList.add('show');}
-function closeModal(id){$(id).classList.remove('show');}
-
-// Customer Products
-function renderProducts(filter,search){
-  filter=filter||'all';search=search||'';
-  var grid=$('productsGrid');
-  var filtered=products;
-  if(filter!=='all')filtered=filtered.filter(function(p){return p.category===filter;});
-  if(search)filtered=filtered.filter(function(p){return p.name.toLowerCase().indexOf(search.toLowerCase())!==-1;});
-  if(filtered.length===0){
-    grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><h3>'+(products.length===0?"Hali mahsulotlar yo'q":"Mahsulot topilmadi")+'</h3><p>'+(products.length===0?"Admin mahsulot qo'shishini kuting":"Boshqa so'z bilan qidirib ko'ring")+'</p></div>';
-    return;
-  }
-  grid.innerHTML=filtered.map(function(p){
-    var calc=calculatePrice(p);
-    var shippingLabel=p.shipping==='avia'?'✈️ Avia':'🚛 Avto';
-    var badgeClass=p.shipping==='avia'?'shipping-avia':'shipping-avto';
-    return '<div class="product-card"><div class="product-image-wrap">'+(p.image?'<img src="'+p.image+'" alt="'+p.name+'">':'<div class="no-image">📦</div>')+'<div class="product-badge '+badgeClass+'">'+shippingLabel+'</div></div><div class="product-info"><div class="product-category">'+p.category+'</div><div class="product-name">'+p.name+'</div><div class="product-meta">'+(p.desc||'')+'</div><div class="product-price">'+formatPrice(calc.finalPrice)+'</div><div class="product-price-note">O\'girlik: '+p.weight+'kg | Yetkazish: '+shippingLabel+'</div><div class="product-footer"><button class="btn btn-primary btn-sm" onclick="addToCart('+p.id+')">🛒 Savatga</button><button class="btn btn-ghost btn-sm" onclick="quickOrder('+p.id+')">⚡ Tezkor</button></div></div></div>';
-  }).join('');
-}
-
-function renderCategories(){
-  var cats=['all'];
-  var seen={};
-  products.forEach(function(p){if(!seen[p.category]){seen[p.category]=true;cats.push(p.category);}});
-  var container=$('categoryFilter');
-  container.innerHTML=cats.map(function(c){
-    return '<div class="category-chip '+(c==='all'?'active':'')+'" data-cat="'+c+'">'+(c==='all'?'Barchasi':c)+'</div>';
-  }).join('');
-  container.querySelectorAll('.category-chip').forEach(function(chip){
-    chip.addEventListener('click',function(){
-      container.querySelectorAll('.category-chip').forEach(function(c){c.classList.remove('active');});
-      chip.classList.add('active');
-      renderProducts(chip.dataset.cat,$('searchInput').value);
+  // Firebase bazasidan barcha telefonlarga mahsulotlarni real vaqtda ko'rsatish
+  onSnapshot(collection(db, "products"), (snapshot) => {
+    let container = document.getElementById("product-list");
+    container.innerHTML = "";
+    snapshot.forEach((doc) => {
+      let data = doc.data();
+      container.innerHTML += `
+        <div class="product-card">
+          <img src="${data.image}" alt="${data.title}">
+          <h4>${data.title}</h4>
+          <p>${data.price}</p>
+        </div>
+      `;
     });
   });
-}
-
-// Cart
-function addToCart(productId){
-  var product=products.find(function(p){return p.id===productId;});
-  if(!product)return;
-  var existing=cart.find(function(item){return item.id===productId;});
-  if(existing){
-    existing.qty++;
-  }else{
-    var calc=calculatePrice(product);
-    cart.push({id:product.id,name:product.name,price:calc.finalPrice,image:product.image,qty:1});
-  }
-  saveData();updateCartUI();
-  showToast(product.name+" savatga qo'shildi!");
-}
-
-function quickOrder(productId){
-  addToCart(productId);
-  $('cartSidebar').classList.add('open');
-  $('cartOverlay').classList.add('show');
-}
-
-function removeFromCart(productId){
-  cart=cart.filter(function(item){return item.id!==productId;});
-  saveData();updateCartUI();
-}
-
-function updateQty(productId,delta){
-  var item=cart.find(function(item){return item.id===productId;});
-  if(!item)return;
-  item.qty+=delta;
-  if(item.qty<=0)removeFromCart(productId);
-  else{saveData();updateCartUI();}
-}
-
-function updateCartUI(){
-  var badge=$('cartBadge');
-  var totalQty=cart.reduce(function(sum,item){return sum+item.qty;},0);
-  if(totalQty>0){badge.textContent=totalQty;badge.classList.remove('hidden');}
-  else{badge.classList.add('hidden');}
-  var body=$('cartBody');
-  var footer=$('cartFooter');
-  if(cart.length===0){
-    body.innerHTML='<div class="empty-state"><div class="empty-state-icon">🛒</div><h3>Savatingiz bo\'sh</h3><p>Mahsulot tanlab qo\'shing</p></div>';
-    footer.classList.add('hidden');return;
-  }
-  footer.classList.remove('hidden');
-  body.innerHTML=cart.map(function(item){
-    return '<div class="cart-item"><div class="cart-item-image">'+(item.image?'<img src="'+item.image+'">':'📦')+'</div><div class="cart-item-info"><div class="cart-item-name">'+item.name+'</div><div class="cart-item-price">'+formatPrice(item.price*item.qty)+'</div><div class="cart-item-qty"><button class="qty-btn" onclick="updateQty('+item.id+',-1)">−</button><span>'+item.qty+'</span><button class="qty-btn" onclick="updateQty('+item.id+',1)">+</button></div></div><button class="close-btn" onclick="removeFromCart('+item.id+')">×</button></div>';
-  }).join('');
-  var total=cart.reduce(function(sum,item){return sum+item.price*item.qty;},0);
-  $('cartTotal').textContent=formatPrice(total);
-}
-
-// Checkout
-$('checkoutBtn').addEventListener('click',function(){
-  if(cart.length===0)return;
-  var total=cart.reduce(function(sum,item){return sum+item.price*item.qty;},0);
-  $('checkoutTotal').textContent=formatPrice(total);
-  openModal('checkoutModal');
-});
-
-$('checkoutForm').addEventListener('submit',function(e){
-  e.preventDefault();
-  var total=cart.reduce(function(sum,item){return sum+item.price*item.qty;},0);
-  var order={
-    id:Date.now(),
-    customer:$('customerName').value,
-    phone:$('customerPhone').value,
-    address:$('customerAddress').value,
-    note:$('customerNote').value,
-    items:cart.slice(),
-    total:total,
-    status:'new',
-    date:new Date().toLocaleString('uz-UZ')
-  };
-  orders.unshift(order);saveData();
-  var orderText=generateOrderText(order);
-  $('orderDetails').textContent=orderText;
-  var encodedText=encodeURIComponent(orderText);
-  $('whatsappShare').href='https://wa.me/?text='+encodedText;
-  $('telegramShare').href='https://t.me/share/url?url=&text='+encodedText;
-  $('copyOrderBtn').onclick=function(){
-    navigator.clipboard.writeText(orderText).then(function(){showToast('Nusxa olindi!');});
-  };
-  cart=[];saveData();updateCartUI();
-  closeModal('checkoutModal');closeCart();
-  openModal('successModal');
-  if(isAdmin)renderAdmin();
-});
-
-function generateOrderText(order){
-  var text="🛒 China Direct Vodil - YANGI BUYURTMA\n";
-  text+="ID: #"+order.id+"\n";
-  text+="Ism: "+order.customer+"\n";
-  text+="Telefon: "+order.phone+"\n";
-  text+="Manzil: "+order.address+"\n";
-  if(order.note)text+="Izoh: "+order.note+"\n";
-  text+="\n📦 Mahsulotlar:\n";
-  order.items.forEach(function(item){
-    text+="- "+item.name+" x"+item.qty+" = "+(item.price*item.qty).toLocaleString()+" so'm\n";
-  });
-  text+="\n💰 Jami: "+order.total.toLocaleString()+" so'm";
-  return text;
-}
-
-function closeCart(){
-  $('cartSidebar').classList.remove('open');
-  $('cartOverlay').classList.remove('show');
-}
-
-// Admin
-function renderAdmin(){
-  $('statProducts').textContent=products.length;
-  $('statOrders').textContent=orders.length;
-  var revenue=orders.filter(function(o){return o.status==='delivered';}).reduce(function(sum,o){return sum+o.total;},0);
-  $('statRevenue').textContent=revenue.toLocaleString();
-  $('statPending').textContent=orders.filter(function(o){return o.status==='new';}).length;
-  var prodTable=$('adminProductsTable');
-  if(products.length===0){
-    prodTable.innerHTML='<tr><td colspan="5" class="text-center" style="padding:40px;color:var(--text-secondary)">Hali mahsulotlar yo\'q</td></tr>';
-  }else{
-    prodTable.innerHTML=products.map(function(p){
-      var calc=calculatePrice(p);
-      return '<tr><td style="font-size:1.5rem">'+(p.image?'<img src="'+p.image+'" style="width:50px;height:50px;border-radius:8px;object-fit:cover">':'📦')+'</td><td><strong>'+p.name+'</strong><br><small style="color:var(--text-secondary)">'+(p.desc||'')+'</small></td><td>'+p.category+'</td><td><strong style="color:var(--primary-dark)">'+formatPrice(calc.finalPrice)+'</strong><br><small>'+p.weight+'kg | '+(p.shipping==='avia'?'Avia':'Avto')+'</small></td><td><button class="btn btn-sm btn-ghost" onclick="editProduct('+p.id+')">✏️</button><button class="btn btn-sm btn-danger" onclick="deleteProduct('+p.id+')">🗑️</button></td></tr>';
-    }).join('');
-  }
-  var orderTable=$('adminOrdersTable');
-  if(orders.length===0){
-    orderTable.innerHTML='<tr><td colspan="7" class="text-center" style="padding:40px;color:var(--text-secondary)">Hali buyurtmalar yo\'q</td></tr>';
-  }else{
-    orderTable.innerHTML=orders.map(function(o){
-      return '<tr><td>#'+o.id.toString().slice(-6)+'</td><td><strong>'+o.customer+'</strong></td><td>'+o.phone+'</td><td>'+o.items.length+' ta</td><td><strong>'+formatPrice(o.total)+'</strong></td><td><span class="status-badge status-'+o.status+'">'+getStatusText(o.status)+'</span></td><td><select onchange="updateOrderStatus('+o.id+',this.value)" style="padding:6px;border-radius:6px;border:1px solid var(--border);font-size:0.85rem"><option value="new" '+(o.status==='new'?'selected':'')+'>Yangi</option><option value="confirmed" '+(o.status==='confirmed'?'selected':'')+'>Tasdiqlangan</option><option value="delivered" '+(o.status==='delivered'?'selected':'')+'>Yetkazilgan</option></select><button class="btn btn-sm btn-danger" style="margin-left:4px" onclick="deleteOrder('+o.id+')">🗑️</button></td></tr>';
-    }).join('');
-  }
-}
-
-function getStatusText(status){
-  return{new:'Yangi',confirmed:'Tasdiqlangan',delivered:'Yetkazilgan'}[status]||status;
-}
-
-function updateOrderStatus(id,status){
-  var order=orders.find(function(o){return o.id===id;});
-  if(order){order.status=status;saveData();renderAdmin();showToast('Holati yangilandi');}
-}
-
-function deleteOrder(id){
-  if(!confirm('Buyurtmani o\'chirishni xohlaysizmi?'))return;
-  orders=orders.filter(function(o){return o.id!==id;});
-  saveData();renderAdmin();
-  showToast('Buyurtma o\'chirildi');
-}
-
-// Product CRUD
-$('addProductBtn').addEventListener('click',function(){
-  $('productForm').reset();
-  $('productId').value='';
-  removeImage();
-  $('productModalTitle').textContent="Mahsulot qo'shish";
-  $('adminCalcPreview').classList.add('hidden');
-  openModal('productModal');
-});
-
-function editProduct(id){
-  var p=products.find(function(x){return x.id===id;});
-  if(!p)return;
-  $('productId').value=p.id;
-  $('productName').value=p.name;
-  $('productCategory').value=p.category;
-  $('productPriceYuan').value=p.priceYuan;
-  $('productWeight').value=p.weight;
-  $('productShipping').value=p.shipping;
-  $('productDesc').value=p.desc||'';
-  if(p.image){
-    currentImage=p.image;
-    $('imageUpload').classList.add('has-image');
-    $('imageUpload').innerHTML='<img src="'+p.image+'"><button type="button" class="remove-image" onclick="event.stopPropagation();removeImage()">×</button>';
-  }
-  $('productModalTitle').textContent='Mahsulotni tahrirlash';
-  updateAdminPreview();
-  openModal('productModal');
-}
-
-function deleteProduct(id){
-  if(!confirm('Mahsulotni o\'chirishni xohlaysizmi?'))return;
-  products=products.filter(function(p){return p.id!==id;});
-  saveData();
-  renderProducts();renderCategories();
-  if(isAdmin)renderAdmin();
-  showToast('Mahsulot o\'chirildi');
-}
-
-// Image upload
-var imageUpload=$('imageUpload');
-var imageInput=$('imageInput');
-imageUpload.addEventListener('click',function(){imageInput.click();});
-imageUpload.addEventListener('dragover',function(e){e.preventDefault();imageUpload.style.borderColor='var(--primary)';});
-imageUpload.addEventListener('dragleave',function(){imageUpload.style.borderColor='var(--border)';});
-imageUpload.addEventListener('drop',function(e){
-  e.preventDefault();imageUpload.style.borderColor='var(--border)';
-  var file=e.dataTransfer.files[0];
-  if(file&&file.type.startsWith('image/'))handleImage(file);
-});
-imageInput.addEventListener('change',function(e){var file=e.target.files[0];if(file)handleImage(file);});
-
-function handleImage(file){
-  var reader=new FileReader();
-  reader.onload=function(e){
-    currentImage=e.target.result;
-    imageUpload.classList.add('has-image');
-    imageUpload.innerHTML='<img src="'+currentImage+'"><button type="button" class="remove-image" onclick="event.stopPropagation();removeImage()">×</button>';
-  };
-  reader.readAsDataURL(file);
-}
-
-function removeImage(){
-  currentImage=null;
-  imageUpload.classList.remove('has-image');
-  imageUpload.innerHTML='<div class="image-upload-placeholder"><div class="icon">📷</div><div>Rasm yuklash uchun bosing</div><small>yoki bu yerga torting</small></div>';
-  imageInput.value='';
-}
-
-// Admin calc preview
-['productPriceYuan','productWeight','productShipping'].forEach(function(id){
-  $(id).addEventListener('input',updateAdminPreview);
-});
-
-function updateAdminPreview(){
-  var price=parseFloat($('productPriceYuan').value)||0;
-  var weight=parseFloat($('productWeight').value)||0;
-  var shipping=$('productShipping').value;
-  if(price<=0||weight<=0){$('adminCalcPreview').classList.add('hidden');return;}
-  var calc=calculatePrice({priceYuan:price,weight:weight,shipping:shipping});
-  $('adminCalcPreview').classList.remove('hidden');
-  $('prevChina').textContent=Math.round(calc.chinaCost).toLocaleString()+" so'm";
-  $('prevShipping').textContent=Math.round(calc.shippingCost).toLocaleString()+" so'm";
-  $('prevCost').textContent=Math.round(calc.totalCost).toLocaleString()+" so'm";
-  $('prevFinal').textContent=formatPrice(calc.finalPrice);
-}
-
-$('productForm').addEventListener('submit',function(e){
-  e.preventDefault();
-  var id=$('productId').value;
-  var data={
-    id:id?parseInt(id):Date.now(),
-    name:$('productName').value,
-    category:$('productCategory').value,
-    priceYuan:parseFloat($('productPriceYuan').value),
-    weight:parseFloat($('productWeight').value),
-    shipping:$('productShipping').value,
-    desc:$('productDesc').value,
-    image:currentImage
-  };
-  if(id){
-    var idx=products.findIndex(function(p){return p.id===parseInt(id);});
-    if(idx>=0)products[idx]=data;
-  }else{
-    products.push(data);
-  }
-  saveData();
-  closeModal('productModal');
-  renderProducts();renderCategories();
-  if(isAdmin)renderAdmin();
-  showToast(id?'Mahsulot yangilandi':"Mahsulot qo'shildi");
-});
-
-// Settings
-$('saveRatesBtn').addEventListener('click',function(){
-  settings.yuanRate=parseFloat($('rateYuan').value)||2150;
-  settings.usdRate=parseFloat($('rateUsd').value)||12700;
-  settings.aviaRate=parseFloat($('rateAvia').value)||9.5;
-  settings.avtoRate=parseFloat($('rateAvto').value)||6;
-  settings.markup=parseFloat($('rateMarkup').value)||45;
-  saveData();
-  showToast('Sozlamalar saqlandi!');
-  renderProducts();
-  if(isAdmin)renderAdmin();
-});
-
-// Export / Import
-function generateHTMLWithData(){
-  var html=document.documentElement.outerHTML;
-  // Remove old embedded data if exists
-  var startMarker='<script>window.EMBEDDED_DATA=';
-  var endMarker='</s'+'cript>';
-  var startIdx=html.indexOf(startMarker);
-  if(startIdx!==-1){
-    var endIdx=html.indexOf(endMarker,startIdx);
-    if(endIdx!==-1){
-      html=html.substring(0,startIdx)+html.substring(endIdx+endMarker.length);
-    }
-  }
-  var dataStr=JSON.stringify({products:products,orders:orders,settings:settings});
-  var dataScript='<script>window.EMBEDDED_DATA='+dataStr+';</s'+'cript>';
-  html=html.replace('</head>',dataScript+'</head>');
-  return html;
-}
-
-$('exportSiteBtn').addEventListener('click',function(){
-  var html=generateHTMLWithData();
-  var blob=new Blob([html],{type:'text/html'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;
-  a.download='china-direct-vodil.html';
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast("Sayt fayli yuklab olindi! Uni mijozlaringizga yuboring.");
-});
-
-$('exportDataBtn').addEventListener('click',function(){
-  var data=JSON.stringify({products:products,orders:orders,settings:settings},null,2);
-  var blob=new Blob([data],{type:'application/json'});
-  var url=URL.createObjectURL(blob);
-  var a=document.createElement('a');
-  a.href=url;
-  a.download='china-direct-data.json';
-  a.click();
-  URL.revokeObjectURL(url);
-  showToast("Ma'lumotlar yuklab olindi");
-});
-
-$('importDataBtn').addEventListener('click',function(){$('importFile').click();});
-
-$('importFile').addEventListener('change',function(e){
-  var file=e.target.files[0];
-  if(!file)return;
-  var reader=new FileReader();
-  reader.onload=function(event){
-    try{
-      var data=JSON.parse(event.target.result);
-      if(data.products)products=data.products;
-      if(data.orders)orders=data.orders;
-      if(data.settings)settings=data.settings;
-      saveData();
-      renderProducts();renderCategories();
-      if(isAdmin)renderAdmin();
-      showToast("Ma'lumotlar import qilindi!");
-    }catch(err){
-      showToast("Xatolik! Noto'g'ri fayl.",'error');
-    }
-  };
-  reader.readAsText(file);
-  e.target.value='';
-});
-
-// Tabs
-document.querySelectorAll('.tab').forEach(function(tab){
-  tab.addEventListener('click',function(){
-    document.querySelectorAll('.tab').forEach(function(t){t.classList.remove('active');});
-    tab.classList.add('active');
-    document.querySelectorAll('.tab-content').forEach(function(c){c.classList.add('hidden');});
-    $('tab-'+tab.dataset.tab).classList.remove('hidden');
-  });
-});
-
-// Navigation
-$('adminBtn').addEventListener('click',function(){
-  if(isAdmin){
-    isAdmin=false;
-    $('customerView').classList.remove('hidden');
-    $('adminView').classList.add('hidden');
-    $('adminBtn').textContent='🔐 Admin';
-    showToast('Mijoz rejimi');
-  }else{
-    openModal('loginModal');
-  }
-});
-
-$('loginForm').addEventListener('submit',function(e){
-  e.preventDefault();
-  if($('adminPassword').value===ADMIN_PASS){
-    isAdmin=true;
-    closeModal('loginModal');
-    $('customerView').classList.add('hidden');
-    $('adminView').classList.remove('hidden');
-    $('adminBtn').textContent='🏠 Asosiy';
-    $('adminPassword').value='';
-    renderAdmin();
-    showToast('Admin paneliga xush kelibsiz!');
-  }else{
-    showToast("Noto'g'ri parol!",'error');
-  }
-});
-
-// Events
-$('cartBtn').addEventListener('click',function(){
-  $('cartSidebar').classList.add('open');
-  $('cartOverlay').classList.add('show');
-});
-
-$('closeCart').addEventListener('click',closeCart);
-$('cartOverlay').addEventListener('click',closeCart);
-$('closeProductModal').addEventListener('click',function(){closeModal('productModal');});
-$('closeCheckoutModal').addEventListener('click',function(){closeModal('checkoutModal');});
-$('closeSuccessModal').addEventListener('click',function(){closeModal('successModal');});
-$('closeLoginModal').addEventListener('click',function(){closeModal('loginModal');});
-
-$('searchInput').addEventListener('input',function(e){
-  var activeCat=document.querySelector('.category-chip.active');
-  var cat=activeCat?activeCat.dataset.cat:'all';
-  renderProducts(cat,e.target.value);
-});
-
-document.querySelectorAll('.modal').forEach(function(modal){
-  modal.addEventListener('click',function(e){
-    if(e.target===modal)closeModal(modal.id);
-  });
-});
-
-// Init
-initData();
-renderCategories();
-renderProducts();
-updateCartUI();
-
-// Update settings inputs
-$('rateYuan').value=settings.yuanRate;
-$('rateUsd').value=settings.usdRate;
-$('rateAvia').value=settings.aviaRate;
-$('rateAvto').value=settings.avtoRate;
-$('rateMarkup').value=settings.markup;
 </script>
+
 
 </body></html>
