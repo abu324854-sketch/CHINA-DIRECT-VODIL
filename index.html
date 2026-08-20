@@ -1015,75 +1015,7 @@ async function saveSettings(){
 }
 
 updateCartUI();
-  // O'lchamlarni admin o'zi kiritib qirqadigan tayyor funksiya
-function cropImage(e) {
-  if (e) e.preventDefault();
-  if (!cropper) return;
-
-  // Admin kiritgan eni va bo'yini olamiz (agar kiritmasa avtomatik 600 bo'ladi)
-  const userWidth = parseInt(document.getElementById('cropWidthInput')?.value) || 600;
-  const userHeight = parseInt(document.getElementById('cropHeightInput')?.value) || 600;
-
-  const canvas = cropper.getCroppedCanvas({
-    width: userWidth,
-    height: userHeight
-  });
-
-  croppedImageBase64 = canvas.toDataURL('image/jpeg', 0.85);
-
-  const preview = document.getElementById('imgPreview');
-  if (preview) {
-    preview.src = croppedImageBase64;
-    preview.style.display = 'block';
-  }
-
-  alert(`Rasm muvaffaqiyatli ${userWidth}x${userHeight} o'lchamda qirqildi va tayyorlandi!`);
-  
-  const container = document.getElementById('cropContainer');
-  const cropBtn = document.getElementById('cropBtn');
-  if (container) container.style.display = 'none';
-  if (cropBtn) cropBtn.style.display = 'none';
-const container = document.getElementById('cropContainer');
-  const cropBtn = document.getElementById('cropBtn');
-  if (container) container.style.display = 'none';
-  if (cropBtn) cropBtn.style.display = 'none';
-}
-
-// O'lchamlarni admin o'zi kiritib qirqadigan tayyor funksiya
-function cropImage(e) {
-  if (e) e.preventDefault();
-  if (!cropper) return;
-
-  const userWidth = parseInt(document.getElementById('cropWidthInput')?.value) || 600;
-  const userHeight = parseInt(document.getElementById('cropHeightInput')?.value) || 600;
-
-  const canvas = cropper.getCroppedCanvas({
-    width: userWidth,
-    height: userHeight
-  });
-
-  croppedImageBase64 = canvas.toDataURL('image/jpeg', 0.85);
-
-  const preview = document.getElementById('imgPreview');
-  if (preview) {
-    preview.src = croppedImageBase64;
-    preview.style.display = 'block';
-  }
-
-  alert(`Rasm muvaffaqiyatli ${userWidth}x${userHeight} o'lchamda qirqildi va tayyorlandi!`);
-  
-  const container = document.getElementById('cropContainer');
-  const cropBtn = document.getElementById('cropBtn');
-  if (container) container.style.display = 'none';
-  if (cropBtn) cropBtn.style.display = 'none';
-}
 </script>
-
-<!-- Eni va bo'yini kiritish joyi (SCRIPT yopilgandan KEYIN bo'lishi shart) -->
-<div style="margin: 10px 0; color: #fff;">
-  Eni: <input type="number" id="cropWidthInput" value="600" style="width: 70px; padding: 4px; margin-right: 10px;">
-  Bo'yi: <input type="number" id="cropHeightInput" value="600" style="width: 70px; padding: 4px;"> px
-</div>
 
 </body>
 </html>
