@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>China Direct Vodil</title>
 
-<!-- Firebase SDK (Compat - uzluksiz ishlash uchun) -->
+<!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
@@ -19,13 +19,14 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
 .logo{font-size:1.5rem;font-weight:800;display:flex;align-items:center;gap:10px}
 .header-actions{display:flex;gap:12px;align-items:center}
 .btn{padding:10px 20px;border:none;border-radius:10px;cursor:pointer;font-size:0.95rem;font-weight:600;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;text-decoration:none;background:var(--gold);color:#333}
-.btn:hover{transform:translateY(-2px)}
+.btn:hover{transform:translateY(-2px);opacity:0.95}
 .btn-secondary{background:rgba(255,255,255,0.15);color:white}
 .btn-secondary:hover{background:rgba(255,255,255,0.25)}
+.btn-primary{background:var(--primary);color:white}
 .btn-danger{background:var(--primary);color:white}
 .btn-success{background:var(--success);color:white}
 .btn-outline{background:transparent;border:2px solid var(--primary);color:var(--primary)}
-.btn-sm{padding:6px 14px;font-size:0.85rem}
+.btn-sm{padding:6px 12px;font-size:0.85rem}
 .btn-ghost{background:transparent;color:var(--text-secondary);border:1px solid var(--border)}
 .hero{background:linear-gradient(135deg,var(--primary-light) 0%,#fff8e1 100%);padding:40px 0;text-align:center;border-bottom:1px solid var(--border)}
 .hero h1{font-size:2.2rem;color:var(--primary-dark);margin-bottom:12px}
@@ -93,9 +94,9 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
 .image-upload.has-image{border-style:solid;border-color:var(--success);padding:0;overflow:hidden;position:relative}
 .image-upload img{width:100%;height:180px;object-fit:cover;display:block}
 .remove-image{position:absolute;top:8px;right:8px;background:rgba(0,0,0,0.6);color:white;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1.2rem;display:flex;align-items:center;justify-content:center}
-.admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:20px;margin-bottom:24px}
+.admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:20px;margin-bottom:24px}
 .stat-card{background:white;padding:24px;border-radius:16px;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid var(--border)}
-.stat-value{font-size:2.2rem;font-weight:800;color:var(--primary);margin-bottom:4px}
+.stat-value{font-size:2rem;font-weight:800;color:var(--primary);margin-bottom:4px}
 .stat-label{color:var(--text-secondary);font-size:0.9rem;font-weight:600}
 .admin-table-wrap{background:white;border-radius:16px;overflow:hidden;box-shadow:0 2px 12px rgba(0,0,0,0.06);border:1px solid var(--border);overflow-x:auto}
 .admin-table{width:100%;border-collapse:collapse}
@@ -105,9 +106,10 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
 .status-new{background:#fff3e0;color:#e65100}
 .status-confirmed{background:#e8f5e9;color:var(--success)}
 .status-delivered{background:#e3f2fd;color:var(--info)}
-.tabs{display:flex;gap:4px;background:var(--bg);padding:4px;border-radius:12px;margin-bottom:24px}
-.tab{padding:12px 24px;border:none;background:transparent;border-radius:10px;cursor:pointer;font-weight:700;color:var(--text-secondary);flex:1;text-align:center;font-size:0.9rem}
-.tab.active{background:white;color:var(--primary);box-shadow:0 2px 8px rgba(0,0,0,0.08)}
+.tabs{display:flex;gap:8px;background:white;padding:8px;border-radius:12px;margin-bottom:24px;border:1px solid var(--border)}
+.tab{padding:12px 20px;border:none;background:transparent;border-radius:8px;cursor:pointer;font-weight:700;color:var(--text-secondary);flex:1;text-align:center;font-size:0.95rem;transition:all 0.2s}
+.tab:hover{background:var(--bg)}
+.tab.active{background:var(--primary);color:white;box-shadow:0 4px 12px rgba(198,40,40,0.2)}
 .calc-preview{background:linear-gradient(135deg,var(--primary-light) 0%,#fff8e1 100%);border-radius:12px;padding:16px;margin-top:12px;border:2px solid var(--gold)}
 .calc-preview-row{display:flex;justify-content:space-between;padding:6px 0;font-size:0.9rem;border-bottom:1px dashed rgba(0,0,0,0.1)}
 .calc-preview-row.total{font-size:1.2rem;font-weight:800;color:var(--primary-dark);margin-top:8px;padding-top:10px;border-top:2px solid var(--gold)}
@@ -141,43 +143,201 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
   </div>
 </header>
 
+<!-- MIJOZ REJIM -->
 <div id="customerView">
   <div class="hero"><div class="container"><h1>🇨🇳 China Direct Vodil</h1><p>Xitoydan to'g'ridan-to'g'ri yetkazib beramiz. Sifatli mahsulotlar, tez va ishonchli.</p><div class="hero-badges"><div class="hero-badge">✈️ Avia 10-15 kun</div><div class="hero-badge">🚛 Avto 20-30 kun</div><div class="hero-badge">✅ Sifat kafolati</div></div></div></div>
   <div class="controls"><div class="container controls-content"><div class="search-box"><input type="text" id="searchInput" placeholder="Mahsulot qidirish..." oninput="onSearchInput()"></div><div class="category-filter" id="categoryFilter"><div class="category-chip active" onclick="filterCategory('all', this)">Barchasi</div></div></div></div>
   <div class="container products-section"><h2 class="section-title">🛍️ Mahsulotlar katalogi</h2><div class="products-grid" id="productsGrid"><div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><h3>Yuklanmoqda...</h3></div></div></div>
 </div>
 
+<!-- ADMIN REJIM -->
 <div id="adminView" class="hidden">
   <div class="container" style="padding-top:24px;padding-bottom:40px">
     <h2 class="section-title">📊 Boshqaruv paneli</h2>
+    
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('stats', this)">Statistika</button>
-      <button class="tab" onclick="switchTab('products', this)">Mahsulotlar</button>
-      <button class="tab" onclick="switchTab('orders', this)">Buyurtmalar</button>
-      <button class="tab" onclick="switchTab('settings', this)">Sozlamalar</button>
+      <button class="tab active" onclick="switchTab('stats', this)">📊 Statistika</button>
+      <button class="tab" onclick="switchTab('products', this)">📦 Mahsulotlar</button>
+      <button class="tab" onclick="switchTab('orders', this)">📑 Buyurtmalar</button>
+      <button class="tab" onclick="switchTab('settings', this)">⚙️ Sozlamalar</button>
     </div>
-    <div id="tab-stats" class="tab-content"><div class="admin-grid"><div class="stat-card"><div class="stat-value" id="statProducts">0</div><div class="stat-label">Mahsulotlar</div></div><div class="stat-card"><div class="stat-value" id="statOrders">0</div><div class="stat-label">Buyurtmalar</div></div><div class="stat-card"><div class="stat-value" id="statRevenue">0</div><div class="stat-label">Daromad (so'm)</div></div><div class="stat-card"><div class="stat-value" id="statPending">0</div><div class="stat-label">Yangi buyurtmalar</div></div></div></div>
-    <div id="tab-products" class="tab-content hidden"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px"><h3>Mahsulotlar ro'yxati</h3><button class="btn btn-primary" onclick="openAddProductModal()">➕ Mahsulot qo'shish</button></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Rasm</th><th>Nomi</th><th>Kategoriya</th><th>Sotish narxi</th><th>Amallar</th></tr></thead><tbody id="adminProductsTable"></tbody></table></div></div>
-    <div id="tab-orders" class="tab-content hidden"><h3 style="margin-bottom:16px">Buyurtmalar ro'yxati</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>ID</th><th>Mijoz</th><th>Telefon</th><th>Mahsulotlar</th><th>Summa</th><th>Holati</th><th>Amallar</th></tr></thead><tbody id="adminOrdersTable"></tbody></table></div></div>
-    <div id="tab-settings" class="tab-content hidden"><div style="max-width:600px"><div class="card"><div class="card-title">💱 Kurs va tariflar</div><div class="form-row"><div class="form-group"><label>1 Yuan = so'm</label><input type="number" id="rateYuan" value="2150"></div><div class="form-group"><label>1 USD = so'm</label><input type="number" id="rateUsd" value="12700"></div></div><div class="form-row"><div class="form-group"><label>Avia ($/kg)</label><input type="number" id="rateAvia" value="9.5" step="0.1"></div><div class="form-group"><label>Avto ($/kg)</label><input type="number" id="rateAvto" value="6" step="0.1"></div></div><div class="form-group"><label>Foyda foizi (%)</label><input type="number" id="rateMarkup" value="45"></div><button class="btn btn-primary w-full" onclick="saveSettings()">💾 Saqlash</button></div></div></div>
+
+    <!-- STATISTIKA TAB -->
+    <div id="tab-stats" class="tab-content">
+      <div class="admin-grid">
+        <div class="stat-card"><div class="stat-value" id="statProducts">0</div><div class="stat-label">Jami mahsulotlar</div></div>
+        <div class="stat-card"><div class="stat-value" id="statOrders">0</div><div class="stat-label">Jami buyurtmalar</div></div>
+        <div class="stat-card"><div class="stat-value" id="statRevenue">0 so'm</div><div class="stat-label">Tushgan daromad</div></div>
+        <div class="stat-card"><div class="stat-value" id="statPending">0</div><div class="stat-label">Yangi buyurtmalar</div></div>
+      </div>
+    </div>
+
+    <!-- MAHSULOTLAR TAB -->
+    <div id="tab-products" class="tab-content hidden">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px">
+        <h3>Mahsulotlar boshqaruvi</h3>
+        <button class="btn btn-primary" onclick="openAddProductModal()">➕ Yangi mahsulot qo'shish</button>
+      </div>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>Rasm</th><th>Nomi</th><th>Kategoriya</th><th>Sotish narxi</th><th>Amallar</th></tr></thead>
+          <tbody id="adminProductsTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- BUYURTMALAR TAB -->
+    <div id="tab-orders" class="tab-content hidden">
+      <h3 style="margin-bottom:16px">Tushgan buyurtmalar</h3>
+      <div class="admin-table-wrap">
+        <table class="admin-table">
+          <thead><tr><th>ID</th><th>Mijoz</th><th>Telefon</th><th>Tafsilotlar</th><th>Summa</th><th>Holati</th><th>Amallar</th></tr></thead>
+          <tbody id="adminOrdersTable"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SOZLAMALAR TAB -->
+    <div id="tab-settings" class="tab-content hidden">
+      <div style="max-width:600px">
+        <div class="card">
+          <div class="card-title">💱 Kurs va hisob-kitob koeffitsientlari</div>
+          <div class="form-row">
+            <div class="form-group"><label>1 Yuan (so'mda)</label><input type="number" id="rateYuan" value="2150"></div>
+            <div class="form-group"><label>1 USD (so'mda)</label><input type="number" id="rateUsd" value="12700"></div>
+          </div>
+          <div class="form-row">
+            <div class="form-group"><label>Avia yetkazish ($/kg)</label><input type="number" id="rateAvia" value="9.5" step="0.1"></div>
+            <div class="form-group"><label>Avto yetkazish ($/kg)</label><input type="number" id="rateAvto" value="6" step="0.1"></div>
+          </div>
+          <div class="form-group"><label>Ustama/Foyda foizi (%)</label><input type="number" id="rateMarkup" value="45"></div>
+          <button class="btn btn-primary w-full" onclick="saveSettings()">💾 Sozlamalarni saqlash</button>
+        </div>
+      </div>
+    </div>
+
   </div>
 </div>
 
+<!-- OVERLAY & MODALLAR -->
 <div class="overlay" id="cartOverlay" onclick="closeCart()"></div>
-<div class="cart-sidebar" id="cartSidebar"><div class="cart-header"><h3>🛒 Savatingiz</h3><button class="close-btn" onclick="closeCart()">×</button></div><div class="cart-body" id="cartBody"></div><div class="cart-footer hidden" id="cartFooter"><div class="cart-total"><span>Jami:</span><span id="cartTotal">0 so'm</span></div><button class="btn btn-primary w-full" onclick="openCheckout()">📦 Buyurtma berish</button></div></div>
 
-<div class="modal" id="productModal"><div class="modal-content"><div class="modal-header"><h3 id="productModalTitle">Mahsulot qo'shish</h3><button class="close-btn" onclick="closeModal('productModal')">×</button></div><div class="modal-body"><form onsubmit="handleProductSubmit(event)"><input type="hidden" id="productId"><div class="image-upload" id="imageUpload" onclick="document.getElementById('imageInput').click()"><div class="image-upload-placeholder" id="uploadPlaceholder"><div style="font-size:2.5rem">📷</div><div>Rasm yuklash uchun bosing</div></div><input type="file" id="imageInput" accept="image/*" style="display:none" onchange="handleImageSelect(event)"></div><div class="form-group"><label>Mahsulot nomi</label><input type="text" id="productName" required></div><div class="form-group"><label>Kategoriya</label><select id="productCategory" required><option value="Elektronika">🔌 Elektronika</option><option value="Telefon">📱 Telefon aksessuarlari</option><option value="Kiyim">👕 Kiyim</option><option value="Poyabzal">👟 Poyabzal</option><option value="Uy">🏠 Uy jihozlari</option><option value="Bolalar">🧸 Bolalar</option><option value="Avto">🚗 Avto aksessuarlar</option><option value="Boshqa">📦 Boshqa</option></select></div><div class="form-row"><div class="form-group"><label>Xitoy narxi (yuan)</label><input type="number" id="productPriceYuan" required min="0" step="0.01" oninput="updateAdminPreview()"></div><div class="form-group"><label>Og'irligi (kg)</label><input type="number" id="productWeight" required min="0" step="0.01" oninput="updateAdminPreview()"></div></div><div class="form-group"><label>Yetkazish usuli</label><select id="productShipping" onchange="updateAdminPreview()"><option value="avia">✈️ Avia ($9.5/kg)</option><option value="avto">🚛 Avto ($6/kg)</option></select></div><div class="form-group"><label>Tavsif</label><textarea id="productDesc"></textarea></div><div class="calc-preview hidden" id="adminCalcPreview"><div style="font-weight:700;margin-bottom:8px;">📊 Avtomatik hisoblash</div><div class="calc-preview-row"><span>Xitoy narxi:</span><span id="prevChina">0 so'm</span></div><div class="calc-preview-row"><span>Yetkazish:</span><span id="prevShipping">0 so'm</span></div><div class="calc-preview-row"><span>Xarajat:</span><span id="prevCost">0 so'm</span></div><div class="calc-preview-row total"><span>SOTISH NARXI:</span><span id="prevFinal">0 so'm</span></div></div><button type="submit" class="btn btn-primary w-full mt-4" id="saveProdBtn">💾 Saqlash</button></form></div></div></div>
+<div class="cart-sidebar" id="cartSidebar">
+  <div class="cart-header"><h3>🛒 Savat</h3><button class="close-btn" onclick="closeCart()">×</button></div>
+  <div class="cart-body" id="cartBody"></div>
+  <div class="cart-footer hidden" id="cartFooter">
+    <div class="cart-total"><span>Jami:</span><span id="cartTotal">0 so'm</span></div>
+    <button class="btn btn-primary w-full" onclick="openCheckout()">📦 Buyurtma berish</button>
+  </div>
+</div>
 
-<div class="modal" id="checkoutModal"><div class="modal-content"><div class="modal-header"><h3>📝 Buyurtma berish</h3><button class="close-btn" onclick="closeModal('checkoutModal')">×</button></div><div class="modal-body"><form onsubmit="handleCheckoutSubmit(event)"><div class="form-group"><label>Ismingiz</label><input type="text" id="customerName" required placeholder="Alijon"></div><div class="form-group"><label>Telefon raqamingiz</label><input type="tel" id="customerPhone" required placeholder="+998 90 123 45 67"></div><div class="form-group"><label>Manzil (Vodil)</label><input type="text" id="customerAddress" required placeholder="Vodil, ko'cha, uy"></div><div class="form-group"><label>Qo'shimcha izoh</label><textarea id="customerNote"></textarea></div><div style="background:var(--primary-light);padding:16px;border-radius:12px;margin-bottom:16px"><strong>Jami to'lov:</strong> <span id="checkoutTotal" style="font-size:1.3rem;font-weight:800;color:var(--primary-dark)">0 so'm</span></div><button type="submit" class="btn btn-primary w-full">✅ Buyurtmani tasdiqlash</button></form></div></div></div>
+<!-- MAHSULOT QO'SHISH/TAHRIRLASH MODAL -->
+<div class="modal" id="productModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3 id="productModalTitle">Mahsulot qo'shish</h3><button class="close-btn" onclick="closeModal('productModal')">×</button></div>
+    <div class="modal-body">
+      <form onsubmit="handleProductSubmit(event)">
+        <input type="hidden" id="productId">
+        <div class="image-upload" id="imageUpload" onclick="document.getElementById('imageInput').click()">
+          <div class="image-upload-placeholder" id="uploadPlaceholder">
+            <div style="font-size:2.5rem">📷</div><div>Rasm yuklash uchun bosing</div>
+          </div>
+          <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="handleImageSelect(event)">
+        </div>
+        <div class="form-group"><label>Mahsulot nomi</label><input type="text" id="productName" required></div>
+        <div class="form-group">
+          <label>Kategoriya</label>
+          <select id="productCategory" required>
+            <option value="Elektronika">🔌 Elektronika</option>
+            <option value="Telefon">📱 Telefon aksessuarlari</option>
+            <option value="Kiyim">👕 Kiyim</option>
+            <option value="Poyabzal">👟 Poyabzal</option>
+            <option value="Uy">🏠 Uy jihozlari</option>
+            <option value="Bolalar">🧸 Bolalar</option>
+            <option value="Avto">🚗 Avto aksessuarlar</option>
+            <option value="Boshqa">📦 Boshqa</option>
+          </select>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Xitoy narxi (yuan)</label><input type="number" id="productPriceYuan" required min="0" step="0.01" oninput="updateAdminPreview()"></div>
+          <div class="form-group"><label>Og'irligi (kg)</label><input type="number" id="productWeight" required min="0" step="0.01" oninput="updateAdminPreview()"></div>
+        </div>
+        <div class="form-group">
+          <label>Yetkazish usuli</label>
+          <select id="productShipping" onchange="updateAdminPreview()">
+            <option value="avia">✈️ Avia ($9.5/kg)</option>
+            <option value="avto">🚛 Avto ($6/kg)</option>
+          </select>
+        </div>
+        <div class="form-group"><label>Tavsif / Izoh</label><textarea id="productDesc"></textarea></div>
+        <div class="calc-preview hidden" id="adminCalcPreview">
+          <div style="font-weight:700;margin-bottom:8px;">📊 Narx hisobi</div>
+          <div class="calc-preview-row"><span>Xitoy tannarxi:</span><span id="prevChina">0 so'm</span></div>
+          <div class="calc-preview-row"><span>Yo'l xarajati:</span><span id="prevShipping">0 so'm</span></div>
+          <div class="calc-preview-row"><span>Umumiy tannarx:</span><span id="prevCost">0 so'm</span></div>
+          <div class="calc-preview-row total"><span>SOTISH NARXI:</span><span id="prevFinal">0 so'm</span></div>
+        </div>
+        <button type="submit" class="btn btn-primary w-full mt-4" id="saveProdBtn">💾 Saqlash</button>
+      </form>
+    </div>
+  </div>
+</div>
 
-<div class="modal" id="successModal"><div class="modal-content"><div class="modal-body"><div class="order-success"><div class="order-success-icon">✅</div><h3>Buyurtma qabul qilindi!</h3><p>Tez orada siz bilan bog'lanamiz.</p><div class="order-details" id="orderDetails"></div><div class="share-buttons"><button class="btn btn-sm btn-ghost" id="copyOrderBtn">📋 Nusxa olish</button><a class="btn btn-sm btn-success" id="whatsappShare" target="_blank">WhatsApp</a><a class="btn btn-sm" id="telegramShare" target="_blank" style="background:#0088cc;color:white">Telegram</a></div><button class="btn btn-outline w-full mt-4" onclick="closeModal('successModal')">Yopish</button></div></div></div></div>
+<!-- CHECKOUT MODAL -->
+<div class="modal" id="checkoutModal">
+  <div class="modal-content">
+    <div class="modal-header"><h3>📝 Buyurtma berish</h3><button class="close-btn" onclick="closeModal('checkoutModal')">×</button></div>
+    <div class="modal-body">
+      <form onsubmit="handleCheckoutSubmit(event)">
+        <div class="form-group"><label>Ismingiz</label><input type="text" id="customerName" required placeholder="Masalan: Abdulloh"></div>
+        <div class="form-group"><label>Telefon raqamingiz</label><input type="tel" id="customerPhone" required placeholder="+998 90 123 45 67"></div>
+        <div class="form-group"><label>Manzilingiz</label><input type="text" id="customerAddress" required placeholder="Vodil markazi, ko'cha, uy"></div>
+        <div class="form-group"><label>Izoh</label><textarea id="customerNote"></textarea></div>
+        <div style="background:var(--primary-light);padding:16px;border-radius:12px;margin-bottom:16px">
+          <strong>Jami to'lov:</strong> <span id="checkoutTotal" style="font-size:1.3rem;font-weight:800;color:var(--primary-dark)">0 so'm</span>
+        </div>
+        <button type="submit" class="btn btn-primary w-full">✅ Buyurtmani tasdiqlash</button>
+      </form>
+    </div>
+  </div>
+</div>
 
-<div class="modal" id="loginModal"><div class="modal-content" style="max-width:400px"><div class="modal-header"><h3>🔐 Admin paneli</h3><button class="close-btn" onclick="closeModal('loginModal')">×</button></div><div class="modal-body"><form onsubmit="handleLoginSubmit(event)"><div class="form-group"><label>Parol</label><input type="password" id="adminPassword" required placeholder="Parolni kiriting"></div><button type="submit" class="btn btn-primary w-full">Kirish</button></form></div></div></div>
+<!-- SUCCESS MODAL -->
+<div class="modal" id="successModal">
+  <div class="modal-content">
+    <div class="modal-body">
+      <div class="order-success">
+        <div class="order-success-icon">✅</div>
+        <h3>Buyurtma qabul qilindi!</h3>
+        <p>Tez orada aloqaga chiqamiz.</p>
+        <div class="order-details" id="orderDetails"></div>
+        <div class="share-buttons">
+          <button class="btn btn-sm btn-ghost" id="copyOrderBtn">📋 Nusxa olish</button>
+          <a class="btn btn-sm btn-success" id="whatsappShare" target="_blank">WhatsApp</a>
+          <a class="btn btn-sm" id="telegramShare" target="_blank" style="background:#0088cc;color:white">Telegram</a>
+        </div>
+        <button class="btn btn-outline w-full mt-4" onclick="closeModal('successModal')">Yopish</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- LOGIN MODAL -->
+<div class="modal" id="loginModal">
+  <div class="modal-content" style="max-width:400px">
+    <div class="modal-header"><h3>🔐 Admin paneli</h3><button class="close-btn" onclick="closeModal('loginModal')">×</button></div>
+    <div class="modal-body">
+      <form onsubmit="handleLoginSubmit(event)">
+        <div class="form-group"><label>Parol</label><input type="password" id="adminPassword" required placeholder="Parolni kiriting"></div>
+        <button type="submit" class="btn btn-primary w-full">Kirish</button>
+      </form>
+    </div>
+  </div>
+</div>
 
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-// FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyD4m_9D31jA3SskvN91xS4Xz7I-Q11a-0A",
   authDomain: "china-direct-vodil.firebaseapp.com",
@@ -212,6 +372,16 @@ function showToast(msg, type='success'){
 
 function openModal(id){ $(id).classList.add('show'); }
 function closeModal(id){ $(id).classList.remove('show'); }
+
+// TAB O'TISHLARINI BOSHQARISH
+function switchTab(tabName, el){
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  
+  document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+  let targetTab = $('tab-' + tabName);
+  if(targetTab) targetTab.classList.remove('hidden');
+}
 
 function toggleAdminView(){
   if(isAdmin){
@@ -254,14 +424,14 @@ function formatPrice(price){
   return (price || 0).toLocaleString('uz-UZ') + " so'm";
 }
 
-// REALTIME DATABASE
+// REALTIME FIREBASE ULANISHI
 db.collection("products").onSnapshot((snapshot) => {
   products = [];
   snapshot.forEach((doc) => { products.push({ id: doc.id, ...doc.data() }); });
   renderCategories();
   renderProducts();
   if(isAdmin) renderAdmin();
-}, (err) => showToast("Bazaga ulanishda xatolik: " + err.message, "error"));
+}, (err) => showToast("Baza bilan xatolik: " + err.message, "error"));
 
 db.collection("orders").onSnapshot((snapshot) => {
   orders = [];
@@ -272,11 +442,11 @@ db.collection("orders").onSnapshot((snapshot) => {
 db.collection("settings").doc("general").onSnapshot((docSnap) => {
   if (docSnap.exists) {
     settings = docSnap.data();
-    $('rateYuan').value = settings.yuanRate;
-    $('rateUsd').value = settings.usdRate;
-    $('rateAvia').value = settings.aviaRate;
-    $('rateAvto').value = settings.avtoRate;
-    $('rateMarkup').value = settings.markup;
+    if($('rateYuan')) $('rateYuan').value = settings.yuanRate;
+    if($('rateUsd')) $('rateUsd').value = settings.usdRate;
+    if($('rateAvia')) $('rateAvia').value = settings.aviaRate;
+    if($('rateAvto')) $('rateAvto').value = settings.avtoRate;
+    if($('rateMarkup')) $('rateMarkup').value = settings.markup;
     renderProducts();
   }
 });
@@ -290,7 +460,7 @@ function renderProducts(){
   if(search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
   
   if(filtered.length === 0){
-    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><h3>' + (products.length === 0 ? "Hali mahsulotlar yo'q" : "Mahsulot topilmadi") + '</h3></div>';
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><h3>' + (products.length === 0 ? "Hali mahsulotlar kiritilmagan" : "Mahsulot topilmadi") + '</h3></div>';
     return;
   }
   grid.innerHTML = filtered.map(p => {
@@ -331,7 +501,7 @@ function filterCategory(cat, el){
 
 function onSearchInput(){ renderProducts(); }
 
-// SAVAT BILAN ISHLASH
+// SAVAT AMALLARI
 function addToCart(productId){
   let product = products.find(p => p.id === productId);
   if(!product) return;
@@ -463,17 +633,17 @@ function renderAdmin(){
   $('statProducts').textContent = products.length;
   $('statOrders').textContent = orders.length;
   let revenue = orders.filter(o => o.status === 'delivered').reduce((sum, o) => sum + o.total, 0);
-  $('statRevenue').textContent = revenue.toLocaleString();
+  $('statRevenue').textContent = formatPrice(revenue);
   $('statPending').textContent = orders.filter(o => o.status === 'new').length;
   
   let prodTable = $('adminProductsTable');
   if(products.length === 0){
-    prodTable.innerHTML = '<tr><td colspan="5" class="text-center" style="padding:40px;color:var(--text-secondary)">Hali mahsulotlar yo\'q</td></tr>';
+    prodTable.innerHTML = '<tr><td colspan="5" class="text-center" style="padding:30px;color:var(--text-secondary)">Ro\'yxat bo\'sh</td></tr>';
   } else {
     prodTable.innerHTML = products.map(p => {
       let calc = calculatePrice(p);
       return `<tr>
-        <td style="font-size:1.5rem">${p.image ? `<img src="${p.image}" style="width:50px;height:50px;border-radius:8px;object-fit:cover">` : '📦'}</td>
+        <td>${p.image ? `<img src="${p.image}" style="width:45px;height:45px;border-radius:8px;object-fit:cover">` : '📦'}</td>
         <td><strong>${p.name}</strong><br><small style="color:var(--text-secondary)">${p.desc || ''}</small></td>
         <td>${p.category}</td>
         <td><strong style="color:var(--primary-dark)">${formatPrice(calc.finalPrice)}</strong><br><small>${p.weight}kg | ${p.shipping === 'avia' ? 'Avia' : 'Avto'}</small></td>
@@ -487,14 +657,14 @@ function renderAdmin(){
 
   let orderTable = $('adminOrdersTable');
   if(orders.length === 0){
-    orderTable.innerHTML = '<tr><td colspan="7" class="text-center" style="padding:40px;color:var(--text-secondary)">Hali buyurtmalar yo\'q</td></tr>';
+    orderTable.innerHTML = '<tr><td colspan="7" class="text-center" style="padding:30px;color:var(--text-secondary)">Buyurtmalar mavjud emas</td></tr>';
   } else {
     orderTable.innerHTML = orders.map(o => `
       <tr>
         <td>#${o.id.slice(-5)}</td>
         <td><strong>${o.customer}</strong></td>
         <td>${o.phone}</td>
-        <td>${o.items ? o.items.length : 0} ta</td>
+        <td>${o.items ? o.items.length : 0} xil mahsulot</td>
         <td><strong>${formatPrice(o.total)}</strong></td>
         <td><span class="status-badge status-${o.status}">${o.status==='new'?'Yangi':o.status==='confirmed'?'Tasdiqlangan':'Yetkazilgan'}</span></td>
         <td>
@@ -511,14 +681,22 @@ function renderAdmin(){
 }
 
 async function updateOrderStatus(id, status){
-  await db.collection("orders").doc(id).update({ status });
-  showToast('Holati yangilandi');
+  try {
+    await db.collection("orders").doc(id).update({ status });
+    showToast('Buyurtma holati yangilandi');
+  } catch(e){
+    showToast('Xatolik: ' + e.message, 'error');
+  }
 }
 
 async function deleteOrder(id){
-  if(!confirm('Buyurtmani o\'chirishni xohlaysizmi?')) return;
-  await db.collection("orders").doc(id).delete();
-  showToast('Buyurtma o\'chirildi');
+  if(!confirm('Ushbu buyurtmani o\'chirishga ishonchingiz komilmi?')) return;
+  try {
+    await db.collection("orders").doc(id).delete();
+    showToast('Buyurtma o\'chirildi');
+  } catch(e){
+    showToast('Xatolik: ' + e.message, 'error');
+  }
 }
 
 function openAddProductModal(){
@@ -528,7 +706,7 @@ function openAddProductModal(){
   $('productWeight').value = '';
   $('productDesc').value = '';
   removeImage();
-  $('productModalTitle').textContent = "Mahsulot qo'shish";
+  $('productModalTitle').textContent = "Yangi mahsulot qo'shish";
   $('adminCalcPreview').classList.add('hidden');
   openModal('productModal');
 }
@@ -555,12 +733,15 @@ function editProduct(id){
 }
 
 async function deleteProduct(id){
-  if(!confirm('Mahsulotni o\'chirishni xohlaysizmi?')) return;
-  await db.collection("products").doc(id).delete();
-  showToast('Mahsulot o\'chirildi');
+  if(!confirm('Mahsulotni o\'chirmoqchimisiz?')) return;
+  try {
+    await db.collection("products").doc(id).delete();
+    showToast('Mahsulot o\'chirildi');
+  } catch(e){
+    showToast('Xatolik: ' + e.message, 'error');
+  }
 }
 
-// RASMNI OPTIMIZATSIYA QILISH (COMPRESS & RESIZE)
 function handleImageSelect(e){
   let file = e.target.files[0];
   if(!file) return;
@@ -581,7 +762,7 @@ function handleImageSelect(e){
       }
       let ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      currentImage = canvas.toDataURL('image/jpeg', 0.7); // 70% sifatga compress qilish
+      currentImage = canvas.toDataURL('image/jpeg', 0.7);
       
       let imageUpload = $('imageUpload');
       imageUpload.classList.add('has-image');
@@ -597,7 +778,7 @@ function removeImage(){
   let imageUpload = $('imageUpload');
   imageUpload.classList.remove('has-image');
   imageUpload.innerHTML = '<div class="image-upload-placeholder"><div style="font-size:2.5rem">📷</div><div>Rasm yuklash uchun bosing</div></div>';
-  $('imageInput').value = '';
+  if($('imageInput')) $('imageInput').value = '';
 }
 
 function updateAdminPreview(){
@@ -636,12 +817,11 @@ async function handleProductSubmit(e){
       showToast('Mahsulot yangilandi!');
     } else {
       await db.collection("products").add(data);
-      showToast("Mahsulot muvaffaqiyatli qo'shildi!");
+      showToast("Mahsulot qo'shildi!");
     }
     closeModal('productModal');
   } catch(err) {
     showToast("Xatolik: " + err.message, "error");
-    console.error("Firestore Error:", err);
   } finally {
     saveBtn.disabled = false;
     saveBtn.textContent = "💾 Saqlash";
@@ -664,14 +844,7 @@ async function saveSettings(){
   }
 }
 
-function switchTab(tabName, el){
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  el.classList.add('active');
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-  $('tab-' + tabName).classList.remove('hidden');
-}
-
-// DASLTABKI YUKLASH
+// DASTLUR SOTARLANISHI
 updateCartUI();
 </script>
 
