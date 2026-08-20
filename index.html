@@ -897,6 +897,30 @@ async function saveSettings(){
 
 updateCartUI();
 </script>
+  <!-- Buyurtma holatini ko'rsatadigan modal oyna -->
+<div id="orderStatusModal" class="modal" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); z-index: 1000; justify-content: center; align-items: center;">
+    <div style="background: white; padding: 20px; border-radius: 12px; width: 90%; max-width: 400px; text-align: center; position: relative;">
+        <h3>📦 Buyurtma holatini tekshirish</h3>
+        <p style="font-size: 13px; color: #666; margin-bottom: 15px;">Buyurtma raqamini kiriting</p>
+        
+        <input type="text" id="modalOrderInput" placeholder="Masalan: #1234" style="padding: 10px; width: 100%; border: 1px solid #ccc; border-radius: 8px; margin-bottom: 10px; box-sizing: border-box;">
+        
+        <button onclick="searchOrderStatus()" style="padding: 10px; width: 100%; background: #c62828; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Tekshirish</button>
+        
+        <!-- Natija chiqadigan joy -->
+        <div id="modalOrderResult" style="margin-top: 15px; text-align: left; display: none; font-size: 14px; background: #f9f9f9; padding: 10px; border-radius: 8px;">
+            <p><b>Status:</b> <span id="modalStatusText" style="color: green; font-weight: bold;">Yo'lda</span></p>
+            <div style="font-size: 13px; color: #555; display: flex; flex-direction: column; gap: 4px; margin-top: 5px;">
+                <div>✅ 1. Tasdiqlandi</div>
+                <div>🚚 2. Yo'lda (Xitoydan chiqdi)</div>
+                <div>📦 3. Ferganaga yetib keldi</div>
+                <div>🤝 4. Topshirildi</div>
+            </div>
+        </div>
+
+        <button onclick="closeOrderStatusModal()" style="margin-top: 15px; padding: 5px 15px; background: #ccc; border: none; border-radius: 6px; cursor: pointer;">Yopish</button>
+    </div>
+</div>
 
 </body>
 </html>
