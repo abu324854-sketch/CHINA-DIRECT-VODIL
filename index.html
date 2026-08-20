@@ -266,7 +266,7 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
             <div style="font-size:2.5rem">📷</div>
             <div style="font-weight:600;color:var(--primary-dark)">Rasm tanlash uchun bosing</div>
           </div>
-          <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="handleImageSelect(event)">
+      <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="initCropper(event)">
           <div class="crop-container" id="cropContainer" style="max-width: 100%; max-height: 350px; margin-top: 10px; display: none;">
   <img id="imageToCrop" src="" style="max-width: 100%;">
 </div>
