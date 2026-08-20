@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>China Direct Vodil</title>
 
-<!-- Firebase SDK (Compat version - uzluksiz va kafolatli ishlashi uchun) -->
+<!-- Firebase SDK (Compat - uzluksiz ishlash uchun) -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
@@ -166,7 +166,7 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
 <div class="overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar"><div class="cart-header"><h3>🛒 Savatingiz</h3><button class="close-btn" onclick="closeCart()">×</button></div><div class="cart-body" id="cartBody"></div><div class="cart-footer hidden" id="cartFooter"><div class="cart-total"><span>Jami:</span><span id="cartTotal">0 so'm</span></div><button class="btn btn-primary w-full" onclick="openCheckout()">📦 Buyurtma berish</button></div></div>
 
-<div class="modal" id="productModal"><div class="modal-content"><div class="modal-header"><h3 id="productModalTitle">Mahsulot qo'shish</h3><button class="close-btn" onclick="closeModal('productModal')">×</button></div><div class="modal-body"><form onsubmit="handleProductSubmit(event)"><input type="hidden" id="productId"><div class="image-upload" id="imageUpload" onclick="document.getElementById('imageInput').click()"><div class="image-upload-placeholder" id="uploadPlaceholder"><div style="font-size:2.5rem">📷</div><div>Rasm yuklash uchun bosing</div></div><input type="file" id="imageInput" accept="image/*" style="display:none" onchange="handleImageSelect(event)"></div><div class="form-group"><label>Mahsulot nomi</label><input type="text" id="productName" required></div><div class="form-group"><label>Kategoriya</label><select id="productCategory" required><option value="Elektronika">🔌 Elektronika</option><option value="Telefon">📱 Telefon aksessuarlari</option><option value="Kiyim">👕 Kiyim</option><option value="Poyabzal">👟 Poyabzal</option><option value="Uy">🏠 Uy jihozlari</option><option value="Bolalar">🧸 Bolalar</option><option value="Avto">🚗 Avto aksessuarlar</option><option value="Boshqa">📦 Boshqa</option></select></div><div class="form-row"><div class="form-group"><label>Xitoy narxi (yuan)</label><input type="number" id="productPriceYuan" required min="0" step="0.01" oninput="updateAdminPreview()"></div><div class="form-group"><label>Og'irligi (kg)</label><input type="number" id="productWeight" required min="0" step="0.01" oninput="updateAdminPreview()"></div></div><div class="form-group"><label>Yetkazish usuli</label><select id="productShipping" onchange="updateAdminPreview()"><option value="avia">✈️ Avia ($9.5/kg)</option><option value="avto">🚛 Avto ($6/kg)</option></select></div><div class="form-group"><label>Tavsif</label><textarea id="productDesc"></textarea></div><div class="calc-preview hidden" id="adminCalcPreview"><div style="font-weight:700;margin-bottom:8px;">📊 Avtomatik hisoblash</div><div class="calc-preview-row"><span>Xitoy narxi:</span><span id="prevChina">0 so'm</span></div><div class="calc-preview-row"><span>Yetkazish:</span><span id="prevShipping">0 so'm</span></div><div class="calc-preview-row"><span>Xarajat:</span><span id="prevCost">0 so'm</span></div><div class="calc-preview-row total"><span>SOTISH NARXI:</span><span id="prevFinal">0 so'm</span></div></div><button type="submit" class="btn btn-primary w-full mt-4">💾 Saqlash</button></form></div></div></div>
+<div class="modal" id="productModal"><div class="modal-content"><div class="modal-header"><h3 id="productModalTitle">Mahsulot qo'shish</h3><button class="close-btn" onclick="closeModal('productModal')">×</button></div><div class="modal-body"><form onsubmit="handleProductSubmit(event)"><input type="hidden" id="productId"><div class="image-upload" id="imageUpload" onclick="document.getElementById('imageInput').click()"><div class="image-upload-placeholder" id="uploadPlaceholder"><div style="font-size:2.5rem">📷</div><div>Rasm yuklash uchun bosing</div></div><input type="file" id="imageInput" accept="image/*" style="display:none" onchange="handleImageSelect(event)"></div><div class="form-group"><label>Mahsulot nomi</label><input type="text" id="productName" required></div><div class="form-group"><label>Kategoriya</label><select id="productCategory" required><option value="Elektronika">🔌 Elektronika</option><option value="Telefon">📱 Telefon aksessuarlari</option><option value="Kiyim">👕 Kiyim</option><option value="Poyabzal">👟 Poyabzal</option><option value="Uy">🏠 Uy jihozlari</option><option value="Bolalar">🧸 Bolalar</option><option value="Avto">🚗 Avto aksessuarlar</option><option value="Boshqa">📦 Boshqa</option></select></div><div class="form-row"><div class="form-group"><label>Xitoy narxi (yuan)</label><input type="number" id="productPriceYuan" required min="0" step="0.01" oninput="updateAdminPreview()"></div><div class="form-group"><label>Og'irligi (kg)</label><input type="number" id="productWeight" required min="0" step="0.01" oninput="updateAdminPreview()"></div></div><div class="form-group"><label>Yetkazish usuli</label><select id="productShipping" onchange="updateAdminPreview()"><option value="avia">✈️ Avia ($9.5/kg)</option><option value="avto">🚛 Avto ($6/kg)</option></select></div><div class="form-group"><label>Tavsif</label><textarea id="productDesc"></textarea></div><div class="calc-preview hidden" id="adminCalcPreview"><div style="font-weight:700;margin-bottom:8px;">📊 Avtomatik hisoblash</div><div class="calc-preview-row"><span>Xitoy narxi:</span><span id="prevChina">0 so'm</span></div><div class="calc-preview-row"><span>Yetkazish:</span><span id="prevShipping">0 so'm</span></div><div class="calc-preview-row"><span>Xarajat:</span><span id="prevCost">0 so'm</span></div><div class="calc-preview-row total"><span>SOTISH NARXI:</span><span id="prevFinal">0 so'm</span></div></div><button type="submit" class="btn btn-primary w-full mt-4" id="saveProdBtn">💾 Saqlash</button></form></div></div></div>
 
 <div class="modal" id="checkoutModal"><div class="modal-content"><div class="modal-header"><h3>📝 Buyurtma berish</h3><button class="close-btn" onclick="closeModal('checkoutModal')">×</button></div><div class="modal-body"><form onsubmit="handleCheckoutSubmit(event)"><div class="form-group"><label>Ismingiz</label><input type="text" id="customerName" required placeholder="Alijon"></div><div class="form-group"><label>Telefon raqamingiz</label><input type="tel" id="customerPhone" required placeholder="+998 90 123 45 67"></div><div class="form-group"><label>Manzil (Vodil)</label><input type="text" id="customerAddress" required placeholder="Vodil, ko'cha, uy"></div><div class="form-group"><label>Qo'shimcha izoh</label><textarea id="customerNote"></textarea></div><div style="background:var(--primary-light);padding:16px;border-radius:12px;margin-bottom:16px"><strong>Jami to'lov:</strong> <span id="checkoutTotal" style="font-size:1.3rem;font-weight:800;color:var(--primary-dark)">0 so'm</span></div><button type="submit" class="btn btn-primary w-full">✅ Buyurtmani tasdiqlash</button></form></div></div></div>
 
@@ -177,7 +177,7 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
 <div class="toast-container" id="toastContainer"></div>
 
 <script>
-// FIREBASE SOZLAMALARI
+// FIREBASE CONFIG
 const firebaseConfig = {
   apiKey: "AIzaSyD4m_9D31jA3SskvN91xS4Xz7I-Q11a-0A",
   authDomain: "china-direct-vodil.firebaseapp.com",
@@ -207,7 +207,7 @@ function showToast(msg, type='success'){
   toast.className = 'toast ' + type;
   toast.textContent = msg;
   container.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
+  setTimeout(() => toast.remove(), 3500);
 }
 
 function openModal(id){ $(id).classList.add('show'); }
@@ -254,14 +254,14 @@ function formatPrice(price){
   return (price || 0).toLocaleString('uz-UZ') + " so'm";
 }
 
-// REALTIME DATABASE MANBASI
+// REALTIME DATABASE
 db.collection("products").onSnapshot((snapshot) => {
   products = [];
   snapshot.forEach((doc) => { products.push({ id: doc.id, ...doc.data() }); });
   renderCategories();
   renderProducts();
   if(isAdmin) renderAdmin();
-});
+}, (err) => showToast("Bazaga ulanishda xatolik: " + err.message, "error"));
 
 db.collection("orders").onSnapshot((snapshot) => {
   orders = [];
@@ -560,18 +560,36 @@ async function deleteProduct(id){
   showToast('Mahsulot o\'chirildi');
 }
 
+// RASMNI OPTIMIZATSIYA QILISH (COMPRESS & RESIZE)
 function handleImageSelect(e){
   let file = e.target.files[0];
-  if(file){
-    let reader = new FileReader();
-    reader.onload = (ev) => {
-      currentImage = ev.target.result;
+  if(!file) return;
+
+  let reader = new FileReader();
+  reader.onload = (ev) => {
+    let img = new Image();
+    img.onload = () => {
+      let canvas = document.createElement('canvas');
+      let MAX_WIDTH = 800;
+      let scaleSize = MAX_WIDTH / img.width;
+      if (scaleSize < 1) {
+        canvas.width = MAX_WIDTH;
+        canvas.height = img.height * scaleSize;
+      } else {
+        canvas.width = img.width;
+        canvas.height = img.height;
+      }
+      let ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      currentImage = canvas.toDataURL('image/jpeg', 0.7); // 70% sifatga compress qilish
+      
       let imageUpload = $('imageUpload');
       imageUpload.classList.add('has-image');
       imageUpload.innerHTML = '<img src="' + currentImage + '"><button type="button" class="remove-image" onclick="event.stopPropagation();removeImage()">×</button>';
     };
-    reader.readAsDataURL(file);
-  }
+    img.src = ev.target.result;
+  };
+  reader.readAsDataURL(file);
 }
 
 function removeImage(){
@@ -597,28 +615,36 @@ function updateAdminPreview(){
 
 async function handleProductSubmit(e){
   e.preventDefault();
+  let saveBtn = $('saveProdBtn');
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Saqlanmoqda...";
+
   let id = $('productId').value;
   let data = {
-    name: $('productName').value,
+    name: $('productName').value.trim(),
     category: $('productCategory').value,
-    priceYuan: parseFloat($('productPriceYuan').value),
-    weight: parseFloat($('productWeight').value),
+    priceYuan: parseFloat($('productPriceYuan').value) || 0,
+    weight: parseFloat($('productWeight').value) || 0,
     shipping: $('productShipping').value,
-    desc: $('productDesc').value,
-    image: currentImage
+    desc: $('productDesc').value.trim(),
+    image: currentImage || null
   };
 
   try {
     if(id){
       await db.collection("products").doc(id).update(data);
-      showToast('Mahsulot yangilandi');
+      showToast('Mahsulot yangilandi!');
     } else {
       await db.collection("products").add(data);
-      showToast("Mahsulot qo'shildi");
+      showToast("Mahsulot muvaffaqiyatli qo'shildi!");
     }
     closeModal('productModal');
   } catch(err) {
-    showToast("Xatolik yuz berdi", "error");
+    showToast("Xatolik: " + err.message, "error");
+    console.error("Firestore Error:", err);
+  } finally {
+    saveBtn.disabled = false;
+    saveBtn.textContent = "💾 Saqlash";
   }
 }
 
@@ -630,8 +656,12 @@ async function saveSettings(){
     avtoRate: parseFloat($('rateAvto').value) || 6,
     markup: parseFloat($('rateMarkup').value) || 45
   };
-  await db.collection("settings").doc("general").set(newSettings);
-  showToast('Sozlamalar saqlandi!');
+  try {
+    await db.collection("settings").doc("general").set(newSettings);
+    showToast('Sozlamalar saqlandi!');
+  } catch(err) {
+    showToast('Xatolik: ' + err.message, 'error');
+  }
 }
 
 function switchTab(tabName, el){
