@@ -1160,52 +1160,7 @@ updateCartUI();
     });
 </script>
  <script>
-    // Admin panelda buyurtmalar chiqqanda status menyusini qo'shish
-    setInterval(function() {
-        let orderElements = document.querySelectorAll('div, li, p');
-        orderElements.forEach(el => {
-            if (el.innerText && el.innerText.includes("Buyurtma") && !el.dataset.statusAdded) {
-                el.dataset.statusAdded = "true";
-                let select = document.createElement('select');
-                select.style.cssText = "margin-left: 10px; padding: 5px; border-radius: 6px; font-weight: bold; background: #fff; cursor: pointer; border: 1px solid #ccc;";
-                select.innerHTML = `
-                    <option value="1">✅ Tasdiqlandi</option>
-                    <option value="2">📦 Yig'ilyapti</option>
-                    <option value="3">✈️ Xitoydan yo'lga chiqdi</option>
-                    <option value="4">🇺🇿 O'zbekistonga yetib keldi</option>
-                    <option value="5">🤝 Topshirildi</option>
-                `;
-                // Agar buyurtma raqami yoki ID sini topa olsa o'shanga bog'laydi
-                select.onchange = function() {
-                    let text = el.innerText;
-                    let match = text.match(/\d+/); // Raqamni topish
-                    if(match) {
-                        updateOrderStatus(match[0], this.value);
-                    } else {
-                        alert("Status o'zgardi!");
-                    }
-                };
-                el.appendChild(select);
-            }
-        });
-    }, 2000);
-
-    function updateOrderStatus(orderId, newStatus) {
-        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
-        let order = orders.find(o => o.id == orderId);
-        if(order) {
-            order.status = newStatus;
-            localStorage.setItem('orders', JSON.stringify(orders));
-            alert("Buyurtma #" + orderId + " statusi yangilandi!");
-        } else {
-            // Agar to'g'ridan-to'g'ri topolmasa oxirgi buyurtmaga yozib qo'yadi
-            if(orders.length > 0) {
-                orders[orders.length - 1].status = newStatus;
-                localStorage.setItem('orders', JSON.stringify(orders));
-                alert("Status saqlandi!");
-            }
-        }
-    }
+   
 </script>
 </body>
 </html>
