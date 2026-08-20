@@ -975,7 +975,7 @@ async function handleProductSubmit(e){
     weight: parseFloat($('productWeight').value) || 0,
     shipping: $('productShipping').value,
     desc: $('productDesc').value.trim(),
-    image: currentImage || null
+   image: croppedImageBase64 || currentImage || null
   };
 
   try {
@@ -1012,6 +1012,48 @@ async function saveSettings(){
 }
 
 updateCartUI();
+  let cropper = null;
+let croppedImageBase64 = "";
+
+function initCropper(event) {
+  const file = event.target.files[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = function(e) {
+    const img = document.getElementById('imageToCrop');
+    img.src = e.target.result;
+    
+    document.getElementById('cropContainer').style.display = 'block';
+    document.getElementById('cropBtn').style.display = 'inline-block';
+
+    if (cropper) {
+      cropper.destroy();
+    }
+
+    cropper = new Cropper(img, {
+      viewMode: 1,
+      autoCropArea: 0.8,
+      responsive: true
+    });
+  };
+  reader.readAsDataURL(file);
+}
+
+function cropImage() {
+  if (!cropper) return;
+
+  const canvas = cropper.getCroppedCanvas({
+    width: 600,
+    height: 600
+  });
+
+  croppedImageBase64 = canvas.toDataURL('image/jpeg', 0.85);
+
+  alert("Rasm muvaffaqiyatli qirqildi va tayyorlandi!");
+  document.getElementById('cropContainer').style.display = 'none';
+  document.getElementById('cropBtn').style.display = 'none';
+}
 </script>
 
 </body>
