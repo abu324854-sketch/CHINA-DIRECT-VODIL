@@ -693,14 +693,15 @@ function renderAdmin(){
         <td>${o.items ? o.items.length : 0} xil mahsulot</td>
         <td><strong>${formatPrice(o.total)}</strong></td>
         <td><span class="status-badge status-${o.status}">${o.status==='new'?'Yangi':o.status==='confirmed'?'Tasdiqlangan':'Yetkazilgan'}</span></td>
-        <td>
-          <select onchange="updateOrderStatus(order.id, this.value)" style="...">
-    <option value="1">✅ Tasdiqlandi</option>
-    <option value="2">📦 Yig'ilyapti</option>
-    <option value="3">✈️ Xitoydan yo'lga chiqdi</option>
-    <option value="4">🇺🇿 O'zbekistonga yetib keldi</option>
-    <option value="5">🤝 Topshirildi</option>
-</select>
+       <td>
+        <select class="form-select form-select-sm" onchange="updateOrderStatus('${o.id}', this.value)">
+            <option value="Yangi" ${o.status === 'Yangi' ? 'selected' : ''}>Yangi</option>
+            <option value="Tasdiqlash yig'ilyapti" ${o.status === "Tasdiqlash yig'ilyapti" ? 'selected' : ''}>Tasdiqlash yig'ilyapti</option>
+            <option value="Xitoydan O'zbekistonga yo'lga chiqdi" ${o.status === "Xitoydan O'zbekistonga yo'lga chiqdi" ? 'selected' : ''}>Xitoydan O'zbekistonga yo'lga chiqdi</option>
+            <option value="Yetib keldi" ${o.status === 'Yetib keldi' ? 'selected' : ''}>Yetib keldi</option>
+            <option value="Topshirildi" ${o.status === 'Topshirildi' ? 'selected' : ''}>Topshirildi</option>
+        </select>
+    </td>
           <button class="btn btn-sm btn-danger" onclick="deleteOrder('${o.id}')">🗑️</button>
         </td>
       </tr>
