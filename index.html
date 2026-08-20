@@ -140,23 +140,31 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
 </style>
 </head>
 <body>
-<header><div class="container header-content"><div class="logo"><span class="logo-icon">🇨🇳</span><span>China Direct Vodil</span></div><div class="header-actions"><button class="btn btn-secondary" id="cartBtn">🛒 Savat<span class="cart-badge hidden" id="cartBadge">0</span></button><button class="btn btn-secondary" id="adminBtn">🔐 Admin</button></div></div></header>
+<header>
+  <div class="container header-content">
+    <div class="logo"><span class="logo-icon">🇨🇳</span><span>China Direct Vodil</span></div>
+    <div class="header-actions">
+      <button class="btn btn-secondary" id="cartBtn">🛒 Savat<span class="cart-badge hidden" id="cartBadge">0</span></button>
+      <button class="btn btn-secondary" id="adminBtn">🔐 Admin</button>
+    </div>
+  </div>
+</header>
 
 <div id="customerView">
-<div class="hero"><div class="container"><h1>🇨🇳 China Direct Vodil</h1><p>Xitoydan to'g'ridan-to'g'ri yetkazib beramiz. Sifatli mahsulotlar, tez va ishonchli.</p><div class="hero-badges"><div class="hero-badge">✈️ Avia 10-15 kun</div><div class="hero-badge">🚛 Avto 20-30 kun</div><div class="hero-badge">✅ Sifat kafolati</div></div></div></div>
-<div class="controls"><div class="container controls-content"><div class="search-box"><input type="text" id="searchInput" placeholder="Mahsulot qidirish..."></div><div class="category-filter" id="categoryFilter"><div class="category-chip active" data-cat="all">Barchasi</div></div></div></div>
-<div class="container products-section"><h2 class="section-title">🛍️ Mahsulotlar katalogi</h2><div class="products-grid" id="productsGrid"><div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><h3>Yuklanmoqda...</h3></div></div></div>
+  <div class="hero"><div class="container"><h1>🇨🇳 China Direct Vodil</h1><p>Xitoydan to'g'ridan-to'g'ri yetkazib beramiz. Sifatli mahsulotlar, tez va ishonchli.</p><div class="hero-badges"><div class="hero-badge">✈️ Avia 10-15 kun</div><div class="hero-badge">🚛 Avto 20-30 kun</div><div class="hero-badge">✅ Sifat kafolati</div></div></div></div>
+  <div class="controls"><div class="container controls-content"><div class="search-box"><input type="text" id="searchInput" placeholder="Mahsulot qidirish..."></div><div class="category-filter" id="categoryFilter"><div class="category-chip active" data-cat="all">Barchasi</div></div></div></div>
+  <div class="container products-section"><h2 class="section-title">🛍️ Mahsulotlar katalogi</h2><div class="products-grid" id="productsGrid"><div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><h3>Yuklanmoqda...</h3></div></div></div>
 </div>
 
 <div id="adminView" class="hidden">
-<div class="container" style="padding-top:24px;padding-bottom:40px">
-<h2 class="section-title">📊 Boshqaruv paneli</h2>
-<div class="tabs"><button class="tab active" data-tab="stats">Statistika</button><button class="tab" data-tab="products">Mahsulotlar</button><button class="tab" data-tab="orders">Buyurtmalar</button><button class="tab" data-tab="settings">Sozlamalar</button></div>
-<div id="tab-stats" class="tab-content"><div class="admin-grid"><div class="stat-card"><div class="stat-value" id="statProducts">0</div><div class="stat-label">Mahsulotlar</div></div><div class="stat-card"><div class="stat-value" id="statOrders">0</div><div class="stat-label">Buyurtmalar</div></div><div class="stat-card"><div class="stat-value" id="statRevenue">0</div><div class="stat-label">Daromad (so'm)</div></div><div class="stat-card"><div class="stat-value" id="statPending">0</div><div class="stat-label">Yangi buyurtmalar</div></div></div></div>
-<div id="tab-products" class="tab-content hidden"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px"><h3>Mahsulotlar ro'yxati</h3><button class="btn btn-primary" id="addProductBtn">➕ Mahsulot qo'shish</button></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Rasm</th><th>Nomi</th><th>Kategoriya</th><th>Sotish narxi</th><th>Amallar</th></tr></thead><tbody id="adminProductsTable"></tbody></table></div></div>
-<div id="tab-orders" class="tab-content hidden"><h3 style="margin-bottom:16px">Buyurtmalar ro'yxati</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>ID</th><th>Mijoz</th><th>Telefon</th><th>Mahsulotlar</th><th>Summa</th><th>Holati</th><th>Amallar</th></tr></thead><tbody id="adminOrdersTable"></tbody></table></div></div>
-<div id="tab-settings" class="tab-content hidden"><div style="max-width:600px"><div class="card" style="margin-bottom:20px"><div class="card-title">💱 Kurs va tariflar</div><div class="form-row"><div class="form-group"><label>1 Yuan = so'm</label><input type="number" id="rateYuan" value="2150" step="10"></div><div class="form-group"><label>1 USD = so'm</label><input type="number" id="rateUsd" value="12700" step="100"></div></div><div class="form-row"><div class="form-group"><label>Avia ($/kg)</label><input type="number" id="rateAvia" value="9.5" step="0.1"></div><div class="form-group"><label>Avto ($/kg)</label><input type="number" id="rateAvto" value="6" step="0.1"></div></div><div class="form-group"><label>Foyda foizi (%)</label><input type="number" id="rateMarkup" value="45" min="0" max="500"></div><button class="btn btn-primary w-full" id="saveRatesBtn">💾 Saqlash</button></div></div></div>
-</div>
+  <div class="container" style="padding-top:24px;padding-bottom:40px">
+    <h2 class="section-title">📊 Boshqaruv paneli</h2>
+    <div class="tabs"><button class="tab active" data-tab="stats">Statistika</button><button class="tab" data-tab="products">Mahsulotlar</button><button class="tab" data-tab="orders">Buyurtmalar</button><button class="tab" data-tab="settings">Sozlamalar</button></div>
+    <div id="tab-stats" class="tab-content"><div class="admin-grid"><div class="stat-card"><div class="stat-value" id="statProducts">0</div><div class="stat-label">Mahsulotlar</div></div><div class="stat-card"><div class="stat-value" id="statOrders">0</div><div class="stat-label">Buyurtmalar</div></div><div class="stat-card"><div class="stat-value" id="statRevenue">0</div><div class="stat-label">Daromad (so'm)</div></div><div class="stat-card"><div class="stat-value" id="statPending">0</div><div class="stat-label">Yangi buyurtmalar</div></div></div></div>
+    <div id="tab-products" class="tab-content hidden"><div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;flex-wrap:wrap;gap:12px"><h3>Mahsulotlar ro'yxati</h3><button class="btn btn-primary" id="addProductBtn">➕ Mahsulot qo'shish</button></div><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>Rasm</th><th>Nomi</th><th>Kategoriya</th><th>Sotish narxi</th><th>Amallar</th></tr></thead><tbody id="adminProductsTable"></tbody></table></div></div>
+    <div id="tab-orders" class="tab-content hidden"><h3 style="margin-bottom:16px">Buyurtmalar ro'yxati</h3><div class="admin-table-wrap"><table class="admin-table"><thead><tr><th>ID</th><th>Mijoz</th><th>Telefon</th><th>Mahsulotlar</th><th>Summa</th><th>Holati</th><th>Amallar</th></tr></thead><tbody id="adminOrdersTable"></tbody></table></div></div>
+    <div id="tab-settings" class="tab-content hidden"><div style="max-width:600px"><div class="card" style="margin-bottom:20px"><div class="card-title">💱 Kurs va tariflar</div><div class="form-row"><div class="form-group"><label>1 Yuan = so'm</label><input type="number" id="rateYuan" value="2150" step="10"></div><div class="form-group"><label>1 USD = so'm</label><input type="number" id="rateUsd" value="12700" step="100"></div></div><div class="form-row"><div class="form-group"><label>Avia ($/kg)</label><input type="number" id="rateAvia" value="9.5" step="0.1"></div><div class="form-group"><label>Avto ($/kg)</label><input type="number" id="rateAvto" value="6" step="0.1"></div></div><div class="form-group"><label>Foyda foizi (%)</label><input type="number" id="rateMarkup" value="45" min="0" max="500"></div><button class="btn btn-primary w-full" id="saveRatesBtn">💾 Saqlash</button></div></div></div>
+  </div>
 </div>
 
 <div class="overlay" id="cartOverlay"></div>
@@ -213,11 +221,11 @@ window.openModal = function(id){ var el=$(id); if(el) el.classList.add('show'); 
 window.closeModal = function(id){ var el=$(id); if(el) el.classList.remove('show'); }
 
 window.calculatePrice = function(p){
-  var chinaCost = (p.priceYuan || 0) * settings.yuanRate;
-  var shippingRate = p.shipping==='avia' ? settings.aviaRate : settings.avtoRate;
-  var shippingCost = (p.weight || 0) * shippingRate * settings.usdRate;
+  var chinaCost = (p.priceYuan || 0) * window.settings.yuanRate;
+  var shippingRate = p.shipping==='avia' ? window.settings.aviaRate : window.settings.avtoRate;
+  var shippingCost = (p.weight || 0) * shippingRate * window.settings.usdRate;
   var totalCost = chinaCost + shippingCost;
-  var finalPrice = Math.round(totalCost * (1 + settings.markup/100));
+  var finalPrice = Math.round(totalCost * (1 + window.settings.markup/100));
   return {chinaCost, shippingCost, totalCost, finalPrice};
 }
 
@@ -227,44 +235,44 @@ window.formatPrice = function(price){
 
 // REALTIME DATABASE
 onSnapshot(collection(db, "products"), (snapshot) => {
-  products = [];
-  snapshot.forEach((doc) => { products.push({ id: doc.id, ...doc.data() }); });
-  renderCategories();
-  renderProducts();
-  if(isAdmin) renderAdmin();
+  window.products = [];
+  snapshot.forEach((doc) => { window.products.push({ id: doc.id, ...doc.data() }); });
+  window.renderCategories();
+  window.renderProducts();
+  if(window.isAdmin) window.renderAdmin();
 });
 
 onSnapshot(collection(db, "orders"), (snapshot) => {
-  orders = [];
-  snapshot.forEach((doc) => { orders.push({ id: doc.id, ...doc.data() }); });
-  if(isAdmin) renderAdmin();
+  window.orders = [];
+  snapshot.forEach((doc) => { window.orders.push({ id: doc.id, ...doc.data() }); });
+  if(window.isAdmin) window.renderAdmin();
 });
 
 onSnapshot(doc(db, "settings", "general"), (docSnap) => {
   if (docSnap.exists()) {
-    settings = docSnap.data();
-    if($('rateYuan')) $('rateYuan').value = settings.yuanRate;
-    if($('rateUsd')) $('rateUsd').value = settings.usdRate;
-    if($('rateAvia')) $('rateAvia').value = settings.aviaRate;
-    if($('rateAvto')) $('rateAvto').value = settings.avtoRate;
-    if($('rateMarkup')) $('rateMarkup').value = settings.markup;
-    renderProducts();
+    window.settings = docSnap.data();
+    if($('rateYuan')) $('rateYuan').value = window.settings.yuanRate;
+    if($('rateUsd')) $('rateUsd').value = window.settings.usdRate;
+    if($('rateAvia')) $('rateAvia').value = window.settings.aviaRate;
+    if($('rateAvto')) $('rateAvto').value = window.settings.avtoRate;
+    if($('rateMarkup')) $('rateMarkup').value = window.settings.markup;
+    window.renderProducts();
   }
 });
 
 window.renderProducts = function(filter='all', search=''){
   var grid=$('productsGrid');
   if(!grid) return;
-  var filtered=products;
+  var filtered=window.products;
   if(filter!=='all') filtered=filtered.filter(p => p.category===filter);
   if(search) filtered=filtered.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
   
   if(filtered.length===0){
-    grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><h3>'+(products.length===0?"Hali mahsulotlar yo'q":"Mahsulot topilmadi")+'</h3></div>';
+    grid.innerHTML='<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><h3>'+(window.products.length===0?"Hali mahsulotlar yo'q":"Mahsulot topilmadi")+'</h3></div>';
     return;
   }
   grid.innerHTML=filtered.map(p => {
-    var calc=calculatePrice(p);
+    var calc=window.calculatePrice(p);
     var shippingLabel=p.shipping==='avia'?'✈️ Avia':'🚛 Avto';
     var badgeClass=p.shipping==='avia'?'shipping-avia':'shipping-avto';
     return `<div class="product-card">
@@ -273,11 +281,11 @@ window.renderProducts = function(filter='all', search=''){
         <div class="product-category">${p.category}</div>
         <div class="product-name">${p.name}</div>
         <div class="product-meta">${p.desc||''}</div>
-        <div class="product-price">${formatPrice(calc.finalPrice)}</div>
+        <div class="product-price">${window.formatPrice(calc.finalPrice)}</div>
         <div class="product-price-note">Og'irlik: ${p.weight}kg | ${shippingLabel}</div>
         <div class="product-footer">
-          <button class="btn btn-primary btn-sm" onclick="addToCart('${p.id}')">🛒 Savatga</button>
-          <button class="btn btn-ghost btn-sm" onclick="quickOrder('${p.id}')">⚡ Tezkor</button>
+          <button class="btn btn-primary btn-sm" onclick="window.addToCart('${p.id}')">🛒 Savatga</button>
+          <button class="btn btn-ghost btn-sm" onclick="window.quickOrder('${p.id}')">⚡ Tezkor</button>
         </div>
       </div>
     </div>`;
@@ -289,84 +297,40 @@ window.renderCategories = function(){
   if(!container) return;
   var cats=['all'];
   var seen={};
-  products.forEach(p => {if(!seen[p.category]){seen[p.category]=true;cats.push(p.category);}});
+  window.products.forEach(p => {if(!seen[p.category]){seen[p.category]=true;cats.push(p.category);}});
   container.innerHTML=cats.map(c => `<div class="category-chip ${c==='all'?'active':''}" data-cat="${c}">${c==='all'?'Barchasi':c}</div>`).join('');
   container.querySelectorAll('.category-chip').forEach(chip => {
     chip.addEventListener('click', () => {
       container.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
       chip.classList.add('active');
-      renderProducts(chip.dataset.cat, $('searchInput').value);
+      window.renderProducts(chip.dataset.cat, $('searchInput').value);
     });
   });
 }
 
 // SAVATCHA FUNKSIYALARI
 window.addToCart = function(productId){
-  var product=products.find(p => p.id===productId);
+  var product=window.products.find(p => p.id===productId);
   if(!product)return;
-  var existing=cart.find(item => item.id===productId);
+  var existing=window.cart.find(item => item.id===productId);
   if(existing){ existing.qty++; }
   else{
-    var calc=calculatePrice(product);
-    cart.push({id:product.id, name:product.name, price:calc.finalPrice, image:product.image, qty:1});
+    var calc=window.calculatePrice(product);
+    window.cart.push({id:product.id, name:product.name, price:calc.finalPrice, image:product.image, qty:1});
   }
-  localStorage.setItem('cdv_cart', JSON.stringify(cart));
-  updateCartUI();
-  showToast(product.name+" savatga qo'shildi!");
+  localStorage.setItem('cdv_cart', JSON.stringify(window.cart));
+  window.updateCartUI();
+  window.showToast(product.name+" savatga qo'shildi!");
 }
 
 window.quickOrder = function(productId){
-  addToCart(productId);
+  window.addToCart(productId);
+  window.openCart();
+}
+
+window.openCart = function(){
   $('cartSidebar').classList.add('open');
   $('cartOverlay').classList.add('show');
-}
-
-window.removeFromCart = function(productId){
-  cart=cart.filter(item => item.id!==productId);
-  localStorage.setItem('cdv_cart', JSON.stringify(cart));
-  updateCartUI();
-}
-
-window.updateQty = function(productId, delta){
-  var item=cart.find(item => item.id===productId);
-  if(!item)return;
-  item.qty += delta;
-  if(item.qty <= 0) removeFromCart(productId);
-  else { localStorage.setItem('cdv_cart', JSON.stringify(cart)); updateCartUI(); }
-}
-
-window.updateCartUI = function(){
-  var badge=$('cartBadge');
-  var totalQty=cart.reduce((sum,item) => sum+item.qty, 0);
-  if(badge){
-    if(totalQty>0){badge.textContent=totalQty; badge.classList.remove('hidden');}
-    else{badge.classList.add('hidden');}
-  }
-  var body=$('cartBody');
-  var footer=$('cartFooter');
-  if(!body || !footer) return;
-  if(cart.length===0){
-    body.innerHTML='<div class="empty-state"><div class="empty-state-icon">🛒</div><h3>Savatingiz bo\'sh</h3></div>';
-    footer.classList.add('hidden'); return;
-  }
-  footer.classList.remove('hidden');
-  body.innerHTML=cart.map(item => `
-    <div class="cart-item">
-      <div class="cart-item-image">${item.image ? `<img src="${item.image}">` : '📦'}</div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-price">${formatPrice(item.price*item.qty)}</div>
-        <div class="cart-item-qty">
-          <button class="qty-btn" onclick="updateQty('${item.id}',-1)">−</button>
-          <span>${item.qty}</span>
-          <button class="qty-btn" onclick="updateQty('${item.id}',1)">+</button>
-        </div>
-      </div>
-      <button class="close-btn" onclick="removeFromCart('${item.id}')">×</button>
-    </div>
-  `).join('');
-  var total=cart.reduce((sum,item) => sum+item.price*item.qty, 0);
-  $('cartTotal').textContent=formatPrice(total);
 }
 
 window.closeCart = function(){
@@ -374,29 +338,77 @@ window.closeCart = function(){
   $('cartOverlay').classList.remove('show');
 }
 
-// ADMIN FUNCTIONALITY
+window.removeFromCart = function(productId){
+  window.cart=window.cart.filter(item => item.id!==productId);
+  localStorage.setItem('cdv_cart', JSON.stringify(window.cart));
+  window.updateCartUI();
+}
+
+window.updateQty = function(productId, delta){
+  var item=window.cart.find(item => item.id===productId);
+  if(!item)return;
+  item.qty += delta;
+  if(item.qty <= 0) window.removeFromCart(productId);
+  else { localStorage.setItem('cdv_cart', JSON.stringify(window.cart)); window.updateCartUI(); }
+}
+
+window.updateCartUI = function(){
+  var badge=$('cartBadge');
+  var totalQty=window.cart.reduce((sum,item) => sum+item.qty, 0);
+  if(badge){
+    if(totalQty>0){badge.textContent=totalQty; badge.classList.remove('hidden');}
+    else{badge.classList.add('hidden');}
+  }
+  var body=$('cartBody');
+  var footer=$('cartFooter');
+  if(!body || !footer) return;
+  if(window.cart.length===0){
+    body.innerHTML='<div class="empty-state"><div class="empty-state-icon">🛒</div><h3>Savatingiz bo\'sh</h3></div>';
+    footer.classList.add('hidden'); return;
+  }
+  footer.classList.remove('hidden');
+  body.innerHTML=window.cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-image">${item.image ? `<img src="${item.image}">` : '📦'}</div>
+      <div class="cart-item-info">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">${window.formatPrice(item.price*item.qty)}</div>
+        <div class="cart-item-qty">
+          <button class="qty-btn" onclick="window.updateQty('${item.id}',-1)">−</button>
+          <span>${item.qty}</span>
+          <button class="qty-btn" onclick="window.updateQty('${item.id}',1)">+</button>
+        </div>
+      </div>
+      <button class="close-btn" onclick="window.removeFromCart('${item.id}')">×</button>
+    </div>
+  `).join('');
+  var total=window.cart.reduce((sum,item) => sum+item.price*item.qty, 0);
+  $('cartTotal').textContent=window.formatPrice(total);
+}
+
+// ADMIN FUNKSIYALARI
 window.renderAdmin = function(){
-  if($('statProducts')) $('statProducts').textContent=products.length;
-  if($('statOrders')) $('statOrders').textContent=orders.length;
-  var revenue=orders.filter(o => o.status==='delivered').reduce((sum,o) => sum+o.total,0);
+  if($('statProducts')) $('statProducts').textContent=window.products.length;
+  if($('statOrders')) $('statOrders').textContent=window.orders.length;
+  var revenue=window.orders.filter(o => o.status==='delivered').reduce((sum,o) => sum+o.total,0);
   if($('statRevenue')) $('statRevenue').textContent=revenue.toLocaleString();
-  if($('statPending')) $('statPending').textContent=orders.filter(o => o.status==='new').length;
+  if($('statPending')) $('statPending').textContent=window.orders.filter(o => o.status==='new').length;
   
   var prodTable=$('adminProductsTable');
   if(prodTable){
-    if(products.length===0){
+    if(window.products.length===0){
       prodTable.innerHTML='<tr><td colspan="5" class="text-center" style="padding:40px;color:var(--text-secondary)">Hali mahsulotlar yo\'q</td></tr>';
     }else{
-      prodTable.innerHTML=products.map(p => {
-        var calc=calculatePrice(p);
+      prodTable.innerHTML=window.products.map(p => {
+        var calc=window.calculatePrice(p);
         return `<tr>
           <td style="font-size:1.5rem">${p.image ? `<img src="${p.image}" style="width:50px;height:50px;border-radius:8px;object-fit:cover">` : '📦'}</td>
           <td><strong>${p.name}</strong><br><small style="color:var(--text-secondary)">${p.desc||''}</small></td>
           <td>${p.category}</td>
-          <td><strong style="color:var(--primary-dark)">${formatPrice(calc.finalPrice)}</strong><br><small>${p.weight}kg | ${p.shipping==='avia'?'Avia':'Avto'}</small></td>
+          <td><strong style="color:var(--primary-dark)">${window.formatPrice(calc.finalPrice)}</strong><br><small>${p.weight}kg | ${p.shipping==='avia'?'Avia':'Avto'}</small></td>
           <td>
-            <button class="btn btn-sm btn-ghost" onclick="editProduct('${p.id}')">✏️</button>
-            <button class="btn btn-sm btn-danger" onclick="deleteProduct('${p.id}')">🗑️</button>
+            <button class="btn btn-sm btn-ghost" onclick="window.editProduct('${p.id}')">✏️</button>
+            <button class="btn btn-sm btn-danger" onclick="window.deleteProduct('${p.id}')">🗑️</button>
           </td>
         </tr>`;
       }).join('');
@@ -405,24 +417,24 @@ window.renderAdmin = function(){
 
   var orderTable=$('adminOrdersTable');
   if(orderTable){
-    if(orders.length===0){
+    if(window.orders.length===0){
       orderTable.innerHTML='<tr><td colspan="7" class="text-center" style="padding:40px;color:var(--text-secondary)">Hali buyurtmalar yo\'q</td></tr>';
     }else{
-      orderTable.innerHTML=orders.map(o => `
+      orderTable.innerHTML=window.orders.map(o => `
         <tr>
           <td>#${o.id.slice(-5)}</td>
           <td><strong>${o.customer}</strong></td>
           <td>${o.phone}</td>
           <td>${o.items ? o.items.length : 0} ta</td>
-          <td><strong>${formatPrice(o.total)}</strong></td>
+          <td><strong>${window.formatPrice(o.total)}</strong></td>
           <td><span class="status-badge status-${o.status}">${o.status==='new'?'Yangi':o.status==='confirmed'?'Tasdiqlangan':'Yetkazilgan'}</span></td>
           <td>
-            <select onchange="updateOrderStatus('${o.id}',this.value)" style="padding:6px;border-radius:6px;border:1px solid var(--border)">
+            <select onchange="window.updateOrderStatus('${o.id}',this.value)" style="padding:6px;border-radius:6px;border:1px solid var(--border)">
               <option value="new" ${o.status==='new'?'selected':''}>Yangi</option>
               <option value="confirmed" ${o.status==='confirmed'?'selected':''}>Tasdiqlangan</option>
               <option value="delivered" ${o.status==='delivered'?'selected':''}>Yetkazilgan</option>
             </select>
-            <button class="btn btn-sm btn-danger" onclick="deleteOrder('${o.id}')">🗑️</button>
+            <button class="btn btn-sm btn-danger" onclick="window.deleteOrder('${o.id}')">🗑️</button>
           </td>
         </tr>
       `).join('');
@@ -432,17 +444,17 @@ window.renderAdmin = function(){
 
 window.updateOrderStatus = async function(id, status){
   await updateDoc(doc(db, "orders", id), { status });
-  showToast('Holati yangilandi');
+  window.showToast('Holati yangilandi');
 }
 
 window.deleteOrder = async function(id){
   if(!confirm('Buyurtmani o\'chirishni xohlaysizmi?'))return;
   await deleteDoc(doc(db, "orders", id));
-  showToast('Buyurtma o\'chirildi');
+  window.showToast('Buyurtma o\'chirildi');
 }
 
 window.editProduct = function(id){
-  var p=products.find(x => x.id===id);
+  var p=window.products.find(x => x.id===id);
   if(!p)return;
   $('productId').value=p.id;
   $('productName').value=p.name;
@@ -452,24 +464,24 @@ window.editProduct = function(id){
   $('productShipping').value=p.shipping;
   $('productDesc').value=p.desc||'';
   if(p.image){
-    currentImage=p.image;
+    window.currentImage=p.image;
     var imageUpload=$('imageUpload');
     imageUpload.classList.add('has-image');
-    imageUpload.innerHTML='<img src="'+p.image+'"><button type="button" class="remove-image" onclick="event.stopPropagation();removeImage()">×</button>';
+    imageUpload.innerHTML='<img src="'+p.image+'"><button type="button" class="remove-image" onclick="event.stopPropagation();window.removeImage()">×</button>';
   }
   $('productModalTitle').textContent='Mahsulotni tahrirlash';
   updateAdminPreview();
-  openModal('productModal');
+  window.openModal('productModal');
 }
 
 window.deleteProduct = async function(id){
   if(!confirm('Mahsulotni o\'chirishni xohlaysizmi?'))return;
   await deleteDoc(doc(db, "products", id));
-  showToast('Mahsulot o\'chirildi');
+  window.showToast('Mahsulot o\'chirildi');
 }
 
 window.removeImage = function(){
-  currentImage=null;
+  window.currentImage=null;
   var imageUpload=$('imageUpload');
   imageUpload.classList.remove('has-image');
   imageUpload.innerHTML='<div class="image-upload-placeholder"><div class="icon">📷</div><div>Rasm yuklash uchun bosing</div><small>yoki bu yerga torting</small></div>';
@@ -481,12 +493,12 @@ function updateAdminPreview(){
   var weight=parseFloat($('productWeight').value)||0;
   var shipping=$('productShipping').value;
   if(price<=0||weight<=0){$('adminCalcPreview').classList.add('hidden');return;}
-  var calc=calculatePrice({priceYuan:price,weight:weight,shipping:shipping});
+  var calc=window.calculatePrice({priceYuan:price,weight:weight,shipping:shipping});
   $('adminCalcPreview').classList.remove('hidden');
   $('prevChina').textContent=Math.round(calc.chinaCost).toLocaleString()+" so'm";
   $('prevShipping').textContent=Math.round(calc.shippingCost).toLocaleString()+" so'm";
   $('prevCost').textContent=Math.round(calc.totalCost).toLocaleString()+" so'm";
-  $('prevFinal').textContent=formatPrice(calc.finalPrice);
+  $('prevFinal').textContent=window.formatPrice(calc.finalPrice);
 }
 
 function generateOrderText(order){
@@ -503,44 +515,59 @@ function generateOrderText(order){
   return text;
 }
 
-// BARCHA HODISALARNI DOM YUKLANIB BO'LGACH ULASH
+// BARCHA EVENT LISTENERS
 document.addEventListener('DOMContentLoaded', () => {
-  updateCartUI();
+  window.updateCartUI();
 
-  $('cartBtn').addEventListener('click', () => {
-    $('cartSidebar').classList.add('open');
-    $('cartOverlay').classList.add('show');
-  });
+  // Savat va Admin tugmalariga event ulash
+  var cartBtn = $('cartBtn');
+  if(cartBtn) cartBtn.onclick = window.openCart;
 
-  $('closeCart').addEventListener('click', closeCart);
-  $('cartOverlay').addEventListener('click', closeCart);
-  $('closeProductModal').addEventListener('click', () => closeModal('productModal'));
-  $('closeCheckoutModal').addEventListener('click', () => closeModal('checkoutModal'));
-  $('closeSuccessModal').addEventListener('click', () => closeModal('successModal'));
-  $('closeLoginModal').addEventListener('click', () => closeModal('loginModal'));
+  var closeCartBtn = $('closeCart');
+  if(closeCartBtn) closeCartBtn.onclick = window.closeCart;
+
+  var cartOverlay = $('cartOverlay');
+  if(cartOverlay) cartOverlay.onclick = window.closeCart;
+
+  $('closeProductModal').onclick = () => window.closeModal('productModal');
+  $('closeCheckoutModal').onclick = () => window.closeModal('checkoutModal');
+  $('closeSuccessModal').onclick = () => window.closeModal('successModal');
+  $('closeLoginModal').onclick = () => window.closeModal('loginModal');
+
+  $('adminBtn').onclick = () => {
+    if(window.isAdmin){
+      window.isAdmin=false;
+      $('customerView').classList.remove('hidden');
+      $('adminView').classList.add('hidden');
+      $('adminBtn').textContent='🔐 Admin';
+      window.showToast('Mijoz rejimi');
+    }else{
+      window.openModal('loginModal');
+    }
+  };
 
   $('searchInput').addEventListener('input', (e) => {
     var activeCat=document.querySelector('.category-chip.active');
     var cat=activeCat?activeCat.dataset.cat:'all';
-    renderProducts(cat, e.target.value);
+    window.renderProducts(cat, e.target.value);
   });
 
-  $('checkoutBtn').addEventListener('click', () => {
-    if(cart.length===0)return;
-    var total=cart.reduce((sum,item) => sum+item.price*item.qty, 0);
-    $('checkoutTotal').textContent=formatPrice(total);
-    openModal('checkoutModal');
-  });
+  $('checkoutBtn').onclick = () => {
+    if(window.cart.length===0)return;
+    var total=window.cart.reduce((sum,item) => sum+item.price*item.qty, 0);
+    $('checkoutTotal').textContent=window.formatPrice(total);
+    window.openModal('checkoutModal');
+  };
 
   $('checkoutForm').addEventListener('submit', async (e) => {
     e.preventDefault();
-    var total=cart.reduce((sum,item) => sum+item.price*item.qty, 0);
+    var total=window.cart.reduce((sum,item) => sum+item.price*item.qty, 0);
     var order={
       customer: $('customerName').value,
       phone: $('customerPhone').value,
       address: $('customerAddress').value,
       note: $('customerNote').value,
-      items: cart,
+      items: window.cart,
       total: total,
       status: 'new',
       createdAt: new Date().toLocaleString('uz-UZ')
@@ -555,39 +582,39 @@ document.addEventListener('DOMContentLoaded', () => {
       $('whatsappShare').href = 'https://wa.me/?text=' + encodedText;
       $('telegramShare').href = 'https://t.me/share/url?url=&text=' + encodedText;
       $('copyOrderBtn').onclick = () => {
-        navigator.clipboard.writeText(orderText).then(() => showToast('Nusxa olindi!'));
+        navigator.clipboard.writeText(orderText).then(() => window.showToast('Nusxa olindi!'));
       };
-      cart = [];
+      window.cart = [];
       localStorage.removeItem('cdv_cart');
-      updateCartUI();
-      closeModal('checkoutModal');
-      closeCart();
-      openModal('successModal');
+      window.updateCartUI();
+      window.closeModal('checkoutModal');
+      window.closeCart();
+      window.openModal('successModal');
     } catch(err) {
-      showToast("Xatolik bo'ldi: " + err.message, "error");
+      window.showToast("Xatolik bo'ldi: " + err.message, "error");
     }
   });
 
-  $('addProductBtn').addEventListener('click', () => {
+  $('addProductBtn').onclick = () => {
     $('productForm').reset();
     $('productId').value='';
-    removeImage();
+    window.removeImage();
     $('productModalTitle').textContent="Mahsulot qo'shish";
     $('adminCalcPreview').classList.add('hidden');
-    openModal('productModal');
-  });
+    window.openModal('productModal');
+  };
 
   var imageUpload=$('imageUpload');
   var imageInput=$('imageInput');
-  imageUpload.addEventListener('click', () => imageInput.click());
+  imageUpload.onclick = () => imageInput.click();
   imageInput.addEventListener('change', (e) => {
     var file=e.target.files[0];
     if(file){
       var reader=new FileReader();
       reader.onload=function(ev){
-        currentImage=ev.target.result;
+        window.currentImage=ev.target.result;
         imageUpload.classList.add('has-image');
-        imageUpload.innerHTML='<img src="'+currentImage+'"><button type="button" class="remove-image" onclick="event.stopPropagation();removeImage()">×</button>';
+        imageUpload.innerHTML='<img src="'+window.currentImage+'"><button type="button" class="remove-image" onclick="event.stopPropagation();window.removeImage()">×</button>';
       };
       reader.readAsDataURL(file);
     }
@@ -607,24 +634,24 @@ document.addEventListener('DOMContentLoaded', () => {
       weight: parseFloat($('productWeight').value),
       shipping: $('productShipping').value,
       desc: $('productDesc').value,
-      image: currentImage
+      image: window.currentImage
     };
 
     try {
       if(id){
         await updateDoc(doc(db, "products", id), data);
-        showToast('Mahsulot yangilandi');
+        window.showToast('Mahsulot yangilandi');
       }else{
         await addDoc(collection(db, "products"), data);
-        showToast("Mahsulot qo'shildi");
+        window.showToast("Mahsulot qo'shildi");
       }
-      closeModal('productModal');
+      window.closeModal('productModal');
     } catch(err) {
-      showToast("Xatolik bo'ldi", "error");
+      window.showToast("Xatolik bo'ldi", "error");
     }
   });
 
-  $('saveRatesBtn').addEventListener('click', async () => {
+  $('saveRatesBtn').onclick = async () => {
     var newSettings = {
       yuanRate: parseFloat($('rateYuan').value)||2150,
       usdRate: parseFloat($('rateUsd').value)||12700,
@@ -633,43 +660,31 @@ document.addEventListener('DOMContentLoaded', () => {
       markup: parseFloat($('rateMarkup').value)||45
     };
     await setDoc(doc(db, "settings", "general"), newSettings);
-    showToast('Sozlamalar saqlandi!');
-  });
+    window.showToast('Sozlamalar saqlandi!');
+  };
 
   document.querySelectorAll('.tab').forEach(tab => {
-    tab.addEventListener('click', () => {
+    tab.onclick = () => {
       document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
       tab.classList.add('active');
       document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
       $('tab-'+tab.dataset.tab).classList.remove('hidden');
-    });
-  });
-
-  $('adminBtn').addEventListener('click', () => {
-    if(isAdmin){
-      isAdmin=false;
-      $('customerView').classList.remove('hidden');
-      $('adminView').classList.add('hidden');
-      $('adminBtn').textContent='🔐 Admin';
-      showToast('Mijoz rejimi');
-    }else{
-      openModal('loginModal');
-    }
+    };
   });
 
   $('loginForm').addEventListener('submit', (e) => {
     e.preventDefault();
     if($('adminPassword').value===ADMIN_PASS){
-      isAdmin=true;
-      closeModal('loginModal');
+      window.isAdmin=true;
+      window.closeModal('loginModal');
       $('customerView').classList.add('hidden');
       $('adminView').classList.remove('hidden');
       $('adminBtn').textContent='🏠 Asosiy';
       $('adminPassword').value='';
-      renderAdmin();
-      showToast('Admin paneliga xush kelibsiz!');
+      window.renderAdmin();
+      window.showToast('Admin paneliga xush kelibsiz!');
     }else{
-      showToast("Noto'g'ri parol!",'error');
+      window.showToast("Noto'g'ri parol!",'error');
     }
   });
 });
