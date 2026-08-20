@@ -156,6 +156,11 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
   <div class="container header-content">
     <div class="logo"><span>🇨🇳</span><span>China Direct Vodil</span></div>
     <div class="header-actions">
+      <div class="header-actions">
+    <button class="btn btn-secondary" onclick="openCart()">🛒 Savat <span id="cartBadge" class="badge hidden">0</span></button>
+    <button class="btn btn-secondary" onclick="openOrderStatusModal()">📦 Buyurtma holati</button>
+    <button class="btn btn-secondary" id="adminBtn" onclick="toggleAdmin()">⚙️ Admin</button>
+</div>
       <button class="btn btn-secondary" onclick="openCart()">🛒 Savat<span class="cart-badge hidden" id="cartBadge">0</span></button>
       <button class="btn btn-secondary" id="adminBtn" onclick="toggleAdminView()">🔐 Admin</button>
     </div>
