@@ -7,6 +7,31 @@
 
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+  <script>
+    // Buyurtma oynasini ochish
+    function openOrderStatusModal() {
+        document.getElementById('orderStatusModal').style.display = 'flex';
+    }
+
+    // Buyurtma oynasini yopish
+    function closeOrderStatusModal() {
+        document.getElementById('orderStatusModal').style.display = 'none';
+    }
+
+    // Holatni tekshirish
+    function searchOrderStatus() {
+        var inputVal = document.getElementById('modalOrderInput').value;
+        var resultDiv = document.getElementById('modalOrderResult');
+        var statusText = document.getElementById('modalStatusText');
+        
+        if(inputVal.trim() !== "") {
+            resultDiv.style.display = 'block';
+            statusText.innerText = "Yo'lda (Xitoydan jo'natilgan)";
+        } else {
+            alert("Iltimos, buyurtma raqamini kiriting!");
+        }
+    }
+</script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
 <style>
