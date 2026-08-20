@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>China Direct Vodil</title>
@@ -10,8 +8,6 @@
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 
 <style>
 *{margin:0;padding:0;box-sizing:border-box}
@@ -266,15 +262,7 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
             <div style="font-size:2.5rem">📷</div>
             <div style="font-weight:600;color:var(--primary-dark)">Rasm tanlash uchun bosing</div>
           </div>
-      <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="initCropper(event)">
-          <div class="crop-container" id="cropContainer" style="max-width: 100%; max-height: 350px; margin-top: 10px; display: none;">
-  <img id="imageToCrop" src="" style="max-width: 100%;">
-</div>
-
-<button type="button" id="cropBtn" class="btn btn-secondary" style="display: none; margin-top: 10px;" onclick="cropImage(event)">
-  ✂️ Rasmni qirqish va tasdiqlash
-</button>
-</button>
+          <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="handleImageSelect(event)">
         </div>
 
         <div class="form-group"><label>Mahsulot nomi</label><input type="text" id="productName" required></div>
@@ -976,7 +964,7 @@ async function handleProductSubmit(e){
     weight: parseFloat($('productWeight').value) || 0,
     shipping: $('productShipping').value,
     desc: $('productDesc').value.trim(),
-   image: croppedImageBase64 || currentImage || null
+    image: currentImage || null
   };
 
   try {
@@ -1013,59 +1001,6 @@ async function saveSettings(){
 }
 
 updateCartUI();
-  let cropper = null;
-let croppedImageBase64 = "";
-
-function initCropper(event) {
-  const file = event.target.files[0];
-  if (!file) return;
-
-  const reader = new FileReader();
-  reader.onload = function(e) {
-    const img = document.getElementById('imageToCrop');
-    img.src = e.target.result;
-    
-    document.getElementById('cropContainer').style.display = 'block';
-    document.getElementById('cropBtn').style.display = 'inline-block';
-
-    if (cropper) {
-      cropper.destroy();
-    }
-
-    cropper = new Cropper(img, {
-      viewMode: 1,
-      autoCropArea: 0.8,
-      responsive: true
-    });
-  };
-  reader.readAsDataURL(file);
-}
-
-function cropImage(e) {
-  if (e) e.preventDefault();
-  if (!cropper) return;
-
-  const canvas = cropper.getCroppedCanvas({
-    width: 600,
-    height: 600
-  });
-
-  croppedImageBase64 = canvas.toDataURL('image/jpeg', 0.85);
-
-  if (document.getElementById('imgPreview')) {
-    document.getElementById('imgPreview').src = croppedImageBase64;
-    document.getElementById('imgPreview').style.display = 'block';
-  }
-
-  alert("Rasm muvaffaqiyatli qirqildi va tayyorlandi!");
-  document.getElementById('cropContainer').style.display = 'none';
-  document.getElementById('cropBtn').style.display = 'none';
-}
-  alert("Rasm muvaffaqiyatli qirqildi va tayyorlandi!");
- alert("Rasm muvaffaqiyatli qirqildi va tayyorlandi!");
-  document.getElementById('cropContainer').style.display = 'none';
-  document.getElementById('cropBtn').style.display = 'none';
-}
 </script>
 
 </body>
