@@ -692,11 +692,16 @@ function renderAdmin(){
         <td>${o.phone}</td>
         <td>${o.items ? o.items.length : 0} xil mahsulot</td>
         <td><strong>${formatPrice(o.total)}</strong></td>
-        <td><span class="status-badge status-${o.status}">${o.status==='new'?'Yangi':o.status==='confirmed'?'Tasdiqlangan':'Yetkazilgan'}</span></td>
-       <td>
+      <td>
+        <span class="badge status-${o.status === 'Yangi' ? 'new' : o.status === 'Tasdiqlash' ? 'warning' : o.status === "Yig'ilyapti" ? 'info' : o.status === "Xitoydan O'zbekistonga yo'lga chiqdi" ? 'primary' : o.status === 'Yetib keldi' ? 'success' : 'secondary'}">
+            ${o.status || 'Yangi'}
+        </span>
+    </td>
+    <td>
         <select class="form-select form-select-sm" onchange="updateOrderStatus('${o.id}', this.value)">
             <option value="Yangi" ${o.status === 'Yangi' ? 'selected' : ''}>Yangi</option>
-            <option value="Tasdiqlash yig'ilyapti" ${o.status === "Tasdiqlash yig'ilyapti" ? 'selected' : ''}>Tasdiqlash yig'ilyapti</option>
+            <option value="Tasdiqlash" ${o.status === 'Tasdiqlash' ? 'selected' : ''}>Tasdiqlash</option>
+            <option value="Yig'ilyapti" ${o.status === "Yig'ilyapti" ? 'selected' : ''}>Yig'ilyapti</option>
             <option value="Xitoydan O'zbekistonga yo'lga chiqdi" ${o.status === "Xitoydan O'zbekistonga yo'lga chiqdi" ? 'selected' : ''}>Xitoydan O'zbekistonga yo'lga chiqdi</option>
             <option value="Yetib keldi" ${o.status === 'Yetib keldi' ? 'selected' : ''}>Yetib keldi</option>
             <option value="Topshirildi" ${o.status === 'Topshirildi' ? 'selected' : ''}>Topshirildi</option>
