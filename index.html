@@ -141,13 +141,12 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
 .share-buttons{display:flex;gap:8px;justify-content:center;margin-top:16px;flex-wrap:wrap}
 .card{background:white;border-radius:16px;padding:24px;box-shadow:0 2px 12px rgba(0,0,0,0.08);margin-bottom:20px}
 .card-title{font-size:1.2rem;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
-  .products-grid img, .product-card img {
+ .products-grid img, .product-card img {
     height: 160px !important;
-    object-fit: cover;
+    width: 100% !important;
+    object-fit: cover !important;
+    display: block !important;
 }
-.hidden{display:none!important}
-.text-center{text-align:center}
-.mt-4{margin-top:16px}
 .w-full{width:100%}
 </style>
 </head>
