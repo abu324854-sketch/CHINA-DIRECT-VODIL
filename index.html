@@ -145,7 +145,7 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
     <div class="logo"><span class="logo-icon">🇨🇳</span><span>China Direct Vodil</span></div>
     <div class="header-actions">
       <button class="btn btn-secondary" id="cartBtn">🛒 Savat<span class="cart-badge hidden" id="cartBadge">0</span></button>
-      <button class="btn btn-secondary" id="adminBtn">🔐 Admin</button>
+      <button class="btn btn-secondary" id="adminBtn" onclick="window.handleAdminClick()">🔐 Admin</button>
     </div>
   </div>
 </header>
@@ -219,6 +219,18 @@ window.showToast = function(msg,type='success'){
 
 window.openModal = function(id){ var el=$(id); if(el) el.classList.add('show'); }
 window.closeModal = function(id){ var el=$(id); if(el) el.classList.remove('show'); }
+
+window.handleAdminClick = function(){
+  if(window.isAdmin){
+    window.isAdmin = false;
+    $('customerView').classList.remove('hidden');
+    $('adminView').classList.add('hidden');
+    $('adminBtn').textContent = '🔐 Admin';
+    window.showToast('Mijoz rejimi');
+  } else {
+    window.openModal('loginModal');
+  }
+}
 
 window.calculatePrice = function(p){
   var chinaCost = (p.priceYuan || 0) * window.settings.yuanRate;
@@ -519,7 +531,6 @@ function generateOrderText(order){
 document.addEventListener('DOMContentLoaded', () => {
   window.updateCartUI();
 
-  // Savat va Admin tugmalariga event ulash
   var cartBtn = $('cartBtn');
   if(cartBtn) cartBtn.onclick = window.openCart;
 
@@ -533,18 +544,6 @@ document.addEventListener('DOMContentLoaded', () => {
   $('closeCheckoutModal').onclick = () => window.closeModal('checkoutModal');
   $('closeSuccessModal').onclick = () => window.closeModal('successModal');
   $('closeLoginModal').onclick = () => window.closeModal('loginModal');
-
-  $('adminBtn').onclick = () => {
-    if(window.isAdmin){
-      window.isAdmin=false;
-      $('customerView').classList.remove('hidden');
-      $('adminView').classList.add('hidden');
-      $('adminBtn').textContent='🔐 Admin';
-      window.showToast('Mijoz rejimi');
-    }else{
-      window.openModal('loginModal');
-    }
-  };
 
   $('searchInput').addEventListener('input', (e) => {
     var activeCat=document.querySelector('.category-chip.active');
