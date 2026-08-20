@@ -172,10 +172,10 @@ header{background:linear-gradient(135deg,var(--primary) 0%,var(--primary-dark) 1
 
 <div class="toast-container" id="toastContainer"></div>
 
-<!-- FIREBASE ULANISHI -->
+<!-- FIREBASE SCRIPT -->
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, setDoc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, setDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyD4m_9D31jA3SskvN91xS4Xz7I-Q11a-0A",
@@ -197,10 +197,11 @@ window.isAdmin = false;
 window.currentImage = null;
 const ADMIN_PASS = "admin123";
 
-function $(id){return document.getElementById(id);}
+function $(id){ return document.getElementById(id); }
 
 window.showToast = function(msg,type='success'){
   var container=$('toastContainer');
+  if(!container) return;
   var toast=document.createElement('div');
   toast.className='toast '+type;
   toast.textContent=msg;
@@ -208,8 +209,8 @@ window.showToast = function(msg,type='success'){
   setTimeout(function(){toast.remove();},3000);
 }
 
-window.openModal = function(id){$(id).classList.add('show');}
-window.closeModal = function(id){$(id).classList.remove('show');}
+window.openModal = function(id){ var el=$(id); if(el) el.classList.add('show'); }
+window.closeModal = function(id){ var el=$(id); if(el) el.classList.remove('show'); }
 
 window.calculatePrice = function(p){
   var chinaCost = (p.priceYuan || 0) * settings.yuanRate;
@@ -224,12 +225,10 @@ window.formatPrice = function(price){
   return (price || 0).toLocaleString('uz-UZ')+" so'm";
 }
 
-// REALTIME DATABASE ULANISHI
+// REALTIME DATABASE
 onSnapshot(collection(db, "products"), (snapshot) => {
   products = [];
-  snapshot.forEach((doc) => {
-    products.push({ id: doc.id, ...doc.data() });
-  });
+  snapshot.forEach((doc) => { products.push({ id: doc.id, ...doc.data() }); });
   renderCategories();
   renderProducts();
   if(isAdmin) renderAdmin();
@@ -237,26 +236,25 @@ onSnapshot(collection(db, "products"), (snapshot) => {
 
 onSnapshot(collection(db, "orders"), (snapshot) => {
   orders = [];
-  snapshot.forEach((doc) => {
-    orders.push({ id: doc.id, ...doc.data() });
-  });
+  snapshot.forEach((doc) => { orders.push({ id: doc.id, ...doc.data() }); });
   if(isAdmin) renderAdmin();
 });
 
 onSnapshot(doc(db, "settings", "general"), (docSnap) => {
   if (docSnap.exists()) {
     settings = docSnap.data();
-    $('rateYuan').value = settings.yuanRate;
-    $('rateUsd').value = settings.usdRate;
-    $('rateAvia').value = settings.aviaRate;
-    $('rateAvto').value = settings.avtoRate;
-    $('rateMarkup').value = settings.markup;
+    if($('rateYuan')) $('rateYuan').value = settings.yuanRate;
+    if($('rateUsd')) $('rateUsd').value = settings.usdRate;
+    if($('rateAvia')) $('rateAvia').value = settings.aviaRate;
+    if($('rateAvto')) $('rateAvto').value = settings.avtoRate;
+    if($('rateMarkup')) $('rateMarkup').value = settings.markup;
     renderProducts();
   }
 });
 
 window.renderProducts = function(filter='all', search=''){
   var grid=$('productsGrid');
+  if(!grid) return;
   var filtered=products;
   if(filter!=='all') filtered=filtered.filter(p => p.category===filter);
   if(search) filtered=filtered.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
@@ -287,10 +285,11 @@ window.renderProducts = function(filter='all', search=''){
 }
 
 window.renderCategories = function(){
+  var container=$('categoryFilter');
+  if(!container) return;
   var cats=['all'];
   var seen={};
   products.forEach(p => {if(!seen[p.category]){seen[p.category]=true;cats.push(p.category);}});
-  var container=$('categoryFilter');
   container.innerHTML=cats.map(c => `<div class="category-chip ${c==='all'?'active':''}" data-cat="${c}">${c==='all'?'Barchasi':c}</div>`).join('');
   container.querySelectorAll('.category-chip').forEach(chip => {
     chip.addEventListener('click', () => {
@@ -301,7 +300,7 @@ window.renderCategories = function(){
   });
 }
 
-// SAVATCHA
+// SAVATCHA FUNKSIYALARI
 window.addToCart = function(productId){
   var product=products.find(p => p.id===productId);
   if(!product)return;
@@ -339,10 +338,13 @@ window.updateQty = function(productId, delta){
 window.updateCartUI = function(){
   var badge=$('cartBadge');
   var totalQty=cart.reduce((sum,item) => sum+item.qty, 0);
-  if(totalQty>0){badge.textContent=totalQty; badge.classList.remove('hidden');}
-  else{badge.classList.add('hidden');}
+  if(badge){
+    if(totalQty>0){badge.textContent=totalQty; badge.classList.remove('hidden');}
+    else{badge.classList.add('hidden');}
+  }
   var body=$('cartBody');
   var footer=$('cartFooter');
+  if(!body || !footer) return;
   if(cart.length===0){
     body.innerHTML='<div class="empty-state"><div class="empty-state-icon">🛒</div><h3>Savatingiz bo\'sh</h3></div>';
     footer.classList.add('hidden'); return;
@@ -367,49 +369,125 @@ window.updateCartUI = function(){
   $('cartTotal').textContent=formatPrice(total);
 }
 
-// CHECKOUT & BUYURTMA YUBORISH
-$('checkoutBtn').addEventListener('click', () => {
-  if(cart.length===0)return;
-  var total=cart.reduce((sum,item) => sum+item.price*item.qty, 0);
-  $('checkoutTotal').textContent=formatPrice(total);
-  openModal('checkoutModal');
-});
+window.closeCart = function(){
+  $('cartSidebar').classList.remove('open');
+  $('cartOverlay').classList.remove('show');
+}
 
-$('checkoutForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  var total=cart.reduce((sum,item) => sum+item.price*item.qty, 0);
-  var order={
-    customer: $('customerName').value,
-    phone: $('customerPhone').value,
-    address: $('customerAddress').value,
-    note: $('customerNote').value,
-    items: cart,
-    total: total,
-    status: 'new',
-    createdAt: new Date().toLocaleString('uz-UZ')
-  };
-
-  try {
-    const docRef = await addDoc(collection(db, "orders"), order);
-    order.id = docRef.id;
-    var orderText = generateOrderText(order);
-    $('orderDetails').textContent = orderText;
-    var encodedText = encodeURIComponent(orderText);
-    $('whatsappShare').href = 'https://wa.me/?text=' + encodedText;
-    $('telegramShare').href = 'https://t.me/share/url?url=&text=' + encodedText;
-    $('copyOrderBtn').onclick = () => {
-      navigator.clipboard.writeText(orderText).then(() => showToast('Nusxa olindi!'));
-    };
-    cart = [];
-    localStorage.removeItem('cdv_cart');
-    updateCartUI();
-    closeModal('checkoutModal');
-    closeCart();
-    openModal('successModal');
-  } catch(err) {
-    showToast("Xatolik bo'ldi: " + err.message, "error");
+// ADMIN FUNCTIONALITY
+window.renderAdmin = function(){
+  if($('statProducts')) $('statProducts').textContent=products.length;
+  if($('statOrders')) $('statOrders').textContent=orders.length;
+  var revenue=orders.filter(o => o.status==='delivered').reduce((sum,o) => sum+o.total,0);
+  if($('statRevenue')) $('statRevenue').textContent=revenue.toLocaleString();
+  if($('statPending')) $('statPending').textContent=orders.filter(o => o.status==='new').length;
+  
+  var prodTable=$('adminProductsTable');
+  if(prodTable){
+    if(products.length===0){
+      prodTable.innerHTML='<tr><td colspan="5" class="text-center" style="padding:40px;color:var(--text-secondary)">Hali mahsulotlar yo\'q</td></tr>';
+    }else{
+      prodTable.innerHTML=products.map(p => {
+        var calc=calculatePrice(p);
+        return `<tr>
+          <td style="font-size:1.5rem">${p.image ? `<img src="${p.image}" style="width:50px;height:50px;border-radius:8px;object-fit:cover">` : '📦'}</td>
+          <td><strong>${p.name}</strong><br><small style="color:var(--text-secondary)">${p.desc||''}</small></td>
+          <td>${p.category}</td>
+          <td><strong style="color:var(--primary-dark)">${formatPrice(calc.finalPrice)}</strong><br><small>${p.weight}kg | ${p.shipping==='avia'?'Avia':'Avto'}</small></td>
+          <td>
+            <button class="btn btn-sm btn-ghost" onclick="editProduct('${p.id}')">✏️</button>
+            <button class="btn btn-sm btn-danger" onclick="deleteProduct('${p.id}')">🗑️</button>
+          </td>
+        </tr>`;
+      }).join('');
+    }
   }
-});
+
+  var orderTable=$('adminOrdersTable');
+  if(orderTable){
+    if(orders.length===0){
+      orderTable.innerHTML='<tr><td colspan="7" class="text-center" style="padding:40px;color:var(--text-secondary)">Hali buyurtmalar yo\'q</td></tr>';
+    }else{
+      orderTable.innerHTML=orders.map(o => `
+        <tr>
+          <td>#${o.id.slice(-5)}</td>
+          <td><strong>${o.customer}</strong></td>
+          <td>${o.phone}</td>
+          <td>${o.items ? o.items.length : 0} ta</td>
+          <td><strong>${formatPrice(o.total)}</strong></td>
+          <td><span class="status-badge status-${o.status}">${o.status==='new'?'Yangi':o.status==='confirmed'?'Tasdiqlangan':'Yetkazilgan'}</span></td>
+          <td>
+            <select onchange="updateOrderStatus('${o.id}',this.value)" style="padding:6px;border-radius:6px;border:1px solid var(--border)">
+              <option value="new" ${o.status==='new'?'selected':''}>Yangi</option>
+              <option value="confirmed" ${o.status==='confirmed'?'selected':''}>Tasdiqlangan</option>
+              <option value="delivered" ${o.status==='delivered'?'selected':''}>Yetkazilgan</option>
+            </select>
+            <button class="btn btn-sm btn-danger" onclick="deleteOrder('${o.id}')">🗑️</button>
+          </td>
+        </tr>
+      `).join('');
+    }
+  }
+}
+
+window.updateOrderStatus = async function(id, status){
+  await updateDoc(doc(db, "orders", id), { status });
+  showToast('Holati yangilandi');
+}
+
+window.deleteOrder = async function(id){
+  if(!confirm('Buyurtmani o\'chirishni xohlaysizmi?'))return;
+  await deleteDoc(doc(db, "orders", id));
+  showToast('Buyurtma o\'chirildi');
+}
+
+window.editProduct = function(id){
+  var p=products.find(x => x.id===id);
+  if(!p)return;
+  $('productId').value=p.id;
+  $('productName').value=p.name;
+  $('productCategory').value=p.category;
+  $('productPriceYuan').value=p.priceYuan;
+  $('productWeight').value=p.weight;
+  $('productShipping').value=p.shipping;
+  $('productDesc').value=p.desc||'';
+  if(p.image){
+    currentImage=p.image;
+    var imageUpload=$('imageUpload');
+    imageUpload.classList.add('has-image');
+    imageUpload.innerHTML='<img src="'+p.image+'"><button type="button" class="remove-image" onclick="event.stopPropagation();removeImage()">×</button>';
+  }
+  $('productModalTitle').textContent='Mahsulotni tahrirlash';
+  updateAdminPreview();
+  openModal('productModal');
+}
+
+window.deleteProduct = async function(id){
+  if(!confirm('Mahsulotni o\'chirishni xohlaysizmi?'))return;
+  await deleteDoc(doc(db, "products", id));
+  showToast('Mahsulot o\'chirildi');
+}
+
+window.removeImage = function(){
+  currentImage=null;
+  var imageUpload=$('imageUpload');
+  imageUpload.classList.remove('has-image');
+  imageUpload.innerHTML='<div class="image-upload-placeholder"><div class="icon">📷</div><div>Rasm yuklash uchun bosing</div><small>yoki bu yerga torting</small></div>';
+  $('imageInput').value='';
+}
+
+function updateAdminPreview(){
+  var price=parseFloat($('productPriceYuan').value)||0;
+  var weight=parseFloat($('productWeight').value)||0;
+  var shipping=$('productShipping').value;
+  if(price<=0||weight<=0){$('adminCalcPreview').classList.add('hidden');return;}
+  var calc=calculatePrice({priceYuan:price,weight:weight,shipping:shipping});
+  $('adminCalcPreview').classList.remove('hidden');
+  $('prevChina').textContent=Math.round(calc.chinaCost).toLocaleString()+" so'm";
+  $('prevShipping').textContent=Math.round(calc.shippingCost).toLocaleString()+" so'm";
+  $('prevCost').textContent=Math.round(calc.totalCost).toLocaleString()+" so'm";
+  $('prevFinal').textContent=formatPrice(calc.finalPrice);
+}
 
 function generateOrderText(order){
   var text="🛒 China Direct Vodil - YANGI BUYURTMA\n";
@@ -425,250 +503,176 @@ function generateOrderText(order){
   return text;
 }
 
-window.closeCart = function(){
-  $('cartSidebar').classList.remove('open');
-  $('cartOverlay').classList.remove('show');
-}
+// BARCHA HODISALARNI DOM YUKLANIB BO'LGACH ULASH
+document.addEventListener('DOMContentLoaded', () => {
+  updateCartUI();
 
-// ADMIN PANEL
-window.renderAdmin = function(){
-  $('statProducts').textContent=products.length;
-  $('statOrders').textContent=orders.length;
-  var revenue=orders.filter(o => o.status==='delivered').reduce((sum,o) => sum+o.total,0);
-  $('statRevenue').textContent=revenue.toLocaleString();
-  $('statPending').textContent=orders.filter(o => o.status==='new').length;
-  
-  var prodTable=$('adminProductsTable');
-  if(products.length===0){
-    prodTable.innerHTML='<tr><td colspan="5" class="text-center" style="padding:40px;color:var(--text-secondary)">Hali mahsulotlar yo\'q</td></tr>';
-  }else{
-    prodTable.innerHTML=products.map(p => {
-      var calc=calculatePrice(p);
-      return `<tr>
-        <td style="font-size:1.5rem">${p.image ? `<img src="${p.image}" style="width:50px;height:50px;border-radius:8px;object-fit:cover">` : '📦'}</td>
-        <td><strong>${p.name}</strong><br><small style="color:var(--text-secondary)">${p.desc||''}</small></td>
-        <td>${p.category}</td>
-        <td><strong style="color:var(--primary-dark)">${formatPrice(calc.finalPrice)}</strong><br><small>${p.weight}kg | ${p.shipping==='avia'?'Avia':'Avto'}</small></td>
-        <td>
-          <button class="btn btn-sm btn-ghost" onclick="editProduct('${p.id}')">✏️</button>
-          <button class="btn btn-sm btn-danger" onclick="deleteProduct('${p.id}')">🗑️</button>
-        </td>
-      </tr>`;
-    }).join('');
-  }
+  $('cartBtn').addEventListener('click', () => {
+    $('cartSidebar').classList.add('open');
+    $('cartOverlay').classList.add('show');
+  });
 
-  var orderTable=$('adminOrdersTable');
-  if(orders.length===0){
-    orderTable.innerHTML='<tr><td colspan="7" class="text-center" style="padding:40px;color:var(--text-secondary)">Hali buyurtmalar yo\'q</td></tr>';
-  }else{
-    orderTable.innerHTML=orders.map(o => `
-      <tr>
-        <td>#${o.id.slice(-5)}</td>
-        <td><strong>${o.customer}</strong></td>
-        <td>${o.phone}</td>
-        <td>${o.items ? o.items.length : 0} ta</td>
-        <td><strong>${formatPrice(o.total)}</strong></td>
-        <td><span class="status-badge status-${o.status}">${o.status==='new'?'Yangi':o.status==='confirmed'?'Tasdiqlangan':'Yetkazilgan'}</span></td>
-        <td>
-          <select onchange="updateOrderStatus('${o.id}',this.value)" style="padding:6px;border-radius:6px;border:1px solid var(--border)">
-            <option value="new" ${o.status==='new'?'selected':''}>Yangi</option>
-            <option value="confirmed" ${o.status==='confirmed'?'selected':''}>Tasdiqlangan</option>
-            <option value="delivered" ${o.status==='delivered'?'selected':''}>Yetkazilgan</option>
-          </select>
-          <button class="btn btn-sm btn-danger" onclick="deleteOrder('${o.id}')">🗑️</button>
-        </td>
-      </tr>
-    `).join('');
-  }
-}
+  $('closeCart').addEventListener('click', closeCart);
+  $('cartOverlay').addEventListener('click', closeCart);
+  $('closeProductModal').addEventListener('click', () => closeModal('productModal'));
+  $('closeCheckoutModal').addEventListener('click', () => closeModal('checkoutModal'));
+  $('closeSuccessModal').addEventListener('click', () => closeModal('successModal'));
+  $('closeLoginModal').addEventListener('click', () => closeModal('loginModal'));
 
-window.updateOrderStatus = async function(id, status){
-  await updateDoc(doc(db, "orders", id), { status });
-  showToast('Holati yangilandi');
-}
+  $('searchInput').addEventListener('input', (e) => {
+    var activeCat=document.querySelector('.category-chip.active');
+    var cat=activeCat?activeCat.dataset.cat:'all';
+    renderProducts(cat, e.target.value);
+  });
 
-window.deleteOrder = async function(id){
-  if(!confirm('Buyurtmani o\'chirishni xohlaysizmi?'))return;
-  await deleteDoc(doc(db, "orders", id));
-  showToast('Buyurtma o\'chirildi');
-}
+  $('checkoutBtn').addEventListener('click', () => {
+    if(cart.length===0)return;
+    var total=cart.reduce((sum,item) => sum+item.price*item.qty, 0);
+    $('checkoutTotal').textContent=formatPrice(total);
+    openModal('checkoutModal');
+  });
 
-// MAHSULOT QO'SHISH VA TAHRIRLASH
-$('addProductBtn').addEventListener('click', () => {
-  $('productForm').reset();
-  $('productId').value='';
-  removeImage();
-  $('productModalTitle').textContent="Mahsulot qo'shish";
-  $('adminCalcPreview').classList.add('hidden');
-  openModal('productModal');
-});
-
-window.editProduct = function(id){
-  var p=products.find(x => x.id===id);
-  if(!p)return;
-  $('productId').value=p.id;
-  $('productName').value=p.name;
-  $('productCategory').value=p.category;
-  $('productPriceYuan').value=p.priceYuan;
-  $('productWeight').value=p.weight;
-  $('productShipping').value=p.shipping;
-  $('productDesc').value=p.desc||'';
-  if(p.image){
-    currentImage=p.image;
-    $('imageUpload').classList.add('has-image');
-    $('imageUpload').innerHTML='<img src="'+p.image+'"><button type="button" class="remove-image" onclick="event.stopPropagation();removeImage()">×</button>';
-  }
-  $('productModalTitle').textContent='Mahsulotni tahrirlash';
-  updateAdminPreview();
-  openModal('productModal');
-}
-
-window.deleteProduct = async function(id){
-  if(!confirm('Mahsulotni o\'chirishni xohlaysizmi?'))return;
-  await deleteDoc(doc(db, "products", id));
-  showToast('Mahsulot o\'chirildi');
-}
-
-// RASM YUKLASH
-var imageUpload=$('imageUpload');
-var imageInput=$('imageInput');
-imageUpload.addEventListener('click', () => imageInput.click());
-imageInput.addEventListener('change', (e) => {
-  var file=e.target.files[0];
-  if(file){
-    var reader=new FileReader();
-    reader.onload=function(ev){
-      currentImage=ev.target.result;
-      imageUpload.classList.add('has-image');
-      imageUpload.innerHTML='<img src="'+currentImage+'"><button type="button" class="remove-image" onclick="event.stopPropagation();removeImage()">×</button>';
+  $('checkoutForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    var total=cart.reduce((sum,item) => sum+item.price*item.qty, 0);
+    var order={
+      customer: $('customerName').value,
+      phone: $('customerPhone').value,
+      address: $('customerAddress').value,
+      note: $('customerNote').value,
+      items: cart,
+      total: total,
+      status: 'new',
+      createdAt: new Date().toLocaleString('uz-UZ')
     };
-    reader.readAsDataURL(file);
-  }
-});
 
-window.removeImage = function(){
-  currentImage=null;
-  imageUpload.classList.remove('has-image');
-  imageUpload.innerHTML='<div class="image-upload-placeholder"><div class="icon">📷</div><div>Rasm yuklash uchun bosing</div><small>yoki bu yerga torting</small></div>';
-  imageInput.value='';
-}
-
-// KALKULYATOR
-['productPriceYuan','productWeight','productShipping'].forEach(id => {
-  $(id).addEventListener('input', updateAdminPreview);
-});
-
-function updateAdminPreview(){
-  var price=parseFloat($('productPriceYuan').value)||0;
-  var weight=parseFloat($('productWeight').value)||0;
-  var shipping=$('productShipping').value;
-  if(price<=0||weight<=0){$('adminCalcPreview').classList.add('hidden');return;}
-  var calc=calculatePrice({priceYuan:price,weight:weight,shipping:shipping});
-  $('adminCalcPreview').classList.remove('hidden');
-  $('prevChina').textContent=Math.round(calc.chinaCost).toLocaleString()+" so'm";
-  $('prevShipping').textContent=Math.round(calc.shippingCost).toLocaleString()+" so me";
-  $('prevCost').textContent=Math.round(calc.totalCost).toLocaleString()+" so'm";
-  $('prevFinal').textContent=formatPrice(calc.finalPrice);
-}
-
-$('productForm').addEventListener('submit', async (e) => {
-  e.preventDefault();
-  var id=$('productId').value;
-  var data={
-    name: $('productName').value,
-    category: $('productCategory').value,
-    priceYuan: parseFloat($('productPriceYuan').value),
-    weight: parseFloat($('productWeight').value),
-    shipping: $('productShipping').value,
-    desc: $('productDesc').value,
-    image: currentImage
-  };
-
-  try {
-    if(id){
-      await updateDoc(doc(db, "products", id), data);
-      showToast('Mahsulot yangilandi');
-    }else{
-      await addDoc(collection(db, "products"), data);
-      showToast("Mahsulot qo'shildi");
+    try {
+      const docRef = await addDoc(collection(db, "orders"), order);
+      order.id = docRef.id;
+      var orderText = generateOrderText(order);
+      $('orderDetails').textContent = orderText;
+      var encodedText = encodeURIComponent(orderText);
+      $('whatsappShare').href = 'https://wa.me/?text=' + encodedText;
+      $('telegramShare').href = 'https://t.me/share/url?url=&text=' + encodedText;
+      $('copyOrderBtn').onclick = () => {
+        navigator.clipboard.writeText(orderText).then(() => showToast('Nusxa olindi!'));
+      };
+      cart = [];
+      localStorage.removeItem('cdv_cart');
+      updateCartUI();
+      closeModal('checkoutModal');
+      closeCart();
+      openModal('successModal');
+    } catch(err) {
+      showToast("Xatolik bo'ldi: " + err.message, "error");
     }
-    closeModal('productModal');
-  } catch(err) {
-    showToast("Xatolik bo'ldi", "error");
-  }
-});
+  });
 
-// SOZLAMALARNI SAQLASH
-$('saveRatesBtn').addEventListener('click', async () => {
-  var newSettings = {
-    yuanRate: parseFloat($('rateYuan').value)||2150,
-    usdRate: parseFloat($('rateUsd').value)||12700,
-    aviaRate: parseFloat($('rateAvia').value)||9.5,
-    avtoRate: parseFloat($('rateAvto').value)||6,
-    markup: parseFloat($('rateMarkup').value)||45
-  };
-  await setDoc(doc(db, "settings", "general"), newSettings);
-  showToast('Sozlamalar saqlandi!');
-});
+  $('addProductBtn').addEventListener('click', () => {
+    $('productForm').reset();
+    $('productId').value='';
+    removeImage();
+    $('productModalTitle').textContent="Mahsulot qo'shish";
+    $('adminCalcPreview').classList.add('hidden');
+    openModal('productModal');
+  });
 
-// TABS & NAVIGATION
-document.querySelectorAll('.tab').forEach(tab => {
-  tab.addEventListener('click', () => {
-    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-    tab.classList.add('active');
-    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-    $('tab-'+tab.dataset.tab).classList.remove('hidden');
+  var imageUpload=$('imageUpload');
+  var imageInput=$('imageInput');
+  imageUpload.addEventListener('click', () => imageInput.click());
+  imageInput.addEventListener('change', (e) => {
+    var file=e.target.files[0];
+    if(file){
+      var reader=new FileReader();
+      reader.onload=function(ev){
+        currentImage=ev.target.result;
+        imageUpload.classList.add('has-image');
+        imageUpload.innerHTML='<img src="'+currentImage+'"><button type="button" class="remove-image" onclick="event.stopPropagation();removeImage()">×</button>';
+      };
+      reader.readAsDataURL(file);
+    }
+  });
+
+  ['productPriceYuan','productWeight','productShipping'].forEach(id => {
+    if($(id)) $(id).addEventListener('input', updateAdminPreview);
+  });
+
+  $('productForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    var id=$('productId').value;
+    var data={
+      name: $('productName').value,
+      category: $('productCategory').value,
+      priceYuan: parseFloat($('productPriceYuan').value),
+      weight: parseFloat($('productWeight').value),
+      shipping: $('productShipping').value,
+      desc: $('productDesc').value,
+      image: currentImage
+    };
+
+    try {
+      if(id){
+        await updateDoc(doc(db, "products", id), data);
+        showToast('Mahsulot yangilandi');
+      }else{
+        await addDoc(collection(db, "products"), data);
+        showToast("Mahsulot qo'shildi");
+      }
+      closeModal('productModal');
+    } catch(err) {
+      showToast("Xatolik bo'ldi", "error");
+    }
+  });
+
+  $('saveRatesBtn').addEventListener('click', async () => {
+    var newSettings = {
+      yuanRate: parseFloat($('rateYuan').value)||2150,
+      usdRate: parseFloat($('rateUsd').value)||12700,
+      aviaRate: parseFloat($('rateAvia').value)||9.5,
+      avtoRate: parseFloat($('rateAvto').value)||6,
+      markup: parseFloat($('rateMarkup').value)||45
+    };
+    await setDoc(doc(db, "settings", "general"), newSettings);
+    showToast('Sozlamalar saqlandi!');
+  });
+
+  document.querySelectorAll('.tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+      $('tab-'+tab.dataset.tab).classList.remove('hidden');
+    });
+  });
+
+  $('adminBtn').addEventListener('click', () => {
+    if(isAdmin){
+      isAdmin=false;
+      $('customerView').classList.remove('hidden');
+      $('adminView').classList.add('hidden');
+      $('adminBtn').textContent='🔐 Admin';
+      showToast('Mijoz rejimi');
+    }else{
+      openModal('loginModal');
+    }
+  });
+
+  $('loginForm').addEventListener('submit', (e) => {
+    e.preventDefault();
+    if($('adminPassword').value===ADMIN_PASS){
+      isAdmin=true;
+      closeModal('loginModal');
+      $('customerView').classList.add('hidden');
+      $('adminView').classList.remove('hidden');
+      $('adminBtn').textContent='🏠 Asosiy';
+      $('adminPassword').value='';
+      renderAdmin();
+      showToast('Admin paneliga xush kelibsiz!');
+    }else{
+      showToast("Noto'g'ri parol!",'error');
+    }
   });
 });
-
-$('adminBtn').addEventListener('click', () => {
-  if(isAdmin){
-    isAdmin=false;
-    $('customerView').classList.remove('hidden');
-    $('adminView').classList.add('hidden');
-    $('adminBtn').textContent='🔐 Admin';
-    showToast('Mijoz rejimi');
-  }else{
-    openModal('loginModal');
-  }
-});
-
-$('loginForm').addEventListener('submit', (e) => {
-  e.preventDefault();
-  if($('adminPassword').value===ADMIN_PASS){
-    isAdmin=true;
-    closeModal('loginModal');
-    $('customerView').classList.add('hidden');
-    $('adminView').classList.remove('hidden');
-    $('adminBtn').textContent='🏠 Asosiy';
-    $('adminPassword').value='';
-    renderAdmin();
-    showToast('Admin paneliga xush kelibsiz!');
-  }else{
-    showToast("Noto'g'ri parol!",'error');
-  }
-});
-
-// HODISALAR
-$('cartBtn').addEventListener('click', () => {
-  $('cartSidebar').classList.add('open');
-  $('cartOverlay').classList.add('show');
-});
-
-$('closeCart').addEventListener('click', closeCart);
-$('cartOverlay').addEventListener('click', closeCart);
-$('closeProductModal').addEventListener('click', () => closeModal('productModal'));
-$('closeCheckoutModal').addEventListener('click', () => closeModal('checkoutModal'));
-$('closeSuccessModal').addEventListener('click', () => closeModal('successModal'));
-$('closeLoginModal').addEventListener('click', () => closeModal('loginModal'));
-
-$('searchInput').addEventListener('input', (e) => {
-  var activeCat=document.querySelector('.category-chip.active');
-  var cat=activeCat?activeCat.dataset.cat:'all';
-  renderProducts(cat, e.target.value);
-});
-
-updateCartUI();
 </script>
 </body>
 </html>
