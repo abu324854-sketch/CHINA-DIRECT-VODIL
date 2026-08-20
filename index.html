@@ -53,6 +53,7 @@
   const app = initializeApp(firebaseConfig);
   const db = getFirestore(app);
 
+  // Admin tugmasi ishlashi uchun funksiya
   window.openAdmin = function() {
     const pass = prompt("Admin parolini kiriting:");
     if (pass === "admin123") {
@@ -62,6 +63,9 @@
       alert("Parol noto'g'ri!");
     }
   };
+
+  // Eski versiyadagi tugma nomi uchun ham muvofiqlik
+  window.openAdminModal = window.openAdmin;
 
   window.addProduct = async function() {
     const title = document.getElementById("title").value;
