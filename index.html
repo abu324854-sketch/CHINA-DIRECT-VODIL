@@ -684,6 +684,8 @@ function renderAdmin(){
   let orderTable = $('adminOrdersTable');
   if(orders.length === 0){
     orderTable.innerHTML = '<tr><td colspan="7" class="text-center" style="padding:30px;color:var(--text-secondary)">Buyurtmalar mavjud emas</td></tr>';
+   } else {
+    orderTable.innerHTML = orders.map(o => `
 orderTable.innerHTML = orders.map(o => `
     <tr>
         <td>${o.id.slice(-5)}</td>
