@@ -75,13 +75,11 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 @media(min-width:768px){.product-name{font-size:0.9rem;}}
 .product-meta{font-size:0.7rem;color:var(--text-secondary);margin-bottom:6px}
 
-/* Razmer tanlash qismi */
-.size-selector-wrap {margin-bottom: 8px;}
-.size-selector-label {font-size: 0.72rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 3px;}
-.size-chips {display: flex; gap: 4px; flex-wrap: wrap;}
-.size-chip {padding: 3px 8px; font-size: 0.7rem; font-weight: 600; border: 1px solid var(--border); border-radius: 6px; background: #f9fafb; cursor: pointer; transition: all 0.2s;}
-.size-chip:hover {border-color: var(--uzum-primary);}
-.size-chip.selected {background: var(--uzum-primary); color: white; border-color: var(--uzum-primary);}
+/* Mijoz o'zi yozadigan razmer inputi */
+.size-input-wrap {margin-bottom: 8px;}
+.size-input-wrap label {font-size: 0.72rem; font-weight: 600; color: var(--text-secondary); display: block; margin-bottom: 2px;}
+.size-input {width: 100%; padding: 6px 10px; border: 1.5px solid var(--border); border-radius: 8px; font-size: 0.8rem; background: #f9fafb; outline: none; transition: border-color 0.2s;}
+.size-input:focus {border-color: var(--uzum-primary); background: white;}
 
 .product-price-box{margin-top:auto}
 .product-old-price{font-size:0.75rem;color:var(--text-secondary);text-decoration:line-through;margin-bottom:-2px}
@@ -345,18 +343,8 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
             </select>
           </div>
           <div class="form-group">
-            <label>Razmerlar</label>
-            <input type="text" id="productSizes" placeholder="Masalan: S-XL yoki 38-43">
-          </div>
-        </div>
-
-        <!-- Razmer generator yordamchisi -->
-        <div style="background:#f9fafb;padding:10px;border-radius:12px;margin-bottom:14px;border:1px solid var(--border)">
-          <div style="font-size:0.75rem;font-weight:700;color:var(--text-secondary);margin-bottom:6px">⚡ Avtomatik to'ldirish:</div>
-          <div style="display:flex;gap:6px;flex-wrap:wrap">
-            <button type="button" class="btn btn-light btn-sm" onclick="autoFillSizes('S', 'XL')">S dan XL gacha</button>
-            <button type="button" class="btn btn-light btn-sm" onclick="autoFillSizes('XS', '3XL')">XS dan 3XL gacha</button>
-            <button type="button" class="btn btn-light btn-sm" onclick="autoFillSizes(38, 43)">38 dan 43 gacha (Oyoq kiyim)</button>
+            <label>Tavsiya etiladigan razmerlar</label>
+            <input type="text" id="productSizes" placeholder="Masalan: S, M, L yoki 38-43">
           </div>
         </div>
 
@@ -526,8 +514,6 @@ let isAdmin = false;
 let currentImage = null;
 let activeCategory = 'all';
 const ADMIN_PASS = "admin123";
-
-let selectedSizes = {};
  
 function $(id){ return document.getElementById(id); }
 function showToast(msg, type='success'){
@@ -699,37 +685,6 @@ function updateAdminCalcPrice(){
 function formatPrice(price){
   return (price || 0).toLocaleString('uz-UZ') + " so'm";
 }
-
-function selectSize(productId, size, el) {
-  selectedSizes[productId] = size;
-  let parent = el.closest('.size-selector-wrap');
-  parent.querySelectorAll('.size-chip').forEach(chip => chip.classList.remove('selected'));
-  el.classList.add('selected');
-}
-
-function autoFillSizes(start, end) {
-  let standardSizes = ["XXS", "XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"];
-  
-  if (typeof start === 'string' && standardSizes.includes(start)) {
-    let sIdx = standardSizes.indexOf(start);
-    let eIdx = standardSizes.indexOf(end);
-    if (sIdx !== -1 && eIdx !== -1 && sIdx <= eIdx) {
-      let res = standardSizes.slice(sIdx, eIdx + 1).join(', ');
-      $('productSizes').value = res;
-      return;
-    }
-  }
-  
-  let sNum = parseInt(start);
-  let eNum = parseInt(end);
-  if (!isNaN(sNum) && !isNaN(eNum) && sNum <= eNum) {
-    let arr = [];
-    for(let i = sNum; i <= eNum; i++) {
-      arr.push(i);
-    }
-    $('productSizes').value = arr.join(', ');
-  }
-}
  
 function renderProducts(){
   let grid = $('productsGrid');
@@ -761,21 +716,6 @@ function renderProducts(){
     let shippingLabel = p.shipping === 'avia' ? '✈️ Avia' : '🚛 Avto';
     let badgeClass = p.shipping === 'avia' ? 'shipping-avia' : 'shipping-avto';
     let hasDiscount = p.discount && p.discount > 0;
-
-    let sizesHtml = '';
-    if(p.sizes && p.sizes.trim() !== '') {
-      let sizeList = p.sizes.split(',').map(s => s.trim()).filter(s => s);
-      if(sizeList.length > 0) {
-        sizesHtml = `
-          <div class="size-selector-wrap">
-            <div class="size-selector-label">Razmerni tanlang:</div>
-            <div class="size-chips">
-              ${sizeList.map(s => `<div class="size-chip ${selectedSizes[p.id] === s ? 'selected' : ''}" onclick="selectSize('${p.id}', '${s}', this)">${s}</div>`).join('')}
-            </div>
-          </div>
-        `;
-      }
-    }
  
     return `<div class="product-card">
       <div class="product-image-wrap">
@@ -788,7 +728,11 @@ function renderProducts(){
       <div class="product-info">
         <div class="product-name">${p.name}</div>
         <div class="product-meta">${p.weight} kg | ${p.category}</div>
-        ${sizesHtml}
+        ${p.sizes ? `<div style="font-size:0.7rem; color:var(--text-secondary); margin-bottom:4px;">Tavsiya: ${p.sizes}</div>` : ''}
+        <div class="size-input-wrap">
+          <label>Razmerni kiriting:</label>
+          <input type="text" class="size-input" id="size-input-${p.id}" placeholder="Masalan: M yoki 41">
+        </div>
         <div class="product-price-box">
           ${hasDiscount ? `<div class="product-old-price">${formatPrice(calc.basePrice)}</div>` : ''}
           <div class="product-price">${formatPrice(calc.finalPrice)}</div>
@@ -823,16 +767,8 @@ function addToCart(productId){
   let product = products.find(p => p.id === productId);
   if(!product) return;
 
-  let sizeList = product.sizes ? product.sizes.split(',').map(s => s.trim()).filter(s => s) : [];
-  let chosenSize = '';
-  
-  if(sizeList.length > 0){
-    chosenSize = selectedSizes[productId];
-    if(!chosenSize){
-      showToast("Iltimos, avval razmerni tanlang!", "error");
-      return;
-    }
-  }
+  let sizeInputEl = $('size-input-' + productId);
+  let chosenSize = sizeInputEl ? sizeInputEl.value.trim() : '';
 
   let cartItemId = productId + (chosenSize ? '-' + chosenSize : '');
   let existing = cart.find(item => item.cartItemId === cartItemId);
@@ -845,7 +781,7 @@ function addToCart(productId){
       cartItemId: cartItemId,
       id: product.id, 
       name: product.name, 
-      size: chosenSize,
+      size: chosenSize || 'Ko\'rsatilmagan',
       price: calc.finalPrice, 
       image: product.image, 
       qty: 1
@@ -893,7 +829,7 @@ function updateCartUI(){
       <div class="cart-item-image">${item.image ? `<img src="${item.image}">` : '📦'}</div>
       <div class="cart-item-info">
         <div class="cart-item-name">${item.name}</div>
-        ${item.size ? `<div class="cart-item-size">Razmer: ${item.size}</div>` : ''}
+        <div class="cart-item-size">Razmer: ${item.size}</div>
         <div class="cart-item-price">${formatPrice(item.price * item.qty)}</div>
         <div class="cart-item-qty">
           <button class="qty-btn" onclick="updateQty('${item.cartItemId}', -1)">−</button>
@@ -991,7 +927,7 @@ function searchTrackOrder(){
   }
  
   if(found.items && Array.isArray(found.items)){
-    $('trackOrderItems').textContent = found.items.map(i => `${i.name} ${i.size ? '('+i.size+')' : ''} x ${i.qty} - ${formatPrice(i.price * i.qty)}`).join('\n');
+    $('trackOrderItems').textContent = found.items.map(i => `${i.name} [Razmer: ${i.size}] x ${i.qty} - ${formatPrice(i.price * i.qty)}`).join('\n');
   } else {
     $('trackOrderItems').textContent = "Mahsulotlar mavjud emas";
   }
@@ -1007,7 +943,7 @@ function renderAdmin(){
   $('adminProductsTable').innerHTML = products.map(p => `
     <tr>
       <td>${p.image ? `<img src="${p.image}" style="width:36px;height:36px;object-fit:cover;border-radius:6px">` : '📦'}</td>
-      <td><b>${p.name}</b> ${p.sizes ? '<br><small style="color:var(--text-secondary)">Razmer: '+p.sizes+'</small>' : ''}</td>
+      <td><b>${p.name}</b> ${p.sizes ? '<br><small style="color:var(--text-secondary)">Tavsiya: '+p.sizes+'</small>' : ''}</td>
       <td>${p.category}</td>
       <td>${formatPrice(calculatePrice(p).finalPrice)}</td>
       <td>
@@ -1147,7 +1083,8 @@ function editProduct(id){
 }
  
 function deleteProduct(id){
-  if(confirm("Haqiqatan ham o'chirmoqchimisiz?")) {
+  let answer = confirm("Haqiqatan ham o'chirmoqchimisiz?");
+  if(answer) {
     db.collection("products").doc(id).delete().then(() => {
       showToast("O'chirildi!");
       fetchDataFromServer();
@@ -1163,7 +1100,8 @@ function updateOrderStatus(id, status){
 }
  
 function deleteOrder(id){
-  if(confirm("Buyurtmani o'chirishni tasdiqlaysizmi?")){
+  let answer = confirm("Buyurtmani o'chirishni tasdiqlaysizmi?");
+  if(answer){
     db.collection("orders").doc(id).delete().then(() => {
       showToast("O'chirildi!");
       fetchDataFromServer();
