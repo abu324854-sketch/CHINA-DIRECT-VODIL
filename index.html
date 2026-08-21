@@ -77,7 +77,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 
 /* Razmer tanlash qismi */
 .size-selector-wrap {margin-bottom: 8px;}
-.size-selector-label {font-size: 0.75rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 4px;}
+.size-selector-label {font-size: 0.72rem; font-weight: 600; color: var(--text-secondary); margin-bottom: 3px;}
 .size-chips {display: flex; gap: 4px; flex-wrap: wrap;}
 .size-chip {padding: 3px 8px; font-size: 0.7rem; font-weight: 600; border: 1px solid var(--border); border-radius: 6px; background: #f9fafb; cursor: pointer; transition: all 0.2s;}
 .size-chip:hover {border-color: var(--uzum-primary);}
@@ -707,7 +707,6 @@ function selectSize(productId, size, el) {
   el.classList.add('selected');
 }
 
-// Avtomatik oraliqni hisoblab beruvchi funksiya
 function autoFillSizes(start, end) {
   let standardSizes = ["XXS", "XS", "S", "M", "L", "XL", "2XL", "3XL", "4XL", "5XL"];
   
@@ -721,7 +720,6 @@ function autoFillSizes(start, end) {
     }
   }
   
-  // Raqamli razmerlar uchun (masalan, 38 dan 43 gacha)
   let sNum = parseInt(start);
   let eNum = parseInt(end);
   if (!isNaN(sNum) && !isNaN(eNum) && sNum <= eNum) {
