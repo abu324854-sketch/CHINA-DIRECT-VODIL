@@ -211,7 +211,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
         <div class="stat-card"><div class="stat-value" id="statProducts">0</div><div class="stat-label">Jami mahsulotlar</div></div>
         <div class="stat-card"><div class="stat-value" id="statOrders">0</div><div class="stat-label">Jami buyurtmalar</div></div>
         <div class="stat-card"><div class="stat-value" id="statRevenue">0 so'm</div><div class="stat-label">Tushum (Topshirilgan)</div></div>
-        <div class="stat-card"><div class="stat-value" id="statPending">0</div><div class="stat-label">Yangi buyurtmalar</div></div>
+        <div class="stat-card"><div class="stat-value" id="statPending">0</div><div class="stat-label">Tasdiqlangan buyurtmalar</div></div>
       </div>
     </div>
 
@@ -366,7 +366,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
       <div id="trackResult" class="hidden" style="margin-top:16px;border-top:1px solid var(--border);padding-top:16px">
         <div style="display:flex;justify-content:space-between;align-items:center">
           <strong id="trackOrderCode" style="font-size:0.9rem">---</strong>
-          <span class="status-badge" id="trackStatusBadge">Yangi</span>
+          <span class="status-badge" id="trackStatusBadge">Tasdiqlandi</span>
         </div>
         <div class="tracking-stepper">
           <div class="tracking-progress" id="trackProgressBar" style="width:0%"></div>
@@ -477,18 +477,18 @@ function formatPrice(price){
   return (price || 0).toLocaleString('uz-UZ') + " so'm";
 }
 
-// Firebase real-time listeners
+// Barcha sahifalar uchun buyurtmalar bazasini doimiy tinglash
+db.collection("orders").onSnapshot((snapshot) => {
+  orders = [];
+  snapshot.forEach((doc) => { orders.push({ id: doc.id, ...doc.data() }); });
+  if(isAdmin) renderAdmin();
+});
+
 db.collection("products").onSnapshot((snapshot) => {
   products = [];
   snapshot.forEach((doc) => { products.push({ id: doc.id, ...doc.data() }); });
   renderCategories();
   renderProducts();
-  if(isAdmin) renderAdmin();
-});
-
-db.collection("orders").onSnapshot((snapshot) => {
-  orders = [];
-  snapshot.forEach((doc) => { orders.push({ id: doc.id, ...doc.data() }); });
   if(isAdmin) renderAdmin();
 });
 
@@ -666,21 +666,25 @@ function handleCheckoutSubmit(e){
 function openTrackModal(){ openModal('trackModal'); }
 
 function searchTrackOrder(){
-  let val = $('trackInput').value.trim();
+  let val = $('trackInput').value.trim().toLowerCase();
   if(!val) return;
-  let found = orders.find(o => o.code.toLowerCase() === val.toLowerCase() || o.phone.includes(val));
+  
+  let found = orders.find(o => (o.code && o.code.toLowerCase() === val) || (o.phone && o.phone.includes(val)));
   let resDiv = $('trackResult');
+  
   if(!found){
     showToast("Buyurtma topilmadi!", 'error');
     resDiv.classList.add('hidden');
     return;
   }
+  
   resDiv.classList.remove('hidden');
   $('trackOrderCode').textContent = found.code + " (" + found.name + ")";
-  $('trackStatusBadge').textContent = found.status;
+  $('trackStatusBadge').textContent = found.status || 'Tasdiqlandi';
   
-  let steps = ['Tasdiqlandi', 'Yig\'ilyapti', 'Xitoydan O\'zbekistonga yo\'lga chiqdi', 'Buyurtma keldi', 'Topshirildi'];
-  let currentIdx = steps.indexOf(found.status);
+  let steps = ['Tasdiqlandi', "Yig'ilyapti", "Xitoydan O'zbekistonga yo'lga chiqdi", 'Buyurtma keldi', 'Topshirildi'];
+  let currentStatus = found.status || 'Tasdiqlandi';
+  let currentIdx = steps.indexOf(currentStatus);
   if(currentIdx === -1) currentIdx = 0;
   
   let progressPercent = (currentIdx / (steps.length - 1)) * 100;
@@ -693,7 +697,11 @@ function searchTrackOrder(){
     else if(i - 1 === currentIdx) st.classList.add('current');
   }
 
-  $('trackOrderItems').textContent = found.items.map(i => `${i.name} x ${i.qty} - ${formatPrice(i.price * i.qty)}`).join('\n');
+  if(found.items && Array.isArray(found.items)){
+    $('trackOrderItems').textContent = found.items.map(i => `${i.name} x ${i.qty} - ${formatPrice(i.price * i.qty)}`).join('\n');
+  } else {
+    $('trackOrderItems').textContent = "Mahsulotlar mavjud emas";
+  }
 }
 
 function renderAdmin(){
@@ -728,8 +736,8 @@ function renderAdmin(){
       <td>
         <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:4px;border-radius:6px;font-size:0.8rem">
           <option ${o.status === 'Tasdiqlandi' ? 'selected' : ''}>Tasdiqlandi</option>
-          <option ${o.status === 'Yig\'ilyapti' ? 'selected' : ''}>Yig'ilyapti</option>
-          <option ${o.status === 'Xitoydan O\'zbekistonga yo\'lga chiqdi' ? 'selected' : ''}>Xitoydan O'zbekistonga yo'lga chiqdi</option>
+          <option ${o.status === "Yig'ilyapti" ? 'selected' : ''}>Yig'ilyapti</option>
+          <option ${o.status === "Xitoydan O'zbekistonga yo'lga chiqdi" ? 'selected' : ''}>Xitoydan O'zbekistonga yo'lga chiqdi</option>
           <option ${o.status === 'Buyurtma keldi' ? 'selected' : ''}>Buyurtma keldi</option>
           <option ${o.status === 'Topshirildi' ? 'selected' : ''}>Topshirildi</option>
         </select>
