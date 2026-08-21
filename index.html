@@ -77,7 +77,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 .product-meta{font-size:0.7rem;color:var(--text-secondary);margin-bottom:6px}
 .product-price-box{margin-top:auto}
 .product-old-price{font-size:0.75rem;color:var(--text-secondary);text-decoration:line-through;margin-bottom:-2px}
-.product-price{font-size:1rem;font-weight:800;color:var(--text)}
+.product-price{font-size:1.0rem;font-weight:800;color:var(--text)}
 @media(min-width:768px){.product-price{font-size:1.1rem;}}
 .product-footer{display:flex;gap:6px;margin-top:8px}
 .product-footer .btn{flex:1;justify-content:center;padding:6px;font-size:0.75rem;border-radius:20px}
@@ -161,7 +161,6 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
         🟢 Onlayn: <span id="onlineCountBadge" style="font-weight:800; margin-left:2px;">1</span>
       </button>
       
-      <!-- BİLDİRISHNOMA TUGMASI -->
       <button class="btn btn-light btn-sm" onclick="requestNotificationPermission()" id="notifBtn" title="Telefon xabarnomalarini yoqish">
         🔔 Xabar
       </button>
@@ -204,10 +203,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
   <div class="container products-section">
     <h2 class="section-title">Ommabop mahsulotlar</h2>
     <div class="products-grid" id="productsGrid">
-      <div class="empty-state" style="grid-column:1/-1">
-        <div class="empty-state-icon">⏳</div>
-        <h3>Yuklanmoqda...</h3>
-      </div>
+      <!-- Zudlik bilan keshdan yuklanadi -->
     </div>
   </div>
 </div>
@@ -466,7 +462,7 @@ function requestNotificationPermission() {
   }
   Notification.requestPermission().then((permission) => {
     if (permission === "granted") {
-      showToast("Bildirishnomalar yoqildi! Endi xabarlar kelib turadi.", "success");
+      showToast("Bildirishnomalar yoqildi!", "success");
       $('notifBtn').style.background = "#ecfdf5";
       $('notifBtn').style.color = "#065f46";
       $('notifBtn').textContent = "🔔 Yoqilgan";
@@ -505,7 +501,9 @@ rtdb.ref('status/online').on('value', (snap) => {
 });
  
 let settings = {yuanRate:2150, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:45};
-let products = [];
+
+// Keshdan zudlik bilan o'qish
+let products = JSON.parse(localStorage.getItem('cdv_products_cache') || "[]");
 let orders = [];
 let cart = JSON.parse(localStorage.getItem('cdv_cart') || "[]");
 let currentUser = JSON.parse(localStorage.getItem('cdv_user') || "null");
@@ -528,13 +526,50 @@ function closeModal(id){ $(id).classList.remove('show'); }
 
 window.addEventListener('DOMContentLoaded', () => {
   renderUserUI();
-  initListeners();
+  renderCategories();
+  renderProducts(); // Dastlab keshdagi mahsulotlarni zumda chiqaradi
+  fetchDataFromServer(); // Orqa fonda bazadan yangilab oladi
+  
   if (Notification.permission === "granted") {
     $('notifBtn').style.background = "#ecfdf5";
     $('notifBtn').style.color = "#065f46";
     $('notifBtn').textContent = "🔔 Yoqilgan";
   }
 });
+
+// MA'LUMOTLARNI ORQA FONDAN TEZ YUKLAB OLISH (Sahifani qotirmaydi)
+function fetchDataFromServer(){
+  db.collection("products").get().then((snapshot) => {
+    let loadedProducts = [];
+    snapshot.forEach((doc) => { loadedProducts.push({ id: doc.id, ...doc.data() }); });
+    if(loadedProducts.length > 0){
+      products = loadedProducts;
+      localStorage.setItem('cdv_products_cache', JSON.stringify(products));
+      renderCategories();
+      renderProducts();
+      if(isAdmin) renderAdmin();
+    }
+  }).catch(err => console.log(err));
+
+  db.collection("settings").doc("general").get().then((docSnap) => {
+    if (docSnap.exists) {
+      settings = docSnap.data();
+      if($('rateYuan')) $('rateYuan').value = settings.yuanRate;
+      if($('rateUsd')) $('rateUsd').value = settings.usdRate;
+      if($('rateAvia')) $('rateAvia').value = settings.aviaRate;
+      if($('rateAvto')) $('rateAvto').value = settings.avtoRate;
+      if($('rateMarkup')) $('rateMarkup').value = settings.markup;
+      renderProducts();
+    }
+  }).catch(err => console.log(err));
+
+  db.collection("orders").get().then((snapshot) => {
+    let loadedOrders = [];
+    snapshot.forEach((doc) => { loadedOrders.push({ id: doc.id, ...doc.data() }); });
+    orders = loadedOrders;
+    if(isAdmin) renderAdmin();
+  }).catch(err => console.log(err));
+}
 
 function renderUserUI(){
   let area = $('userProfileArea');
@@ -646,55 +681,16 @@ function updateAdminCalcPrice(){
 function formatPrice(price){
   return (price || 0).toLocaleString('uz-UZ') + " so'm";
 }
-
-let previousOrdersState = {};
-function initListeners(){
-  db.collection("orders").onSnapshot((snapshot) => {
-    let newOrders = [];
-    snapshot.forEach((doc) => {
-      let data = { id: doc.id, ...doc.data() };
-      newOrders.push(data);
-      
-      // Agar status o'zgargan bo'lsa telefon va saytga bildirishnoma yuborish
-      if (previousOrdersState[doc.id] && previousOrdersState[doc.id] !== data.status) {
-        let msg = `Buyurtma #${data.code} holati o'zgardi: ${data.status}`;
-        showToast(msg, 'success');
-        sendBrowserNotification("China Direct Vodil", msg);
-      }
-      previousOrdersState[doc.id] = data.status;
-    });
-    orders = newOrders;
-    if(isAdmin) renderAdmin();
-  }, (error) => {
-    console.error("Orders error: ", error);
-  });
-   
-  db.collection("products").onSnapshot((snapshot) => {
-    products = [];
-    snapshot.forEach((doc) => { products.push({ id: doc.id, ...doc.data() }); });
-    renderCategories();
-    renderProducts();
-    if(isAdmin) renderAdmin();
-  }, (error) => {
-    console.error("Products error: ", error);
-  });
-   
-  db.collection("settings").doc("general").onSnapshot((docSnap) => {
-    if (docSnap.exists) {
-      settings = docSnap.data();
-      if($('rateYuan')) $('rateYuan').value = settings.yuanRate;
-      if($('rateUsd')) $('rateUsd').value = settings.usdRate;
-      if($('rateAvia')) $('rateAvia').value = settings.aviaRate;
-      if($('rateAvto')) $('rateAvto').value = settings.avtoRate;
-      if($('rateMarkup')) $('rateMarkup').value = settings.markup;
-      renderProducts();
-    }
-  });
-}
  
 function renderProducts(){
   let grid = $('productsGrid');
   if(!grid) return;
+  
+  if(products.length === 0){
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">⏳</div><h3>Yuklanmoqda...</h3></div>';
+    return;
+  }
+
   let searchInputEl = $('searchInput');
   let search = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
   let filtered = products;
@@ -865,6 +861,7 @@ function handleCheckoutSubmit(e){
     cart = [];
     localStorage.removeItem('cdv_cart');
     updateCartUI();
+    fetchDataFromServer();
   }).catch(err => {
     showToast("Xatolik yuz berdi!", 'error');
   });
@@ -1019,10 +1016,11 @@ function handleProductSubmit(e){
     image: currentImage || ''
   };
  
-  let promise = id ? db.collection("products").doc(id).update(data) : db.collection("products").add(data);
+  let promise = id ? db.collection("products").doc(id).set(data, {merge: true}) : db.collection("products").add(data);
   promise.then(() => {
     closeModal('productModal');
     showToast("Saqlandi!");
+    fetchDataFromServer();
   }).catch(() => showToast("Xatolik!", 'error'));
 }
  
@@ -1058,17 +1056,26 @@ function editProduct(id){
  
 function deleteProduct(id){
   if(confirm("Haqiqatan ham o'chirmoqchimisiz?")) {
-    db.collection("products").doc(id).delete().then(() => showToast("O'chirildi!"));
+    db.collection("products").doc(id).delete().then(() => {
+      showToast("O'chirildi!");
+      fetchDataFromServer();
+    });
   }
 }
  
 function updateOrderStatus(id, status){
-  db.collection("orders").doc(id).update({status: status}).then(() => showToast("Status yangilandi!"));
+  db.collection("orders").doc(id).update({status: status}).then(() => {
+    showToast("Status yangilandi!");
+    fetchDataFromServer();
+  });
 }
  
 function deleteOrder(id){
   if(confirm("Buyurtmani o'chirishni tasdiqlaysizmi?")){
-    db.collection("orders").doc(id).delete().then(() => showToast("O'chirildi!"));
+    db.collection("orders").doc(id).delete().then(() => {
+      showToast("O'chirildi!");
+      fetchDataFromServer();
+    });
   }
 }
  
@@ -1082,6 +1089,7 @@ function saveSettings(){
   };
   db.collection("settings").doc("general").set(newSettings).then(() => {
     showToast("Sozlamalar saqlandi!");
+    fetchDataFromServer();
   });
 }
 </script>
