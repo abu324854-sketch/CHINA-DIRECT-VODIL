@@ -77,7 +77,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 .product-meta{font-size:0.7rem;color:var(--text-secondary);margin-bottom:6px}
 .product-price-box{margin-top:auto}
 .product-old-price{font-size:0.75rem;color:var(--text-secondary);text-decoration:line-through;margin-bottom:-2px}
-.product-price{font-size:1.0rem;font-weight:800;color:var(--text)}
+.product-price{font-size:1rem;font-weight:800;color:var(--text)}
 @media(min-width:768px){.product-price{font-size:1.1rem;}}
 .product-footer{display:flex;gap:6px;margin-top:8px}
 .product-footer .btn{flex:1;justify-content:center;padding:6px;font-size:0.75rem;border-radius:20px}
@@ -161,6 +161,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
         🟢 Onlayn: <span id="onlineCountBadge" style="font-weight:800; margin-left:2px;">1</span>
       </button>
       
+      <!-- BİLDİRISHNOMA TUGMASI -->
       <button class="btn btn-light btn-sm" onclick="requestNotificationPermission()" id="notifBtn" title="Telefon xabarnomalarini yoqish">
         🔔 Xabar
       </button>
@@ -203,7 +204,10 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
   <div class="container products-section">
     <h2 class="section-title">Ommabop mahsulotlar</h2>
     <div class="products-grid" id="productsGrid">
-      <!-- Dastlabki keshdan zudlik bilan chiqadi -->
+      <div class="empty-state" style="grid-column:1/-1">
+        <div class="empty-state-icon">⏳</div>
+        <h3>Yuklanmoqda...</h3>
+      </div>
     </div>
   </div>
 </div>
@@ -501,9 +505,7 @@ rtdb.ref('status/online').on('value', (snap) => {
 });
  
 let settings = {yuanRate:2150, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:45};
-
-// ZUDLIK BILAN KESHAN O'QISH (Tezkor chiqishi uchun)
-let products = JSON.parse(localStorage.getItem('cdv_products_cache') || "[]");
+let products = [];
 let orders = [];
 let cart = JSON.parse(localStorage.getItem('cdv_cart') || "[]");
 let currentUser = JSON.parse(localStorage.getItem('cdv_user') || "null");
@@ -526,8 +528,6 @@ function closeModal(id){ $(id).classList.remove('show'); }
 
 window.addEventListener('DOMContentLoaded', () => {
   renderUserUI();
-  renderCategories();
-  renderProducts(); // Dastlabki keshdagilarni darhol chiqaradi
   initListeners();
   if (Notification.permission === "granted") {
     $('notifBtn').style.background = "#ecfdf5";
@@ -655,6 +655,7 @@ function initListeners(){
       let data = { id: doc.id, ...doc.data() };
       newOrders.push(data);
       
+      // Agar status o'zgargan bo'lsa telefon va saytga bildirishnoma yuborish
       if (previousOrdersState[doc.id] && previousOrdersState[doc.id] !== data.status) {
         let msg = `Buyurtma #${data.code} holati o'zgardi: ${data.status}`;
         showToast(msg, 'success');
@@ -671,8 +672,6 @@ function initListeners(){
   db.collection("products").onSnapshot((snapshot) => {
     products = [];
     snapshot.forEach((doc) => { products.push({ id: doc.id, ...doc.data() }); });
-    // Yangi kelgan mahsulotlarni keshga saqlash
-    localStorage.setItem('cdv_products_cache', JSON.stringify(products));
     renderCategories();
     renderProducts();
     if(isAdmin) renderAdmin();
@@ -696,12 +695,6 @@ function initListeners(){
 function renderProducts(){
   let grid = $('productsGrid');
   if(!grid) return;
-  
-  if(products.length === 0){
-    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">⏳</div><h3>Yuklanmoqda...</h3></div>';
-    return;
-  }
-
   let searchInputEl = $('searchInput');
   let search = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
   let filtered = products;
@@ -1017,7 +1010,6 @@ function handleProductSubmit(e){
   let id = $('productId').value;
   let data = {
     name: $('productName').value,
-    category: $('category-chip' || $('productCategory').value),
     category: $('productCategory').value,
     priceYuan: parseFloat($('productPriceYuan').value),
     weight: parseFloat($('productWeight').value),
