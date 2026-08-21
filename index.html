@@ -43,7 +43,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 .controls{background:white;padding:12px 0;border-bottom:1px solid var(--border);position:sticky;top:70px;z-index:90}
 .controls-content{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .search-box{flex:1;min-width:250px;position:relative}
-.search-box input{width:100%;padding:10px 16px 10px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:0.95kr;background:#f9fafb;transition:all 0.2s}
+.search-box input{width:100%;padding:10px 16px 10px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:0.95rem;background:#f9fafb;transition:all 0.2s}
 .search-box input:focus{outline:none;border-color:var(--uzum-primary);background:white}
 .search-box::before{content:"🔍";position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:0.95rem}
 .category-filter{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
@@ -366,7 +366,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
       <div class="form-group">
         <label>Buyurtma kodi yoki telefon</label>
         <div style="display:flex;gap:8px">
-          <input type="text" id="trackInput" placeholder="Masalan: A1B2C">
+          <input type="text" id="trackInput" placeholder="Masalan: CDV-1234">
           <button class="btn btn-primary" onclick="searchTrackOrder()">Izlash</button>
         </div>
       </div>
@@ -483,7 +483,7 @@ function formatPrice(price){
   return (price || 0).toLocaleString('uz-UZ') + " so'm";
 }
 
-// Firebase real-time listeners[cite: 1]
+// Firebase real-time listeners
 db.collection("products").onSnapshot((snapshot) => {
   products = [];
   snapshot.forEach((doc) => { products.push({ id: doc.id, ...doc.data() }); });
@@ -577,7 +577,7 @@ function addToCart(productId){
   showToast("Savatga qo'shildi!");
 }
 
-function openCart(){ $('cartSidebar').classList.add('open'); $('cartOverlay').classList.add('show'); }
+function openCart(){ $('cartSidebar').classList.add('open'); $('cartOverlay').classList.add('show'); updateCartUI(); }
 function closeCart(){ $('cartSidebar').classList.remove('open'); $('cartOverlay').classList.remove('show'); }
 
 function removeFromCart(productId){
@@ -623,226 +623,239 @@ function updateCartUI(){
       <button class="close-btn" onclick="removeFromCart('${item.id}')">×</button>
     </div>
   `).join('');
-  let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
   $('cartTotal').textContent = formatPrice(total);
 }
 
 function openCheckout(){
   if(cart.length === 0) return;
-  let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
+  closeCart();
+  let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
   $('checkoutTotal').textContent = formatPrice(total);
   openModal('checkoutModal');
 }
 
-async function handleCheckoutSubmit(e){
+function handleCheckoutSubmit(e){
   e.preventDefault();
-  let total = cart.reduce((sum, item) => sum + item.price * item.qty, 0);
-  let order = {
-    customer: $('customerName').value,
-    phone: $('customerPhone').value,
-    address: $('customerAddress').value,
-    note: $('customerNote').value,
+  let name = $('customerName').value;
+  let phone = $('customerPhone').value;
+  let address = $('customerAddress').value;
+  let note = $('customerNote').value;
+  let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
+  let orderCode = 'CDV-' + Math.floor(1000 + Math.random() * 9000);
+
+  let newOrder = {
+    code: orderCode,
+    name: name,
+    phone: phone,
+    address: address,
+    note: note,
     items: cart,
     total: total,
-    status: 'new',
-    createdAt: new Date().toLocaleString('uz-UZ')
+    status: 'Yangi',
+    createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
-  try {
-    let docRef = await db.collection("orders").add(order);
-    let shortId = docRef.id.slice(-5).toUpperCase();
-    $('successOrderId').textContent = "#" + shortId;
-    $('orderDetails').textContent = `Mijoz: ${order.customer}\nTelefon: ${order.phone}\nJami: ${formatPrice(order.total)}`;
-    localStorage.setItem('cdv_last_order', shortId);
+
+  db.collection("orders").add(newOrder).then(() => {
+    closeModal('checkoutModal');
+    $('successOrderId').textContent = orderCode;
+    $('orderDetails').textContent = `Mijoz: ${name}\nTelefon: ${phone}\nSumma: ${formatPrice(total)}`;
+    openModal('successModal');
     cart = [];
     localStorage.removeItem('cdv_cart');
     updateCartUI();
-    closeModal('checkoutModal');
-    closeCart();
-    openModal('successModal');
-  } catch(err) {
-    showToast("Xatolik: " + err.message, "error");
-  }
+  }).catch(err => {
+    showToast("Xatolik yuz berdi!", 'error');
+  });
 }
 
-function openTrackModal(){
-  let last = localStorage.getItem('cdv_last_order');
-  if(last) $('trackInput').value = last;
-  openModal('trackModal');
-  if(last) searchTrackOrder();
-}
+function openTrackModal(){ openModal('trackModal'); }
 
 function searchTrackOrder(){
-  let query = $('trackInput').value.trim().toLowerCase();
-  if(!query) return;
-  let found = orders.find(o => o.id.toLowerCase().endsWith(query) || o.phone.includes(query));
-  let res = $('trackResult');
-  if(!found){ res.classList.add('hidden'); showToast("Topilmadi", "error"); return; }
-  res.classList.remove('hidden');
-  $('trackOrderCode').textContent = "Buyurtma #" + found.id.slice(-5).toUpperCase();
-  
-  let pWidth = "0%";
-  document.querySelectorAll('.step-item').forEach(s => s.className = 'step-item');
-  if(found.status === 'new'){ pWidth = "0%"; $('step1').classList.add('current'); }
-  else if(found.status === 'confirmed'){ pWidth = "33%"; $('step1').classList.add('active'); $('step2').classList.add('current'); }
-  else if(found.status === 'shipping'){ pWidth = "66%"; $('step1').classList.add('active'); $('step2').classList.add('active'); $('step3').classList.add('current'); }
-  else if(found.status === 'delivered'){ pWidth = "100%"; $('step1').classList.add('active'); $('step2').classList.add('active'); $('step3').classList.add('active'); $('step4').classList.add('active'); }
-  
-  $('trackProgressBar').style.width = pWidth;
+  let val = $('trackInput').value.trim();
+  if(!val) return;
+  let found = orders.find(o => o.code.toLowerCase() === val.toLowerCase() || o.phone.includes(val));
+  let resDiv = $('trackResult');
+  if(!found){
+    showToast("Buyurtma topilmadi!", 'error');
+    resDiv.classList.add('hidden');
+    return;
+  }
+  resDiv.classList.remove('hidden');
+  $('trackOrderCode').textContent = found.code + " (" + found.name + ")";
   $('trackStatusBadge').textContent = found.status;
-  $('trackOrderItems').textContent = found.items.map(i => `${i.name} x${i.qty}`).join('\n');
+  
+  let steps = ['Yangi', 'Tasdiqlangan', 'Yo\'lda', 'Yetib keldi'];
+  let currentIdx = steps.indexOf(found.status);
+  if(currentIdx === -1) currentIdx = 0;
+  
+  let progressPercent = (currentIdx / (steps.length - 1)) * 100;
+  $('trackProgressBar').style.width = progressPercent + '%';
+
+  for(let i=1; i<=4; i++){
+    let st = $('step' + i);
+    st.className = 'step-item';
+    if(i - 1 < currentIdx) st.classList.add('active');
+    else if(i - 1 === currentIdx) st.classList.add('current');
+  }
+
+  $('trackOrderItems').textContent = found.items.map(i => `${i.name} x ${i.qty} - ${formatPrice(i.price * i.qty)}`).join('\n');
 }
 
 function renderAdmin(){
   $('statProducts').textContent = products.length;
   $('statOrders').textContent = orders.length;
-  let rev = orders.filter(o => o.status === 'delivered').reduce((s, o) => s + o.total, 0);
-  $('statRevenue').textContent = formatPrice(rev);
-  $('statPending').textContent = orders.filter(o => o.status === 'new').length;
   
-  $('adminProductsTable').innerHTML = products.length === 0 ? '<tr><td colspan="5" style="text-align:center">Bo\'sh</td></tr>' : products.map(p => `
+  let revenue = orders.filter(o => o.status === 'Yetib keldi').reduce((sum, o) => sum + o.total, 0);
+  $('statRevenue').textContent = formatPrice(revenue);
+  $('statPending').textContent = orders.filter(o => o.status === 'Yangi').length;
+
+  // Products table
+  $('adminProductsTable').innerHTML = products.map(p => `
     <tr>
-      <td>${p.image ? `<img src="${p.image}" style="width:36px;height:36px;border-radius:6px;object-fit:cover">` : '📦'}</td>
-      <td><strong>${p.name}</strong></td>
+      <td>${p.image ? `<img src="${p.image}" style="width:36px;height:36px;object-fit:cover;border-radius:6px">` : '📦'}</td>
+      <td><b>${p.name}</b></td>
       <td>${p.category}</td>
-      <td><strong>${formatPrice(calculatePrice(p).finalPrice)}</strong></td>
+      <td>${formatPrice(calculatePrice(p).finalPrice)}</td>
       <td>
-        <button class="btn btn-light btn-sm" onclick="editProduct('${p.id}')">✏️</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">🗑️</button>
+        <button class="btn btn-outline btn-sm" onclick="editProduct('${p.id}')">Tahrir</button>
+        <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">O'chirish</button>
       </td>
     </tr>
   `).join('');
 
-  $('adminOrdersTable').innerHTML = orders.length === 0 ? '<tr><td colspan="6" style="text-align:center">Buyurtmalar yo\'q</td></tr>' : orders.map(o => `
+  // Orders table
+  $('adminOrdersTable').innerHTML = orders.map(o => `
     <tr>
-      <td>#${o.id.slice(-5).toUpperCase()}</td>
-      <td>${o.customer}</td>
+      <td><b>${o.code}</b></td>
+      <td>${o.name}</td>
       <td>${o.phone}</td>
       <td>${formatPrice(o.total)}</td>
       <td>
         <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:4px;border-radius:6px;font-size:0.8rem">
-          <option value="new" ${o.status==='new'?'selected':''}>Yangi</option>
-          <option value="confirmed" ${o.status==='confirmed'?'selected':''}>Tasdiqlandi</option>
-          <option value="shipping" ${o.status==='shipping'?'selected':''}>Yo'lda</option>
-          <option value="delivered" ${o.status==='delivered'?'selected':''}>Topshirildi</option>
+          <option ${o.status === 'Yangi' ? 'selected' : ''}>Yangi</option>
+          <option ${o.status === 'Tasdiqlangan' ? 'selected' : ''}>Tasdiqlangan</option>
+          <option ${o.status === 'Yo\'lda' ? 'selected' : ''}>Yo'lda</option>
+          <option ${o.status === 'Yetib keldi' ? 'selected' : ''}>Yetib keldi</option>
         </select>
       </td>
-      <td><button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">🗑️</button></td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">×</button></td>
     </tr>
   `).join('');
 }
 
-async function updateOrderStatus(id, status){
-  await db.collection("orders").doc(id).update({ status });
-  showToast("Yangilandi");
-}
-
-async function deleteOrder(id){
-  if(confirm("O'chirishni tasdiqlaysizmi?")) await db.collection("orders").doc(id).delete();
-}
-
 function openAddProductModal(){
+  $('productModalTitle').textContent = "Yangi mahsulot qo'shish";
   $('productId').value = '';
   $('productName').value = '';
   $('productPriceYuan').value = '';
   $('productWeight').value = '';
   $('productDesc').value = '';
-  resetImagePreview();
+  currentImage = null;
+  $('imgPreview').style.display = 'none';
+  $('removeImgBtn').style.display = 'none';
+  $('uploadPlaceholder').style.display = 'block';
   openModal('productModal');
 }
 
+function triggerFileSelect(){ $('imageInput').click(); }
+
+function handleImageSelect(e){
+  let file = e.target.files[0];
+  if(!file) return;
+  let reader = new FileReader();
+  reader.onload = function(event){
+    currentImage = event.target.result;
+    $('imgPreview').src = currentImage;
+    $('imgPreview').style.display = 'block';
+    $('removeImgBtn').style.display = 'flex';
+    $('uploadPlaceholder').style.display = 'none';
+  }
+  reader.readAsDataURL(file);
+}
+
+function removeImage(e){
+  e.stopPropagation();
+  currentImage = null;
+  $('imgPreview').style.display = 'none';
+  $('removeImgBtn').style.display = 'none';
+  $('uploadPlaceholder').style.display = 'block';
+  $('imageInput').value = '';
+}
+
+function handleProductSubmit(e){
+  e.preventDefault();
+  let id = $('productId').value;
+  let data = {
+    name: $('productName').value,
+    category: $('productCategory').value,
+    priceYuan: parseFloat($('productPriceYuan').value),
+    weight: parseFloat($('productWeight').value),
+    shipping: $('productShipping').value,
+    desc: $('productDesc').value,
+    image: currentImage || ''
+  };
+
+  let promise = id ? db.collection("products").doc(id).update(data) : db.collection("products").add(data);
+  promise.then(() => {
+    closeModal('productModal');
+    showToast("Saqlandi!");
+  }).catch(() => showToast("Xatolik!", 'error'));
+}
+
 function editProduct(id){
-  let p = products.find(x => x.id === id);
+  let p = products.find(prod => prod.id === id);
   if(!p) return;
+  $('productModalTitle').textContent = "Mahsulotni tahrirlash";
   $('productId').value = p.id;
   $('productName').value = p.name;
   $('productCategory').value = p.category;
   $('productPriceYuan').value = p.priceYuan;
   $('productWeight').value = p.weight;
-  $('productShipping').value = p.shipping;
+  $('productShipping').value = p.shipping || 'avia';
   $('productDesc').value = p.desc || '';
-  if(p.image){
-    currentImage = p.image;
-    $('imgPreview').src = p.image;
+  currentImage = p.image || '';
+  if(currentImage){
+    $('imgPreview').src = currentImage;
     $('imgPreview').style.display = 'block';
     $('removeImgBtn').style.display = 'flex';
     $('uploadPlaceholder').style.display = 'none';
-  } else { resetImagePreview(); }
+  } else {
+    $('imgPreview').style.display = 'none';
+    $('removeImgBtn').style.display = 'none';
+    $('uploadPlaceholder').style.display = 'block';
+  }
   openModal('productModal');
 }
 
-async function deleteProduct(id){
-  if(confirm("O'chirasizmi?")) await db.collection("products").doc(id).delete();
+function deleteProduct(id){
+  if(confirm("Haqiqatan ham o'chirmoqchimisiz?")) {
+    db.collection("products").doc(id).delete().then(() => showToast("O'chirildi!"));
+  }
 }
 
-function triggerFileSelect(){ $('imageInput').click(); }
-function handleImageSelect(e){
-  let file = e.target.files[0];
-  if(!file) return;
-  let reader = new FileReader();
-  reader.onload = function(event) {
-    let img = new Image();
-    img.onload = function() {
-      let canvas = document.createElement('canvas');
-      let w = img.width, h = img.height, max = 500;
-      if(w > h && w > max){ h *= max/w; w = max; } else if(h > max){ w *= max/h; h = max; }
-      canvas.width = w; canvas.height = h;
-      let ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, w, h);
-      currentImage = canvas.toDataURL('image/jpeg', 0.6);
-      $('imgPreview').src = currentImage;
-      $('imgPreview').style.display = 'block';
-      $('removeImgBtn').style.display = 'flex';
-      $('uploadPlaceholder').style.display = 'none';
-    };
-    img.src = event.target.result;
+function updateOrderStatus(id, status){
+  db.collection("orders").doc(id).update({status: status}).then(() => showToast("Status yangilandi!"));
+}
+
+function deleteOrder(id){
+  if(confirm("Buyurtmani o'chirishni tasdiqlaysizmi?")){
+    db.collection("orders").doc(id).delete().then(() => showToast("O'chirildi!"));
+  }
+}
+
+function saveSettings(){
+  let newSettings = {
+    yuanRate: parseFloat($('rateYuan').value),
+    usdRate: parseFloat($('rateUsd').value),
+    aviaRate: parseFloat($('rateAvia').value),
+    avtoRate: parseFloat($('rateAvto').value),
+    markup: parseFloat($('rateMarkup').value)
   };
-  reader.readAsDataURL(file);
+  db.collection("settings").doc("general").set(newSettings).then(() => {
+    showToast("Sozlamalar saqlandi!");
+  });
 }
-
-function removeImage(e){
-  if(e) e.stopPropagation();
-  resetImagePreview();
-}
-
-function resetImagePreview(){
-  currentImage = null;
-  $('imgPreview').src = '';
-  $('imgPreview').style.display = 'none';
-  $('removeImgBtn').style.display = 'none';
-  $('uploadPlaceholder').style.display = 'block';
-}
-
-async function handleProductSubmit(e){
-  e.preventDefault();
-  let id = $('productId').value;
-  let data = {
-    name: $('productName').value.trim(),
-    category: $('productCategory').value,
-    priceYuan: parseFloat($('productPriceYuan').value) || 0,
-    weight: parseFloat($('productWeight').value) || 0,
-    shipping: $('productShipping').value,
-    desc: $('productDesc').value.trim(),
-    image: currentImage || null
-  };
-  if(id) await db.collection("products").doc(id).update(data);
-  else await db.collection("products").add(data);
-  closeModal('productModal');
-  showToast("Saqlandi!");
-}
-
-async function saveSettings(){
-  let s = {
-    yuanRate: parseFloat($('rateYuan').value) || 2150,
-    usdRate: parseFloat($('rateUsd').value) || 12700,
-    aviaRate: parseFloat($('rateAvia').value) || 9.5,
-    avtoRate: parseFloat($('rateAvto').value) || 6,
-    markup: parseFloat($('rateMarkup').value) || 45
-  };
-  await db.collection("settings").doc("general").set(s);
-  showToast("Sozlamalar saqlandi!");
-}
-
-updateCartUI();
 </script>
 </body>
 </html>
