@@ -939,13 +939,31 @@ function triggerFileSelect(){ $('imageInput').click(); }
 function handleImageSelect(e){
   let file = e.target.files[0];
   if(!file) return;
+
   let reader = new FileReader();
   reader.onload = function(event){
-    currentImage = event.target.result;
-    $('imgPreview').src = currentImage;
-    $('imgPreview').style.display = 'block';
-    $('removeImgBtn').style.display = 'flex';
-    $('uploadPlaceholder').style.display = 'none';
+    let img = new Image();
+    img.src = event.target.result;
+    img.onload = function(){
+      let canvas = document.createElement('canvas');
+      let MAX_WIDTH = 600;
+      let scaleSize = MAX_WIDTH / img.width;
+      
+      if(scaleSize > 1) scaleSize = 1;
+      
+      canvas.width = img.width * scaleSize;
+      canvas.height = img.height * scaleSize;
+      
+      let ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      
+      currentImage = canvas.toDataURL('image/jpeg', 0.7);
+      
+      $('imgPreview').src = currentImage;
+      $('imgPreview').style.display = 'block';
+      $('removeImgBtn').style.display = 'flex';
+      $('uploadPlaceholder').style.display = 'none';
+    }
   }
   reader.readAsDataURL(file);
 }
