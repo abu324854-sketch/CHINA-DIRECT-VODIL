@@ -22,7 +22,7 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--uzu
 /* HEADER UZUM STILIDA */
 header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rgba(0,0,0,0.05);border-bottom:1px solid var(--border)}
 .header-content{display:flex;justify-content:space-between;align-items:center;height:70px;gap:16px}
-.logo{font-size:1.4rem;font-weight:900;display:flex;align-items:center;gap:8px;color:var(--uzum-primary);text-decoration:none}
+.logo{font-size:1.3rem;font-weight:900;display:flex;align-items:center;gap:6px;color:var(--uzum-primary);text-decoration:none}
 .header-actions{display:flex;gap:10px;align-items:center}
  
 /* TUGMALAR */
@@ -186,9 +186,9 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
  
 <header>
   <div class="container header-content">
-    <a href="#" class="logo"><span>🛒</span><span>China Direct</span></a>
+    <a href="#" class="logo"><span>🇨🇳</span><span>China Direct Vodil</span><span>🇺🇿</span></a>
     <div class="header-actions">
-      <!-- SHAXSIY PROFIL TUGMASI QO'SHILDI -->
+      <!-- SHAXSIY PROFIL TUGMASI -->
       <div id="userProfileArea">
         <button class="btn btn-light btn-sm" onclick="openAuthModal()">👤 Kirish</button>
       </div>
@@ -498,7 +498,6 @@ let cart = JSON.parse(localStorage.getItem('cdv_cart') || "[]");
 let currentUser = JSON.parse(localStorage.getItem('cdv_user') || "null");
 let isAdmin = false;
 let currentImage = null;
-let activeCategory = 'all';
 const ADMIN_PASS = "admin123";
  
 function $(id){ return document.getElementById(id); }
