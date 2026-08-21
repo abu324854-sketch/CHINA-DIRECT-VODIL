@@ -501,6 +501,7 @@ let cart = JSON.parse(localStorage.getItem('cdv_cart') || "[]");
 let currentUser = JSON.parse(localStorage.getItem('cdv_user') || "null");
 let isAdmin = false;
 let currentImage = null;
+let activeCategory = 'all';
 const ADMIN_PASS = "admin123";
  
 function $(id){ return document.getElementById(id); }
@@ -658,11 +659,17 @@ db.collection("settings").doc("general").onSnapshot((docSnap) => {
  
 function renderProducts(){
   let grid = $('productsGrid');
-  let search = $('searchInput').value.toLowerCase();
+  let searchInputEl = $('searchInput');
+  let search = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
   let filtered = products;
   
-  if(activeCategory !== 'all') filtered = filtered.filter(p => p.category === activeCategory);
-  if(search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
+  if(activeCategory && activeCategory !== 'all'){
+    filtered = filtered.filter(p => p.category === activeCategory);
+  }
+  
+  if(search !== ''){
+    filtered = filtered.filter(p => p.name && p.name.toLowerCase().includes(search));
+  }
   
   if(filtered.length === 0){
     grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><h3>Mahsulot topilmadi</h3></div>';
