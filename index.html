@@ -548,6 +548,7 @@ function closeModal(id){ $(id).classList.remove('show'); }
 
 window.addEventListener('DOMContentLoaded', () => {
   renderUserUI();
+  initListeners();
 });
 
 function renderUserUI(){
@@ -660,35 +661,42 @@ function updateAdminCalcPrice(){
 function formatPrice(price){
   return (price || 0).toLocaleString('uz-UZ') + " so'm";
 }
- 
-db.collection("orders").onSnapshot((snapshot) => {
-  orders = [];
-  snapshot.forEach((doc) => { orders.push({ id: doc.id, ...doc.data() }); });
-  if(isAdmin) renderAdmin();
-});
- 
-db.collection("products").onSnapshot((snapshot) => {
-  products = [];
-  snapshot.forEach((doc) => { products.push({ id: doc.id, ...doc.data() }); });
-  renderCategories();
-  renderProducts();
-  if(isAdmin) renderAdmin();
-});
- 
-db.collection("settings").doc("general").onSnapshot((docSnap) => {
-  if (docSnap.exists) {
-    settings = docSnap.data();
-    if($('rateYuan')) $('rateYuan').value = settings.yuanRate;
-    if($('rateUsd')) $('rateUsd').value = settings.usdRate;
-    if($('rateAvia')) $('rateAvia').value = settings.aviaRate;
-    if($('rateAvto')) $('rateAvto').value = settings.avtoRate;
-    if($('rateMarkup')) $('rateMarkup').value = settings.markup;
+
+function initListeners(){
+  db.collection("orders").onSnapshot((snapshot) => {
+    orders = [];
+    snapshot.forEach((doc) => { orders.push({ id: doc.id, ...doc.data() }); });
+    if(isAdmin) renderAdmin();
+  }, (error) => {
+    console.error("Orders error: ", error);
+  });
+   
+  db.collection("products").onSnapshot((snapshot) => {
+    products = [];
+    snapshot.forEach((doc) => { products.push({ id: doc.id, ...doc.data() }); });
+    renderCategories();
     renderProducts();
-  }
-});
+    if(isAdmin) renderAdmin();
+  }, (error) => {
+    console.error("Products error: ", error);
+  });
+   
+  db.collection("settings").doc("general").onSnapshot((docSnap) => {
+    if (docSnap.exists) {
+      settings = docSnap.data();
+      if($('rateYuan')) $('rateYuan').value = settings.yuanRate;
+      if($('rateUsd')) $('rateUsd').value = settings.usdRate;
+      if($('rateAvia')) $('rateAvia').value = settings.aviaRate;
+      if($('rateAvto')) $('rateAvto').value = settings.avtoRate;
+      if($('rateMarkup')) $('rateMarkup').value = settings.markup;
+      renderProducts();
+    }
+  });
+}
  
 function renderProducts(){
   let grid = $('productsGrid');
+  if(!grid) return;
   let searchInputEl = $('searchInput');
   let search = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
   let filtered = products;
@@ -737,6 +745,7 @@ function renderProducts(){
  
 function renderCategories(){
   let container = $('categoryFilter');
+  if(!container) return;
   let cats = ['all'];
   let seen = {};
   products.forEach(p => { if(!seen[p.category]){ seen[p.category] = true; cats.push(p.category); } });
