@@ -26,8 +26,8 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 .logo{font-size:1.1rem;font-weight:900;display:flex;align-items:center;gap:6px;color:var(--uzum-primary);text-decoration:none}
 .header-actions{display:flex;gap:8px;align-items:center;overflow-x:auto;width:100%;padding-bottom:2px}
  
-/* TUGMALAR */
-.btn{padding:8px 14px;border:none;border-radius:10px;cursor:pointer;font-size:0.85rem;font-weight:600;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
+/* TUGMALAR (DUMALOQ, STANDART O'RTACHA O'LCHAMDA) */
+.btn{padding:8px 14px;border:none;border-radius:20px;cursor:pointer;font-size:0.85rem;font-weight:600;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
 .btn-primary{background:var(--uzum-primary);color:white}
 .btn-primary:hover{background:var(--uzum-primary-hover)}
 .btn-light{background:#f3f4f6;color:var(--text)}
@@ -35,7 +35,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 .btn-danger{background:#ef4444;color:white}
 .btn-outline{background:transparent;border:1.5px solid var(--border);color:var(--text)}
 .btn-outline:hover{border-color:var(--uzum-primary);color:var(--uzum-primary)}
-.btn-sm{padding:6px 12px;font-size:0.8rem}
+.btn-sm{padding:7px 14px;font-size:0.82rem;border-radius:20px}
 .w-full{width:100%}
  
 /* BANNER / HERO */
@@ -50,7 +50,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 .controls{background:white;padding:12px 0;border-bottom:1px solid var(--border);position:sticky;top:115px;z-index:90}
 .controls-content{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .search-box{flex:1;min-width:250px;position:relative}
-.search-box input{width:100%;padding:10px 16px 10px 42px;border:1.5px solid var(--border);border-radius:10px;font-size:0.95rem;background:#f9fafb;transition:all 0.2s}
+.search-box input{width:100%;padding:10px 16px 10px 42px;border:1.5px solid var(--border);border-radius:20px;font-size:0.95rem;background:#f9fafb;transition:all 0.2s}
 .search-box input:focus{outline:none;border-color:var(--uzum-primary);background:white}
 .search-box::before{content:"🔍";position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:0.95rem}
 .category-filter{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
@@ -108,7 +108,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 @media(min-width:768px){.product-price{font-size:1.1rem;}}
  
 .product-footer{display:flex;gap:6px;margin-top:8px}
-.product-footer .btn{flex:1;justify-content:center;padding:6px;font-size:0.75rem}
+.product-footer .btn{flex:1;justify-content:center;padding:6px;font-size:0.75rem;border-radius:20px}
 @media(min-width:768px){.product-footer .btn{padding:8px;font-size:0.8rem;}}
  
 /* SAVAT SIDEBAR */
@@ -123,7 +123,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 .cart-item-name{font-size:0.85rem;font-weight:600;margin-bottom:2px}
 .cart-item-price{font-size:0.85rem;color:var(--uzum-primary);font-weight:700}
 .cart-item-qty{display:flex;align-items:center;gap:6px;margin-top:4px}
-.qty-btn{width:24px;height:24px;border:1px solid var(--border);background:white;border-radius:6px;cursor:pointer;font-weight:700;font-size:0.8rem}
+.qty-btn{width:24px;height:24px;border:1px solid var(--border);background:white;border-radius:50%;cursor:pointer;font-weight:700;font-size:0.8rem}
 .cart-footer{padding:16px 20px;border-top:1px solid var(--border);background:white}
 .cart-total{display:flex;justify-content:space-between;font-size:1.1rem;font-weight:800;margin-bottom:12px}
  
@@ -139,15 +139,15 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 /* FORMALAR */
 .form-group{margin-bottom:14px}
 .form-group label{display:block;margin-bottom:6px;font-weight:600;font-size:0.85rem}
-.form-group input,.form-group textarea,.form-group select{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:10px;font-size:0.9rem;font-family:inherit}
+.form-group input,.form-group textarea,.form-group select{width:100%;padding:10px 14px;border:1.5px solid var(--border);border-radius:20px;font-size:0.9rem;font-family:inherit}
 .form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:var(--uzum-primary)}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .close-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--text-secondary);width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%}
 .close-btn:hover{background:#f3f4f6;color:var(--text)}
  
 /* ADMIN TABLAR VA JADVALLAR */
-.tabs{display:flex;gap:6px;background:white;padding:6px;border-radius:10px;margin-bottom:16px;border:1px solid var(--border);overflow-x:auto}
-.tab{padding:8px 16px;border:none;background:transparent;border-radius:8px;cursor:pointer;font-weight:600;color:var(--text-secondary);font-size:0.85rem;white-space:nowrap}
+.tabs{display:flex;gap:6px;background:white;padding:6px;border-radius:20px;margin-bottom:16px;border:1px solid var(--border);overflow-x:auto}
+.tab{padding:8px 16px;border:none;background:transparent;border-radius:20px;cursor:pointer;font-weight:600;color:var(--text-secondary);font-size:0.85rem;white-space:nowrap}
 .tab.active{background:var(--uzum-primary);color:white}
 .admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:16px}
 .stat-card{background:white;padding:16px;border-radius:12px;border:1px solid var(--border)}
@@ -168,19 +168,19 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 .step-item.current .step-icon{background:var(--uzum-primary);border-color:var(--uzum-primary);color:white}
 .step-label{font-size:0.62rem;font-weight:600;color:var(--text-secondary);text-align:center;line-height:1.1}
  
-.image-upload{border:2px dashed var(--uzum-primary);border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:#fff1f2;margin-bottom:14px;position:relative}
-.image-upload-preview{width:100%;height:140px;object-fit:cover;border-radius:8px;display:none}
+.image-upload{border:2px dashed var(--uzum-primary);border-radius:16px;padding:16px;text-align:center;cursor:pointer;background:#fff1f2;margin-bottom:14px;position:relative}
+.image-upload-preview{width:100%;height:140px;object-fit:cover;border-radius:12px;display:none}
 .remove-image-btn{position:absolute;top:6px;right:6px;background:rgba(0,0,0,0.6);color:white;border:none;width:26px;height:26px;border-radius:50%;cursor:pointer;display:none;align-items:center;justify-content:center}
 .empty-state{text-align:center;padding:50px 20px;color:var(--text-secondary)}
 .empty-state-icon{font-size:3rem;margin-bottom:10px}
 .toast-container{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:400;display:flex;flex-direction:column;gap:8px}
-.toast{background:#1f2937;color:white;padding:10px 20px;border-radius:8px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-size:0.85rem;font-weight:600}
+.toast{background:#1f2937;color:white;padding:10px 20px;border-radius:20px;box-shadow:0 4px 12px rgba(0,0,0,0.15);font-size:0.85rem;font-weight:600}
 .toast.success{background:var(--success)}
 .toast.error{background:var(--uzum-primary)}
-.order-details{background:#f9fafb;border-radius:8px;padding:12px;margin:12px 0;font-family:monospace;font-size:0.80rem;white-space:pre-wrap}
+.order-details{background:#f9fafb;border-radius:12px;padding:12px;margin:12px 0;font-family:monospace;font-size:0.80rem;white-space:pre-wrap}
 .hidden{display:none!important}
 .cart-badge{position:relative;background:var(--gold);color:#1f2937;width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;margin-left:4px}
-.order-card-user{background:#f9fafb;border:1px solid var(--border);padding:12px;border-radius:10px;margin-bottom:10px;font-size:0.85rem}
+.order-card-user{background:#f9fafb;border:1px solid var(--border);padding:12px;border-radius:12px;margin-bottom:10px;font-size:0.85rem}
 </style>
 </head>
 <body>
@@ -289,7 +289,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
     <!-- SOZLAMALAR -->
     <div id="tab-settings" class="tab-content hidden">
       <div style="max-width:500px">
-        <div style="background:white;padding:20px;border-radius:12px;border:1px solid var(--border)">
+        <div style="background:white;padding:20px;border-radius:16px;border:1px solid var(--border)">
           <h3 style="margin-bottom:14px;font-size:1rem">Valyuta va Tariflar</h3>
           <div class="form-row">
             <div class="form-group"><label>1 Yuan (so'm)</label><input type="number" id="rateYuan" value="2150"></div>
@@ -393,7 +393,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
         </div>
         
         <!-- HISOBLANGAN MIJOZ NARXI ADMIN UCHUN -->
-        <div style="background:#f3f4f6;padding:10px;border-radius:8px;margin-bottom:12px;font-size:0.85rem">
+        <div style="background:#f3f4f6;padding:10px;border-radius:12px;margin-bottom:12px;font-size:0.85rem">
           Mijozga ko'rinadigan narx (45% foyda bilan): <b id="modalCalcPrice" style="color:var(--uzum-primary)">0 so'm</b>
         </div>
         <div class="form-group"><label>Tavsif</label><textarea id="productDesc"></textarea></div>
@@ -413,7 +413,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
         <div class="form-group"><label>Telefon raqam</label><input type="tel" id="customerPhone" required placeholder="+998 90 123 45 67"></div>
         <div class="form-group"><label>Manzil</label><input type="text" id="customerAddress" required placeholder="Manzil va ko'cha"></div>
         <div class="form-group"><label>Izoh</label><textarea id="customerNote"></textarea></div>
-        <div style="background:#f3f4f6;padding:12px;border-radius:8px;margin-bottom:14px;font-size:0.9rem">
+        <div style="background:#f3f4f6;padding:12px;border-radius:12px;margin-bottom:14px;font-size:0.9rem">
           Jami to'lov: <span id="checkoutTotal" style="font-weight:800;color:var(--uzum-primary)">0 so'm</span>
         </div>
         <button type="submit" class="btn btn-primary w-full">Tasdiqlash</button>
@@ -514,10 +514,11 @@ function showToast(msg, type='success'){
 }
 function openModal(id){ $(id).classList.add('show'); }
 function closeModal(id){ $(id).classList.remove('show'); }
-// PROFIL LOGIKASI
+
 window.addEventListener('DOMContentLoaded', () => {
   renderUserUI();
 });
+
 function renderUserUI(){
   let area = $('userProfileArea');
   if(currentUser){
@@ -894,7 +895,7 @@ function renderAdmin(){
       <td>${o.phone}</td>
       <td>${formatPrice(o.total)}</td>
       <td>
-        <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:4px;border-radius:6px;font-size:0.8rem">
+        <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:4px;border-radius:12px;font-size:0.8rem">
           <option ${o.status === 'Tasdiqlandi' ? 'selected' : ''}>Tasdiqlandi</option>
           <option ${o.status === "Yig'ilyapti" ? 'selected' : ''}>Yig'ilyapti</option>
           <option ${o.status === "Xitoydan O'zbekistonga yo'lga chiqdi" ? 'selected' : ''}>Xitoydan O'zbekistonga yo'lga chiqdi</option>
