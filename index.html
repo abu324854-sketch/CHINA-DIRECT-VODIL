@@ -119,22 +119,15 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 .admin-table th,.admin-table td{padding:10px 14px;text-align:left;border-bottom:1px solid var(--border)}
 .admin-table th{background:#f9fafb;font-weight:700;color:#374151}
 
-/* STATUS BADGELARI */
-.status-badge{padding:4px 10px;border-radius:12px;font-size:0.75rem;font-weight:700;display:inline-block}
-.status-new{background:#fef3c7;color:#d97706}
-.status-confirmed{background:#e0f2fe;color:#0284c7}
-.status-shipping{background:#e0e7ff;color:#4f46e5}
-.status-delivered{background:#d1fae5;color:#059669}
-
-/* STEPPER (KUZATISH) */
-.tracking-stepper{display:flex;justify-content:space-between;margin:20px 0;position:relative}
-.tracking-stepper::before{content:'';position:absolute;top:16px;left:10%;right:10%;height:3px;background:var(--border);z-index:1}
-.tracking-progress{position:absolute;top:16px;left:10%;height:3px;background:var(--success);z-index:1;transition:width 0.4s ease}
-.step-item{position:relative;z-index:2;background:white;display:flex;flex-direction:column;align-items:center;width:25%}
-.step-icon{width:32px;height:32px;border-radius:50%;background:#f3f4f6;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.8rem;margin-bottom:6px}
+/* STEPPER (KUZATISH) 5 TA BOSQICH */
+.tracking-stepper{display:flex;justify-content:space-between;margin:25px 0 15px 0;position:relative}
+.tracking-stepper::before{content:'';position:absolute;top:14px;left:8%;right:8%;height:3px;background:var(--border);z-index:1}
+.tracking-progress{position:absolute;top:14px;left:8%;height:3px;background:var(--success);z-index:1;transition:width 0.4s ease}
+.step-item{position:relative;z-index:2;background:white;display:flex;flex-direction:column;align-items:center;width:20%}
+.step-icon{width:28px;height:28px;border-radius:50%;background:#f3f4f6;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.75rem;margin-bottom:4px}
 .step-item.active .step-icon{background:var(--success);border-color:var(--success);color:white}
 .step-item.current .step-icon{background:var(--uzum-primary);border-color:var(--uzum-primary);color:white}
-.step-label{font-size:0.7rem;font-weight:600;color:var(--text-secondary);text-align:center}
+.step-label{font-size:0.62rem;font-weight:600;color:var(--text-secondary);text-align:center;line-height:1.1}
 
 .image-upload{border:2px dashed var(--uzum-primary);border-radius:10px;padding:16px;text-align:center;cursor:pointer;background:#fff1f2;margin-bottom:14px;position:relative}
 .image-upload-preview{width:100%;height:140px;object-fit:cover;border-radius:8px;display:none}
@@ -377,10 +370,11 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
         </div>
         <div class="tracking-stepper">
           <div class="tracking-progress" id="trackProgressBar" style="width:0%"></div>
-          <div class="step-item" id="step1"><div class="step-icon">1</div><div class="step-label">Qabul</div></div>
-          <div class="step-item" id="step2"><div class="step-icon">2</div><div class="step-label">Tasdiq</div></div>
+          <div class="step-item" id="step1"><div class="step-icon">1</div><div class="step-label">Tasdiqlandi</div></div>
+          <div class="step-item" id="step2"><div class="step-icon">2</div><div class="step-label">Yig'ilyapti</div></div>
           <div class="step-item" id="step3"><div class="step-icon">3</div><div class="step-label">Yo'lda</div></div>
-          <div class="step-item" id="step4"><div class="step-icon">4</div><div class="step-label">Yetdi</div></div>
+          <div class="step-item" id="step4"><div class="step-icon">4</div><div class="step-label">Keldi</div></div>
+          <div class="step-item" id="step5"><div class="step-icon">5</div><div class="step-label">Topshirildi</div></div>
         </div>
         <div class="order-details" id="trackOrderItems"></div>
       </div>
@@ -652,7 +646,7 @@ function handleCheckoutSubmit(e){
     note: note,
     items: cart,
     total: total,
-    status: 'Yangi',
+    status: 'Tasdiqlandi',
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
 
@@ -685,14 +679,14 @@ function searchTrackOrder(){
   $('trackOrderCode').textContent = found.code + " (" + found.name + ")";
   $('trackStatusBadge').textContent = found.status;
   
-  let steps = ['Yangi', 'Tasdiqlangan', 'Yo\'lda', 'Yetib keldi'];
+  let steps = ['Tasdiqlandi', 'Yig\'ilyapti', 'Xitoydan O\'zbekistonga yo\'lga chiqdi', 'Buyurtma keldi', 'Topshirildi'];
   let currentIdx = steps.indexOf(found.status);
   if(currentIdx === -1) currentIdx = 0;
   
   let progressPercent = (currentIdx / (steps.length - 1)) * 100;
   $('trackProgressBar').style.width = progressPercent + '%';
 
-  for(let i=1; i<=4; i++){
+  for(let i=1; i<=5; i++){
     let st = $('step' + i);
     st.className = 'step-item';
     if(i - 1 < currentIdx) st.classList.add('active');
@@ -706,9 +700,9 @@ function renderAdmin(){
   $('statProducts').textContent = products.length;
   $('statOrders').textContent = orders.length;
   
-  let revenue = orders.filter(o => o.status === 'Yetib keldi').reduce((sum, o) => sum + o.total, 0);
+  let revenue = orders.filter(o => o.status === 'Topshirildi').reduce((sum, o) => sum + o.total, 0);
   $('statRevenue').textContent = formatPrice(revenue);
-  $('statPending').textContent = orders.filter(o => o.status === 'Yangi').length;
+  $('statPending').textContent = orders.filter(o => o.status === 'Tasdiqlandi').length;
 
   // Products table
   $('adminProductsTable').innerHTML = products.map(p => `
@@ -733,10 +727,11 @@ function renderAdmin(){
       <td>${formatPrice(o.total)}</td>
       <td>
         <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:4px;border-radius:6px;font-size:0.8rem">
-          <option ${o.status === 'Yangi' ? 'selected' : ''}>Yangi</option>
-          <option ${o.status === 'Tasdiqlangan' ? 'selected' : ''}>Tasdiqlangan</option>
-          <option ${o.status === 'Yo\'lda' ? 'selected' : ''}>Yo'lda</option>
-          <option ${o.status === 'Yetib keldi' ? 'selected' : ''}>Yetib keldi</option>
+          <option ${o.status === 'Tasdiqlandi' ? 'selected' : ''}>Tasdiqlandi</option>
+          <option ${o.status === 'Yig\'ilyapti' ? 'selected' : ''}>Yig'ilyapti</option>
+          <option ${o.status === 'Xitoydan O\'zbekistonga yo\'lga chiqdi' ? 'selected' : ''}>Xitoydan O'zbekistonga yo'lga chiqdi</option>
+          <option ${o.status === 'Buyurtma keldi' ? 'selected' : ''}>Buyurtma keldi</option>
+          <option ${o.status === 'Topshirildi' ? 'selected' : ''}>Topshirildi</option>
         </select>
       </td>
       <td><button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">×</button></td>
