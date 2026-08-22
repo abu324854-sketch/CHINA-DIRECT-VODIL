@@ -23,7 +23,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 .logo{font-size:1.1rem;font-weight:900;display:flex;align-items:center;gap:8px;color:var(--uzum-primary);text-decoration:none}
 .logo span:first-child, .logo span:last-child {font-size: 1.5rem;}
 .header-actions{display:flex;gap:8px;align-items:center;overflow-x:auto;width:100%;padding-bottom:2px}
- 
+<button id="installBtn" style="display: none; background: #e31b23; color: white; padding: 8px 14px; border: none; border-radius: 20px; cursor: pointer; font-weight: bold; font-size: 0.85rem;">📱 Ilovani o'rnatish</button> 
 .btn{padding:8px 14px;border:none;border-radius:20px;cursor:pointer;font-size:0.85rem;font-weight:600;transition:all 0.2s;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
 .btn-primary{background:var(--uzum-primary);color:white}
 .btn-primary:hover{background:var(--uzum-primary-hover)}
@@ -1139,6 +1139,19 @@ function saveSettings(){
         .catch(err => console.log('Xatolik:', err));
     });
   }
+  let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const installBtn = document.getElementById('installBtn');
+        if (installBtn) {
+          installBtn.style.display = 'block';
+          installBtn.addEventListener('click', () => {
+            installBtn.style.display = 'none';
+            deferredPrompt.prompt();
+          });
+        }
+      });
 </script>
 </body>
 </html>
