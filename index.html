@@ -963,12 +963,14 @@ function renderAdmin(){
     </tr>
   `).join('');
  
-  $('adminOrdersTable').innerHTML = orders.map(o => `
+ $('#adminOrdersTable').innerHTML = orders.map(o => `
     <tr>
-      <td><b>${o.code}</b></td>
-      <td>${o.name}</td>
-      <td>${o.phone}</td>
-      <td>${formatPrice(o.total)}</td>
+        <td><b>${o.code}</b></td>
+        <td>${o.name}</td>
+        <td>${o.items ? o.items.map(i => i.size ? `${i.name} (${i.size})` : i.name).join(', ') : '-'}</td>
+        <td>${o.phone}</td>
+        <td>${formatPrice(o.total)}</td>
+        <td>
       <td>
         <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:4px;border-radius:12px;font-size:0.8rem">
           <option ${o.status === 'Tasdiqlandi' ? 'selected' : ''}>Tasdiqlandi</option>
