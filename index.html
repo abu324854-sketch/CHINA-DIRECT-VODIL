@@ -971,7 +971,6 @@ function renderAdmin(){
         <td>${o.phone}</td>
         <td>${formatPrice(o.total)}</td>
         <td>
-      <td>
         <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:4px;border-radius:12px;font-size:0.8rem">
           <option ${o.status === 'Tasdiqlandi' ? 'selected' : ''}>Tasdiqlandi</option>
           <option ${o.status === "Yig'ilyapti" ? 'selected' : ''}>Yig'ilyapti</option>
@@ -983,7 +982,7 @@ function renderAdmin(){
       <td><button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">×</button></td>
     </tr>
   `).join('');
-}
+
  
 function openAddProductModal(){
   $('productModalTitle').textContent = "Yangi mahsulot qo'shish";
