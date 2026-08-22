@@ -640,11 +640,14 @@ function openUserProfileModal(){
 }
  
 function switchTab(tabName, el){
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  if(el) el.classList.add('active');
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-  let target = $('tab-' + tabName);
-  if(target) target.classList.remove('hidden');
+    document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+    if(el) el.classList.add('active');
+    document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
+    let target = $('#tab-' + tabName);
+    if(target) target.classList.remove('hidden');
+    
+    renderAdmin();
+}
 }
  
 function toggleAdminView(){
