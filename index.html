@@ -964,7 +964,6 @@ function renderAdmin(){
   `).join('');
  
  $('#adminOrdersTable').innerHTML = orders.map(o => `
-  $('#adminOrdersTable').innerHTML = orders.map(o => `
     <tr>
         <td><b>${o.code}</b></td>
         <td>${o.name}</td>
@@ -972,17 +971,19 @@ function renderAdmin(){
         <td>${o.phone}</td>
         <td>${formatPrice(o.total)}</td>
         <td>
-            <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:4px;border-radius:12px;font-size:0.85rem">
-                <option ${o.status === 'Tasdiqlandi' ? 'selected' : ''}>Tasdiqlandi</option>
-                <option ${o.status === 'Yig\'ilyapti' ? 'selected' : ''}>Yig'ilyapti</option>
-                <option ${o.status === 'Xitoydan O\'zbekistonga yo\'lga chiqdi' ? 'selected' : ''}>Xitoydan O'zbekistonga yo'lga chiqdi</option>
-                <option ${o.status === 'Buyurtma keldi' ? 'selected' : ''}>Buyurtma keldi</option>
-                <option ${o.status === 'Topshirildi' ? 'selected' : ''}>Topshirildi</option>
-            </select>
-        </td>
-        <td><button class="btn btn-sm btn-danger" onclick="deleteOrder('${o.id}')">O'chirish</button></td>
+      <td>
+        <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:4px;border-radius:12px;font-size:0.8rem">
+          <option ${o.status === 'Tasdiqlandi' ? 'selected' : ''}>Tasdiqlandi</option>
+          <option ${o.status === "Yig'ilyapti" ? 'selected' : ''}>Yig'ilyapti</option>
+          <option ${o.status === "Xitoydan O'zbekistonga yo'lga chiqdi" ? 'selected' : ''}>Xitoydan O'zbekistonga yo'lga chiqdi</option>
+          <option ${o.status === 'Buyurtma keldi' ? 'selected' : ''}>Buyurtma keldi</option>
+          <option ${o.status === 'Topshirildi' ? 'selected' : ''}>Topshirildi</option>
+        </select>
+      </td>
+      <td><button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">×</button></td>
     </tr>
-`).join('');
+  `).join('');
+}
  
 function openAddProductModal(){
   $('productModalTitle').textContent = "Yangi mahsulot qo'shish";
