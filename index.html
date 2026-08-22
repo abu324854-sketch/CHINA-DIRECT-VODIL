@@ -4,8 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>China Direct Vodil — Internet do'kon</title>
-<!-- PWA Manifest va Theme -->
-<link rel="manifest" href="/manifest.json">
+<link rel="manifest" href='data:application/manifest+json;charset=utf-8,{"name":"China Direct Vodil","short_name":"ChinaDirect","start_url":"./index.html","display":"standalone","background_color":"%23ffffff","theme_color":"%23e31b23"}'>
 <meta name="theme-color" content="#e31b23">
 <!-- Firebase SDK -->
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
@@ -1123,6 +1122,23 @@ function saveSettings(){
     fetchDataFromServer();
   });
 }
+</script>
+ <script>
+  if ('serviceWorker' in navigator) {
+    window.addEventListener('load', () => {
+      const swCode = `
+        self.addEventListener('install', e => self.skipWaiting());
+        self.addEventListener('fetch', e => {
+          e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
+        });
+      `;
+      const blob = new Blob([swCode], { type: 'text/javascript' });
+      const swUrl = URL.createObjectURL(blob);
+      navigator.serviceWorker.register(swUrl)
+        .then(() => console.log('Ilova rejimiga tayyor!'))
+        .catch(err => console.log('Xatolik:', err));
+    });
+  }
 </script>
 </body>
 </html>
