@@ -427,6 +427,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const rtdb = firebase.database();
+
 function requestNotificationPermission() {
   if (!("Notification" in window)) {
     showToast("Brauzeringiz bildirishnomani qo'llab-quvvatlamaydi", "error");
@@ -443,6 +444,7 @@ function requestNotificationPermission() {
     }
   });
 }
+
 const userStatusRef = rtdb.ref('status/online');
 const connectedRef = rtdb.ref('.info/connected');
 connectedRef.on('value', (snap) => {
@@ -479,6 +481,7 @@ function showToast(msg, type='success'){
 }
 function openModal(id){ $(id).classList.add('show'); }
 function closeModal(id){ $(id).classList.remove('show'); }
+
 window.addEventListener('DOMContentLoaded', () => {
   renderUserUI();
   renderCategories();
@@ -491,9 +494,8 @@ window.addEventListener('DOMContentLoaded', () => {
     $('notifBtn').textContent = "🔔 Yoqilgan";
   }
 });
-// REAL VAQT REJIMIDAGI (onSnapshot) FUNKSIYA
+
 function fetchDataFromServer(){
-  // Mahsulotlarni real vaqtda kuzatish
   db.collection("products").onSnapshot((snapshot) => {
     let loadedProducts = [];
     snapshot.forEach((doc) => { 
@@ -506,7 +508,6 @@ function fetchDataFromServer(){
     if(isAdmin) renderAdmin();
   }, err => console.log(err));
   
-  // Sozlamalarni olish
   db.collection("settings").doc("general").get().then((docSnap) => {
     if (docSnap.exists) {
       settings = docSnap.data();
@@ -519,7 +520,6 @@ function fetchDataFromServer(){
     }
   }).catch(err => console.log(err));
   
-  // Buyurtmalarni real vaqtda kuzatish
   db.collection("orders").onSnapshot((snapshot) => {
     let loadedOrders = [];
     snapshot.forEach((doc) => { 
@@ -529,6 +529,7 @@ function fetchDataFromServer(){
     if(isAdmin) renderAdmin();
   }, err => console.log(err));
 }
+
 function renderUserUI(){
   let area = $('userProfileArea');
   if(currentUser){
@@ -537,7 +538,9 @@ function renderUserUI(){
     area.innerHTML = `<button class="btn btn-light btn-sm" onclick="openAuthModal()">👤 Kirish</button>`;
   }
 }
+
 function openAuthModal(){ openModal('authModal'); }
+
 function handleAuthSubmit(e){
   e.preventDefault();
   let name = $('authName').value.trim();
@@ -548,6 +551,7 @@ function handleAuthSubmit(e){
   renderUserUI();
   showToast("Xush kelibsiz, " + name + "!");
 }
+
 function logoutUser(){
   localStorage.removeItem('cdv_user');
   currentUser = null;
@@ -555,6 +559,7 @@ function logoutUser(){
   closeModal('userProfileModal');
   showToast("Tizimdan chiqdingiz");
 }
+
 function openUserProfileModal(){
   if(!currentUser) return openAuthModal();
   $('profName').textContent = currentUser.name;
@@ -621,6 +626,7 @@ function calculatePrice(p){
   let finalPrice = discount > 0 ? Math.round(basePrice * (1 - discount / 100)) : basePrice;
   return {basePrice, finalPrice};
 }
+
 function updateAdminCalcPrice(){
   let tempProduct = {
     priceYuan: parseFloat($('productPriceYuan').value) || 0,
@@ -640,7 +646,7 @@ function renderProducts(){
   let grid = $('productsGrid');
   if(!grid) return;
   
-  if(!products || products.length === 0){
+  if(!products){
     grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">⏳</div><h3>Yuklanmoqda...</h3></div>';
     return;
   }
@@ -649,7 +655,6 @@ function renderProducts(){
   let search = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
   let filtered = products;
   
-  // TUZATILGAN JOY: activeCategory tekshiruvi xatolik chiqarmaydigan qilindi
   if(activeCategory && activeCategory !== 'all' && activeCategory.trim() !== ''){
     filtered = filtered.filter(p => p.category && p.category.trim() === activeCategory.trim());
   }
@@ -986,11 +991,9 @@ function handleProductSubmit(e){
   }).catch(() => showToast("Xatolik!", 'error'));
 }
  
-let activeProductId = null;
 function editProduct(id){
   let p = products.find(prod => prod.id === id);
   if(!p) return;
-  activeProductId = p.id;
   $('productModalTitle').textContent = "Mahsulotni tahrirlash";
   $('productId').value = p.id;
   $('productName').value = p.name;
