@@ -644,28 +644,34 @@ function formatPrice(price){
 function renderProducts(){
   let grid = $('productsGrid');
   if(!grid) return;
-  if(products.length === 0){
-    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">⏳</div><h3>Mahsulotlar mavjud emas</h3></div>';
+  
+  if(!products || products.length === 0){
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">⏳</div><h3>Yuklanmoqda...</h3></div>';
     return;
   }
+  
   let searchInputEl = $('searchInput');
   let search = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
   let filtered = products;
+  
   if(activeCategory && activeCategory !== 'all'){
     filtered = filtered.filter(p => p.category === activeCategory);
   }
   if(search !== ''){
     filtered = filtered.filter(p => p.name && p.name.toLowerCase().includes(search));
   }
+  
   if(filtered.length === 0){
     grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">📭</div><h3>Mahsulot topilmadi</h3></div>';
     return;
   }
+  
   grid.innerHTML = filtered.map(p => {
     let calc = calculatePrice(p);
     let shippingLabel = p.shipping === 'avia' ? '✈️ Avia' : '🚛 Avto';
     let badgeClass = p.shipping === 'avia' ? 'shipping-avia' : 'shipping-avto';
     let hasDiscount = p.discount && p.discount > 0;
+    
     return `<div class="product-card">
       <div class="product-image-wrap">
         ${p.image ? `<img src="${p.image}">` : '<div style="font-size:2.5rem;opacity:0.2">📦</div>'}
@@ -928,7 +934,6 @@ function openAddProductModal(){
  
 function triggerFileSelect(){ $('imageInput').click(); }
  
-// BAZAGA SIG'ISHI UCHUN RASMNI OPTIMALLASHTIRISH (MAX_WIDTH = 400, SIFAT = 0.5)
 function handleImageSelect(e){
   let file = e.target.files[0];
   if(!file) return;
@@ -938,14 +943,14 @@ function handleImageSelect(e){
     img.src = event.target.result;
     img.onload = function(){
       let canvas = document.createElement('canvas');
-      let MAX_WIDTH = 400; // Bazaga og'irlik qilmasligi uchun optimallashtirildi
+      let MAX_WIDTH = 400;
       let scaleSize = MAX_WIDTH / img.width;
       if(scaleSize > 1) scaleSize = 1;
       canvas.width = img.width * scaleSize;
       canvas.height = img.height * scaleSize;
       let ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      currentImage = canvas.toDataURL('image/jpeg', 0.5); // Hajmini kichraytirish uchun sifat 0.5 qilindi
+      currentImage = canvas.toDataURL('image/jpeg', 0.5);
       $('imgPreview').src = currentImage;
       $('imgPreview').style.display = 'block';
       $('removeImgBtn').style.display = 'flex';
