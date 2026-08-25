@@ -201,6 +201,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
     <div id="tab-stats" class="tab-content">
       <div class="admin-grid">
         <div class="stat-card"><div class="stat-value" id="statOnline">1</div><div class="stat-label">🟢 Hozir onlayn</div></div>
+        <div class="stat-card"><div class="stat-value" id="statVisitors">0</div><div class="stat-label">👥 Jami tashriflar</div></div>
         <div class="stat-card"><div class="stat-value" id="statProducts">0</div><div class="stat-label">Jami mahsulotlar</div></div>
         <div class="stat-card"><div class="stat-value" id="statOrders">0</div><div class="stat-label">Jami buyurtmalar</div></div>
         <div class="stat-card"><div class="stat-value" id="statRevenue">0 so'm</div><div class="stat-label">Tushum (Topshirilgan)</div></div>
@@ -427,6 +428,7 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const rtdb = firebase.database();
+
 function requestNotificationPermission() {
   if (!("Notification" in window)) {
     showToast("Brauzeringiz bildirishnomani qo'llab-quvvatlamaydi", "error");
@@ -443,6 +445,8 @@ function requestNotificationPermission() {
     }
   });
 }
+
+// Onlayn foydalanuvchilar hisoblagichi
 const userStatusRef = rtdb.ref('status/online');
 const connectedRef = rtdb.ref('.info/connected');
 connectedRef.on('value', (snap) => {
@@ -457,7 +461,21 @@ rtdb.ref('status/online').on('value', (snap) => {
   if($('onlineCountBadge')) $('onlineCountBadge').textContent = count;
   if($('statOnline')) $('statOnline').textContent = count;
 });
- 
+
+// Jami tashrif buyurganlar hisoblagichi (Total Visitors)
+function trackTotalVisitors() {
+  const visitorRef = rtdb.ref('stats/totalVisitors');
+  // Har bir sessiyada faqat bir marta qo'shilishi uchun sessionStorage tekshiriladi
+  if (!sessionStorage.getItem('visited_tracked')) {
+    visitorRef.transaction(current => (current || 0) + 1);
+    sessionStorage.setItem('visited_tracked', 'true');
+  }
+  visitorRef.on('value', (snap) => {
+    let total = snap.val() || 0;
+    if($('statVisitors')) $('statVisitors').textContent = total;
+  });
+}
+
 let settings = {yuanRate:2150, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:45};
 let products = JSON.parse(localStorage.getItem('cdv_products_cache') || "[]");
 let orders = [];
@@ -485,6 +503,7 @@ window.addEventListener('load', () => {
   renderCategories();
   renderProducts();
   fetchDataFromServer();
+  trackTotalVisitors(); // Tashrif buyuruvchilarni hisoblashni ishga tushirish
   
   if (Notification.permission === "granted") {
     $('notifBtn').style.background = "#ecfdf5";
@@ -647,7 +666,6 @@ function renderProducts(){
   let search = searchInputEl ? searchInputEl.value.toLowerCase().trim() : '';
   let filtered = products;
   
-  // TUZATILGAN JOY: 'all' yoki bo'sh bo'lmasa filtrlaydi, aks holda barchasini chiqaradi
   if(activeCategory && activeCategory !== 'all'){
     filtered = filtered.filter(p => p.category && p.category.trim() === activeCategory.trim());
   }
