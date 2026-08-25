@@ -246,7 +246,6 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
     </div>
   </div>
 </div>
-
 <div class="modal" id="authModal">
   <div class="modal-content" style="max-width:380px">
     <div class="modal-header"><h3 style="font-size:1rem">Tizimga kirish</h3><button class="close-btn" onclick="closeModal('authModal')">×</button></div>
@@ -259,7 +258,6 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
     </div>
   </div>
 </div>
-
 <div class="modal" id="userProfileModal">
   <div class="modal-content">
     <div class="modal-header"><h3 style="font-size:1rem">Shaxsiy kabinet</h3><button class="close-btn" onclick="closeModal('userProfileModal')">×</button></div>
@@ -274,7 +272,6 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
     </div>
   </div>
 </div>
-
 <div class="overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
   <div class="cart-header"><h3>Savat</h3><button class="close-btn" onclick="closeCart()">×</button></div>
@@ -498,19 +495,22 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// REAL VAQT REJIMIDAGI (onSnapshot) FUNKSIYA
 function fetchDataFromServer(){
-  db.collection("products").get().then((snapshot) => {
+  // Mahsulotlarni real vaqtda kuzatish
+  db.collection("products").onSnapshot((snapshot) => {
     let loadedProducts = [];
-    snapshot.forEach((doc) => { loadedProducts.push({ id: doc.id, ...doc.data() }); });
-    if(loadedProducts.length > 0){
-      products = loadedProducts;
-      localStorage.setItem('cdv_products_cache', JSON.stringify(products));
-      renderCategories();
-      renderProducts();
-      if(isAdmin) renderAdmin();
-    }
-  }).catch(err => console.log(err));
+    snapshot.forEach((doc) => { 
+      loadedProducts.push({ id: doc.id, ...doc.data() }); 
+    });
+    products = loadedProducts;
+    localStorage.setItem('cdv_products_cache', JSON.stringify(products));
+    renderCategories();
+    renderProducts();
+    if(isAdmin) renderAdmin();
+  }, err => console.log(err));
   
+  // Sozlamalarni olish
   db.collection("settings").doc("general").get().then((docSnap) => {
     if (docSnap.exists) {
       settings = docSnap.data();
@@ -523,12 +523,15 @@ function fetchDataFromServer(){
     }
   }).catch(err => console.log(err));
   
-  db.collection("orders").get().then((snapshot) => {
+  // Buyurtmalarni real vaqtda kuzatish
+  db.collection("orders").onSnapshot((snapshot) => {
     let loadedOrders = [];
-    snapshot.forEach((doc) => { loadedOrders.push({ id: doc.id, ...doc.data() }); });
+    snapshot.forEach((doc) => { 
+      loadedOrders.push({ id: doc.id, ...doc.data() }); 
+    });
     orders = loadedOrders;
     if(isAdmin) renderAdmin();
-  }).catch(err => console.log(err));
+  }, err => console.log(err));
 }
 
 function renderUserUI(){
@@ -826,7 +829,6 @@ function handleCheckoutSubmit(e){
     cart = [];
     localStorage.removeItem('cdv_cart');
     updateCartUI();
-    fetchDataFromServer();
   }).catch(err => {
     showToast("Xatolik yuz berdi!", 'error');
   });
@@ -926,6 +928,7 @@ function openAddProductModal(){
  
 function triggerFileSelect(){ $('imageInput').click(); }
  
+// BAZAGA SIG'ISHI UCHUN RASMNI OPTIMALLASHTIRISH (MAX_WIDTH = 400, SIFAT = 0.5)
 function handleImageSelect(e){
   let file = e.target.files[0];
   if(!file) return;
@@ -935,14 +938,14 @@ function handleImageSelect(e){
     img.src = event.target.result;
     img.onload = function(){
       let canvas = document.createElement('canvas');
-      let MAX_WIDTH = 600;
+      let MAX_WIDTH = 400; // Bazaga og'irlik qilmasligi uchun optimallashtirildi
       let scaleSize = MAX_WIDTH / img.width;
       if(scaleSize > 1) scaleSize = 1;
       canvas.width = img.width * scaleSize;
       canvas.height = img.height * scaleSize;
       let ctx = canvas.getContext('2d');
       ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      currentImage = canvas.toDataURL('image/jpeg', 0.7);
+      currentImage = canvas.toDataURL('image/jpeg', 0.5); // Hajmini kichraytirish uchun sifat 0.5 qilindi
       $('imgPreview').src = currentImage;
       $('imgPreview').style.display = 'block';
       $('removeImgBtn').style.display = 'flex';
@@ -979,7 +982,6 @@ function handleProductSubmit(e){
   promise.then(() => {
     closeModal('productModal');
     showToast("Saqlandi!");
-    fetchDataFromServer();
   }).catch(() => showToast("Xatolik!", 'error'));
 }
  
@@ -1018,7 +1020,6 @@ function deleteProduct(id){
   if(answer) {
     db.collection("products").doc(id).delete().then(() => {
       showToast("O'chirildi!");
-      fetchDataFromServer();
     });
   }
 }
@@ -1026,7 +1027,6 @@ function deleteProduct(id){
 function updateOrderStatus(id, status){
   db.collection("orders").doc(id).update({status: status}).then(() => {
     showToast("Status yangilandi!");
-    fetchDataFromServer();
   });
 }
  
@@ -1035,7 +1035,6 @@ function deleteOrder(id){
   if(answer){
     db.collection("orders").doc(id).delete().then(() => {
       showToast("O'chirildi!");
-      fetchDataFromServer();
     });
   }
 }
@@ -1050,11 +1049,9 @@ function saveSettings(){
   };
   db.collection("settings").doc("general").set(newSettings).then(() => {
     showToast("Sozlamalar saqlandi!");
-    fetchDataFromServer();
   });
 }
 </script>
-
 <script>
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
