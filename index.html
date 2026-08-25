@@ -427,7 +427,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const rtdb = firebase.database();
-
 function requestNotificationPermission() {
   if (!("Notification" in window)) {
     showToast("Brauzeringiz bildirishnomani qo'llab-quvvatlamaydi", "error");
@@ -444,7 +443,6 @@ function requestNotificationPermission() {
     }
   });
 }
-
 const userStatusRef = rtdb.ref('status/online');
 const connectedRef = rtdb.ref('.info/connected');
 connectedRef.on('value', (snap) => {
@@ -482,7 +480,8 @@ function showToast(msg, type='success'){
 function openModal(id){ $(id).classList.add('show'); }
 function closeModal(id){ $(id).classList.remove('show'); }
 
-window.addEventListener('DOMContentLoaded', () => {
+// TUZATILGAN JOY: 'DOMContentLoaded' o'rniga 'window.load' ishlatildi, shunda barcha resurslar va Firebase to'liq yuklangach ishlaydi
+window.addEventListener('load', () => {
   renderUserUI();
   renderCategories();
   renderProducts();
@@ -495,6 +494,7 @@ window.addEventListener('DOMContentLoaded', () => {
   }
 });
 
+// REAL VAQT REJIMIDAGI (onSnapshot) FUNKSIYA
 function fetchDataFromServer(){
   db.collection("products").onSnapshot((snapshot) => {
     let loadedProducts = [];
@@ -529,7 +529,6 @@ function fetchDataFromServer(){
     if(isAdmin) renderAdmin();
   }, err => console.log(err));
 }
-
 function renderUserUI(){
   let area = $('userProfileArea');
   if(currentUser){
@@ -538,9 +537,7 @@ function renderUserUI(){
     area.innerHTML = `<button class="btn btn-light btn-sm" onclick="openAuthModal()">👤 Kirish</button>`;
   }
 }
-
 function openAuthModal(){ openModal('authModal'); }
-
 function handleAuthSubmit(e){
   e.preventDefault();
   let name = $('authName').value.trim();
@@ -551,7 +548,6 @@ function handleAuthSubmit(e){
   renderUserUI();
   showToast("Xush kelibsiz, " + name + "!");
 }
-
 function logoutUser(){
   localStorage.removeItem('cdv_user');
   currentUser = null;
@@ -559,7 +555,6 @@ function logoutUser(){
   closeModal('userProfileModal');
   showToast("Tizimdan chiqdingiz");
 }
-
 function openUserProfileModal(){
   if(!currentUser) return openAuthModal();
   $('profName').textContent = currentUser.name;
@@ -626,7 +621,6 @@ function calculatePrice(p){
   let finalPrice = discount > 0 ? Math.round(basePrice * (1 - discount / 100)) : basePrice;
   return {basePrice, finalPrice};
 }
-
 function updateAdminCalcPrice(){
   let tempProduct = {
     priceYuan: parseFloat($('productPriceYuan').value) || 0,
@@ -646,7 +640,7 @@ function renderProducts(){
   let grid = $('productsGrid');
   if(!grid) return;
   
-  if(!products){
+  if(!products || products.length === 0){
     grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1"><div class="empty-state-icon">⏳</div><h3>Yuklanmoqda...</h3></div>';
     return;
   }
@@ -991,9 +985,11 @@ function handleProductSubmit(e){
   }).catch(() => showToast("Xatolik!", 'error'));
 }
  
+let activeProductId = null;
 function editProduct(id){
   let p = products.find(prod => prod.id === id);
   if(!p) return;
+  activeProductId = p.id;
   $('productModalTitle').textContent = "Mahsulotni tahrirlash";
   $('productId').value = p.id;
   $('productName').value = p.name;
@@ -1057,6 +1053,7 @@ function saveSettings(){
 }
 </script>
 <script>
+  // TUZATILGAN JOY: Service Worker xavfsiz va xatolarsiz ishlaydigan qilib qo'yildi
   if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
       const swCode = `
@@ -1065,11 +1062,15 @@ function saveSettings(){
           e.respondWith(fetch(e.request).catch(() => caches.match(e.request)));
         });
       `;
-      const blob = new Blob([swCode], { type: 'text/javascript' });
-      const swUrl = URL.createObjectURL(blob);
-      navigator.serviceWorker.register(swUrl)
-        .then(() => console.log('Ilova rejimiga tayyor!'))
-        .catch(err => console.log('Xatolik:', err));
+      try {
+        const blob = new Blob([swCode], { type: 'text/javascript' });
+        const swUrl = URL.createObjectURL(blob);
+        navigator.serviceWorker.register(swUrl)
+          .then(() => console.log('Ilova rejimiga tayyor!'))
+          .catch(err => console.log('Xatolik:', err));
+      } catch (e) {
+        console.log('SW xatoligi:', e);
+      }
     });
   }
   let deferredPrompt;
