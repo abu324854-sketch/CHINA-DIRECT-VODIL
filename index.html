@@ -43,7 +43,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .btn-outline:hover{border-color:var(--brand-red);color:var(--brand-red)}
 .btn-sm{padding:6px 12px;font-size:0.8rem;border-radius:10px}
 
-/* Hero Banner (Jozibali Gradient) */
+/* Hero Banner */
 .hero{background:linear-gradient(135deg, #121214 0%, #2a1b22 100%);padding:30px 0;border-bottom:1px solid var(--border-color);margin-bottom:16px;color:white}
 .hero h1{font-size:1.8rem;color:white;margin-bottom:6px;font-weight:800;letter-spacing:-0.5px}
 .hero h1 span {color: var(--brand-red);}
@@ -58,8 +58,10 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .search-box input{width:100%;padding:10px 16px 10px 42px;border:1.5px solid var(--border-color);border-radius:14px;font-size:0.95rem;background:#fafafa;transition:all 0.2s}
 .search-box input:focus{outline:none;border-color:var(--brand-red);background:white;box-shadow:0 0 0 4px rgba(255, 45, 85, 0.1)}
 .search-box::before{content:"🔍";position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:0.9rem}
-.category-filter{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px}
-.category-chip{padding:8px 14px;background:#f1f1f3;border-radius:12px;cursor:pointer;white-space:nowrap;font-weight:600;font-size:0.85rem;transition:all 0.2s;color:var(--text-main)}
+
+/* Katalog / Kategoriya paneli doimiy chiqadigan qilib tuzatildi */
+.category-filter{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;width:100%}
+.category-chip{padding:8px 16px;background:#f1f1f3;border-radius:12px;cursor:pointer;white-space:nowrap;font-weight:600;font-size:0.85rem;transition:all 0.2s;color:var(--text-main)}
 .category-chip:hover{background:#e4e4e7}
 .category-chip.active{background:var(--brand-dark);color:white}
 
@@ -75,7 +77,6 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .product-image-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease}
 .product-card:hover .product-image-wrap img{transform:scale(1.06)}
 
-/* Multi-image indicator dots inside card */
 .card-image-dots{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:4px;z-index:2}
 .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.7);box-shadow:0 1px 3px rgba(0,0,0,0.4)}
 .dot.active{background:var(--brand-red);width:16px;border-radius:4px}
@@ -138,7 +139,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .upload-thumb img{width:100%;height:100%;object-fit:cover}
 .remove-thumb{position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.7);color:white;border:none;width:22px;height:22px;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center}
 
-/* Detail Modal Styles (Mahsulot ichiga kirganda) */
+/* Detail Modal Styles */
 .detail-slider-container{position:relative;width:100%;height:320px;background:#f9f9fb;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:16px;border:1px solid var(--border-color)}
 .detail-slider-container img{width:100%;height:100%;object-fit:contain}
 .slider-nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:white;border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
@@ -220,8 +221,14 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
       <div class="search-box">
         <input type="text" id="searchInput" placeholder="Mahsulotlarni izlash..." oninput="onSearchInput()">
       </div>
+      <!-- Katalog har doim ko'rinib turishi uchun standart kategoriyalar bilan tayyorlandi -->
       <div class="category-filter" id="categoryFilter">
         <div class="category-chip active" onclick="filterCategory('all', this)">Barchasi</div>
+        <div class="category-chip" onclick="filterCategory('Elektronika', this)">Elektronika</div>
+        <div class="category-chip" onclick="filterCategory('Telefon aksessuarlari', this)">Telefon aksessuarlari</div>
+        <div class="category-chip" onclick="filterCategory('Kiyim', this)">Kiyim</div>
+        <div class="category-chip" onclick="filterCategory('Poyabzal', this)">Poyabzal</div>
+        <div class="category-chip" onclick="filterCategory('Uy jihozlari', this)">Uy jihozlari</div>
       </div>
     </div>
   </div>
@@ -290,7 +297,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </div>
 
-<!-- MAHSULOT TAFSILOTLARI MODALI (Rasmni bosganda ichiga kirib ochiladigan joy) -->
+<!-- MAHSULOT TAFSILOTLARI MODALI -->
 <div class="modal" id="productDetailModal">
   <div class="modal-content" style="max-width:520px;">
     <div class="modal-header">
@@ -386,7 +393,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
             <label>Kategoriya</label>
             <select id="productCategory" required>
               <option value="Elektronika">Elektronika</option>
-              <option value="Telefon">Telefon aksessuarlari</option>
+              <option value="Telefon aksessuarlari">Telefon aksessuarlari</option>
               <option value="Kiyim">Kiyim</option>
               <option value="Poyabzal">Poyabzal</option>
               <option value="Uy jihozlari">Uy jihozlari</option>
@@ -563,7 +570,6 @@ const ADMIN_PASS = "admin123";
 let currentImages = ["", "", ""];
 let activeUploadIndex = 0;
 
-// Tafsilot oynasi uchun o'zgaruvchilar
 let detailCurrentImages = [];
 let detailActiveIndex = 0;
 let detailCurrentProductId = null;
@@ -582,7 +588,6 @@ function closeModal(id){ document.getElementById(id).classList.remove('show'); }
 
 window.addEventListener('load', () => {
   renderUserUI();
-  renderCategories();
   renderProducts();
   fetchDataFromServer();
   trackTotalVisitors();
@@ -594,7 +599,6 @@ function fetchDataFromServer(){
     snapshot.forEach((doc) => { loadedProducts.push({ id: doc.id, ...doc.data() }); });
     products = loadedProducts;
     localStorage.setItem('cdv_products_cache', JSON.stringify(products));
-    renderCategories();
     renderProducts();
     if(isAdmin) renderAdmin();
   });
@@ -719,13 +723,18 @@ function renderProducts(){
   let grid = document.getElementById('productsGrid');
   if(!grid) return;
   if(!products || products.length === 0){
-    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted)"><h3>Mahsulotlar topilmadi</h3></div>';
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted)"><h3>Hozircha mahsulotlar yo\'q</h3></div>';
     return;
   }
   let search = document.getElementById('searchInput') ? document.getElementById('searchInput').value.toLowerCase().trim() : '';
   let filtered = products;
   if(activeCategory !== 'all') filtered = filtered.filter(p => p.category === activeCategory);
   if(search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
+
+  if(filtered.length === 0){
+    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted)"><h3>Bu kategoriyada mahsulot topilmadi</h3></div>';
+    return;
+  }
 
   grid.innerHTML = filtered.map(p => {
     let calc = calculatePrice(p);
@@ -767,7 +776,6 @@ function renderProducts(){
   }).join('');
 }
 
-// Kartochka rasmini nuqtalar orqali o'zgartirish
 function setCardImage(productId, index){
   let card = document.getElementById('prod-card-' + productId);
   if(!card) return;
@@ -782,7 +790,15 @@ function setCardImage(productId, index){
   }
 }
 
-// --- MAHSULOT TAFSILOTLARI (Ichiga kirgandagi oyna va slayder) ---
+function filterCategory(cat, el){
+  activeCategory = cat;
+  document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
+  if(el) el.classList.add('active');
+  renderProducts();
+}
+function onSearchInput(){ renderProducts(); }
+
+// --- MAHSULOT TAFSILOTLARI ---
 function openProductDetail(productId){
   let p = products.find(prod => prod.id === productId);
   if(!p) return;
@@ -806,11 +822,10 @@ function openProductDetail(productId){
   document.getElementById('detailDesc').textContent = p.desc || "Mahsulot uchun qo'shimcha tavsif kiritilmagan.";
   updateDetailImageView();
 
-  // Savatga qo'shish tugmasi amali
-  document.getElementById('detailAddToCartBtnchl') || (document.getElementById('detailAddToCartBtn').onclick = function(){
+  document.getElementById('detailAddToCartBtn').onclick = function(){
     addToCart(p.id);
     closeModal('productDetailModal');
-  });
+  };
 
   openModal('productDetailModal');
 }
@@ -831,22 +846,6 @@ function slideDetailImg(direction){
   detailActiveIndex = (detailActiveIndex + direction + detailCurrentImages.length) % detailCurrentImages.length;
   updateDetailImageView();
 }
-
-function renderCategories(){
-  let container = document.getElementById('categoryFilter');
-  if(!container) return;
-  let cats = ['all'];
-  products.forEach(p => { if(p.category && !cats.includes(p.category)) cats.push(p.category); });
-  container.innerHTML = cats.map(c => `<div class="category-chip ${c === activeCategory ? 'active' : ''}" onclick="filterCategory('${c}', this)">${c === 'all' ? 'Barchasi' : c}</div>`).join('');
-}
-
-function filterCategory(cat, el){
-  activeCategory = cat;
-  document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
-  if(el) el.classList.add('active');
-  renderProducts();
-}
-function onSearchInput(){ renderProducts(); }
 
 function addToCart(productId){
   let product = products.find(p => p.id === productId);
