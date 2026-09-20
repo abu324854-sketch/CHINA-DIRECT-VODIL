@@ -23,7 +23,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
   --text-muted: #71717a;
   --border-color: #eaeaea;
 }
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-color);color:var(--text-main);line-height:1.5; padding-bottom: 70px;}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-color);color:var(--text-main);line-height:1.5; padding-bottom: 75px;}
 .container{max-width:1240px;margin:0 auto;padding:0 16px;width:100%}
 
 /* Header Style */
@@ -94,15 +94,24 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .product-info{padding:12px;flex:1;display:flex;flex-direction:column}
 .product-name{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;height:2.7em;cursor:pointer}
 .product-name:hover {color: var(--brand-red);}
-.size-input-wrap {margin-bottom: 8px;}
-.size-input-wrap label {font-size:0.7rem;font-weight:600;color:var(--text-muted);display:block;margin-bottom:2px;}
-.size-input {width:100%;padding:6px 10px;border:1.5px solid var(--border-color);border-radius:10px;font-size:0.8rem;background:#fafafa;outline:none;}
-.size-input:focus {border-color:var(--brand-red);background:white;}
 .product-price-box{margin-top:auto}
 .product-old-price{font-size:0.75rem;color:var(--text-muted);text-decoration:line-through;margin-bottom:-2px}
 .product-price{font-size:1.05rem;font-weight:800;color:var(--brand-dark)}
 .product-footer{display:flex;gap:6px;margin-top:8px}
 .product-footer .btn{flex:1;justify-content:center;padding:7px;font-size:0.75rem;border-radius:12px}
+
+/* Detail Modal Style (Mukammal tafsilot va tanlash) */
+.detail-slider-container{position:relative;width:100%;height:280px;background:#f9f9fb;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:12px;border:1px solid var(--border-color)}
+.detail-slider-container img{width:100%;height:100%;object-fit:cover}
+.slider-nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:white;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center}
+.slider-prev{left:8px}
+.slider-next{right:8px}
+
+.option-group {margin-bottom: 12px;}
+.option-group label {font-size:0.8rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px;}
+.size-chips {display:flex; gap:6px; flex-wrap:wrap;}
+.size-chip {padding:6px 12px; background:#f1f1f3; border:1.5px solid var(--border-color); border-radius:10px; font-size:0.8rem; font-weight:600; cursor:pointer;}
+.size-chip.selected {background:var(--brand-dark); color:white; border-color:var(--brand-dark);}
 
 /* Cart Sidebar */
 .cart-sidebar{position:fixed;top:0;right:-400px;width:100%;max-width:400px;height:100vh;background:white;box-shadow:-5px 0 25px rgba(0,0,0,0.15);z-index:300;transition:right 0.3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column}
@@ -142,14 +151,6 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .upload-thumb{height:85px;border:2px dashed var(--brand-red);border-radius:12px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fff5f7;position:relative;overflow:hidden}
 .upload-thumb img{width:100%;height:100%;object-fit:cover}
 .remove-thumb{position:absolute;top:2px;right:2px;background:rgba(0,0,0,0.7);color:white;border:none;width:22px;height:22px;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-
-/* Detail Modal Styles */
-.detail-slider-container{position:relative;width:100%;height:320px;background:#f9f9fb;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:16px;border:1px solid var(--border-color)}
-.detail-slider-container img{width:100%;height:100%;object-fit:contain}
-.slider-nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:white;border:none;width:36px;height:36px;border-radius:50%;cursor:pointer;font-size:1rem;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
-.slider-nav-btn:hover{background:rgba(0,0,0,0.8)}
-.slider-prev{left:10px}
-.slider-next{right:10px}
 
 /* Tabs & Admin */
 .tabs{display:flex;gap:6px;background:white;padding:6px;border-radius:16px;margin-bottom:16px;border:1px solid var(--border-color);overflow-x:auto}
@@ -197,7 +198,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </header>
  
-<!-- BOSH SAHIFA -->
+<!-- 1. BOSH SAHIFA (Barcha mahsulotlar chiqadi) -->
 <div class="page-section" id="page-home">
   <div class="hero">
     <div class="container">
@@ -206,17 +207,17 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
     </div>
   </div>
   <div class="container products-section">
-    <h2 class="section-title">Yangi kelganlar va Tavsiyalar</h2>
+    <h2 class="section-title">Barcha mahsulotlar</h2>
     <div class="products-grid" id="homeProductsGrid"></div>
   </div>
 </div>
 
-<!-- KATALOG / QIDIRISH -->
+<!-- 2. KATALOG / QIDIRISH (Nomi yozilsa chiqadi) -->
 <div class="page-section hidden" id="page-catalog">
   <div class="controls" style="position:static; margin-top: 10px;">
     <div class="container controls-content">
       <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Katalogdan tovarlarni qidirish..." oninput="renderCatalogProducts()">
+        <input type="text" id="searchInput" placeholder="Mahsulot nomini yozib qidiring..." oninput="renderCatalogProducts()">
       </div>
     </div>
   </div>
@@ -229,12 +230,12 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
       <div class="category-chip" onclick="filterCategory('Poyabzal', this)">Poyabzal</div>
       <div class="category-chip" onclick="filterCategory('Uy jihozlari', this)">Uy jihozlari</div>
     </div>
-    <h2 class="section-title">Katalog mahsulotlari</h2>
+    <h2 class="section-title">Katalog va Qidiruv</h2>
     <div class="products-grid" id="catalogProductsGrid"></div>
   </div>
 </div>
 
-<!-- BUYURTMALAR -->
+<!-- 3. BUYURTMALAR -->
 <div class="page-section hidden" id="page-orders">
   <div class="container" style="padding-top: 20px;">
     <h2 class="section-title">📦 Buyurtmalar va Kuzatish</h2>
@@ -264,20 +265,18 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
       <div class="order-details" id="trackOrderItems"></div>
     </div>
 
-    <h3 style="font-size:1.1rem; margin-bottom:10px;">Ming buyurtmalarim tarixi:</h3>
+    <h3 style="font-size:1.1rem; margin-bottom:10px;">Mening buyurtmalarim tarixi:</h3>
     <div id="myOrdersListContainer">
       <p style="color:var(--text-muted); font-size:0.85rem;">Yuklanmoqda...</p>
     </div>
   </div>
 </div>
 
-<!-- BOYITILGAN PROFIL SAHIFA -->
+<!-- 4. PROFIL -->
 <div class="page-section hidden" id="page-profile">
   <div class="container" style="padding-top: 20px; max-width: 520px;">
     <h2 class="section-title">👤 Shaxsiy Profil</h2>
-    <div style="background:white; padding:24px; border-radius:20px; border:1px solid var(--border-color); box-shadow:0 4px 15px rgba(0,0,0,0.03);" id="profileCardContent">
-      <!-- Dinamik to'ldiriladi -->
-    </div>
+    <div style="background:white; padding:24px; border-radius:20px; border:1px solid var(--border-color); box-shadow:0 4px 15px rgba(0,0,0,0.03);" id="profileCardContent"></div>
   </div>
 </div>
 
@@ -360,9 +359,9 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </button>
 </nav>
 
-<!-- MAHSULOT TAFSILOTLARI MODALI -->
+<!-- MAHSULOT TAFSILOTLARI VA TANLASH MODALI (Rasmni bossa ochiladi, razmer va soni belgilanadi) -->
 <div class="modal" id="productDetailModal">
-  <div class="modal-content" style="max-width:520px;">
+  <div class="modal-content" style="max-width:500px;">
     <div class="modal-header">
       <h3 id="detailTitle" style="font-size:1.05rem; font-weight:700">Mahsulot tafsilotlari</h3>
       <button class="close-btn" onclick="closeModal('productDetailModal')">×</button>
@@ -373,22 +372,37 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
         <button class="slider-nav-btn slider-prev" onclick="slideDetailImg(-1)">❮</button>
         <button class="slider-nav-btn slider-next" onclick="slideDetailImg(1)">❯</button>
       </div>
-      <div style="font-size:1.2rem; font-weight:800; color:var(--brand-dark); margin-bottom:6px;" id="detailPrice">0 so'm</div>
-      <div style="font-size:0.9rem; color:var(--text-muted); margin-bottom:12px;" id="detailCategoryWeight"></div>
-      <div style="margin-bottom:12px;" id="detailSizesBox">
-        <label style="font-size:0.8rem; font-weight:600; display:block; margin-bottom:4px;">Tavsiya etiladigan razmerlar:</label>
-        <div id="detailSizesText" style="font-weight:700; color:var(--brand-red);"></div>
+      
+      <div style="font-size:1.25rem; font-weight:800; color:var(--brand-dark); margin-bottom:4px;" id="detailPrice">0 so'm</div>
+      <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;" id="detailCategoryWeight"></div>
+
+      <!-- Razmer tanlash -->
+      <div class="option-group" id="detailSizesSection">
+        <label>Razmerni tanlang:</label>
+        <div class="size-chips" id="detailSizesChips"></div>
       </div>
-      <div style="background:#fafafa; padding:12px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:16px;">
-        <label style="font-size:0.75rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:4px;">TAVSIF:</label>
+
+      <!-- Miqdorni belgilash -->
+      <div class="option-group">
+        <label>Miqdori (nechtaligi):</label>
+        <div style="display:flex; align-items:center; gap:12px;">
+          <button class="qty-btn" style="width:32px; height:32px; font-size:1rem;" onclick="changeDetailQty(-1)">−</button>
+          <span id="detailQtyVal" style="font-size:1.1rem; font-weight:800;">1</span>
+          <button class="qty-btn" style="width:32px; height:32px; font-size:1rem;" onclick="changeDetailQty(1)">+</button>
+        </div>
+      </div>
+
+      <div style="background:#fafafa; padding:10px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:16px;">
+        <label style="font-size:0.7rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:2px;">TAVSIF:</label>
         <p id="detailDesc" style="font-size:0.85rem; white-space:pre-wrap; color:var(--text-main);">Tavsif mavjud emas</p>
       </div>
-      <button class="btn btn-primary w-full" id="detailAddToCartBtn">Savatga qo'shish</button>
+
+      <button class="btn btn-primary w-full" onclick="addDetailToCartAndCheckout()">Savatga qo'shish va Zakaz qilish</button>
     </div>
   </div>
 </div>
 
-<!-- AUTENTIFIKATSIYA (KIRISH) MODALI -->
+<!-- AUTENTIFIKATSIYA MODALI -->
 <div class="modal" id="authModal">
   <div class="modal-content" style="max-width:380px">
     <div class="modal-header"><h3 style="font-size:1rem">Tizimga kirish</h3><button class="close-btn" onclick="closeModal('authModal')">×</button></div>
@@ -402,7 +416,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </div>
 
-<!-- SAVAT / RASMIYLASHTIRISH SIDEBAR -->
+<!-- SAVAT SIDEBAR -->
 <div class="overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
   <div class="cart-header"><h3>Savat</h3><button class="close-btn" onclick="closeCart()">×</button></div>
@@ -450,8 +464,8 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
             </select>
           </div>
           <div class="form-group">
-            <label>Razmerlar</label>
-            <input type="text" id="productSizes" placeholder="Masalan: S, M, L yoki 38-43">
+            <label>Razmerlar (vergul bilan)</label>
+            <input type="text" id="productSizes" placeholder="Masalan: S, M, L, XL">
           </div>
         </div>
         <div class="form-row">
@@ -481,17 +495,17 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 <!-- CHECKOUT MODAL -->
 <div class="modal" id="checkoutModal">
   <div class="modal-content">
-    <div class="modal-header"><h3 style="font-size:1rem">Buyurtma berish</h3><button class="close-btn" onclick="closeModal('checkoutModal')">×</button></div>
+    <div class="modal-header"><h3 style="font-size:1rem">Buyurtmani rasmiylashtirish</h3><button class="close-btn" onclick="closeModal('checkoutModal')">×</button></div>
     <div class="modal-body">
       <form onsubmit="handleCheckoutSubmit(event)">
         <div class="form-group"><label>Ismingiz</label><input type="text" id="customerName" required placeholder="Ism"></div>
         <div class="form-group"><label>Telefon raqam</label><input type="tel" id="customerPhone" required placeholder="+998 90 123 45 67"></div>
-        <div class="form-group"><label>Manzil</label><input type="text" id="customerAddress" required placeholder="Manzil va ko'cha"></div>
+        <div class="form-group"><label>Yetkazish manzili</label><input type="text" id="customerAddress" required placeholder="Manzil va ko'cha"></div>
         <div class="form-group"><label>Izoh</label><textarea id="customerNote"></textarea></div>
         <div style="background:#f1f1f3;padding:12px;border-radius:14px;margin-bottom:14px;font-size:0.9rem">
           Jami to'lov: <span id="checkoutTotal" style="font-weight:800;color:var(--brand-red)">0 so'm</span>
         </div>
-        <button type="submit" class="btn btn-primary w-full">Tasdiqlash</button>
+        <button type="submit" class="btn btn-primary w-full">Zakazni tasdiqlash</button>
       </form>
     </div>
   </div>
@@ -502,7 +516,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   <div class="modal-content">
     <div class="modal-body" style="text-align:center">
       <div style="font-size:2.5rem">🎉</div>
-      <h3>Buyurtma qabul qilindi!</h3>
+      <h3>Buyurtma muvaffaqiyatli rasmiylashtirildi!</h3>
       <p style="color:var(--text-muted);font-size:0.85rem;margin-top:4px">Buyurtma kodi:</p>
       <div style="font-size:1.4rem;font-weight:800;color:var(--brand-red);margin:6px 0" id="successOrderId">---</div>
       <div class="order-details" id="orderDetails"></div>
@@ -577,8 +591,13 @@ const ADMIN_PASS = "admin123";
 
 let currentImages = ["", "", ""];
 let activeUploadIndex = 0;
+
+// Tafsilot va tanlash o'zgaruvchilari
 let detailCurrentImages = [];
 let detailActiveIndex = 0;
+let detailCurrentProduct = null;
+let selectedSize = 'Standard';
+let selectedQty = 1;
 
 function showToast(msg, type='success'){
   let container = document.getElementById('toastContainer');
@@ -607,6 +626,7 @@ function switchPage(pageId, el){
   document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => btn.classList.remove('active'));
   if(el) el.classList.add('active');
 
+  if(pageId === 'home') renderProducts();
   if(pageId === 'catalog') renderCatalogProducts();
   if(pageId === 'orders') renderMyOrdersList();
   if(pageId === 'profile') renderProfileContent();
@@ -657,6 +677,7 @@ function calculatePrice(p){
 
 function formatPrice(price){ return (price || 0).toLocaleString('uz-UZ') + " so'm"; }
 
+// Bosh sahifa — barcha mahsulotlar
 function renderProducts(){
   let grid = document.getElementById('homeProductsGrid');
   if(!grid) return;
@@ -664,19 +685,20 @@ function renderProducts(){
     grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)"><h3>Hozircha mahsulotlar yo\'q</h3></div>';
     return;
   }
-  grid.innerHTML = products.slice(0, 8).map(p => createProductCardHTML(p)).join('');
+  grid.innerHTML = products.map(p => createProductCardHTML(p)).join('');
 }
 
+// Katalog va Qidiruv — nomini yozganda qidirish
 function renderCatalogProducts(){
   let grid = document.getElementById('catalogProductsGrid');
   if(!grid) return;
-  let search = document.getElementById('searchInput') ? document.getElementById('searchInput').value.toLowerCase().trim() : '';
+  let search = document.getElementById('searchInput') ? document.getElementById('searchInput'].value.toLowerCase().trim() : '';
   let filtered = products;
   if(activeCategory !== 'all') filtered = filtered.filter(p => p.category === activeCategory);
   if(search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
 
   if(filtered.length === 0){
-    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)"><h3>Mahsulot topilmadi</h3></div>';
+    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)"><h3>Bunday nomdagi mahsulot topilmadi</h3></div>';
     return;
   }
   grid.innerHTML = filtered.map(p => createProductCardHTML(p)).join('');
@@ -704,16 +726,12 @@ function createProductCardHTML(p){
     <div class="product-info">
       <div class="product-name" onclick="openProductDetail('${p.id}')">${p.name}</div>
       <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">${p.weight} kg | ${p.category}</div>
-      ${p.sizes ? `<div style="font-size:0.7rem; color:var(--brand-red); font-weight:600; margin-bottom:4px;">Razmerlar: ${p.sizes}</div>` : ''}
-      <div class="size-input-wrap">
-        <input type="text" class="size-input" id="size-input-${p.id}" placeholder="Razmer yozing...">
-      </div>
       <div class="product-price-box">
         ${hasDiscount ? `<div class="product-old-price">${formatPrice(calc.basePrice)}</div>` : ''}
         <div class="product-price">${formatPrice(calc.finalPrice)}</div>
       </div>
       <div class="product-footer">
-        <button class="btn btn-primary" onclick="addToCart('${p.id}')">Savatga</button>
+        <button class="btn btn-primary" onclick="openProductDetail('${p.id}')">Tanlash va Zakaz</button>
       </div>
     </div>
   </div>`;
@@ -738,29 +756,51 @@ function filterCategory(cat, el){
   renderCatalogProducts();
 }
 
+// MAHSULOT TAFSILOTLARI VA RAZMER/MIQDOR BELGILASH
 function openProductDetail(productId){
   let p = products.find(prod => prod.id === productId);
   if(!p) return;
+  detailCurrentProduct = p;
   detailCurrentImages = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
   detailActiveIndex = 0;
+  selectedQty = 1;
 
   document.getElementById('detailTitle').textContent = p.name;
   let calc = calculatePrice(p);
   document.getElementById('detailPrice').textContent = formatPrice(calc.finalPrice);
   document.getElementById('detailCategoryWeight').textContent = `Kategoriya: ${p.category} | Og'irligi: ${p.weight} kg`;
-  
-  let sizesBox = document.getElementById('detailSizesBox');
-  if(p.sizes){ sizesBox.style.display = 'block'; document.getElementById('detailSizesText').textContent = p.sizes; } 
-  else { sizesBox.style.display = 'none'; }
-
   document.getElementById('detailDesc').textContent = p.desc || "Tavsif mavjud emas.";
-  updateDetailImageView();
+  document.getElementById('detailQtyVal').textContent = selectedQty;
 
-  document.getElementById('detailAddToCartBtn').onclick = function(){
-    addToCart(p.id);
-    closeModal('productDetailModal');
-  };
+  // Razmerlar
+  let sizesChips = document.getElementById('detailSizesChips');
+  let sizesSec = document.getElementById('detailSizesSection');
+  if(p.sizes){
+    sizesSec.style.display = 'block';
+    let sizeArr = p.sizes.split(',').map(s => s.trim());
+    selectedSize = sizeArr[0];
+    sizesChips.innerHTML = sizeArr.map((sz, idx) => `
+      <div class="size-chip ${idx===0?'selected':''}" onclick="selectSizeChip('${sz}', this)">${sz}</div>
+    `).join('');
+  } else {
+    sizesSec.style.display = 'none';
+    selectedSize = 'Standard';
+  }
+
+  updateDetailImageView();
   openModal('productDetailModal');
+}
+
+function selectSizeChip(size, el){
+  selectedSize = size;
+  document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+}
+
+function changeDetailQty(delta){
+  selectedQty += delta;
+  if(selectedQty < 1) selectedQty = 1;
+  document.getElementById('detailQtyVal').textContent = selectedQty;
 }
 
 function updateDetailImageView(){
@@ -777,23 +817,33 @@ function slideDetailImg(direction){
   updateDetailImageView();
 }
 
-function addToCart(productId){
-  let product = products.find(p => p.id === productId);
-  if(!product) return;
-  let sizeInput = document.getElementById('size-input-' + productId);
-  let chosenSize = sizeInput ? sizeInput.value.trim() : '';
-  let cartItemId = productId + (chosenSize ? '-' + chosenSize : '');
+// Savatga qo'shish va darhol rasmiylashtirishga o'tish
+function addDetailToCartAndCheckout(){
+  if(!detailCurrentProduct) return;
+  let p = detailCurrentProduct;
+  let cartItemId = p.id + '-' + selectedSize;
   let existing = cart.find(i => i.cartItemId === cartItemId);
-  let imgs = product.images && product.images.length > 0 ? product.images[0] : product.image;
-  
-  if(existing){ existing.qty++; } 
-  else {
-    let calc = calculatePrice(product);
-    cart.push({ cartItemId, id: product.id, name: product.name, size: chosenSize || 'Standard', price: calc.finalPrice, image: imgs, qty: 1 });
+  let imgs = detailCurrentImages.length > 0 ? detailCurrentImages[0] : '';
+  let calc = calculatePrice(p);
+
+  if(existing){
+    existing.qty += selectedQty;
+  } else {
+    cart.push({
+      cartItemId,
+      id: p.id,
+      name: p.name,
+      size: selectedSize,
+      price: calc.finalPrice,
+      image: imgs,
+      qty: selectedQty
+    });
   }
   localStorage.setItem('cdv_cart', JSON.stringify(cart));
   updateCartUI();
+  closeModal('productDetailModal');
   showToast("Savatga qo'shildi!");
+  openCheckout(); // Darhol rasmiylashtirish oynasini ochish
 }
 
 function openCart(){ document.getElementById('cartSidebar').classList.add('open'); document.getElementById('cartOverlay').classList.add('show'); updateCartUI(); }
@@ -914,7 +964,6 @@ function renderMyOrdersList(){
   `).join('');
 }
 
-// BOYLITILGAN PROFIL FUNKSIYASI
 function renderProfileContent(){
   let card = document.getElementById('profileCardContent');
   if(!card) return;
@@ -928,10 +977,8 @@ function renderProfileContent(){
         <div>
           <h3 style="font-size:1.15rem; font-weight:800; color:var(--brand-dark);">${currentUser.name}</h3>
           <p style="color:var(--text-muted); font-size:0.85rem;">📞 ${currentUser.phone}</p>
-          <p style="color:var(--brand-red); font-size:0.75rem; font-weight:700; margin-top:2px;">ID: CDV-${Math.abs(currentUser.phone.hashCode ? currentUser.phone.hashCode() : 5788)}</p>
         </div>
       </div>
-
       <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px;">
         <div style="background:#fafafa; padding:12px; border-radius:14px; border:1px solid var(--border-color); text-align:center;">
           <div style="font-size:1.2rem; font-weight:800; color:var(--brand-red);">${myOrdersCount} ta</div>
@@ -942,12 +989,6 @@ function renderProfileContent(){
           <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Keshbek / Bonus</div>
         </div>
       </div>
-
-      <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
-        <button class="btn btn-light w-full" style="justify-content:flex-start;" onclick="switchPage('orders', document.querySelectorAll('.bottom-nav .nav-item')[2])">📦 Mening buyurtmalarim tarixi</button>
-        <a href="https://t.me/chinadirectvodil" target="_blank" class="btn btn-light w-full" style="justify-content:flex-start; text-decoration:none;">💬 Telegram kanalimizga o'tish</a>
-      </div>
-
       <button class="btn btn-outline w-full" onclick="logoutUser()">Tizimdan chiqish</button>
     `;
   } else {
@@ -961,18 +1002,6 @@ function renderProfileContent(){
     `;
   }
 }
-
-// Qo'shimcha yordamchi funksiya
-String.prototype.hashCode = function() {
-  let hash = 0, i, chr;
-  if (this.length === 0) return hash;
-  for (i = 0; i < this.length; i++) {
-    chr   = this.charCodeAt(i);
-    hash  = ((hash << 5) - hash) + chr;
-    hash |= 0; 
-  }
-  return hash;
-};
 
 function handleAuthSubmit(e){
   e.preventDefault();
