@@ -4,13 +4,15 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CHINA DIRECT VODIL — Vodilning Rasmiy Xitoy Bozori</title>
-<!-- PWA Manifest va Ikonkalar -->
+<!-- PWA Manifest va Rasmli Ikonka -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ff2d55">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Vodil China">
-<link rel="apple-touch-icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='110' fill='%23121214'/><text x='50%' y='40%' font-size='150' text-anchor='middle' dominant-baseline='middle'>🇨🇳🇺🇿</text><text x='50%' y='75%' font-size='55' font-weight='900' fill='%23ff2d55' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif'>VODIL</text></svg>">
+<meta name="apple-mobile-web-app-title" content="CHINA DIRECT VODIL">
+<!-- Aniq ko'rinadigan logo havolasi (ikonka uchun) -->
+<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081559.png">
+<link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3081/3081559.png">
 
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -169,7 +171,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         📱 Ilovani o'rnatish
       </button>
       <button type="button" class="btn btn-light btn-sm" style="cursor:default; background:#fff5f7; color:var(--brand-red);">
-        🟢 Onlayn: <span id="onlineCountBadge" style="font-weight:800; margin-left:2px;">1.000.000+</span>
+        🟢 Onlayn: <span id="onlineCountBadge" style="font-weight:800; margin-left:2px;">1</span>
       </button>
       <button type="button" class="btn btn-outline btn-sm" id="adminBtn" onclick="toggleAdminView()">🔐 Admin</button>
     </div>
@@ -466,7 +468,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         <!-- ONLAYN TO'LOV VA CHEK YUKLASH QISMI -->
         <div id="onlinePaymentBox" style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:14px; padding:14px; margin-bottom:14px;">
           <div style="font-size:0.85rem; font-weight:700; color:var(--brand-red); margin-bottom:6px;">💳 Onlayn To'lov Rekvizitlari:</div>
-          <p style="font-size:0.8rem; margin-bottom:8px;">Karta: <b>4413 5976 0554 2354</b> (A. Fattoxov)<br>To'lov summasi: <b id="checkoutExactPrice">0 so'm</b></p>
+          <p style="font-size:0.8rem; margin-bottom:8px;">Karta: <b>8600 1234 5678 9012</b> (A. Fattoxov)<br>To'lov summasi: <b id="checkoutExactPrice">0 so'm</b></p>
           <div class="form-group" style="margin-bottom:0;">
             <label style="color:var(--brand-red);">To'lov cheki skrinshotini yuklang (Majburiy!):</label>
             <input type="file" id="receiptFileInput" accept="image/*" style="padding:6px; background:white;">
@@ -577,6 +579,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
 <div class="toast-container" id="toastContainer"></div>
  
 <script>
+// PWA manifestni dinamik yaratish (Rasmli logotip bilan)
 const manifestData = {
   "name": "CHINA DIRECT VODIL",
   "short_name": "Vodil China",
@@ -586,9 +589,10 @@ const manifestData = {
   "theme_color": "#ff2d55",
   "icons": [
     {
-      "src": "data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'><rect width='512' height='512' rx='110' fill='%23121214'/><text x='50%' y='40%' font-size='150' text-anchor='middle' dominant-baseline='middle'>🇨🇳🇺🇿</text><text x='50%' y='75%' font-size='55' font-weight='900' fill='%23ff2d55' text-anchor='middle' dominant-baseline='middle' font-family='sans-serif'>VODIL</text></svg>",
+      "src": "https://cdn-icons-png.flaticon.com/512/3081/3081559.png",
       "sizes": "512x512",
-      "type": "image/svg+xml"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 };
@@ -1427,7 +1431,7 @@ function saveSettings(){
     yuanRate: parseFloat(document.getElementById('rateYuan').value),
     usdRate: parseFloat(document.getElementById('rateUsd').value),
     aviaRate: parseFloat(document.getElementById('rateAvia').value),
-    avtoRate: parseFloat(document.getElementById('rateAvto').value),
+    avtoRate: parseFloat(document.getElementById('rateAvto'].value) || 6,
     markup: parseFloat(document.getElementById('rateMarkup').value)
   };
   db.collection("settings").doc("general").set(newSettings).then(() => {
