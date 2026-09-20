@@ -23,7 +23,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
   --text-muted: #71717a;
   --border-color: #eaeaea;
 }
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-color);color:var(--text-main);line-height:1.5}
+body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-color);color:var(--text-main);line-height:1.5; padding-bottom: 70px;}
 .container{max-width:1240px;margin:0 auto;padding:0 16px;width:100%}
 
 /* Header Style */
@@ -43,37 +43,41 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .btn-outline:hover{border-color:var(--brand-red);color:var(--brand-red)}
 .btn-sm{padding:6px 12px;font-size:0.8rem;border-radius:10px}
 
+/* Bottom Navigation Bar (Pastdagi menyu) */
+.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#ffffff;border-top:1px solid var(--border-color);display:flex;justify-content:space-around;align-items:center;padding:8px 0;z-index:250;box-shadow:0 -4px 20px rgba(0,0,0,0.06)}
+.nav-item{display:flex;flex-direction:column;align-items:center;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:0.7rem;font-weight:600;transition:color 0.2s;width:25%;position:relative}
+.nav-item span.nav-icon{font-size:1.3rem;margin-bottom:2px}
+.nav-item.active{color:var(--brand-red)}
+.nav-cart-badge{position:absolute;top:2px;right:25%;background:var(--brand-gold);color:#111;font-size:0.6rem;font-weight:800;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+
 /* Hero Banner */
-.hero{background:linear-gradient(135deg, #121214 0%, #2a1b22 100%);padding:30px 0;border-bottom:1px solid var(--border-color);margin-bottom:16px;color:white}
-.hero h1{font-size:1.8rem;color:white;margin-bottom:6px;font-weight:800;letter-spacing:-0.5px}
+.hero{background:linear-gradient(135deg, #121214 0%, #2a1b22 100%);padding:24px 0;border-bottom:1px solid var(--border-color);margin-bottom:16px;color:white}
+.hero h1{font-size:1.6rem;color:white;margin-bottom:6px;font-weight:800;letter-spacing:-0.5px}
 .hero h1 span {color: var(--brand-red);}
-.hero p{color:#d4d4d8;font-size:0.95rem}
-.hero-badges{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap}
-.hero-badge{background:rgba(255,255,255,0.1);backdrop-filter: blur(5px);padding:6px 12px;border-radius:10px;font-weight:600;font-size:0.8rem;color:white;border: 1px solid rgba(255,255,255,0.15)}
+.hero p{color:#d4d4d8;font-size:0.9rem}
 
 /* Controls & Search */
-.controls{background:white;padding:12px 0;border-bottom:1px solid var(--border-color);position:sticky;top:125px;z-index:90}
+.controls{background:white;padding:12px 0;border-bottom:1px solid var(--border-color);margin-bottom:16px}
 .controls-content{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .search-box{flex:1;min-width:250px;position:relative}
 .search-box input{width:100%;padding:10px 16px 10px 42px;border:1.5px solid var(--border-color);border-radius:14px;font-size:0.95rem;background:#fafafa;transition:all 0.2s}
 .search-box input:focus{outline:none;border-color:var(--brand-red);background:white;box-shadow:0 0 0 4px rgba(255, 45, 85, 0.1)}
 .search-box::before{content:"🔍";position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:0.9rem}
 
-/* Katalog / Kategoriya paneli doimiy chiqadigan qilib tuzatildi */
 .category-filter{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;width:100%}
 .category-chip{padding:8px 16px;background:#f1f1f3;border-radius:12px;cursor:pointer;white-space:nowrap;font-weight:600;font-size:0.85rem;transition:all 0.2s;color:var(--text-main)}
 .category-chip:hover{background:#e4e4e7}
 .category-chip.active{background:var(--brand-dark);color:white}
 
 /* Products Grid */
-.products-section{padding:16px 0 40px}
+.products-section{padding:0 0 40px}
 .section-title{font-size:1.3rem;font-weight:800;margin-bottom:14px;color:var(--text-main);letter-spacing:-0.5px}
 .products-grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:10px;}
 @media(min-width:768px){.products-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}}
 
 .product-card{background:var(--card-bg);border-radius:16px;overflow:hidden;box-shadow:0 2px 8px rgba(0,0,0,0.04);transition:all 0.25s ease;display:flex;flex-direction:column;border:1px solid var(--border-color);position:relative}
 .product-card:hover{transform:translateY(-4px);box-shadow:0 12px 24px rgba(0,0,0,0.08);border-color:#d4d4d8}
-.product-image-wrap{width:100%;height:200px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:pointer}
+.product-image-wrap{width:100%;height:190px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:pointer}
 .product-image-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease}
 .product-card:hover .product-image-wrap img{transform:scale(1.06)}
 
@@ -101,7 +105,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .product-footer .btn{flex:1;justify-content:center;padding:7px;font-size:0.75rem;border-radius:12px}
 
 /* Cart & Sidebar */
-.cart-sidebar{position:fixed;top:0;right:-400px;width:100%;max-width:400px;height:100vh;background:white;box-shadow:-5px 0 25px rgba(0,0,0,0.15);z-index:200;transition:right 0.3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column}
+.cart-sidebar{position:fixed;top:0;right:-400px;width:100%;max-width:400px;height:100vh;background:white;box-shadow:-5px 0 25px rgba(0,0,0,0.15);z-index:300;transition:right 0.3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column}
 .cart-sidebar.open{right:0}
 .cart-header{padding:16px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center}
 .cart-body{flex:1;overflow-y:auto;padding:16px}
@@ -116,11 +120,11 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .qty-btn{width:24px;height:24px;border:1px solid var(--border-color);background:white;border-radius:50%;cursor:pointer;font-weight:700;font-size:0.8rem}
 .cart-footer{padding:16px 20px;border-top:1px solid var(--border-color);background:white}
 .cart-total{display:flex;justify-content:space-between;font-size:1.1rem;font-weight:800;margin-bottom:12px}
-.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:199;display:none;backdrop-filter:blur(3px)}
+.overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:299;display:none;backdrop-filter:blur(3px)}
 .overlay.show{display:block}
 
 /* Modals */
-.modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:300;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:400;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(4px)}
 .modal.show{display:flex}
 .modal-content{background:white;border-radius:20px;width:100%;max-width:500px;max-height:90vh;overflow-y:auto;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25)}
 .modal-header{padding:16px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center}
@@ -168,13 +172,12 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .step-item.active .step-icon{background:#10b981;border-color:#10b981;color:white}
 .step-item.current .step-icon{background:var(--brand-red);border-color:var(--brand-red);color:white}
 .step-label{font-size:0.6rem;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.1}
-.toast-container{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);z-index:400;display:flex;flex-direction:column;gap:8px}
+.toast-container{position:fixed;bottom:80px;left:50%;transform:translateX(-50%);z-index:500;display:flex;flex-direction:column;gap:8px}
 .toast{background:var(--brand-dark);color:white;padding:10px 20px;border-radius:14px;box-shadow:0 10px 25px rgba(0,0,0,0.2);font-size:0.85rem;font-weight:600;border:1px solid rgba(255,255,255,0.1)}
 .toast.success{background:#10b981}
 .toast.error{background:var(--brand-red)}
 .order-details{background:#fafafa;border-radius:12px;padding:12px;margin:12px 0;font-family:monospace;font-size:0.8rem;white-space:pre-wrap;border:1px solid var(--border-color)}
 .hidden{display:none!important}
-.cart-badge{position:relative;background:var(--brand-gold);color:#111;width:18px;height:18px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:0.65rem;font-weight:800;margin-left:4px}
 .order-card-user{background:#fafafa;border:1px solid var(--border-color);padding:12px;border-radius:14px;margin-bottom:10px;font-size:0.85rem}
 </style>
 </head>
@@ -189,65 +192,108 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
       <button class="btn btn-light btn-sm" style="cursor:default; background:#fff5f7; color:var(--brand-red);" title="Hozirda onlayn">
         🟢 Onlayn: <span id="onlineCountBadge" style="font-weight:800; margin-left:2px;">1</span>
       </button>
-      <button class="btn btn-light btn-sm" onclick="requestNotificationPermission()" id="notifBtn">
-        🔔 Xabar
-      </button>
-      <div id="userProfileArea" style="display:inline-flex;">
-        <button class="btn btn-light btn-sm" onclick="openAuthModal()">👤 Kirish</button>
-      </div>
-      <button class="btn btn-light btn-sm" onclick="openTrackModal()">📦 Kuzatish</button>
-      <button class="btn btn-light btn-sm" onclick="openCart()">🛒 Savat<span class="cart-badge hidden" id="cartBadge">0</span></button>
       <button class="btn btn-outline btn-sm" id="adminBtn" onclick="toggleAdminView()">🔐 Admin</button>
-      <button id="installBtn" class="btn btn-primary btn-sm" style="display: none;">📱 O'rnatish</button>
     </div>
   </div>
 </header>
  
-<div id="customerView">
+<!-- ASOSIY QISMLAR (Tablar orqali boshqariladi) -->
+
+<!-- 1. BOSH SAHIFA -->
+<div class="page-section" id="page-home">
   <div class="hero">
-    <div class="container hero-inner">
-      <div>
-        <h1>Xitoydan to'g'ridan-to'g'ri <span>eng sara tovarlar!</span></h1>
-        <p>Pinduoduo platformasidan hamyonbop narxlarda ishonchli buyurtma bering.</p>
-        <div class="hero-badges">
-          <div class="hero-badge">✈️ Avia: 10-12 kun</div>
-          <div class="hero-badge">🚛 Avto: 12-20 kun</div>
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="controls">
-    <div class="container controls-content">
-      <div class="search-box">
-        <input type="text" id="searchInput" placeholder="Mahsulotlarni izlash..." oninput="onSearchInput()">
-      </div>
-      <!-- Katalog har doim ko'rinib turishi uchun standart kategoriyalar bilan tayyorlandi -->
-      <div class="category-filter" id="categoryFilter">
-        <div class="category-chip active" onclick="filterCategory('all', this)">Barchasi</div>
-        <div class="category-chip" onclick="filterCategory('Elektronika', this)">Elektronika</div>
-        <div class="category-chip" onclick="filterCategory('Telefon aksessuarlari', this)">Telefon aksessuarlari</div>
-        <div class="category-chip" onclick="filterCategory('Kiyim', this)">Kiyim</div>
-        <div class="category-chip" onclick="filterCategory('Poyabzal', this)">Poyabzal</div>
-        <div class="category-chip" onclick="filterCategory('Uy jihozlari', this)">Uy jihozlari</div>
-      </div>
+    <div class="container">
+      <h1>Xitoydan to'g'ridan-to'g'ri <span>eng sara tovarlar!</span></h1>
+      <p>Pinduoduo platformasidan hamyonbop narxlarda ishonchli buyurtma bering.</p>
     </div>
   </div>
   <div class="container products-section">
-    <h2 class="section-title">Ommabop takliflar</h2>
-    <div class="products-grid" id="productsGrid"></div>
+    <h2 class="section-title">Yangi kelganlar va Tavsiyalar</h2>
+    <div class="products-grid" id="homeProductsGrid"></div>
   </div>
 </div>
- 
+
+<!-- 2. KATALOG / QIDIRISH -->
+<div class="page-section hidden" id="page-catalog">
+  <div class="controls" style="position:static; margin-top: 10px;">
+    <div class="container controls-content">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Katalogdan tovarlarni qidirish..." oninput="renderCatalogProducts()">
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <div class="category-filter" id="categoryFilter" style="margin-bottom: 16px;">
+      <div class="category-chip active" onclick="filterCategory('all', this)">Barchasi</div>
+      <div class="category-chip" onclick="filterCategory('Elektronika', this)">Elektronika</div>
+      <div class="category-chip" onclick="filterCategory('Telefon aksessuarlari', this)">Telefon aksessuarlari</div>
+      <div class="category-chip" onclick="filterCategory('Kiyim', this)">Kiyim</div>
+      <div class="category-chip" onclick="filterCategory('Poyabzal', this)">Poyabzal</div>
+      <div class="category-chip" onclick="filterCategory('Uy jihozlari', this)">Uy jihozlari</div>
+    </div>
+    <h2 class="section-title">Katalog mahsulotlari</h2>
+    <div class="products-grid" id="catalogProductsGrid"></div>
+  </div>
+</div>
+
+<!-- 3. BUYURTMALAR (Kuzatish va Tarix) -->
+<div class="page-section hidden" id="page-orders">
+  <div class="container" style="padding-top: 20px;">
+    <h2 class="section-title">📦 Buyurtmalar va Kuzatish</h2>
+    <div style="background:white; padding:16px; border-radius:16px; border:1px solid var(--border-color); margin-bottom:16px;">
+      <div class="form-group" style="margin-bottom:0">
+        <label>Buyurtma kodi yoki telefon raqamingiz</label>
+        <div style="display:flex;gap:8px; margin-top: 6px;">
+          <input type="text" id="trackInput" placeholder="Masalan: CDV-1234 yoki +998..." style="flex:1; padding:10px 14px; border:1.5px solid var(--border-color); border-radius:12px; font-size:0.9rem;">
+          <button class="btn btn-primary" type="button" onclick="searchTrackOrder()">Izlash</button>
+        </div>
+      </div>
+    </div>
+
+    <div id="trackResult" class="hidden" style="background:white; padding:16px; border-radius:16px; border:1px solid var(--border-color); margin-bottom:20px;">
+      <div style="display:flex;justify-content:space-between;align-items:center; margin-bottom: 10px;">
+        <strong id="trackOrderCode" style="font-size:0.95rem">---</strong>
+        <span class="status-badge" id="trackStatusBadge" style="font-weight:700; color:var(--brand-red);">Tasdiqlandi</span>
+      </div>
+      <div class="tracking-stepper">
+        <div class="tracking-progress" id="trackProgressBar" style="width:0%"></div>
+        <div class="step-item" id="step1"><div class="step-icon">1</div><div class="step-label">Tasdiqlandi</div></div>
+        <div class="step-item" id="step2"><div class="step-icon">2</div><div class="step-label">Yig'ilyapti</div></div>
+        <div class="step-item" id="step3"><div class="step-icon">3</div><div class="step-label">Yo'lda</div></div>
+        <div class="step-item" id="step4"><div class="step-icon">4</div><div class="step-label">Keldi</div></div>
+        <div class="step-item" id="step5"><div class="step-icon">5</div><div class="step-label">Topshirildi</div></div>
+      </div>
+      <div class="order-details" id="trackOrderItems"></div>
+    </div>
+
+    <h3 style="font-size:1.1rem; margin-bottom:10px;">Mening buyurtmalarim tarixi:</h3>
+    <div id="myOrdersListContainer">
+      <p style="color:var(--text-muted); font-size:0.85rem;">Yuklanmoqda...</p>
+    </div>
+  </div>
+</div>
+
+<!-- 4. PROFIL -->
+<div class="page-section hidden" id="page-profile">
+  <div class="container" style="padding-top: 20px; max-width: 500px;">
+    <h2 class="section-title">👤 Shaxsiy Profil</h2>
+    <div style="background:white; padding:20px; border-radius:16px; border:1px solid var(--border-color);" id="profileCardContent">
+      <!-- Dinamik to'ldiriladi -->
+    </div>
+  </div>
+</div>
+
+<!-- ADMIN VIEW -->
 <div id="adminView" class="hidden">
   <div class="container" style="padding-top:20px;padding-bottom:40px">
     <h2 class="section-title">Boshqaruv paneli</h2>
     <div class="tabs">
-      <button class="tab active" onclick="switchTab('stats', this)">Statistika</button>
-      <button class="tab" onclick="switchTab('products', this)">Mahsulotlar</button>
-      <button class="tab" onclick="switchTab('orders', this)">Buyurtmalar</button>
-      <button class="tab" onclick="switchTab('settings', this)">Sozlamalar</button>
+      <button class="tab active" onclick="switchAdminTab('stats', this)">Statistika</button>
+      <button class="tab" onclick="switchAdminTab('products', this)">Mahsulotlar</button>
+      <button class="tab" onclick="switchAdminTab('orders', this)">Buyurtmalar</button>
+      <button class="tab" onclick="switchAdminTab('settings', this)">Sozlamalar</button>
     </div>
-    <div id="tab-stats" class="tab-content">
+    <div id="admin-tab-stats" class="admin-tab-content">
       <div class="admin-grid">
         <div class="stat-card"><div class="stat-value" id="statOnline">1</div><div class="stat-label">🟢 Onlayn</div></div>
         <div class="stat-card"><div class="stat-value" id="statVisitors">0</div><div class="stat-label">👥 Tashriflar</div></div>
@@ -256,7 +302,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
         <div class="stat-card"><div class="stat-value" id="statRevenue">0 so'm</div><div class="stat-label">Tushum</div></div>
       </div>
     </div>
-    <div id="tab-products" class="tab-content hidden">
+    <div id="admin-tab-products" class="admin-tab-content hidden">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
         <h3>Mahsulotlar ro'yxati</h3>
         <button class="btn btn-primary btn-sm" onclick="openAddProductModal()">+ Qo'shish</button>
@@ -268,8 +314,8 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
         </table>
       </div>
     </div>
-    <div id="tab-orders" class="tab-content hidden">
-      <h3 style="margin-bottom:14px">Buyurtmalar</h3>
+    <div id="admin-tab-orders" class="admin-tab-content hidden">
+      <h3 style="margin-bottom:14px">Buyurtmalar boshqaruvi</h3>
       <div class="admin-table-wrap">
         <table class="admin-table">
           <thead><tr><th>ID</th><th>Mijoz</th><th>Razmer</th><th>Telefon</th><th>Summa</th><th>Holati</th><th>Amallar</th></tr></thead>
@@ -277,25 +323,44 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
         </table>
       </div>
     </div>
-    <div id="tab-settings" class="tab-content hidden">
-      <div style="max-width:500px">
-        <div style="background:white;padding:20px;border-radius:18px;border:1px solid var(--border-color)">
-          <h3 style="margin-bottom:14px;font-size:1rem">Valyuta va Tariflar</h3>
-          <div class="form-row">
-            <div class="form-group"><label>1 Yuan (so'm)</label><input type="number" id="rateYuan" value="2150"></div>
-            <div class="form-group"><label>1 USD (so'm)</label><input type="number" id="rateUsd" value="12700"></div>
-          </div>
-          <div class="form-row">
-            <div class="form-group"><label>Avia ($/kg)</label><input type="number" id="rateAvia" value="9.5" step="0.1"></div>
-            <div class="form-group"><label>Avto ($/kg)</label><input type="number" id="rateAvto" value="6" step="0.1"></div>
-          </div>
-          <div class="form-group"><label>Ustama foiz (%)</label><input type="number" id="rateMarkup" value="45"></div>
-          <button class="btn btn-primary w-full" onclick="saveSettings()">Saqlash</button>
+    <div id="admin-tab-settings" class="admin-tab-content hidden">
+      <div style="background:white;padding:20px;border-radius:18px;border:1px solid var(--border-color)">
+        <h3 style="margin-bottom:14px;font-size:1rem">Valyuta va Tariflar</h3>
+        <div class="form-row">
+          <div class="form-group"><label>1 Yuan (so'm)</label><input type="number" id="rateYuan" value="2150"></div>
+          <div class="form-group"><label>1 USD (so'm)</label><input type="number" id="rateUsd" value="12700"></div>
         </div>
+        <div class="form-row">
+          <div class="form-group"><label>Avia ($/kg)</label><input type="number" id="rateAvia" value="9.5" step="0.1"></div>
+          <div class="form-group"><label>Avto ($/kg)</label><input type="number" id="rateAvto" value="6" step="0.1"></div>
+        </div>
+        <div class="form-group"><label>Ustama foiz (%)</label><input type="number" id="rateMarkup" value="45"></div>
+        <button class="btn btn-primary w-full" onclick="saveSettings()">Saqlash</button>
       </div>
     </div>
   </div>
 </div>
+
+<!-- PASTKI NAVIGATSIYA MENYUSI -->
+<nav class="bottom-nav">
+  <button class="nav-item active" onclick="switchPage('home', this)">
+    <span class="nav-icon">🏠</span>
+    <span>Asosiy</span>
+  </button>
+  <button class="nav-item" onclick="switchPage('catalog', this)">
+    <span class="nav-icon">🔍</span>
+    <span>Katalog</span>
+  </button>
+  <button class="nav-item" onclick="switchPage('orders', this)">
+    <span class="nav-icon">📦</span>
+    <span>Buyurtmalar</span>
+  </button>
+  <button class="nav-item" onclick="switchPage('profile', this)">
+    <span class="nav-icon">👤</span>
+    <span>Profil</span>
+    <span class="nav-cart-badge hidden" id="bottomCartBadge">0</span>
+  </button>
+</nav>
 
 <!-- MAHSULOT TAFSILOTLARI MODALI -->
 <div class="modal" id="productDetailModal">
@@ -325,6 +390,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </div>
 
+<!-- AUTENTIFIKATSIYA (KIRISH) MODALI -->
 <div class="modal" id="authModal">
   <div class="modal-content" style="max-width:380px">
     <div class="modal-header"><h3 style="font-size:1rem">Tizimga kirish</h3><button class="close-btn" onclick="closeModal('authModal')">×</button></div>
@@ -332,27 +398,13 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
       <form onsubmit="handleAuthSubmit(event)">
         <div class="form-group"><label>Ismingiz</label><input type="text" id="authName" placeholder="Ism-sharifingiz" required></div>
         <div class="form-group"><label>Telefon raqam</label><input type="tel" id="authPhone" placeholder="+998 90 123 45 67" required></div>
-        <button type="submit" class="btn btn-primary w-full">Kirish</button>
+        <button type="submit" class="btn btn-primary w-full">Kirish va saqlash</button>
       </form>
     </div>
   </div>
 </div>
 
-<div class="modal" id="userProfileModal">
-  <div class="modal-content">
-    <div class="modal-header"><h3 style="font-size:1rem">Shaxsiy kabinet</h3><button class="close-btn" onclick="closeModal('userProfileModal')">×</button></div>
-    <div class="modal-body">
-      <p style="color:var(--text-muted);font-size:0.85rem;margin-bottom:12px">Mijoz: <b id="profName" style="color:var(--text-main)"></b> (<span id="profPhone"></span>)</p>
-      <h4 style="margin-bottom:10px;font-size:0.95rem">Mening buyurtmalarim:</h4>
-      <div id="myOrdersContainer"><p style="font-size:0.85rem;color:var(--text-muted)">Buyurtmalar yo'q</p></div>
-      <div style="margin-top:16px;display:flex;gap:10px">
-        <button class="btn btn-outline w-full" onclick="logoutUser()">Chiqish</button>
-        <button class="btn btn-primary w-full" onclick="closeModal('userProfileModal')">Yopish</button>
-      </div>
-    </div>
-  </div>
-</div>
-
+<!-- SAVAT / RASMIYLASHTIRISH SIDEBAR -->
 <div class="overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
   <div class="cart-header"><h3>Savat</h3><button class="close-btn" onclick="closeCart()">×</button></div>
@@ -362,8 +414,8 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
     <button class="btn btn-primary w-full" onclick="openCheckout()">Rasmiylashtirish</button>
   </div>
 </div>
- 
-<!-- MAHSULOT QO'SHISH / TAHRIRLASH MODALI -->
+
+<!-- MAHSULOT QO'SHISH / TAHRIRLASH MODALI (ADMIN) -->
 <div class="modal" id="productModal">
   <div class="modal-content">
     <div class="modal-header"><h3 id="productModalTitle" style="font-size:1rem">Mahsulot</h3><button class="close-btn" onclick="closeModal('productModal')">×</button></div>
@@ -378,7 +430,6 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 
       <form onsubmit="handleProductSubmit(event)">
         <input type="hidden" id="productId">
-        
         <label style="font-size:0.8rem; font-weight:600; margin-bottom:4px; display:block;">Mahsulot rasmlari (Uchtagacha):</label>
         <div class="multi-upload-grid" id="multiUploadGrid">
           <div class="upload-thumb" onclick="triggerThumbUpload(0)"><span>📷+</span></div>
@@ -420,7 +471,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
           <div class="form-group"><label>Chegirma (%)</label><input type="number" id="productDiscount" min="0" max="90" value="0" oninput="updateAdminCalcPrice()"></div>
         </div>
         <div style="background:#f1f1f3;padding:10px;border-radius:12px;margin-bottom:12px;font-size:0.85rem">
-          Mijozga ko'rinadigan narx: <b id="modalCalcPrice" style="color:var(--brand-red)">0 so'm</b>
+          Mijozga narxi: <b id="modalCalcPrice" style="color:var(--brand-red)">0 so'm</b>
         </div>
         <div class="form-group"><label>Tavsif</label><textarea id="productDesc" rows="3"></textarea></div>
         <button type="submit" class="btn btn-primary w-full">Saqlash</button>
@@ -428,7 +479,8 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
     </div>
   </div>
 </div>
- 
+
+<!-- CHECKOUT MODAL -->
 <div class="modal" id="checkoutModal">
   <div class="modal-content">
     <div class="modal-header"><h3 style="font-size:1rem">Buyurtma berish</h3><button class="close-btn" onclick="closeModal('checkoutModal')">×</button></div>
@@ -446,7 +498,8 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
     </div>
   </div>
 </div>
- 
+
+<!-- SUCCESS MODAL -->
 <div class="modal" id="successModal">
   <div class="modal-content">
     <div class="modal-body" style="text-align:center">
@@ -459,37 +512,8 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
     </div>
   </div>
 </div>
- 
-<div class="modal" id="trackModal">
-  <div class="modal-content">
-    <div class="modal-header"><h3 style="font-size:1rem">Buyurtmani kuzatish</h3><button class="close-btn" onclick="closeModal('trackModal')">×</button></div>
-    <div class="modal-body">
-      <div class="form-group">
-        <label>Buyurtma kodi yoki telefon</label>
-        <div style="display:flex;gap:8px">
-          <input type="text" id="trackInput" placeholder="Masalan: CDV-1234">
-          <button class="btn btn-primary" type="button" onclick="searchTrackOrder()">Izlash</button>
-        </div>
-      </div>
-      <div id="trackResult" class="hidden" style="margin-top:16px;border-top:1px solid var(--border-color);padding-top:16px">
-        <div style="display:flex;justify-content:space-between;align-items:center">
-          <strong id="trackOrderCode" style="font-size:0.9rem">---</strong>
-          <span class="status-badge" id="trackStatusBadge">Tasdiqlandi</span>
-        </div>
-        <div class="tracking-stepper">
-          <div class="tracking-progress" id="trackProgressBar" style="width:0%"></div>
-          <div class="step-item" id="step1"><div class="step-icon">1</div><div class="step-label">Tasdiqlandi</div></div>
-          <div class="step-item" id="step2"><div class="step-icon">2</div><div class="step-label">Yig'ilyapti</div></div>
-          <div class="step-item" id="step3"><div class="step-icon">3</div><div class="step-label">Yo'lda</div></div>
-          <div class="step-item" id="step4"><div class="step-icon">4</div><div class="step-label">Keldi</div></div>
-          <div class="step-item" id="step5"><div class="step-icon">5</div><div class="step-label">Topshirildi</div></div>
-        </div>
-        <div class="order-details" id="trackOrderItems"></div>
-      </div>
-    </div>
-  </div>
-</div>
- 
+
+<!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
   <div class="modal-content" style="max-width:340px">
     <div class="modal-header"><h3 style="font-size:1rem">Admin kirish</h3><button class="close-btn" onclick="closeModal('loginModal')">×</button></div>
@@ -501,7 +525,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
     </div>
   </div>
 </div>
- 
+
 <div class="toast-container" id="toastContainer"></div>
  
 <script>
@@ -517,20 +541,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const rtdb = firebase.database();
-
-function requestNotificationPermission() {
-  if (!("Notification" in window)) {
-    showToast("Brauzeringiz qo'llab-quvvatlamaydi", "error");
-    return;
-  }
-  Notification.requestPermission().then((permission) => {
-    if (permission === "granted") {
-      showToast("Bildirishnomalar yoqildi!", "success");
-      let btn = document.getElementById('notifBtn');
-      if(btn) { btn.style.background = "#fff5f7"; btn.style.color = "var(--brand-red)"; btn.textContent = "🔔 Yoqilgan"; }
-    }
-  });
-}
 
 const userStatusRef = rtdb.ref('status/online');
 rtdb.ref('.info/connected').on('value', (snap) => {
@@ -569,10 +579,8 @@ const ADMIN_PASS = "admin123";
 
 let currentImages = ["", "", ""];
 let activeUploadIndex = 0;
-
 let detailCurrentImages = [];
 let detailActiveIndex = 0;
-let detailCurrentProductId = null;
 
 function showToast(msg, type='success'){
   let container = document.getElementById('toastContainer');
@@ -587,11 +595,27 @@ function openModal(id){ document.getElementById(id).classList.add('show'); }
 function closeModal(id){ document.getElementById(id).classList.remove('show'); }
 
 window.addEventListener('load', () => {
-  renderUserUI();
+  renderProfileContent();
   renderProducts();
   fetchDataFromServer();
   trackTotalVisitors();
 });
+
+// Sahifalararo o'tish (Navigatsiya)
+function switchPage(pageId, el){
+  if(isAdmin) {
+    toggleAdminView(); // Admin holatidan chiqish
+  }
+  document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
+  document.getElementById('page-' + pageId).classList.remove('hidden');
+  
+  document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => btn.classList.remove('active'));
+  if(el) el.classList.add('active');
+
+  if(pageId === 'catalog') renderCatalogProducts();
+  if(pageId === 'orders') renderMyOrdersList();
+  if(pageId === 'profile') renderProfileContent();
+}
 
 function fetchDataFromServer(){
   db.collection("products").onSnapshot((snapshot) => {
@@ -600,6 +624,7 @@ function fetchDataFromServer(){
     products = loadedProducts;
     localStorage.setItem('cdv_products_cache', JSON.stringify(products));
     renderProducts();
+    renderCatalogProducts();
     if(isAdmin) renderAdmin();
   });
   
@@ -612,6 +637,7 @@ function fetchDataFromServer(){
       if(document.getElementById('rateAvto')) document.getElementById('rateAvto').value = settings.avtoRate;
       if(document.getElementById('rateMarkup')) document.getElementById('rateMarkup').value = settings.markup;
       renderProducts();
+      renderCatalogProducts();
     }
   });
   
@@ -619,81 +645,9 @@ function fetchDataFromServer(){
     let loadedOrders = [];
     snapshot.forEach((doc) => { loadedOrders.push({ id: doc.id, ...doc.data() }); });
     orders = loadedOrders;
+    renderMyOrdersList();
     if(isAdmin) renderAdmin();
   });
-}
-
-function renderUserUI(){
-  let area = document.getElementById('userProfileArea');
-  if(!area) return;
-  if(currentUser){
-    area.innerHTML = `<button class="btn btn-light btn-sm" onclick="openUserProfileModal()">👤 ${currentUser.name}</button>`;
-  } else {
-    area.innerHTML = `<button class="btn btn-light btn-sm" onclick="openAuthModal()">👤 Kirish</button>`;
-  }
-}
-
-function openAuthModal(){ openModal('authModal'); }
-function handleAuthSubmit(e){
-  e.preventDefault();
-  let name = document.getElementById('authName').value.trim();
-  let phone = document.getElementById('authPhone').value.trim();
-  currentUser = { name, phone };
-  localStorage.setItem('cdv_user', JSON.stringify(currentUser));
-  closeModal('authModal');
-  renderUserUI();
-  showToast("Xush kelibsiz, " + name + "!");
-}
-function logoutUser(){
-  localStorage.removeItem('cdv_user');
-  currentUser = null;
-  renderUserUI();
-  closeModal('userProfileModal');
-  showToast("Chiqildi");
-}
-function openUserProfileModal(){
-  if(!currentUser) return openAuthModal();
-  document.getElementById('profName').textContent = currentUser.name;
-  document.getElementById('profPhone').textContent = currentUser.phone;
-  let myOrders = orders.filter(o => o.phone && o.phone.includes(currentUser.phone));
-  let container = document.getElementById('myOrdersContainer');
-  container.innerHTML = myOrders.length === 0 ? '<p style="font-size:0.85rem;color:var(--text-muted)">Buyurtmalar yo\'q</p>' :
-    myOrders.map(o => `<div class="order-card-user"><div style="display:flex;justify-content:space-between"><b>${o.code}</b><span style="color:var(--brand-red);font-weight:bold">${o.status}</span></div><div>Summa: ${formatPrice(o.total)}</div></div>`).join('');
-  openModal('userProfileModal');
-}
-
-function switchTab(tabName, el){
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  if(el) el.classList.add('active');
-  document.querySelectorAll('.tab-content').forEach(c => c.classList.add('hidden'));
-  document.getElementById('tab-' + tabName).classList.remove('hidden');
-}
-
-function toggleAdminView(){
-  if(isAdmin){
-    isAdmin = false;
-    document.getElementById('customerView').classList.remove('hidden');
-    document.getElementById('adminView').classList.add('hidden');
-    document.getElementById('adminBtn').textContent = '🔐 Admin';
-  } else {
-    openModal('loginModal');
-  }
-}
-
-function handleLoginSubmit(e){
-  e.preventDefault();
-  if(document.getElementById('adminPassword').value === ADMIN_PASS){
-    isAdmin = true;
-    closeModal('loginModal');
-    document.getElementById('customerView').classList.add('hidden');
-    document.getElementById('adminView').classList.remove('hidden');
-    document.getElementById('adminBtn').textContent = '🏠 Asosiy';
-    document.getElementById('adminPassword').value = '';
-    renderAdmin();
-    showToast('Xush kelibsiz Admin!');
-  } else {
-    showToast("Parol noto'g'ri!", 'error');
-  }
 }
 
 function calculatePrice(p){
@@ -706,74 +660,71 @@ function calculatePrice(p){
   return {basePrice, finalPrice};
 }
 
-function updateAdminCalcPrice(){
-  let tempProduct = {
-    priceYuan: parseFloat(document.getElementById('productPriceYuan').value) || 0,
-    weight: parseFloat(document.getElementById('productWeight').value) || 0,
-    shipping: document.getElementById('productShipping').value,
-    discount: parseFloat(document.getElementById('productDiscount').value) || 0
-  };
-  document.getElementById('modalCalcPrice').textContent = formatPrice(calculatePrice(tempProduct).finalPrice);
-}
-
 function formatPrice(price){ return (price || 0).toLocaleString('uz-UZ') + " so'm"; }
 
-// --- RENDER PRODUCTS ---
+// 1. Bosh sahifa mahsulotlarini render qilish
 function renderProducts(){
-  let grid = document.getElementById('productsGrid');
+  let grid = document.getElementById('homeProductsGrid');
   if(!grid) return;
   if(!products || products.length === 0){
-    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted)"><h3>Hozircha mahsulotlar yo\'q</h3></div>';
+    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)"><h3>Hozircha mahsulotlar yo\'q</h3></div>';
     return;
   }
+  grid.innerHTML = products.slice(0, 8).map(p => createProductCardHTML(p)).join('');
+}
+
+// 2. Katalog mahsulotlarini render qilish (Qidiruv va Kategoriya bilan)
+function renderCatalogProducts(){
+  let grid = document.getElementById('catalogProductsGrid');
+  if(!grid) return;
   let search = document.getElementById('searchInput') ? document.getElementById('searchInput').value.toLowerCase().trim() : '';
   let filtered = products;
   if(activeCategory !== 'all') filtered = filtered.filter(p => p.category === activeCategory);
   if(search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
 
   if(filtered.length === 0){
-    grid.innerHTML = '<div class="empty-state" style="grid-column:1/-1; text-align:center; padding:40px; color:var(--text-muted)"><h3>Bu kategoriyada mahsulot topilmadi</h3></div>';
+    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)"><h3>Mahsulot topilmadi</h3></div>';
     return;
   }
+  grid.innerHTML = filtered.map(p => createProductCardHTML(p)).join('');
+}
 
-  grid.innerHTML = filtered.map(p => {
-    let calc = calculatePrice(p);
-    let shippingLabel = p.shipping === 'avia' ? '✈️ Avia' : '🚛 Avto';
-    let badgeClass = p.shipping === 'avia' ? 'shipping-avia' : 'shipping-avto';
-    let hasDiscount = p.discount && p.discount > 0;
-    
-    let imgs = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
-    let firstImg = imgs.length > 0 ? imgs[0] : '';
-    let cardId = 'prod-card-' + p.id;
+// Mahsulot kartochkasi shabloni
+function createProductCardHTML(p){
+  let calc = calculatePrice(p);
+  let shippingLabel = p.shipping === 'avia' ? '✈️ Avia' : '🚛 Avto';
+  let badgeClass = p.shipping === 'avia' ? 'shipping-avia' : 'shipping-avto';
+  let hasDiscount = p.discount && p.discount > 0;
+  let imgs = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
+  let firstImg = imgs.length > 0 ? imgs[0] : '';
 
-    return `<div class="product-card" id="${cardId}" data-imgs='${JSON.stringify(imgs)}' data-index="0">
-      <div class="product-image-wrap" onclick="openProductDetail('${p.id}')" title="Batafsil ko'rish uchun bosing">
-        ${firstImg ? `<img id="card-img-${p.id}" src="${firstImg}">` : '<div style="opacity:0.2">📦</div>'}
-        <div class="product-badges">
-          <div class="product-badge ${badgeClass}">${shippingLabel}</div>
-          ${hasDiscount ? `<div class="product-badge discount-badge">-${p.discount}%</div>` : ''}
-        </div>
-        ${imgs.length > 1 ? `<div class="card-image-dots" id="dots-${p.id}">
-          ${imgs.map((_, i) => `<div class="dot ${i===0?'active':''}" onclick="event.stopPropagation(); setCardImage('${p.id}', ${i})"></div>`).join('')}
-        </div>` : ''}
+  return `<div class="product-card" id="prod-card-${p.id}" data-imgs='${JSON.stringify(imgs)}' data-index="0">
+    <div class="product-image-wrap" onclick="openProductDetail('${p.id}')">
+      ${firstImg ? `<img id="card-img-${p.id}" src="${firstImg}">` : '<div style="opacity:0.2">📦</div>'}
+      <div class="product-badges">
+        <div class="product-badge ${badgeClass}">${shippingLabel}</div>
+        ${hasDiscount ? `<div class="product-badge discount-badge">-${p.discount}%</div>` : ''}
       </div>
-      <div class="product-info">
-        <div class="product-name" onclick="openProductDetail('${p.id}')">${p.name}</div>
-        <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">${p.weight} kg | ${p.category}</div>
-        ${p.sizes ? `<div style="font-size:0.7rem; color:var(--brand-red); font-weight:600; margin-bottom:4px;">Razmerlar: ${p.sizes}</div>` : ''}
-        <div class="size-input-wrap">
-          <input type="text" class="size-input" id="size-input-${p.id}" placeholder="Razmer yozing (S, M, 41...)">
-        </div>
-        <div class="product-price-box">
-          ${hasDiscount ? `<div class="product-old-price">${formatPrice(calc.basePrice)}</div>` : ''}
-          <div class="product-price">${formatPrice(calc.finalPrice)}</div>
-        </div>
-        <div class="product-footer">
-          <button class="btn btn-primary" onclick="addToCart('${p.id}')">Savatga</button>
-        </div>
+      ${imgs.length > 1 ? `<div class="card-image-dots" id="dots-${p.id}">
+        ${imgs.map((_, i) => `<div class="dot ${i===0?'active':''}" onclick="event.stopPropagation(); setCardImage('${p.id}', ${i})"></div>`).join('')}
+      </div>` : ''}
+    </div>
+    <div class="product-info">
+      <div class="product-name" onclick="openProductDetail('${p.id}')">${p.name}</div>
+      <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:4px;">${p.weight} kg | ${p.category}</div>
+      ${p.sizes ? `<div style="font-size:0.7rem; color:var(--brand-red); font-weight:600; margin-bottom:4px;">Razmerlar: ${p.sizes}</div>` : ''}
+      <div class="size-input-wrap">
+        <input type="text" class="size-input" id="size-input-${p.id}" placeholder="Razmer yozing...">
       </div>
-    </div>`;
-  }).join('');
+      <div class="product-price-box">
+        ${hasDiscount ? `<div class="product-old-price">${formatPrice(calc.basePrice)}</div>` : ''}
+        <div class="product-price">${formatPrice(calc.finalPrice)}</div>
+      </div>
+      <div class="product-footer">
+        <button class="btn btn-primary" onclick="addToCart('${p.id}')">Savatga</button>
+      </div>
+    </div>
+  </div>`;
 }
 
 function setCardImage(productId, index){
@@ -783,10 +734,8 @@ function setCardImage(productId, index){
   if(index >= 0 && index < imgs.length){
     card.setAttribute('data-index', index);
     document.getElementById('card-img-' + productId).src = imgs[index];
-    let dotsContainer = document.getElementById('dots-' + productId);
-    if(dotsContainer){
-      dotsContainer.innerHTML = imgs.map((_, i) => `<div class="dot ${i===index?'active':''}" onclick="event.stopPropagation(); setCardImage('${productId}', ${i})"></div>`).join('');
-    }
+    let dots = card.querySelectorAll('.dot');
+    dots.forEach((d, i) => d.classList.toggle('active', i === index));
   }
 }
 
@@ -794,15 +743,13 @@ function filterCategory(cat, el){
   activeCategory = cat;
   document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
   if(el) el.classList.add('active');
-  renderProducts();
+  renderCatalogProducts();
 }
-function onSearchInput(){ renderProducts(); }
 
-// --- MAHSULOT TAFSILOTLARI ---
+// Mahsulot tafsilotlari
 function openProductDetail(productId){
   let p = products.find(prod => prod.id === productId);
   if(!p) return;
-  detailCurrentProductId = p.id;
   detailCurrentImages = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
   detailActiveIndex = 0;
 
@@ -812,21 +759,16 @@ function openProductDetail(productId){
   document.getElementById('detailCategoryWeight').textContent = `Kategoriya: ${p.category} | Og'irligi: ${p.weight} kg`;
   
   let sizesBox = document.getElementById('detailSizesBox');
-  if(p.sizes){
-    sizesBox.style.display = 'block';
-    document.getElementById('detailSizesText').textContent = p.sizes;
-  } else {
-    sizesBox.style.display = 'none';
-  }
+  if(p.sizes){ sizesBox.style.display = 'block'; document.getElementById('detailSizesText').textContent = p.sizes; } 
+  else { sizesBox.style.display = 'none'; }
 
-  document.getElementById('detailDesc').textContent = p.desc || "Mahsulot uchun qo'shimcha tavsif kiritilmagan.";
+  document.getElementById('detailDesc').textContent = p.desc || "Tavsif mavjud emas.";
   updateDetailImageView();
 
   document.getElementById('detailAddToCartBtn').onclick = function(){
     addToCart(p.id);
     closeModal('productDetailModal');
   };
-
   openModal('productDetailModal');
 }
 
@@ -835,10 +777,7 @@ function updateDetailImageView(){
   if(detailCurrentImages.length > 0){
     imgEl.src = detailCurrentImages[detailActiveIndex];
     imgEl.style.display = 'block';
-  } else {
-    imgEl.src = '';
-    imgEl.style.display = 'none';
-  }
+  } else { imgEl.style.display = 'none'; }
 }
 
 function slideDetailImg(direction){
@@ -847,6 +786,7 @@ function slideDetailImg(direction){
   updateDetailImageView();
 }
 
+// Savat va Buyurtmalar
 function addToCart(productId){
   let product = products.find(p => p.id === productId);
   if(!product) return;
@@ -878,14 +818,16 @@ function updateQty(cartItemId, delta){
 }
 
 function updateCartUI(){
-  let badge = document.getElementById('cartBadge');
   let totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
-  if(badge){ totalQty > 0 ? (badge.textContent = totalQty, badge.classList.remove('hidden')) : badge.classList.add('hidden'); }
+  let bottomBadge = document.getElementById('bottomCartBadge');
+  if(bottomBadge){
+    totalQty > 0 ? (bottomBadge.textContent = totalQty, bottomBadge.classList.remove('hidden')) : bottomBadge.classList.add('hidden');
+  }
   let body = document.getElementById('cartBody');
   let footer = document.getElementById('cartFooter');
   if(!body || !footer) return;
   if(cart.length === 0){
-    body.innerHTML = '<div class="empty-state" style="text-align:center; padding:30px; color:var(--text-muted)"><h3>Savatingiz bo\'sh</h3></div>';
+    body.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted)"><h3>Savatingiz bo\'sh</h3></div>';
     footer.classList.add('hidden');
     return;
   }
@@ -936,10 +878,11 @@ function handleCheckoutSubmit(e){
     document.getElementById('orderDetails').textContent = `Mijoz: ${name}\nTelefon: ${phone}\nSumma: ${formatPrice(total)}`;
     openModal('successModal');
     cart = []; localStorage.removeItem('cdv_cart'); updateCartUI();
+    renderMyOrdersList();
   });
 }
 
-function openTrackModal(){ openModal('trackModal'); }
+// Buyurtmalarni kuzatish va chiqazish
 function searchTrackOrder(){
   let val = document.getElementById('trackInput').value.trim().toLowerCase();
   if(!val) return;
@@ -960,6 +903,102 @@ function searchTrackOrder(){
     else if(i - 1 === currentIdx) st.classList.add('current');
   }
   document.getElementById('trackOrderItems').textContent = found.items.map(i => `${i.name} [${i.size}] x ${i.qty}`).join('\n');
+}
+
+function renderMyOrdersList(){
+  let container = document.getElementById('myOrdersListContainer');
+  if(!container) return;
+  if(!currentUser){
+    container.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem;">Buyurtmalarni ko\'rish uchun avval "Profil" bo\'limidan tizimga kiring.</p>';
+    return;
+  }
+  let myOrders = orders.filter(o => o.phone && o.phone.includes(currentUser.phone));
+  if(myOrders.length === 0){
+    container.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem;">Sizda hali buyurtmalar yo\'q.</p>';
+    return;
+  }
+  container.innerHTML = myOrders.map(o => `
+    <div class="order-card-user">
+      <div style="display:flex;justify-content:space-between"><b>Kod: ${o.code}</b><span style="color:var(--brand-red);font-weight:bold">${o.status}</span></div>
+      <div style="margin-top:4px; font-size:0.8rem; color:var(--text-muted);">Summa: ${formatPrice(o.total)}</div>
+    </div>
+  `).join('');
+}
+
+// Profil bo'limi
+renderProfileContent = function(){
+  let card = document.getElementById('profileCardContent');
+  if(!card) return;
+  if(currentUser){
+    card.innerHTML = `
+      <div style="text-align:center; margin-bottom:16px;">
+        <div style="font-size:2.5rem; margin-bottom:6px;">👤</div>
+        <h3 style="font-size:1.1rem;">${currentUser.name}</h3>
+        <p style="color:var(--text-muted); font-size:0.85rem;">${currentUser.phone}</p>
+      </div>
+      <button class="btn btn-outline w-full" onclick="logoutUser()" style="margin-bottom:10px;">Chiqish</button>
+    `;
+  } else {
+    card.innerHTML = `
+      <div style="text-align:center; padding:10px 0;">
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:14px;">Tizimga kirmagansiz. Ma'lumotlaringizni saqlash uchun kiring.</p>
+        <button class="btn btn-primary w-full" onclick="openAuthModal()">Kirish / Ro'yxatdan o'tish</button>
+      </div>
+    `;
+  }
+}
+
+function handleAuthSubmit(e){
+  e.preventDefault();
+  let name = document.getElementById('authName').value.trim();
+  let phone = document.getElementById('authPhone').value.trim();
+  currentUser = { name, phone };
+  localStorage.setItem('cdv_user', JSON.stringify(currentUser));
+  closeModal('authModal');
+  renderProfileContent();
+  renderMyOrdersList();
+  showToast("Xush kelibsiz, " + name + "!");
+}
+
+function logoutUser(){
+  localStorage.removeItem('cdv_user');
+  currentUser = null;
+  renderProfileContent();
+  renderMyOrdersList();
+  showToast("Chiqildi");
+}
+
+function openAuthModal(){ openModal('authModal'); }
+
+// Admin Panel
+function toggleAdminView(){
+  if(isAdmin){
+    isAdmin = false;
+    document.getElementById('adminView').classList.add('hidden');
+    switchPage('home', document.querySelector('.bottom-nav .nav-item'));
+    document.getElementById('adminBtn').textContent = '🔐 Admin';
+  } else { openModal('loginModal'); }
+}
+
+function handleLoginSubmit(e){
+  e.preventDefault();
+  if(document.getElementById('adminPassword').value === ADMIN_PASS){
+    isAdmin = true;
+    closeModal('loginModal');
+    document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
+    document.getElementById('adminView').classList.remove('hidden');
+    document.getElementById('adminBtn').textContent = '🏠 Asosiy';
+    document.getElementById('adminPassword').value = '';
+    renderAdmin();
+    showToast('Xush kelibsiz Admin!');
+  } else { showToast("Parol noto'g'ri!", 'error'); }
+}
+
+function switchAdminTab(tabName, el){
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  if(el) el.classList.add('active');
+  document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.add('hidden'));
+  document.getElementById('admin-tab-' + tabName).classList.remove('hidden');
 }
 
 function renderAdmin(){
@@ -1002,7 +1041,6 @@ function renderAdmin(){
   `).join('');
 }
 
-// --- UPLOAD LOGIC ---
 function openAddProductModal(){
   document.getElementById('productModalTitle').textContent = "Yangi mahsulot";
   document.getElementById('productId').value = '';
@@ -1019,11 +1057,7 @@ function openAddProductModal(){
   openModal('productModal');
 }
 
-function triggerThumbUpload(index){
-  activeUploadIndex = index;
-  document.getElementById('thumbInput').click();
-}
-
+function triggerThumbUpload(index){ activeUploadIndex = index; document.getElementById('thumbInput').click(); }
 function handleThumbSelect(e){
   let file = e.target.files[0];
   if(!file) return;
@@ -1034,27 +1068,17 @@ function handleThumbSelect(e){
     img.onload = function(){
       let canvas = document.createElement('canvas');
       let scale = Math.min(1, 400 / img.width);
-      canvas.width = img.width * scale;
-      canvas.height = img.height * scale;
-      let ctx = canvas.getContext('2d');
-      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      canvas.width = img.width * scale; canvas.height = img.height * scale;
+      let ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
       currentImages[activeUploadIndex] = canvas.toDataURL('image/jpeg', 0.6);
       renderThumbnails();
     }
   }
-  reader.readAsDataURL(file);
-  e.target.value = '';
+  reader.readAsDataURL(file); e.target.value = '';
 }
-
-function removeThumb(index, event){
-  event.stopPropagation();
-  currentImages[index] = "";
-  renderThumbnails();
-}
-
+function removeThumb(index, event){ event.stopPropagation(); currentImages[index] = ""; renderThumbnails(); }
 function renderThumbnails(){
-  let grid = document.getElementById('multiUploadGrid');
-  grid.innerHTML = currentImages.map((img, i) => `
+  document.getElementById('multiUploadGrid').innerHTML = currentImages.map((img, i) => `
     <div class="upload-thumb" onclick="triggerThumbUpload(${i})">
       ${img ? `<img src="${img}"><button class="remove-thumb" onclick="removeThumb(${i}, event)">×</button>` : '<span>📷+</span>'}
     </div>
@@ -1074,6 +1098,16 @@ function fetchPinduoduoData(){
   }, 700);
 }
 
+function updateAdminCalcPrice(){
+  let tempProduct = {
+    priceYuan: parseFloat(document.getElementById('productPriceYuan').value) || 0,
+    weight: parseFloat(document.getElementById('productWeight').value) || 0,
+    shipping: document.getElementById('productShipping').value,
+    discount: parseFloat(document.getElementById('productDiscount').value) || 0
+  };
+  document.getElementById('modalCalcPrice').textContent = formatPrice(calculatePrice(tempProduct).finalPrice);
+}
+
 function handleProductSubmit(e){
   e.preventDefault();
   let id = document.getElementById('productId').value;
@@ -1087,8 +1121,7 @@ function handleProductSubmit(e){
     shipping: document.getElementById('productShipping').value,
     discount: parseFloat(document.getElementById('productDiscount').value) || 0,
     desc: document.getElementById('productDesc').value,
-    images: validImages,
-    image: validImages.length > 0 ? validImages[0] : ''
+    images: validImages, image: validImages.length > 0 ? validImages[0] : ''
   };
   let promise = id ? db.collection("products").doc(id).set(data, {merge: true}) : db.collection("products").add(data);
   promise.then(() => { closeModal('productModal'); showToast("Saqlandi!"); });
@@ -1107,7 +1140,6 @@ function editProduct(id){
   document.getElementById('productShipping').value = p.shipping || 'avia';
   document.getElementById('productDiscount').value = p.discount || 0;
   document.getElementById('productDesc').value = p.desc || '';
-  
   currentImages = ["", "", ""];
   let savedImgs = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
   savedImgs.forEach((img, idx) => { if(idx < 3) currentImages[idx] = img; });
@@ -1116,12 +1148,7 @@ function editProduct(id){
   openModal('productModal');
 }
 
-function deleteProduct(id){
-  if(confirm("O'chirishni tasdiqlaysizmi?")) {
-    db.collection("products").doc(id).delete().then(() => showToast("O'chirildi!"));
-  }
-}
-
+function deleteProduct(id){ if(confirm("O'chirilsinmi?")) db.collection("products").doc(id).delete().then(() => showToast("O'chirildi!")); }
 function updateOrderStatus(id, status){ db.collection("orders").doc(id).update({status}).then(() => showToast("Yangilandi!")); }
 function deleteOrder(id){ if(confirm("O'chirilsinmi?")) db.collection("orders").doc(id).delete().then(() => showToast("O'chirildi!")); }
 
@@ -1133,7 +1160,7 @@ function saveSettings(){
     avtoRate: parseFloat(document.getElementById('rateAvto').value),
     markup: parseFloat(document.getElementById('rateMarkup').value)
   };
-  db.collection("settings").doc("general").set(newSettings).then(() => showToast("Saqlandi!"));
+  db.collection("settings").doc("general").set(newSettings).then(() => showToast("Sozlamalar saqlandi!"));
 }
 </script>
 </body>
