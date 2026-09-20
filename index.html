@@ -45,10 +45,10 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 
 /* Bottom Navigation Bar */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#ffffff;border-top:1px solid var(--border-color);display:flex;justify-content:space-around;align-items:center;padding:8px 0;z-index:250;box-shadow:0 -4px 20px rgba(0,0,0,0.06)}
-.nav-item{display:flex;flex-direction:column;align-items:center;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:0.7rem;font-weight:600;transition:color 0.2s;width:25%;position:relative}
+.nav-item{display:flex;flex-direction:column;align-items:center;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:0.7rem;font-weight:600;transition:color 0.2s;width:20%;position:relative}
 .nav-item span.nav-icon{font-size:1.3rem;margin-bottom:2px}
 .nav-item.active{color:var(--brand-red)}
-.nav-cart-badge{position:absolute;top:2px;right:25%;background:var(--brand-gold);color:#111;font-size:0.6rem;font-weight:800;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
+.nav-cart-badge{position:absolute;top:2px;right:20%;background:var(--brand-gold);color:#111;font-size:0.6rem;font-weight:800;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 
 /* Hero Banner */
 .hero{background:linear-gradient(135deg, #121214 0%, #2a1b22 100%);padding:24px 0;border-bottom:1px solid var(--border-color);margin-bottom:16px;color:white}
@@ -80,6 +80,10 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .product-image-wrap{width:100%;height:190px;background:#fff;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:pointer}
 .product-image-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.4s ease}
 .product-card:hover .product-image-wrap img{transform:scale(1.06)}
+
+.wishlist-btn{position:absolute;top:8px;right:8px;background:rgba(255,255,255,0.9);border:none;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;font-size:1rem;box-shadow:0 2px 5px rgba(0,0,0,0.1);transition:transform 0.2s}
+.wishlist-btn:hover{transform:scale(1.1)}
+.wishlist-btn.active{color:var(--brand-red)}
 
 .card-image-dots{position:absolute;bottom:8px;left:0;right:0;display:flex;justify-content:center;gap:4px;z-index:2}
 .dot{width:6px;height:6px;border-radius:50%;background:rgba(255,255,255,0.7);box-shadow:0 1px 3px rgba(0,0,0,0.4)}
@@ -236,7 +240,15 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </div>
 
-<!-- 3. BUYURTMALAR -->
+<!-- 3. SEVIMLILAR (WISHLIST) -->
+<div class="page-section hidden" id="page-wishlist">
+  <div class="container" style="padding-top: 20px;">
+    <h2 class="section-title">🤍 Sevimli mahsulotlar</h2>
+    <div class="products-grid" id="wishlistProductsGrid"></div>
+  </div>
+</div>
+
+<!-- 4. BUYURTMALAR -->
 <div class="page-section hidden" id="page-orders">
   <div class="container" style="padding-top: 20px;">
     <h2 class="section-title">📦 Buyurtmalar va Kuzatish</h2>
@@ -273,7 +285,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </div>
 
-<!-- 4. PROFIL -->
+<!-- 5. PROFIL -->
 <div class="page-section hidden" id="page-profile">
   <div class="container" style="padding-top: 20px; max-width: 520px;">
     <h2 class="section-title">👤 Shaxsiy Profil</h2>
@@ -349,6 +361,10 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
     <span class="nav-icon">🔍</span>
     <span>Katalog</span>
   </button>
+  <button type="button" class="nav-item" onclick="switchPage('wishlist', this)">
+    <span class="nav-icon">🤍</span>
+    <span>Sevimlilar</span>
+  </button>
   <button type="button" class="nav-item" onclick="switchPage('orders', this)">
     <span class="nav-icon">📦</span>
     <span>Buyurtmalar</span>
@@ -393,9 +409,19 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
         </div>
       </div>
 
-      <div style="background:#fafafa; padding:10px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:16px;">
+      <div style="background:#fafafa; padding:10px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:12px;">
         <label style="font-size:0.7rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:2px;">TAVSIF:</label>
         <p id="detailDesc" style="font-size:0.85rem; white-space:pre-wrap; color:var(--text-main);">Tavsif mavjud emas</p>
+      </div>
+
+      <!-- SHARHLAR BO'LIMI -->
+      <div style="background:#fafafa; padding:10px; border-radius:12px; border:1px solid var(--border-color); margin-bottom:16px;">
+        <label style="font-size:0.75rem; font-weight:700; color:var(--brand-dark); display:block; margin-bottom:6px;">⭐ Mijozlar sharhlari:</label>
+        <div id="detailReviewsList" style="font-size:0.8rem; color:var(--text-muted); max-height:80px; overflow-y:auto; margin-bottom:8px;">Hozircha sharhlar yo'q.</div>
+        <div style="display:flex; gap:6px;">
+          <input type="text" id="newReviewInput" placeholder="Fikringizni yozing..." style="flex:1; padding:6px 10px; border:1px solid var(--border-color); border-radius:8px; font-size:0.8rem;">
+          <button type="button" class="btn btn-primary btn-sm" onclick="submitReview()">Yuborish</button>
+        </div>
       </div>
 
       <button type="button" class="btn btn-primary w-full" onclick="addDetailToCartAndCheckout()">Savatga qo'shish va Zakaz qilish</button>
@@ -403,15 +429,30 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </div>
 
-<!-- AUTENTIFIKATSIYA MODALI -->
+<!-- AUTENTIFIKATSIYA VA SHARTLARGA ROZILIK MODALI -->
 <div class="modal" id="authModal">
-  <div class="modal-content" style="max-width:380px">
-    <div class="modal-header"><h3 style="font-size:1rem">Tizimga kirish</h3><button type="button" class="close-btn" onclick="closeModal('authModal')">×</button></div>
+  <div class="modal-content" style="max-width:420px">
+    <div class="modal-header"><h3 style="font-size:1rem">Tizimga kirish va Shartlar</h3><button type="button" class="close-btn" onclick="closeModal('authModal')">×</button></div>
     <div class="modal-body">
+      <div style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:12px; padding:12px; margin-bottom:14px; font-size:0.78rem; color:#4a1525; max-height:130px; overflow-y:auto; line-height:1.4;">
+        <b>⚠️ FOYDALANISH VA ZAKAZ QILISH SHARTLARI:</b><br>
+        1. Xitoydan (Pinduoduo/1688) buyurtma qilib O'zbekistonga keltirilgan mahsulotlar <b>qaytarib olinmaydi</b>.<br>
+        2. Buyurtma kelganidan keyin mijoz sababsiz olishdan bosh tortsa yoki aloqaga chiqmasa, logistika va yetkazib berish xarajatlari uchun mahsulot umumiy summasidan <b>25% miqdorida jarima mijozdan undirib olinadi</b>.<br>
+        3. Tizimga kirish orqali yuqoridagi shartlarga to'liq rozilik bildirasiz.
+      </div>
+
       <form onsubmit="handleAuthSubmit(event)">
         <div class="form-group"><label>Ismingiz</label><input type="text" id="authName" placeholder="Ism-sharifingiz" required></div>
         <div class="form-group"><label>Telefon raqam</label><input type="tel" id="authPhone" placeholder="+998 90 123 45 67" required></div>
-        <button type="submit" class="btn btn-primary w-full">Kirish va saqlash</button>
+        
+        <div style="display:flex; align-items:flex-start; gap:8px; margin-bottom:14px;">
+          <input type="checkbox" id="termsCheck" required style="margin-top:3px; width:18px; height:18px; accent-color:var(--brand-red); cursor:pointer;">
+          <label for="termsCheck" style="font-size:0.8rem; color:var(--text-main); font-weight:normal; cursor:pointer;">
+            Shartlar va qoidalar bilan tanishdim, <b>25% jarima</b> va <b>qaytarib olinmaslik</b> shartlariga roziman.
+          </label>
+        </div>
+
+        <button type="submit" class="btn btn-primary w-full">Rozilik berish va kirish</button>
       </form>
     </div>
   </div>
@@ -493,20 +534,34 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </div>
 
-<!-- CHECKOUT MODAL -->
+<!-- CHECKOUT MODAL (CLICK / PAYME TO'LOV TIZIMLARI BILAN) -->
 <div class="modal" id="checkoutModal">
   <div class="modal-content">
     <div class="modal-header"><h3 style="font-size:1rem">Buyurtmani rasmiylashtirish</h3><button type="button" class="close-btn" onclick="closeModal('checkoutModal')">×</button></div>
     <div class="modal-body">
+      <div style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:10px; padding:10px; margin-bottom:12px; font-size:0.75rem; color:#4a1525;">
+        <b>Eslatma:</b> Buyurtma kelgach olib ketilmasa <b>25% jarima</b> olinadi va mahsulotlar <b>qaytarib olinmaydi</b>.
+      </div>
       <form onsubmit="handleCheckoutSubmit(event)">
         <div class="form-group"><label>Ismingiz</label><input type="text" id="customerName" required placeholder="Ism"></div>
         <div class="form-group"><label>Telefon raqam</label><input type="tel" id="customerPhone" required placeholder="+998 90 123 45 67"></div>
         <div class="form-group"><label>Yetkazish manzili</label><input type="text" id="customerAddress" required placeholder="Manzil va ko'cha"></div>
+        
+        <!-- To'lov tizimini tanlash -->
+        <div class="form-group">
+          <label>To'lov usuli</label>
+          <select id="paymentMethod" style="width:100%; padding:10px; border-radius:12px; border:1.5px solid var(--border-color)">
+            <option value="Click">💙 Click orqali onlayn to'lov</option>
+            <option value="Payme">💜 Payme orqali onlayn to'lov</option>
+            <option value="Naqd">💵 Mahsulot kelganda naqd to'lash</option>
+          </select>
+        </div>
+
         <div class="form-group"><label>Izoh</label><textarea id="customerNote"></textarea></div>
         <div style="background:#f1f1f3;padding:12px;border-radius:14px;margin-bottom:14px;font-size:0.9rem">
           Jami to'lov: <span id="checkoutTotal" style="font-weight:800;color:var(--brand-red)">0 so'm</span>
         </div>
-        <button type="submit" class="btn btn-primary w-full">Zakazni tasdiqlash</button>
+        <button type="submit" class="btn btn-primary w-full">Zakazni tasdiqlash va To'lash</button>
       </form>
     </div>
   </div>
@@ -589,6 +644,7 @@ let settings = {yuanRate:2150, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:4
 let products = JSON.parse(localStorage.getItem('cdv_products_cache') || "[]");
 let orders = [];
 let cart = JSON.parse(localStorage.getItem('cdv_cart') || "[]");
+let wishlist = JSON.parse(localStorage.getItem('cdv_wishlist') || "[]");
 let currentUser = JSON.parse(localStorage.getItem('cdv_user') || "null");
 let isAdmin = false;
 let activeCategory = 'all';
@@ -640,6 +696,7 @@ function switchPage(pageId, el){
 
   if(pageId === 'home') renderProducts();
   if(pageId === 'catalog') renderCatalogProducts();
+  if(pageId === 'wishlist') renderWishlistProducts();
   if(pageId === 'orders') renderMyOrdersList();
   if(pageId === 'profile') renderProfileContent();
 }
@@ -652,6 +709,7 @@ function fetchDataFromServer(){
     localStorage.setItem('cdv_products_cache', JSON.stringify(products));
     renderProducts();
     renderCatalogProducts();
+    renderWishlistProducts();
     if(isAdmin) renderAdmin();
   }, (err) => { console.log(err); });
   
@@ -715,6 +773,33 @@ function renderCatalogProducts(){
   grid.innerHTML = filtered.map(p => createProductCardHTML(p)).join('');
 }
 
+function renderWishlistProducts(){
+  let grid = document.getElementById('wishlistProductsGrid');
+  if(!grid) return;
+  let favProducts = products.filter(p => wishlist.includes(p.id));
+  if(favProducts.length === 0){
+    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)"><h3>Sevimlilar ro\'yxati bo\'sh 🤍</h3></div>';
+    return;
+  }
+  grid.innerHTML = favProducts.map(p => createProductCardHTML(p)).join('');
+}
+
+function toggleWishlist(productId, event){
+  event.stopPropagation();
+  let index = wishlist.indexOf(productId);
+  if(index > -1){
+    wishlist.splice(index, 1);
+    showToast("Sevimlilardan olib tashlandi");
+  } else {
+    wishlist.push(productId);
+    showToast("Sevimlilarga qo'shildi! 🤍");
+  }
+  localStorage.setItem('cdv_wishlist', JSON.stringify(wishlist));
+  renderProducts();
+  renderCatalogProducts();
+  renderWishlistProducts();
+}
+
 function createProductCardHTML(p){
   let calc = calculatePrice(p);
   let shippingLabel = p.shipping === 'avia' ? '✈️ Avia' : '🚛 Avto';
@@ -722,10 +807,12 @@ function createProductCardHTML(p){
   let hasDiscount = p.discount && p.discount > 0;
   let imgs = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
   let firstImg = imgs.length > 0 ? imgs[0] : '';
+  let isFav = wishlist.includes(p.id);
 
   return `<div class="product-card" id="prod-card-${p.id}" data-imgs='${JSON.stringify(imgs)}' data-index="0">
     <div class="product-image-wrap" onclick="openProductDetail('${p.id}')">
       ${firstImg ? `<img id="card-img-${p.id}" src="${firstImg}">` : '<div style="opacity:0.2">📦</div>'}
+      <button type="button" class="wishlist-btn ${isFav ? 'active' : ''}" onclick="toggleWishlist('${p.id}', event)">${isFav ? '❤️' : '🤍'}</button>
       <div class="product-badges">
         <div class="product-badge ${badgeClass}">${shippingLabel}</div>
         ${hasDiscount ? `<div class="product-badge discount-badge">-${p.discount}%</div>` : ''}
@@ -802,8 +889,38 @@ function openProductDetail(productId){
     selectedSize = 'Standard';
   }
 
+  renderDetailReviews(p);
   updateDetailImageView();
   openModal('productDetailModal');
+}
+
+function renderDetailReviews(p){
+  let rList = document.getElementById('detailReviewsList');
+  if(!rList) return;
+  let reviews = p.reviews || [];
+  if(reviews.length === 0){
+    rList.innerHTML = '<span style="color:var(--text-muted)">Hozircha sharhlar yo\'q.</span>';
+    return;
+  }
+  rList.innerHTML = reviews.map(r => `<div style="margin-bottom:4px; border-bottom:1px solid #eee; padding-bottom:4px;"><b>${r.name}:</b> ${r.text}</div>`).join('');
+}
+
+function submitReview(){
+  if(!detailCurrentProduct) return;
+  let input = document.getElementById('newReviewInput');
+  let text = input ? input.value.trim() : '';
+  if(!text) return showToast("Sharh matnini kiriting", "error");
+  if(!currentUser) return showToast("Sharh yozish uchun avval tizimga kiring", "error");
+
+  let pId = detailCurrentProduct.id;
+  if(!detailCurrentProduct.reviews) detailCurrentProduct.reviews = [];
+  detailCurrentProduct.reviews.push({name: currentUser.name, text});
+
+  db.collection("products").doc(pId).update({reviews: detailCurrentProduct.reviews}).then(() => {
+    input.value = '';
+    renderDetailReviews(detailCurrentProduct);
+    showToast("Sharhingiz qo'shildi!");
+  });
 }
 
 function selectSizeChip(size, el){
@@ -943,13 +1060,15 @@ function handleCheckoutSubmit(e){
   let phoneEl = document.getElementById('customerPhone');
   let addrEl = document.getElementById('customerAddress');
   let noteEl = document.getElementById('customerNote');
+  let payEl = document.getElementById('paymentMethod');
   
   let name = nameEl ? nameEl.value : '';
   let phone = phoneEl ? phoneEl.value : '';
+  let payment = payEl ? payEl.value : 'Naqd';
   let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
   let orderCode = 'CDV-' + Math.floor(1000 + Math.random() * 9000);
   let newOrder = {
-    code: orderCode, name, phone,
+    code: orderCode, name, phone, payment,
     address: addrEl ? addrEl.value : '',
     note: noteEl ? noteEl.value : '',
     items: cart, total, status: 'Tasdiqlandi',
@@ -960,7 +1079,7 @@ function handleCheckoutSubmit(e){
     let sId = document.getElementById('successOrderId');
     let sDet = document.getElementById('orderDetails');
     if(sId) sId.textContent = orderCode;
-    if(sDet) sDet.textContent = `Mijoz: ${name}\nTelefon: ${phone}\nSumma: ${formatPrice(total)}`;
+    if(sDet) sDet.textContent = `Mijoz: ${name}\nTo'lov usuli: ${payment}\nSumma: ${formatPrice(total)}`;
     openModal('successModal');
     cart = []; localStorage.removeItem('cdv_cart'); updateCartUI();
     renderMyOrdersList();
@@ -1012,7 +1131,7 @@ function renderMyOrdersList(){
   container.innerHTML = myOrders.map(o => `
     <div class="order-card-user">
       <div style="display:flex;justify-content:space-between"><b>Kod: ${o.code}</b><span style="color:var(--brand-red);font-weight:bold">${o.status}</span></div>
-      <div style="margin-top:4px; font-size:0.8rem; color:var(--text-muted);">Summa: ${formatPrice(o.total)}</div>
+      <div style="margin-top:4px; font-size:0.8rem; color:var(--text-muted);">Summa: ${formatPrice(o.total)} | To'lov: ${o.payment || 'Naqd'}</div>
     </div>
   `).join('');
 }
@@ -1058,6 +1177,11 @@ function renderProfileContent(){
 
 function handleAuthSubmit(e){
   e.preventDefault();
+  let termsCheck = document.getElementById('termsCheck');
+  if(termsCheck && !termsCheck.checked){
+    showToast("Shartlarga rozilik bildirishingiz shart!", "error");
+    return;
+  }
   let nameEl = document.getElementById('authName');
   let phoneEl = document.getElementById('authPhone');
   let name = nameEl ? nameEl.value.trim() : '';
