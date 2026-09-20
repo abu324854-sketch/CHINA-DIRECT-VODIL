@@ -100,7 +100,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .product-footer{display:flex;gap:6px;margin-top:8px}
 .product-footer .btn{flex:1;justify-content:center;padding:7px;font-size:0.75rem;border-radius:12px}
 
-/* Detail Modal Style (Mukammal tafsilot va tanlash) */
+/* Detail Modal Style */
 .detail-slider-container{position:relative;width:100%;height:280px;background:#f9f9fb;border-radius:14px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:12px;border:1px solid var(--border-color)}
 .detail-slider-container img{width:100%;height:100%;object-fit:cover}
 .slider-nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);color:white;border:none;width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center}
@@ -198,7 +198,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </header>
  
-<!-- 1. BOSH SAHIFA (Barcha mahsulotlar chiqadi) -->
+<!-- 1. BOSH SAHIFA -->
 <div class="page-section" id="page-home">
   <div class="hero">
     <div class="container">
@@ -212,7 +212,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </div>
 
-<!-- 2. KATALOG / QIDIRISH (Nomi yozilsa chiqadi) -->
+<!-- 2. KATALOG / QIDIRISH -->
 <div class="page-section hidden" id="page-catalog">
   <div class="controls" style="position:static; margin-top: 10px;">
     <div class="container controls-content">
@@ -359,7 +359,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </button>
 </nav>
 
-<!-- MAHSULOT TAFSILOTLARI VA TANLASH MODALI (Rasmni bossa ochiladi, razmer va soni belgilanadi) -->
+<!-- MAHSULOT TAFSILOTLARI MODALI -->
 <div class="modal" id="productDetailModal">
   <div class="modal-content" style="max-width:500px;">
     <div class="modal-header">
@@ -376,19 +376,17 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
       <div style="font-size:1.25rem; font-weight:800; color:var(--brand-dark); margin-bottom:4px;" id="detailPrice">0 so'm</div>
       <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;" id="detailCategoryWeight"></div>
 
-      <!-- Razmer tanlash -->
       <div class="option-group" id="detailSizesSection">
         <label>Razmerni tanlang:</label>
         <div class="size-chips" id="detailSizesChips"></div>
       </div>
 
-      <!-- Miqdorni belgilash -->
       <div class="option-group">
         <label>Miqdori (nechtaligi):</label>
         <div style="display:flex; align-items:center; gap:12px;">
-          <button class="qty-btn" style="width:32px; height:32px; font-size:1rem;" onclick="changeDetailQty(-1)">−</button>
+          <button type="button" class="qty-btn" style="width:32px; height:32px; font-size:1rem;" onclick="changeDetailQty(-1)">−</button>
           <span id="detailQtyVal" style="font-size:1.1rem; font-weight:800;">1</span>
-          <button class="qty-btn" style="width:32px; height:32px; font-size:1rem;" onclick="changeDetailQty(1)">+</button>
+          <button type="button" class="qty-btn" style="width:32px; height:32px; font-size:1rem;" onclick="changeDetailQty(1)">+</button>
         </div>
       </div>
 
@@ -397,7 +395,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
         <p id="detailDesc" style="font-size:0.85rem; white-space:pre-wrap; color:var(--text-main);">Tavsif mavjud emas</p>
       </div>
 
-      <button class="btn btn-primary w-full" onclick="addDetailToCartAndCheckout()">Savatga qo'shish va Zakaz qilish</button>
+      <button type="button" class="btn btn-primary w-full" onclick="addDetailToCartAndCheckout()">Savatga qo'shish va Zakaz qilish</button>
     </div>
   </div>
 </div>
@@ -550,7 +548,11 @@ const firebaseConfig = {
   messagingSenderId: "183932106361",
   appId: "1:183932106361:web:21200df1542f2ee06bbda3"
 };
-firebase.initializeApp(firebaseConfig);
+
+try {
+  firebase.initializeApp(firebaseConfig);
+} catch(e) { console.log(e); }
+
 const db = firebase.firestore();
 const rtdb = firebase.database();
 
@@ -591,8 +593,6 @@ const ADMIN_PASS = "admin123";
 
 let currentImages = ["", "", ""];
 let activeUploadIndex = 0;
-
-// Tafsilot va tanlash o'zgaruvchilari
 let detailCurrentImages = [];
 let detailActiveIndex = 0;
 let detailCurrentProduct = null;
@@ -601,6 +601,7 @@ let selectedQty = 1;
 
 function showToast(msg, type='success'){
   let container = document.getElementById('toastContainer');
+  if(!container) return;
   let toast = document.createElement('div');
   toast.className = 'toast ' + type;
   toast.textContent = msg;
@@ -608,20 +609,28 @@ function showToast(msg, type='success'){
   setTimeout(() => toast.remove(), 3000);
 }
 
-function openModal(id){ document.getElementById(id).classList.add('show'); }
-function closeModal(id){ document.getElementById(id).classList.remove('show'); }
+function openModal(id){ 
+  let el = document.getElementById(id);
+  if(el) el.classList.add('show'); 
+}
+function closeModal(id){ 
+  let el = document.getElementById(id);
+  if(el) el.classList.remove('show'); 
+}
 
 window.addEventListener('load', () => {
   renderProfileContent();
   renderProducts();
   fetchDataFromServer();
   trackTotalVisitors();
+  updateCartUI();
 });
 
 function switchPage(pageId, el){
   if(isAdmin) { toggleAdminView(); }
   document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
-  document.getElementById('page-' + pageId).classList.remove('hidden');
+  let target = document.getElementById('page-' + pageId);
+  if(target) target.classList.remove('hidden');
   
   document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => btn.classList.remove('active'));
   if(el) el.classList.add('active');
@@ -641,7 +650,7 @@ function fetchDataFromServer(){
     renderProducts();
     renderCatalogProducts();
     if(isAdmin) renderAdmin();
-  });
+  }, (err) => { console.log(err); });
   
   db.collection("settings").doc("general").get().then((docSnap) => {
     if (docSnap.exists) {
@@ -654,7 +663,7 @@ function fetchDataFromServer(){
       renderProducts();
       renderCatalogProducts();
     }
-  });
+  }).catch(e => {});
   
   db.collection("orders").onSnapshot((snapshot) => {
     let loadedOrders = [];
@@ -662,7 +671,7 @@ function fetchDataFromServer(){
     orders = loadedOrders;
     renderMyOrdersList();
     if(isAdmin) renderAdmin();
-  });
+  }, (err) => {});
 }
 
 function calculatePrice(p){
@@ -677,7 +686,6 @@ function calculatePrice(p){
 
 function formatPrice(price){ return (price || 0).toLocaleString('uz-UZ') + " so'm"; }
 
-// Bosh sahifa — barcha mahsulotlar
 function renderProducts(){
   let grid = document.getElementById('homeProductsGrid');
   if(!grid) return;
@@ -688,11 +696,11 @@ function renderProducts(){
   grid.innerHTML = products.map(p => createProductCardHTML(p)).join('');
 }
 
-// Katalog va Qidiruv — nomini yozganda qidirish
 function renderCatalogProducts(){
   let grid = document.getElementById('catalogProductsGrid');
   if(!grid) return;
-  let search = document.getElementById('searchInput') ? document.getElementById('searchInput'].value.toLowerCase().trim() : '';
+  let searchInput = document.getElementById('searchInput');
+  let search = searchInput ? searchInput.value.toLowerCase().trim() : '';
   let filtered = products;
   if(activeCategory !== 'all') filtered = filtered.filter(p => p.category === activeCategory);
   if(search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
@@ -731,7 +739,7 @@ function createProductCardHTML(p){
         <div class="product-price">${formatPrice(calc.finalPrice)}</div>
       </div>
       <div class="product-footer">
-        <button class="btn btn-primary" onclick="openProductDetail('${p.id}')">Tanlash va Zakaz</button>
+        <button type="button" class="btn btn-primary" onclick="openProductDetail('${p.id}')">Tanlash va Zakaz</button>
       </div>
     </div>
   </div>`;
@@ -743,7 +751,8 @@ function setCardImage(productId, index){
   let imgs = JSON.parse(card.getAttribute('data-imgs') || "[]");
   if(index >= 0 && index < imgs.length){
     card.setAttribute('data-index', index);
-    document.getElementById('card-img-' + productId).src = imgs[index];
+    let imgEl = document.getElementById('card-img-' + productId);
+    if(imgEl) imgEl.src = imgs[index];
     let dots = card.querySelectorAll('.dot');
     dots.forEach((d, i) => d.classList.toggle('active', i === index));
   }
@@ -756,7 +765,6 @@ function filterCategory(cat, el){
   renderCatalogProducts();
 }
 
-// MAHSULOT TAFSILOTLARI VA RAZMER/MIQDOR BELGILASH
 function openProductDetail(productId){
   let p = products.find(prod => prod.id === productId);
   if(!p) return;
@@ -765,24 +773,28 @@ function openProductDetail(productId){
   detailActiveIndex = 0;
   selectedQty = 1;
 
-  document.getElementById('detailTitle').textContent = p.name;
+  let titleEl = document.getElementById('detailTitle');
+  if(titleEl) titleEl.textContent = p.name;
   let calc = calculatePrice(p);
-  document.getElementById('detailPrice').textContent = formatPrice(calc.finalPrice);
-  document.getElementById('detailCategoryWeight').textContent = `Kategoriya: ${p.category} | Og'irligi: ${p.weight} kg`;
-  document.getElementById('detailDesc').textContent = p.desc || "Tavsif mavjud emas.";
-  document.getElementById('detailQtyVal').textContent = selectedQty;
+  let priceEl = document.getElementById('detailPrice');
+  if(priceEl) priceEl.textContent = formatPrice(calc.finalPrice);
+  let cwEl = document.getElementById('detailCategoryWeight');
+  if(cwEl) cwEl.textContent = `Kategoriya: ${p.category} | Og'irligi: ${p.weight} kg`;
+  let descEl = document.getElementById('detailDesc');
+  if(descEl) descEl.textContent = p.desc || "Tavsif mavjud emas.";
+  let qtyVal = document.getElementById('detailQtyVal');
+  if(qtyVal) qtyVal.textContent = selectedQty;
 
-  // Razmerlar
   let sizesChips = document.getElementById('detailSizesChips');
   let sizesSec = document.getElementById('detailSizesSection');
-  if(p.sizes){
+  if(p.sizes && sizesChips && sizesSec){
     sizesSec.style.display = 'block';
     let sizeArr = p.sizes.split(',').map(s => s.trim());
     selectedSize = sizeArr[0];
     sizesChips.innerHTML = sizeArr.map((sz, idx) => `
       <div class="size-chip ${idx===0?'selected':''}" onclick="selectSizeChip('${sz}', this)">${sz}</div>
     `).join('');
-  } else {
+  } else if(sizesSec) {
     sizesSec.style.display = 'none';
     selectedSize = 'Standard';
   }
@@ -794,17 +806,19 @@ function openProductDetail(productId){
 function selectSizeChip(size, el){
   selectedSize = size;
   document.querySelectorAll('.size-chip').forEach(c => c.classList.remove('selected'));
-  el.classList.add('selected');
+  if(el) el.classList.add('selected');
 }
 
 function changeDetailQty(delta){
   selectedQty += delta;
   if(selectedQty < 1) selectedQty = 1;
-  document.getElementById('detailQtyVal').textContent = selectedQty;
+  let qtyVal = document.getElementById('detailQtyVal');
+  if(qtyVal) qtyVal.textContent = selectedQty;
 }
 
 function updateDetailImageView(){
   let imgEl = document.getElementById('detailMainImg');
+  if(!imgEl) return;
   if(detailCurrentImages.length > 0){
     imgEl.src = detailCurrentImages[detailActiveIndex];
     imgEl.style.display = 'block';
@@ -817,7 +831,6 @@ function slideDetailImg(direction){
   updateDetailImageView();
 }
 
-// Savatga qo'shish va darhol rasmiylashtirishga o'tish
 function addDetailToCartAndCheckout(){
   if(!detailCurrentProduct) return;
   let p = detailCurrentProduct;
@@ -843,12 +856,27 @@ function addDetailToCartAndCheckout(){
   updateCartUI();
   closeModal('productDetailModal');
   showToast("Savatga qo'shildi!");
-  openCheckout(); // Darhol rasmiylashtirish oynasini ochish
+  openCheckout();
 }
 
-function openCart(){ document.getElementById('cartSidebar').classList.add('open'); document.getElementById('cartOverlay').classList.add('show'); updateCartUI(); }
-function closeCart(){ document.getElementById('cartSidebar').classList.remove('open'); document.getElementById('cartOverlay').classList.remove('show'); }
-function removeFromCart(cartItemId){ cart = cart.filter(i => i.cartItemId !== cartItemId); localStorage.setItem('cdv_cart', JSON.stringify(cart)); updateCartUI(); }
+function openCart(){ 
+  let sb = document.getElementById('cartSidebar');
+  let ov = document.getElementById('cartOverlay');
+  if(sb) sb.classList.add('open'); 
+  if(ov) ov.classList.add('show'); 
+  updateCartUI(); 
+}
+function closeCart(){ 
+  let sb = document.getElementById('cartSidebar');
+  let ov = document.getElementById('cartOverlay');
+  if(sb) sb.classList.remove('open'); 
+  if(ov) ov.classList.remove('show'); 
+}
+function removeFromCart(cartItemId){ 
+  cart = cart.filter(i => i.cartItemId !== cartItemId); 
+  localStorage.setItem('cdv_cart', JSON.stringify(cart)); 
+  updateCartUI(); 
+}
 function updateQty(cartItemId, delta){
   let item = cart.find(i => i.cartItemId === cartItemId);
   if(!item) return;
@@ -880,68 +908,90 @@ function updateCartUI(){
         <div class="cart-item-size">Razmer: ${item.size}</div>
         <div class="cart-item-price">${formatPrice(item.price * item.qty)}</div>
         <div class="cart-item-qty">
-          <button class="qty-btn" onclick="updateQty('${item.cartItemId}', -1)">−</button>
+          <button type="button" class="qty-btn" onclick="updateQty('${item.cartItemId}', -1)">−</button>
           <span>${item.qty}</span>
-          <button class="qty-btn" onclick="updateQty('${item.cartItemId}', 1)">+</button>
+          <button type="button" class="qty-btn" onclick="updateQty('${item.cartItemId}', 1)">+</button>
         </div>
       </div>
-      <button class="close-btn" onclick="removeFromCart('${item.cartItemId}')">×</button>
+      <button type="button" class="close-btn" onclick="removeFromCart('${item.cartItemId}')">×</button>
     </div>
   `).join('');
-  document.getElementById('cartTotal').textContent = formatPrice(cart.reduce((sum, i) => sum + (i.price * i.qty), 0));
+  let totalEl = document.getElementById('cartTotal');
+  if(totalEl) totalEl.textContent = formatPrice(cart.reduce((sum, i) => sum + (i.price * i.qty), 0));
 }
 
 function openCheckout(){
   if(cart.length === 0) return;
   closeCart();
-  document.getElementById('checkoutTotal').textContent = formatPrice(cart.reduce((sum, i) => sum + (i.price * i.qty), 0));
-  if(currentUser){ document.getElementById('customerName').value = currentUser.name; document.getElementById('customerPhone').value = currentUser.phone; }
+  let totEl = document.getElementById('checkoutTotal');
+  if(totEl) totEl.textContent = formatPrice(cart.reduce((sum, i) => sum + (i.price * i.qty), 0));
+  if(currentUser){ 
+    let nameEl = document.getElementById('customerName');
+    let phoneEl = document.getElementById('customerPhone');
+    if(nameEl) nameEl.value = currentUser.name; 
+    if(phoneEl) phoneEl.value = currentUser.phone; 
+  }
   openModal('checkoutModal');
 }
 
 function handleCheckoutSubmit(e){
   e.preventDefault();
-  let name = document.getElementById('customerName').value;
-  let phone = document.getElementById('customerPhone').value;
+  let nameEl = document.getElementById('customerName');
+  let phoneEl = document.getElementById('customerPhone');
+  let addrEl = document.getElementById('customerAddress');
+  let noteEl = document.getElementById('customerNote');
+  
+  let name = nameEl ? nameEl.value : '';
+  let phone = phoneEl ? phoneEl.value : '';
   let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
   let orderCode = 'CDV-' + Math.floor(1000 + Math.random() * 9000);
   let newOrder = {
     code: orderCode, name, phone,
-    address: document.getElementById('customerAddress').value,
-    note: document.getElementById('customerNote').value,
+    address: addrEl ? addrEl.value : '',
+    note: noteEl ? noteEl.value : '',
     items: cart, total, status: 'Tasdiqlandi',
     createdAt: firebase.firestore.FieldValue.serverTimestamp()
   };
   db.collection("orders").add(newOrder).then(() => {
     closeModal('checkoutModal');
-    document.getElementById('successOrderId').textContent = orderCode;
-    document.getElementById('orderDetails').textContent = `Mijoz: ${name}\nTelefon: ${phone}\nSumma: ${formatPrice(total)}`;
+    let sId = document.getElementById('successOrderId');
+    let sDet = document.getElementById('orderDetails');
+    if(sId) sId.textContent = orderCode;
+    if(sDet) sDet.textContent = `Mijoz: ${name}\nTelefon: ${phone}\nSumma: ${formatPrice(total)}`;
     openModal('successModal');
     cart = []; localStorage.removeItem('cdv_cart'); updateCartUI();
     renderMyOrdersList();
-  });
+  }).catch(err => { showToast("Xatolik yuz berdi", "error"); });
 }
 
 function searchTrackOrder(){
-  let val = document.getElementById('trackInput').value.trim().toLowerCase();
+  let trackInput = document.getElementById('trackInput');
+  let val = trackInput ? trackInput.value.trim().toLowerCase() : '';
   if(!val) return;
   let found = orders.find(o => (o.code && o.code.toLowerCase() === val) || (o.phone && o.phone.includes(val)));
   let resDiv = document.getElementById('trackResult');
+  if(!resDiv) return;
   if(!found){ showToast("Topilmadi", 'error'); resDiv.classList.add('hidden'); return; }
   resDiv.classList.remove('hidden');
-  document.getElementById('trackOrderCode').textContent = found.code + " (" + found.name + ")";
-  document.getElementById('trackStatusBadge').textContent = found.status || 'Tasdiqlandi';
+  let codeEl = document.getElementById('trackOrderCode');
+  let statusEl = document.getElementById('trackStatusBadge');
+  if(codeEl) codeEl.textContent = found.code + " (" + found.name + ")";
+  if(statusEl) statusEl.textContent = found.status || 'Tasdiqlandi';
   let steps = ['Tasdiqlandi', "Yig'ilyapti", "Xitoydan O'zbekistonga yo'lga chiqdi", 'Buyurtma keldi', 'Topshirildi'];
   let currentIdx = steps.indexOf(found.status || 'Tasdiqlandi');
   if(currentIdx === -1) currentIdx = 0;
-  document.getElementById('trackProgressBar').style.width = (currentIdx / (steps.length - 1)) * 100 + '%';
+  let progBar = document.getElementById('trackProgressBar');
+  if(progBar) progBar.style.width = (currentIdx / (steps.length - 1)) * 100 + '%';
   for(let i=1; i<=5; i++){
     let st = document.getElementById('step' + i);
-    st.className = 'step-item';
-    if(i - 1 < currentIdx) st.classList.add('active');
-    else if(i - 1 === currentIdx) st.classList.add('current');
+    if(st){
+      st.className = 'step-item';
+      if(i - 1 < currentIdx) st.classList.add('active');
+      else if(i - 1 === currentIdx) st.classList.add('current');
+    }
   }
-  document.getElementById('trackOrderItems').textContent = found.items.map(i => `${i.name} [${i.size}] x ${i.qty}`).join('\n');
+  let itemsEl = document.getElementById('trackOrderItems');
+  if(itemsEl) itemsEl.textContent = found.items.map(i => `${i.name} [${i.size}] x ${i.qty}`).join('\n');
 }
 
 function renderMyOrdersList(){
@@ -989,7 +1039,7 @@ function renderProfileContent(){
           <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Keshbek / Bonus</div>
         </div>
       </div>
-      <button class="btn btn-outline w-full" onclick="logoutUser()">Tizimdan chiqish</button>
+      <button type="button" class="btn btn-outline w-full" onclick="logoutUser()">Tizimdan chiqish</button>
     `;
   } else {
     card.innerHTML = `
@@ -997,7 +1047,7 @@ function renderProfileContent(){
         <div style="font-size:3rem; margin-bottom:10px;">👤</div>
         <h3 style="font-size:1.1rem; margin-bottom:6px;">Tizimga kirmagansiz</h3>
         <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Buyurtmalaringizni kuzatish va shaxsiy kabinetingizni ochish uchun kiring.</p>
-        <button class="btn btn-primary w-full" onclick="openAuthModal()">Kirish / Ro'yxatdan o'tish</button>
+        <button type="button" class="btn btn-primary w-full" onclick="openAuthModal()">Kirish / Ro'yxatdan o'tish</button>
       </div>
     `;
   }
@@ -1005,8 +1055,10 @@ function renderProfileContent(){
 
 function handleAuthSubmit(e){
   e.preventDefault();
-  let name = document.getElementById('authName').value.trim();
-  let phone = document.getElementById('authPhone').value.trim();
+  let nameEl = document.getElementById('authName');
+  let phoneEl = document.getElementById('authPhone');
+  let name = nameEl ? nameEl.value.trim() : '';
+  let phone = phoneEl ? phoneEl.value.trim() : '';
   currentUser = { name, phone };
   localStorage.setItem('cdv_user', JSON.stringify(currentUser));
   closeModal('authModal');
@@ -1025,25 +1077,29 @@ function logoutUser(){
 
 function openAuthModal(){ openModal('authModal'); }
 
-// Admin Panel
 function toggleAdminView(){
   if(isAdmin){
     isAdmin = false;
-    document.getElementById('adminView').classList.add('hidden');
+    let av = document.getElementById('adminView');
+    if(av) av.classList.add('hidden');
     switchPage('home', document.querySelector('.bottom-nav .nav-item'));
-    document.getElementById('adminBtn').textContent = '🔐 Admin';
+    let adminBtn = document.getElementById('adminBtn');
+    if(adminBtn) adminBtn.textContent = '🔐 Admin';
   } else { openModal('loginModal'); }
 }
 
 function handleLoginSubmit(e){
   e.preventDefault();
-  if(document.getElementById('adminPassword').value === ADMIN_PASS){
+  let passEl = document.getElementById('adminPassword');
+  if(passEl && passEl.value === ADMIN_PASS){
     isAdmin = true;
     closeModal('loginModal');
     document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
-    document.getElementById('adminView').classList.remove('hidden');
-    document.getElementById('adminBtn').textContent = '🏠 Asosiy';
-    document.getElementById('adminPassword').value = '';
+    let av = document.getElementById('adminView');
+    if(av) av.classList.remove('hidden');
+    let adminBtn = document.getElementById('adminBtn');
+    if(adminBtn) adminBtn.textContent = '🏠 Asosiy';
+    passEl.value = '';
     renderAdmin();
     showToast('Xush kelibsiz Admin!');
   } else { showToast("Parol noto'g'ri!", 'error'); }
@@ -1053,66 +1109,86 @@ function switchAdminTab(tabName, el){
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   if(el) el.classList.add('active');
   document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.add('hidden'));
-  document.getElementById('admin-tab-' + tabName).classList.remove('hidden');
+  let tContent = document.getElementById('admin-tab-' + tabName);
+  if(tContent) tContent.classList.remove('hidden');
 }
 
 function renderAdmin(){
-  document.getElementById('statProducts').textContent = products.length;
-  document.getElementById('statOrders').textContent = orders.length;
-  document.getElementById('statRevenue').textContent = formatPrice(orders.filter(o => o.status === 'Topshirildi').reduce((sum, o) => sum + o.total, 0));
+  let sp = document.getElementById('statProducts');
+  let so = document.getElementById('statOrders');
+  let sr = document.getElementById('statRevenue');
+  if(sp) sp.textContent = products.length;
+  if(so) so.textContent = orders.length;
+  if(sr) sr.textContent = formatPrice(orders.filter(o => o.status === 'Topshirildi').reduce((sum, o) => sum + o.total, 0));
   
-  document.getElementById('adminProductsTable').innerHTML = products.map(p => {
-    let thumb = p.images && p.images[0] ? p.images[0] : p.image;
-    return `<tr>
-      <td>${thumb ? `<img src="${thumb}" style="width:36px;height:36px;object-fit:cover;border-radius:8px">` : '📦'}</td>
-      <td><b>${p.name}</b></td>
-      <td>${p.category}</td>
-      <td>${formatPrice(calculatePrice(p).finalPrice)}</td>
-      <td>
-        <button class="btn btn-outline btn-sm" onclick="editProduct('${p.id}')">Tahrir</button>
-        <button class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">×</button>
-      </td>
-    </tr>`;
-  }).join('');
+  let apt = document.getElementById('adminProductsTable');
+  if(apt){
+    apt.innerHTML = products.map(p => {
+      let thumb = p.images && p.images[0] ? p.images[0] : p.image;
+      return `<tr>
+        <td>${thumb ? `<img src="${thumb}" style="width:36px;height:36px;object-fit:cover;border-radius:8px">` : '📦'}</td>
+        <td><b>${p.name}</b></td>
+        <td>${p.category}</td>
+        <td>${formatPrice(calculatePrice(p).finalPrice)}</td>
+        <td>
+          <button type="button" class="btn btn-outline btn-sm" onclick="editProduct('${p.id}')">Tahrir</button>
+          <button type="button" class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">×</button>
+        </td>
+      </tr>`;
+    }).join('');
+  }
 
-  document.getElementById('adminOrdersTable').innerHTML = orders.map(o => `
-    <tr>
-      <td><b>${o.code}</b></td>
-      <td>${o.name}</td>
-      <td>${o.items ? o.items.map(i => `${i.name} (${i.size})`).join(', ') : '-'}</td>
-      <td>${o.phone}</td>
-      <td>${formatPrice(o.total)}</td>
-      <td>
-        <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:4px;border-radius:8px;font-size:0.8rem">
-          <option ${o.status === 'Tasdiqlandi' ? 'selected' : ''}>Tasdiqlandi</option>
-          <option ${o.status === "Yig'ilyapti" ? 'selected' : ''}>Yig'ilyapti</option>
-          <option ${o.status === "Xitoydan O'zbekistonga yo'lga chiqdi" ? 'selected' : ''}>Xitoydan O'zbekistonga yo'lga chiqdi</option>
-          <option ${o.status === 'Buyurtma keldi' ? 'selected' : ''}>Buyurtma keldi</option>
-          <option ${o.status === 'Topshirildi' ? 'selected' : ''}>Topshirildi</option>
-        </select>
-      </td>
-      <td><button class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">×</button></td>
-    </tr>
-  `).join('');
+  let aot = document.getElementById('adminOrdersTable');
+  if(aot){
+    aot.innerHTML = orders.map(o => `
+      <tr>
+        <td><b>${o.code}</b></td>
+        <td>${o.name}</td>
+        <td>${o.items ? o.items.map(i => `${i.name} (${i.size})`).join(', ') : '-'}</td>
+        <td>${o.phone}</td>
+        <td>${formatPrice(o.total)}</td>
+        <td>
+          <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:4px;border-radius:8px;font-size:0.8rem">
+            <option ${o.status === 'Tasdiqlandi' ? 'selected' : ''}>Tasdiqlandi</option>
+            <option ${o.status === "Yig'ilyapti" ? 'selected' : ''}>Yig'ilyapti</option>
+            <option ${o.status === "Xitoydan O'zbekistonga yo'lga chiqdi" ? 'selected' : ''}>Xitoydan O'zbekistonga yo'lga chiqdi</option>
+            <option ${o.status === 'Buyurtma keldi' ? 'selected' : ''}>Buyurtma keldi</option>
+            <option ${o.status === 'Topshirildi' ? 'selected' : ''}>Topshirildi</option>
+          </select>
+        </td>
+        <td><button type="button" class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">×</button></td>
+      </tr>
+    `).join('');
+  }
 }
 
 function openAddProductModal(){
-  document.getElementById('productModalTitle').textContent = "Yangi mahsulot";
-  document.getElementById('productId').value = '';
-  document.getElementById('pinduoduoLink').value = '';
-  document.getElementById('productName').value = '';
-  document.getElementById('productSizes').value = '';
-  document.getElementById('productPriceYuan').value = '';
-  document.getElementById('productWeight').value = '';
-  document.getElementById('productDiscount').value = '0';
-  document.getElementById('productDesc').value = '';
-  document.getElementById('modalCalcPrice').textContent = "0 so'm";
+  let pmt = document.getElementById('productModalTitle');
+  if(pmt) pmt.textContent = "Yangi mahsulot";
+  let pId = document.getElementById('productId');
+  if(pId) pId.value = '';
+  let pdL = document.getElementById('pinduoduoLink');
+  if(pdL) pdL.value = '';
+  let pName = document.getElementById('productName');
+  if(pName) pName.value = '';
+  let pSz = document.getElementById('productSizes');
+  if(pSz) pSz.value = '';
+  let pY = document.getElementById('productPriceYuan');
+  if(pY) pY.value = '';
+  let pW = document.getElementById('productWeight');
+  if(pW) pW.value = '';
+  let pD = document.getElementById('productDiscount');
+  if(pD) pD.value = '0';
+  let pDesc = document.getElementById('productDesc');
+  if(pDesc) pDesc.value = '';
+  let mcp = document.getElementById('modalCalcPrice');
+  if(mcp) mcp.textContent = "0 so'm";
   currentImages = ["", "", ""];
   renderThumbnails();
   openModal('productModal');
 }
 
-function triggerThumbUpload(index){ activeUploadIndex = index; document.getElementById('thumbInput').click(); }
+function triggerThumbUpload(index){ activeUploadIndex = index; let ti = document.getElementById('thumbInput'); if(ti) ti.click(); }
 function handleThumbSelect(e){
   let file = e.target.files[0];
   if(!file) return;
@@ -1133,49 +1209,70 @@ function handleThumbSelect(e){
 }
 function removeThumb(index, event){ event.stopPropagation(); currentImages[index] = ""; renderThumbnails(); }
 function renderThumbnails(){
-  document.getElementById('multiUploadGrid').innerHTML = currentImages.map((img, i) => `
+  let mug = document.getElementById('multiUploadGrid');
+  if(!mug) return;
+  mug.innerHTML = currentImages.map((img, i) => `
     <div class="upload-thumb" onclick="triggerThumbUpload(${i})">
-      ${img ? `<img src="${img}"><button class="remove-thumb" onclick="removeThumb(${i}, event)">×</button>` : '<span>📷+</span>'}
+      ${img ? `<img src="${img}"><button type="button" class="remove-thumb" onclick="removeThumb(${i}, event)">×</button>` : '<span>📷+</span>'}
     </div>
   `).join('');
 }
 
 function fetchPinduoduoData(){
-  let link = document.getElementById('pinduoduoLink').value.trim();
+  let pdL = document.getElementById('pinduoduoLink');
+  let link = pdL ? pdL.value.trim() : '';
   if(!link) return showToast("Havolani kiriting", "error");
   showToast("Ma'lumot o'qilmoqda...");
   setTimeout(() => {
-    document.getElementById('productName').value = "Pinduoduo Tovar #" + Math.floor(1000 + Math.random()*9000);
-    document.getElementById('productPriceYuan').value = "45.0";
-    document.getElementById('productWeight').value = "0.6";
+    let pName = document.getElementById('productName');
+    let pY = document.getElementById('productPriceYuan');
+    let pW = document.getElementById('productWeight');
+    if(pName) pName.value = "Pinduoduo Tovar #" + Math.floor(1000 + Math.random()*9000);
+    if(pY) pY.value = "45.0";
+    if(pW) pW.value = "0.6";
     updateAdminCalcPrice();
     showToast("Muvaffaqiyatli to'ldirildi!");
   }, 700);
 }
 
 function updateAdminCalcPrice(){
+  let pY = document.getElementById('productPriceYuan');
+  let pW = document.getElementById('productWeight');
+  let pS = document.getElementById('productShipping');
+  let pD = document.getElementById('productDiscount');
   let tempProduct = {
-    priceYuan: parseFloat(document.getElementById('productPriceYuan').value) || 0,
-    weight: parseFloat(document.getElementById('productWeight').value) || 0,
-    shipping: document.getElementById('productShipping').value,
-    discount: parseFloat(document.getElementById('productDiscount').value) || 0
+    priceYuan: pY ? parseFloat(pY.value) || 0 : 0,
+    weight: pW ? parseFloat(pW.value) || 0 : 0,
+    shipping: pS ? pS.value : 'avia',
+    discount: pD ? parseFloat(pD.value) || 0 : 0
   };
-  document.getElementById('modalCalcPrice').textContent = formatPrice(calculatePrice(tempProduct).finalPrice);
+  let mcp = document.getElementById('modalCalcPrice');
+  if(mcp) mcp.textContent = formatPrice(calculatePrice(tempProduct).finalPrice);
 }
 
 function handleProductSubmit(e){
   e.preventDefault();
-  let id = document.getElementById('productId').value;
+  let pId = document.getElementById('productId');
+  let id = pId ? pId.value : '';
   let validImages = currentImages.filter(img => img !== "");
+  let pName = document.getElementById('productName');
+  let pCat = document.getElementById('productCategory');
+  let pSz = document.getElementById('productSizes');
+  let pY = document.getElementById('productPriceYuan');
+  let pW = document.getElementById('productWeight');
+  let pS = document.getElementById('productShipping');
+  let pD = document.getElementById('productDiscount');
+  let pDesc = document.getElementById('productDesc');
+
   let data = {
-    name: document.getElementById('productName').value,
-    category: document.getElementById('productCategory').value,
-    sizes: document.getElementById('productSizes').value,
-    priceYuan: parseFloat(document.getElementById('productPriceYuan').value),
-    weight: parseFloat(document.getElementById('productWeight').value),
-    shipping: document.getElementById('productShipping').value,
-    discount: parseFloat(document.getElementById('productDiscount').value) || 0,
-    desc: document.getElementById('productDesc').value,
+    name: pName ? pName.value : '',
+    category: pCat ? pCat.value : 'Elektronika',
+    sizes: pSz ? pSz.value : '',
+    priceYuan: pY ? parseFloat(pY.value) : 0,
+    weight: pW ? parseFloat(pW.value) : 0,
+    shipping: pS ? pS.value : 'avia',
+    discount: pD ? parseFloat(pD.value) || 0 : 0,
+    desc: pDesc ? pDesc.value : '',
     images: validImages, image: validImages.length > 0 ? validImages[0] : ''
   };
   let promise = id ? db.collection("products").doc(id).set(data, {merge: true}) : db.collection("products").add(data);
@@ -1185,16 +1282,28 @@ function handleProductSubmit(e){
 function editProduct(id){
   let p = products.find(prod => prod.id === id);
   if(!p) return;
-  document.getElementById('productModalTitle').textContent = "Mahsulotni tahrirlash";
-  document.getElementById('productId').value = p.id;
-  document.getElementById('productName').value = p.name;
-  document.getElementById('productCategory').value = p.category;
-  document.getElementById('productSizes').value = p.sizes || '';
-  document.getElementById('productPriceYuan').value = p.priceYuan;
-  document.getElementById('productWeight').value = p.weight;
-  document.getElementById('productShipping').value = p.shipping || 'avia';
-  document.getElementById('productDiscount').value = p.discount || 0;
-  document.getElementById('productDesc').value = p.desc || '';
+  let pmt = document.getElementById('productModalTitle');
+  let pId = document.getElementById('productId');
+  let pName = document.getElementById('productName');
+  let pCat = document.getElementById('productCategory');
+  let pSz = document.getElementById('productSizes');
+  let pY = document.getElementById('productPriceYuan');
+  let pW = document.getElementById('productWeight');
+  let pS = document.getElementById('productShipping');
+  let pD = document.getElementById('productDiscount');
+  let pDesc = document.getElementById('productDesc');
+
+  if(pmt) pmt.textContent = "Mahsulotni tahrirlash";
+  if(pId) pId.value = p.id;
+  if(pName) pName.value = p.name;
+  if(pCat) pCat.value = p.category;
+  if(pSz) pSz.value = p.sizes || '';
+  if(pY) pY.value = p.priceYuan;
+  if(pW) pW.value = p.weight;
+  if(pS) pS.value = p.shipping || 'avia';
+  if(pD) pD.value = p.discount || 0;
+  if(pDesc) pDesc.value = p.desc || '';
+  
   currentImages = ["", "", ""];
   let savedImgs = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
   savedImgs.forEach((img, idx) => { if(idx < 3) currentImages[idx] = img; });
@@ -1208,12 +1317,18 @@ function updateOrderStatus(id, status){ db.collection("orders").doc(id).update({
 function deleteOrder(id){ if(confirm("O'chirilsinmi?")) db.collection("orders").doc(id).delete().then(() => showToast("O'chirildi!")); }
 
 function saveSettings(){
+  let rY = document.getElementById('rateYuan');
+  let rU = document.getElementById('rateUsd');
+  let rA = document.getElementById('rateAvia');
+  let rAv = document.getElementById('rateAvto');
+  let rM = document.getElementById('rateMarkup');
+
   let newSettings = {
-    yuanRate: parseFloat(document.getElementById('rateYuan').value),
-    usdRate: parseFloat(document.getElementById('rateUsd').value),
-    aviaRate: parseFloat(document.getElementById('rateAvia').value),
-    avtoRate: parseFloat(document.getElementById('rateAvto').value),
-    markup: parseFloat(document.getElementById('rateMarkup').value)
+    yuanRate: rY ? parseFloat(rY.value) : 2150,
+    usdRate: rU ? parseFloat(rU.value) : 12700,
+    aviaRate: rA ? parseFloat(rA.value) : 9.5,
+    avtoRate: rAv ? parseFloat(rAv.value) : 6,
+    markup: rM ? parseFloat(rM.value) : 45
   };
   db.collection("settings").doc("general").set(newSettings).then(() => showToast("Sozlamalar saqlandi!"));
 }
