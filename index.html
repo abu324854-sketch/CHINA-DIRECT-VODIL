@@ -290,7 +290,7 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
   <div class="modal-content">
     <div class="modal-header"><h3 id="productModalTitle" style="font-size:1rem">Mahsulot</h3><button class="close-btn" onclick="closeModal('productModal')">×</button></div>
     <div class="modal-body">
-      <!-- PINDUODUO LINK BILAN AVTO TO'LDIRISH QISMI -->
+      <!-- PINDUODUO LINK ORQALI OLISH -->
       <div style="background:#fff1f2; padding:12px; border-radius:12px; border:1px dashed var(--uzum-primary); margin-bottom:14px;">
         <label style="font-size:0.8rem; font-weight:700; color:#991b1b; display:block; margin-bottom:4px;">🔗 Pinduoduo havolasidan avto to'ldirish</label>
         <div style="display:flex; gap:6px;">
@@ -301,15 +301,18 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
 
       <form onsubmit="handleProductSubmit(event)">
         <input type="hidden" id="productId">
+        
+        <!-- RASM YUKLASH QISMI (GALEREYADAN YOKI FAYLDAN TANLASH) -->
         <div class="image-upload" onclick="triggerFileSelect()">
           <button type="button" class="remove-image-btn" id="removeImgBtn" onclick="removeImage(event)">×</button>
           <img id="imgPreview" class="image-upload-preview" alt="Preview">
           <div id="uploadPlaceholder">
             <div style="font-size:1.8rem">📷</div>
-            <div style="font-weight:600;font-size:0.85rem">Rasm yuklash uchun bosing</div>
+            <div style="font-weight:600;font-size:0.85rem">Rasm yuklash uchun bosing (Galereyadan)</div>
           </div>
           <input type="file" id="imageInput" accept="image/*" style="display:none" onchange="handleImageSelect(event)">
         </div>
+
         <div class="form-group"><label>Nomi</label><input type="text" id="productName" required></div>
         <div class="form-row">
           <div class="form-group">
@@ -1014,6 +1017,7 @@ function triggerFileSelect(){
   if(imgInput) imgInput.click(); 
 }
  
+// Galereyadan tanlangan rasmni o'qish va yuklash funksiyasi
 function handleImageSelect(e){
   let file = e.target.files[0];
   if(!file) return;
@@ -1049,7 +1053,7 @@ function removeImage(e){
   document.getElementById('imageInput').value = '';
 }
  
-// PINDUODUO HAVOLASIDAN MA'LUMOTNI OLISH FUNKSIYASI
+// Pinduoduo havolasidan ma'lumot olish
 function fetchPinduoduoData(){
   let linkEl = document.getElementById('pinduoduoLink');
   if(!linkEl) return;
