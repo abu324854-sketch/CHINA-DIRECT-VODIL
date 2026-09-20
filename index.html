@@ -107,11 +107,12 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .slider-prev{left:8px}
 .slider-next{right:8px}
 
-.option-group {margin-bottom: 12px;}
+.option-group {margin-bottom: 14px;}
 .option-group label {font-size:0.8rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:6px;}
-.size-chips {display:flex; gap:6px; flex-wrap:wrap;}
-.size-chip {padding:6px 12px; background:#f1f1f3; border:1.5px solid var(--border-color); border-radius:10px; font-size:0.8rem; font-weight:600; cursor:pointer;}
-.size-chip.selected {background:var(--brand-dark); color:white; border-color:var(--brand-dark);}
+.size-chips {display:flex; gap:8px; flex-wrap:wrap;}
+.size-chip {padding:8px 16px; background:#f1f1f3; border:2px solid var(--border-color); border-radius:12px; font-size:0.85rem; font-weight:700; cursor:pointer; transition:all 0.2s;}
+.size-chip:hover {border-color:var(--brand-red);}
+.size-chip.selected {background:var(--brand-red); color:white; border-color:var(--brand-red); box-shadow:0 4px 12px rgba(255,45,85,0.3);}
 
 /* Cart Sidebar */
 .cart-sidebar{position:fixed;top:0;right:-400px;width:100%;max-width:400px;height:100vh;background:white;box-shadow:-5px 0 25px rgba(0,0,0,0.15);z-index:300;transition:right 0.3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column}
@@ -126,7 +127,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .cart-item-size {font-size: 0.75rem; color: var(--brand-red); font-weight: 700; margin-bottom: 2px;}
 .cart-item-price{font-size:0.85rem;color:var(--brand-dark);font-weight:700}
 .cart-item-qty{display:flex;align-items:center;gap:6px;margin-top:4px}
-.qty-btn{width:24px;height:24px;border:1px solid var(--border-color);background:white;border-radius:50%;cursor:pointer;font-weight:700;font-size:0.8rem}
+.qty-btn{width:26px;height:26px;border:1px solid var(--border-color);background:white;border-radius:50%;cursor:pointer;font-weight:700;font-size:0.8rem;display:flex;align-items:center;justify-content:center}
 .cart-footer{padding:16px 20px;border-top:1px solid var(--border-color);background:white}
 .cart-total{display:flex;justify-content:space-between;font-size:1.1rem;font-weight:800;margin-bottom:12px}
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:299;display:none;backdrop-filter:blur(3px)}
@@ -190,10 +191,10 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
       <a href="#" class="logo"><span>🇨🇳</span> CHINA DIRECT <span class="accent">VODIL</span> <span>🇺🇿</span></a>
     </div>
     <div class="header-actions">
-      <button class="btn btn-light btn-sm" style="cursor:default; background:#fff5f7; color:var(--brand-red);" title="Hozirda onlayn">
+      <button type="button" class="btn btn-light btn-sm" style="cursor:default; background:#fff5f7; color:var(--brand-red);" title="Hozirda onlayn">
         🟢 Onlayn: <span id="onlineCountBadge" style="font-weight:800; margin-left:2px;">1</span>
       </button>
-      <button class="btn btn-outline btn-sm" id="adminBtn" onclick="toggleAdminView()">🔐 Admin</button>
+      <button type="button" class="btn btn-outline btn-sm" id="adminBtn" onclick="toggleAdminView()">🔐 Admin</button>
     </div>
   </div>
 </header>
@@ -244,7 +245,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
         <label>Buyurtma kodi yoki telefon raqamingiz</label>
         <div style="display:flex;gap:8px; margin-top: 6px;">
           <input type="text" id="trackInput" placeholder="Masalan: CDV-1234 yoki +998..." style="flex:1; padding:10px 14px; border:1.5px solid var(--border-color); border-radius:12px; font-size:0.9rem;">
-          <button class="btn btn-primary" type="button" onclick="searchTrackOrder()">Izlash</button>
+          <button type="button" class="btn btn-primary" onclick="searchTrackOrder()">Izlash</button>
         </div>
       </div>
     </div>
@@ -285,10 +286,10 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   <div class="container" style="padding-top:20px;padding-bottom:40px">
     <h2 class="section-title">Boshqaruv paneli</h2>
     <div class="tabs">
-      <button class="tab active" onclick="switchAdminTab('stats', this)">Statistika</button>
-      <button class="tab" onclick="switchAdminTab('products', this)">Mahsulotlar</button>
-      <button class="tab" onclick="switchAdminTab('orders', this)">Buyurtmalar</button>
-      <button class="tab" onclick="switchAdminTab('settings', this)">Sozlamalar</button>
+      <button type="button" class="tab active" onclick="switchAdminTab('stats', this)">Statistika</button>
+      <button type="button" class="tab" onclick="switchAdminTab('products', this)">Mahsulotlar</button>
+      <button type="button" class="tab" onclick="switchAdminTab('orders', this)">Buyurtmalar</button>
+      <button type="button" class="tab" onclick="switchAdminTab('settings', this)">Sozlamalar</button>
     </div>
     <div id="admin-tab-stats" class="admin-tab-content">
       <div class="admin-grid">
@@ -302,7 +303,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
     <div id="admin-tab-products" class="admin-tab-content hidden">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
         <h3>Mahsulotlar ro'yxati</h3>
-        <button class="btn btn-primary btn-sm" onclick="openAddProductModal()">+ Qo'shish</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="openAddProductModal()">+ Qo'shish</button>
       </div>
       <div class="admin-table-wrap">
         <table class="admin-table">
@@ -332,7 +333,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
           <div class="form-group"><label>Avto ($/kg)</label><input type="number" id="rateAvto" value="6" step="0.1"></div>
         </div>
         <div class="form-group"><label>Ustama foiz (%)</label><input type="number" id="rateMarkup" value="45"></div>
-        <button class="btn btn-primary w-full" onclick="saveSettings()">Saqlash</button>
+        <button type="button" class="btn btn-primary w-full" onclick="saveSettings()">Saqlash</button>
       </div>
     </div>
   </div>
@@ -340,53 +341,55 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 
 <!-- PASTKI NAVIGATSIYA MENYUSI -->
 <nav class="bottom-nav">
-  <button class="nav-item active" onclick="switchPage('home', this)">
+  <button type="button" class="nav-item active" onclick="switchPage('home', this)">
     <span class="nav-icon">🏠</span>
     <span>Asosiy</span>
   </button>
-  <button class="nav-item" onclick="switchPage('catalog', this)">
+  <button type="button" class="nav-item" onclick="switchPage('catalog', this)">
     <span class="nav-icon">🔍</span>
     <span>Katalog</span>
   </button>
-  <button class="nav-item" onclick="switchPage('orders', this)">
+  <button type="button" class="nav-item" onclick="switchPage('orders', this)">
     <span class="nav-icon">📦</span>
     <span>Buyurtmalar</span>
   </button>
-  <button class="nav-item" onclick="switchPage('profile', this)">
+  <button type="button" class="nav-item" onclick="switchPage('profile', this)">
     <span class="nav-icon">👤</span>
     <span>Profil</span>
     <span class="nav-cart-badge hidden" id="bottomCartBadge">0</span>
   </button>
 </nav>
 
-<!-- MAHSULOT TAFSILOTLARI MODALI -->
+<!-- MAHSULOT TAFSILOTLARI VA RAZMER TANLASH MODALI -->
 <div class="modal" id="productDetailModal">
   <div class="modal-content" style="max-width:500px;">
     <div class="modal-header">
       <h3 id="detailTitle" style="font-size:1.05rem; font-weight:700">Mahsulot tafsilotlari</h3>
-      <button class="close-btn" onclick="closeModal('productDetailModal')">×</button>
+      <button type="button" class="close-btn" onclick="closeModal('productDetailModal')">×</button>
     </div>
     <div class="modal-body">
       <div class="detail-slider-container">
         <img id="detailMainImg" src="" alt="Mahsulot rasmi">
-        <button class="slider-nav-btn slider-prev" onclick="slideDetailImg(-1)">❮</button>
-        <button class="slider-nav-btn slider-next" onclick="slideDetailImg(1)">❯</button>
+        <button type="button" class="slider-nav-btn slider-prev" onclick="slideDetailImg(-1)">❮</button>
+        <button type="button" class="slider-nav-btn slider-next" onclick="slideDetailImg(1)">❯</button>
       </div>
       
       <div style="font-size:1.25rem; font-weight:800; color:var(--brand-dark); margin-bottom:4px;" id="detailPrice">0 so'm</div>
       <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;" id="detailCategoryWeight"></div>
 
+      <!-- RAZMERNI O'ZI BOSIB TANLASH QISMI -->
       <div class="option-group" id="detailSizesSection">
         <label>Razmerni tanlang:</label>
         <div class="size-chips" id="detailSizesChips"></div>
       </div>
 
+      <!-- MIQDORNI BELGILASH -->
       <div class="option-group">
         <label>Miqdori (nechtaligi):</label>
         <div style="display:flex; align-items:center; gap:12px;">
-          <button type="button" class="qty-btn" style="width:32px; height:32px; font-size:1rem;" onclick="changeDetailQty(-1)">−</button>
+          <button type="button" class="qty-btn" onclick="changeDetailQty(-1)">−</button>
           <span id="detailQtyVal" style="font-size:1.1rem; font-weight:800;">1</span>
-          <button type="button" class="qty-btn" style="width:32px; height:32px; font-size:1rem;" onclick="changeDetailQty(1)">+</button>
+          <button type="button" class="qty-btn" onclick="changeDetailQty(1)">+</button>
         </div>
       </div>
 
@@ -403,7 +406,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 <!-- AUTENTIFIKATSIYA MODALI -->
 <div class="modal" id="authModal">
   <div class="modal-content" style="max-width:380px">
-    <div class="modal-header"><h3 style="font-size:1rem">Tizimga kirish</h3><button class="close-btn" onclick="closeModal('authModal')">×</button></div>
+    <div class="modal-header"><h3 style="font-size:1rem">Tizimga kirish</h3><button type="button" class="close-btn" onclick="closeModal('authModal')">×</button></div>
     <div class="modal-body">
       <form onsubmit="handleAuthSubmit(event)">
         <div class="form-group"><label>Ismingiz</label><input type="text" id="authName" placeholder="Ism-sharifingiz" required></div>
@@ -417,18 +420,18 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 <!-- SAVAT SIDEBAR -->
 <div class="overlay" id="cartOverlay" onclick="closeCart()"></div>
 <div class="cart-sidebar" id="cartSidebar">
-  <div class="cart-header"><h3>Savat</h3><button class="close-btn" onclick="closeCart()">×</button></div>
+  <div class="cart-header"><h3>Savat</h3><button type="button" class="close-btn" onclick="closeCart()">×</button></div>
   <div class="cart-body" id="cartBody"></div>
   <div class="cart-footer hidden" id="cartFooter">
     <div class="cart-total"><span>Jami:</span><span id="cartTotal">0 so'm</span></div>
-    <button class="btn btn-primary w-full" onclick="openCheckout()">Rasmiylashtirish</button>
+    <button type="button" class="btn btn-primary w-full" onclick="openCheckout()">Rasmiylashtirish</button>
   </div>
 </div>
 
 <!-- MAHSULOT QO'SHISH / TAHRIRLASH MODALI (ADMIN) -->
 <div class="modal" id="productModal">
   <div class="modal-content">
-    <div class="modal-header"><h3 id="productModalTitle" style="font-size:1rem">Mahsulot</h3><button class="close-btn" onclick="closeModal('productModal')">×</button></div>
+    <div class="modal-header"><h3 id="productModalTitle" style="font-size:1rem">Mahsulot</h3><button type="button" class="close-btn" onclick="closeModal('productModal')">×</button></div>
     <div class="modal-body">
       <div style="background:#fff5f7; padding:12px; border-radius:14px; border:1px dashed var(--brand-red); margin-bottom:14px;">
         <label style="font-size:0.8rem; font-weight:700; color:var(--brand-red); display:block; margin-bottom:4px;">🔗 Pinduoduo havolasidan avto to'ldirish</label>
@@ -463,7 +466,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
           </div>
           <div class="form-group">
             <label>Razmerlar (vergul bilan)</label>
-            <input type="text" id="productSizes" placeholder="Masalan: S, M, L, XL">
+            <input type="text" id="productSizes" placeholder="Masalan: S, M, L, XL yoki 38,39,40">
           </div>
         </div>
         <div class="form-row">
@@ -493,7 +496,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 <!-- CHECKOUT MODAL -->
 <div class="modal" id="checkoutModal">
   <div class="modal-content">
-    <div class="modal-header"><h3 style="font-size:1rem">Buyurtmani rasmiylashtirish</h3><button class="close-btn" onclick="closeModal('checkoutModal')">×</button></div>
+    <div class="modal-header"><h3 style="font-size:1rem">Buyurtmani rasmiylashtirish</h3><button type="button" class="close-btn" onclick="closeModal('checkoutModal')">×</button></div>
     <div class="modal-body">
       <form onsubmit="handleCheckoutSubmit(event)">
         <div class="form-group"><label>Ismingiz</label><input type="text" id="customerName" required placeholder="Ism"></div>
@@ -518,7 +521,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
       <p style="color:var(--text-muted);font-size:0.85rem;margin-top:4px">Buyurtma kodi:</p>
       <div style="font-size:1.4rem;font-weight:800;color:var(--brand-red);margin:6px 0" id="successOrderId">---</div>
       <div class="order-details" id="orderDetails"></div>
-      <button class="btn btn-primary w-full" onclick="closeModal('successModal')">Yopish</button>
+      <button type="button" class="btn btn-primary w-full" onclick="closeModal('successModal')">Yopish</button>
     </div>
   </div>
 </div>
@@ -526,7 +529,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 <!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
   <div class="modal-content" style="max-width:340px">
-    <div class="modal-header"><h3 style="font-size:1rem">Admin kirish</h3><button class="close-btn" onclick="closeModal('loginModal')">×</button></div>
+    <div class="modal-header"><h3 style="font-size:1rem">Admin kirish</h3><button type="button" class="close-btn" onclick="closeModal('loginModal')">×</button></div>
     <div class="modal-body">
       <form onsubmit="handleLoginSubmit(event)">
         <div class="form-group"><label>Parol</label><input type="password" id="adminPassword" required></div>
