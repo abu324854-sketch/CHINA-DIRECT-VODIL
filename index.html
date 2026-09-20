@@ -547,7 +547,6 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
         <div class="form-group"><label>Telefon raqam</label><input type="tel" id="customerPhone" required placeholder="+998 90 123 45 67"></div>
         <div class="form-group"><label>Yetkazish manzili</label><input type="text" id="customerAddress" required placeholder="Manzil va ko'cha"></div>
         
-        <!-- To'lov tizimini tanlash -->
         <div class="form-group">
           <label>To'lov usuli</label>
           <select id="paymentMethod" style="width:100%; padding:10px; border-radius:12px; border:1.5px solid var(--border-color)">
@@ -735,12 +734,13 @@ function fetchDataFromServer(){
   }, (err) => {});
 }
 
+// Aniqlik va barqarorlik uchun to'g'rilangan narx hisoblash funksiyasi
 function calculatePrice(p){
-  let chinaCost = (p.priceYuan || 0) * settings.yuanRate;
+  let chinaCost = (parseFloat(p.priceYuan) || 0) * settings.yuanRate;
   let shippingRate = p.shipping === 'avia' ? settings.aviaRate : settings.avtoRate;
-  let shippingCost = (p.weight || 0) * shippingRate * settings.usdRate;
-  let basePrice = Math.round((chinaCost + shippingCost) * (1 + settings.markup/100));
-  let discount = p.discount || 0;
+  let shippingCost = (parseFloat(p.weight) || 0) * shippingRate * settings.usdRate;
+  let basePrice = Math.round((chinaCost + shippingCost) * (1 + settings.markup / 100));
+  let discount = parseFloat(p.discount) || 0;
   let finalPrice = discount > 0 ? Math.round(basePrice * (1 - discount / 100)) : basePrice;
   return {basePrice, finalPrice};
 }
@@ -967,7 +967,7 @@ function addDetailToCartAndCheckout(){
       id: p.id,
       name: p.name,
       size: selectedSize,
-      price: calc.finalPrice,
+      price: calc.finalPrice, // 1 dona aniq narxi saqlanadi
       image: imgs,
       qty: selectedQty
     });
