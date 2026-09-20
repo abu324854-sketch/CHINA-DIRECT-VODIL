@@ -4,6 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CHINA DIRECT VODIL — Vodilning Rasmiy Xitoy Bozori</title>
+<!-- Telegram WebApp SDK -->
+<script src="https://telegram.org/js/telegram-web-app.js"></script>
 <!-- PWA Manifest va Rasmli Ikonka -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ff2d55">
@@ -12,7 +14,6 @@
 <meta name="apple-mobile-web-app-title" content="CHINA DIRECT VODIL">
 <link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081559.png">
 <link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3081/3081559.png">
-
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
@@ -56,10 +57,11 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
 .nav-item.active span.nav-icon{transform:scale(1.1)}
 .nav-cart-badge{position:absolute;top:0;right:22%;background:var(--brand-gold);color:#111;font-size:0.6rem;font-weight:800;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
 .profile-badge{position:absolute;top:0;right:22%;background:var(--brand-red);color:white;font-size:0.6rem;font-weight:800;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.hero{background:linear-gradient(135deg, #18181b 0%, #271720 100%);padding:28px 20px;border-radius:20px;margin:16px 0;color:white;box-shadow:var(--shadow-md)}
-.hero h1{font-size:1.4rem;color:white;margin-bottom:6px;font-weight:800;letter-spacing:-0.5px}
+.hero{background:linear-gradient(135deg, #18181b 0%, #271720 100%);padding:24px 20px;border-radius:20px;margin:16px 0;color:white;box-shadow:var(--shadow-md)}
+.hero h1{font-size:1.3rem;color:white;margin-bottom:6px;font-weight:800;letter-spacing:-0.5px}
 .hero h1 span {color: var(--brand-red);}
-.hero p{color:#d4d4d8;font-size:0.85rem}
+.hero p{color:#d4d4d8;font-size:0.82rem}
+.ai-box{background:white;padding:14px 16px;border-radius:18px;border:1.5px dashed var(--brand-red);margin-bottom:16px;box-shadow:var(--shadow-sm)}
 .controls{background:white;padding:12px 16px;border-radius:16px;border:1px solid var(--border-color);margin-bottom:16px;box-shadow:var(--shadow-sm)}
 .controls-content{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .search-box{flex:1;min-width:240px;position:relative}
@@ -166,7 +168,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
       <a href="#" class="logo"><span>🇨🇳</span> CHINA DIRECT <span class="accent">VODIL</span> <span>🇺🇿</span></a>
     </div>
     <div class="header-actions">
-      <!-- Admin yozuvining oldida doimiy ishlaydigan Ilovani o'rnatish tugmasi -->
       <button type="button" class="btn btn-primary btn-sm" onclick="installPwaApp()">
         📱 Ilovani o'rnatish
       </button>
@@ -183,12 +184,26 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
   <div class="container">
     <div class="hero">
       <h1>Vodil uchun to'g'ridan-to'g'ri <span>China Direct tovarlar!</span></h1>
-      <p>Hamyonbop narxlarda ishonchli va tezkor buyurtma bering.</p>
+      <p>Hamyonbop narxlarda ishonchli va tezkor buyurtma bering.[cite: 1]</p>
     </div>
+
+    <!-- ⚡ YANGI QO'SHILGAN: AI LINK ORQALI NARX HISOBLASH -->
+    <div class="ai-box">
+      <div style="font-weight:800; font-size:0.95rem; color:var(--brand-red); margin-bottom:6px;">🤖 Pinduoduo / 1688 Linkini tashlab Narxni Hisoblang</div>
+      <p style="font-size:0.78rem; color:var(--text-muted); margin-bottom:8px;">Xitoy saytidan mahsulot havolasini yuboring va yuan narxini kiriting:</p>
+      <div style="display:flex; gap:8px; flex-wrap:wrap;">
+        <input type="text" id="aiProductLink" placeholder="Mahsulot havolasi (link)..." style="flex:2; padding:9px 12px; border:1.5px solid var(--border-color); border-radius:12px; font-size:0.85rem; background:#f8f9fc;">
+        <input type="number" id="aiProductYuan" placeholder="Yuan narxi" style="flex:1; min-width:90px; padding:9px 12px; border:1.5px solid var(--border-color); border-radius:12px; font-size:0.85rem; background:#f8f9fc;">
+        <button type="button" class="btn btn-primary btn-sm" onclick="calculateAiLinkPrice()">Hisoblash</button>
+      </div>
+      <div id="aiResultBox" class="hidden" style="margin-top:10px; padding:10px; background:#fff5f7; border-radius:10px; font-size:0.82rem; color:var(--brand-dark);"></div>
+    </div>
+
     <h2 class="section-title">Barcha mahsulotlar</h2>
     <div class="products-grid" id="homeProductsGrid"></div>
   </div>
 </div>
+
 <!-- 2. KATALOG / QIDIRISH -->
 <div class="page-section hidden" id="page-catalog">
   <div class="container" style="padding-top:12px;">
@@ -211,6 +226,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     <div class="products-grid" id="catalogProductsGrid"></div>
   </div>
 </div>
+
 <!-- 3. SEVIMLILAR -->
 <div class="page-section hidden" id="page-wishlist">
   <div class="container" style="padding-top: 20px;">
@@ -218,7 +234,8 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     <div class="products-grid" id="wishlistProductsGrid"></div>
   </div>
 </div>
-<!-- 4. PROFIL VA ICHKI BO'LIMLAR -->
+
+<!-- 4. PROFIL VA ICHKI BO'LIMLAR (Keshbek va Referal qo'shilgan) -->
 <div class="page-section hidden" id="page-profile">
   <div class="container" style="padding-top: 20px; max-width: 650px;">
     <h2 class="section-title">👤 Shaxsiy kabinet</h2>
@@ -227,11 +244,14 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
       <button type="button" class="profile-tab active" onclick="switchProfileTab('main', this)">Profil</button>
       <button type="button" class="profile-tab" onclick="switchProfileTab('cart', this)">Savat (<span id="profileCartCount">0</span>)</button>
       <button type="button" class="profile-tab" onclick="switchProfileTab('orders', this)">Buyurtmalar</button>
+      <button type="button" class="profile-tab" onclick="switchProfileTab('referral', this)">🎁 Keshbek</button>
       <button type="button" class="profile-tab" onclick="switchProfileTab('help', this)">Yordam</button>
     </div>
+
     <div id="profileTabMain" class="profile-tab-content">
       <div style="background:white; padding:24px; border-radius:24px; border:1px solid var(--border-color); box-shadow:var(--shadow-sm);" id="profileCardContent"></div>
     </div>
+
     <div id="profileTabCart" class="profile-tab-content hidden">
       <div style="background:white; padding:20px; border-radius:24px; border:1px solid var(--border-color); box-shadow:var(--shadow-sm);">
         <h3 style="margin-bottom:12px; font-size:1.05rem;">Sizning savatingiz</h3>
@@ -244,6 +264,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         </div>
       </div>
     </div>
+
     <div id="profileTabOrders" class="profile-tab-content hidden">
       <div style="background:white; padding:20px; border-radius:24px; border:1px solid var(--border-color); box-shadow:var(--shadow-sm); margin-bottom:16px;">
         <div class="form-group" style="margin-bottom:0">
@@ -274,6 +295,22 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         <p style="color:var(--text-muted); font-size:0.85rem;">Yuklanmoqda...</p>
       </div>
     </div>
+
+    <!-- ⚡ KESHBEK VA REFERAL BO'LIMI -->
+    <div id="profileTabReferral" class="profile-tab-content hidden">
+      <div style="background:white; padding:22px; border-radius:24px; border:1px solid var(--border-color); box-shadow:var(--shadow-sm); text-align:center;">
+        <div style="font-size:2.5rem; margin-bottom:8px;">🎁</div>
+        <h3 style="font-size:1.1rem; margin-bottom:6px;">Do'stingizni taklif qiling va Keshbek oling!</h3>
+        <p style="font-size:0.83rem; color:var(--text-muted); margin-bottom:16px;">Sizning havolangiz orqali qo'shilgan har bir do'st xarididan balansingizga <b>5% keshbek</b> yig'iladi.</p>
+        
+        <div style="background:#f8f9fc; padding:12px; border-radius:14px; border:1px solid var(--border-color); margin-bottom:14px; font-size:0.85rem; word-break:break-all;">
+          <b id="refLinkText">https://t.me/ChinaDirectVodilBot?start=ref_000</b>
+        </div>
+        <button type="button" class="btn btn-primary w-full" onclick="copyReferralLink()">🔗 Havolani nusxalash</button>
+        <div style="margin-top:16px; font-size:0.9rem; font-weight:700;">Yig'ilgan keshbek balansingiz: <span style="color:var(--brand-red);" id="userCashbackBalance">0 so'm</span></div>
+      </div>
+    </div>
+
     <!-- YORDAM / CHAT BO'LIMI -->
     <div id="profileTabHelp" class="profile-tab-content hidden">
       <div style="background:white; border-radius:24px; border:1px solid var(--border-color); display:flex; flex-direction:column; height:420px; overflow:hidden; box-shadow:var(--shadow-sm);">
@@ -288,6 +325,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
+
 <!-- ADMIN VIEW -->
 <div id="adminView" class="hidden">
   <div class="container" style="padding-top:20px;padding-bottom:40px">
@@ -371,6 +409,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
+
 <!-- PASTKI NAVIGATSIYA MENYUSI -->
 <nav class="bottom-nav">
   <button type="button" class="nav-item active" onclick="switchPage('home', this)">
@@ -392,6 +431,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     <span class="profile-badge hidden" id="profileNotifBadge">!</span>
   </button>
 </nav>
+
 <!-- MAHSULOT TAFSILOTLARI -->
 <div class="modal" id="productDetailModal">
   <div class="modal-content" style="max-width:500px;">
@@ -428,16 +468,17 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
+
 <!-- RO'YXATDAN O'TISH MODALI -->
 <div class="modal" id="authModal">
   <div class="modal-content" style="max-width:440px">
     <div class="modal-header"><h3 style="font-size:1rem">Tizimga kirish va Xizmat Shartlari</h3><button type="button" class="close-btn" onclick="closeModal('authModal')">×</button></div>
     <div class="modal-body">
       <div style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:14px; padding:12px; margin-bottom:14px; font-size:0.78rem; color:#4a1525; max-height:160px; overflow-y:auto; line-height:1.5;">
-        <b>📜 "CHINA DIRECT VODIL" — FOYDALANISH VA BUYURTMA BERISH QOIDALARI:</b><br><br>
-        <b>1. Buyurtma berish:</b> Xorijiy omborlardan zakaz asosida olib kelinadi.<br>
-        <b>2. Qaytarish shartlari:</b> Sifatli mahsulotlar o'lchami to'g'ri kelmaganda <b>qaytarib olinmaydi</b>.<br>
-        <b>3. Jarima:</b> Buyurtma kelgach sababsiz bosh tortilsa <b>25% jarima</b> olinadi.
+        <b>📜 "CHINA DIRECT VODIL" — FOYDALANISH VA BUYURTMA BERISH QOIDALARI:[cite: 1]</b><br><br>
+        <b>1. Buyurtma berish:</b> Xorijiy omborlardan zakaz asosida olib kelinadi.[cite: 1]<br>
+        <b>2. Qaytarish shartlari:</b> Sifatli mahsulotlar o'lchami to'g'ri kelmaganda <b>qaytarib olinmaydi</b>.[cite: 1]<br>
+        <b>3. Jarima:</b> Buyurtma kelgach sababsiz bosh tortilsa <b>25% jarima</b> olinadi.[cite: 1]
       </div>
       <form onsubmit="handleAuthSubmit(event)">
         <div class="form-group"><label>Ismingiz</label><input type="text" id="authName" placeholder="Ism-sharifingiz" required></div>
@@ -447,7 +488,8 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
-<!-- CHECKOUT MODAL (CHEK YUKLASH BILAN) -->
+
+<!-- CHECKOUT MODAL -->
 <div class="modal" id="checkoutModal">
   <div class="modal-content">
     <div class="modal-header"><h3 style="font-size:1rem">Buyurtmani rasmiylashtirish va To'lov</h3><button type="button" class="close-btn" onclick="closeModal('checkoutModal')">×</button></div>
@@ -465,10 +507,9 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
             <option value="Naqd">💵 Mahsulot kelganda naqd to'lash</option>
           </select>
         </div>
-        <!-- ONLAYN TO'LOV VA CHEK YUKLASH QISMI -->
         <div id="onlinePaymentBox" style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:14px; padding:14px; margin-bottom:14px;">
           <div style="font-size:0.85rem; font-weight:700; color:var(--brand-red); margin-bottom:6px;">💳 Onlayn To'lov Rekvizitlari:</div>
-          <p style="font-size:0.8rem; margin-bottom:8px;">Karta: <b></b> (A. Fattoxov)<4413 5976 0554 2354br>To'lov summasi: <b id="checkoutExactPrice">0 so'm</b></p>
+          <p style="font-size:0.8rem; margin-bottom:8px;">Karta: <b>4413 5976 0554 2354</b> (A. Fattoxov)<br>To'lov summasi: <b id="checkoutExactPrice">0 so'm</b></p>
           <div class="form-group" style="margin-bottom:0;">
             <label style="color:var(--brand-red);">To'lov cheki skrinshotini yuklang (Majburiy!):</label>
             <input type="file" id="receiptFileInput" accept="image/*" style="padding:6px; background:white;">
@@ -482,6 +523,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
+
 <!-- SUCCESS MODAL -->
 <div class="modal" id="successModal">
   <div class="modal-content">
@@ -493,7 +535,8 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
-<!-- CHEK KORISH MODALI (ADMIN UCHUN) -->
+
+<!-- CHEK KORISH MODALI -->
 <div class="modal" id="receiptModal">
   <div class="modal-content" style="max-width:400px; text-align:center;">
     <div class="modal-header"><h3>To'lov cheki</h3><button type="button" class="close-btn" onclick="closeModal('receiptModal')">×</button></div>
@@ -502,6 +545,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
+
 <!-- BUYURTMA TAFSILOTI MODALI -->
 <div class="modal" id="orderDetailModal">
   <div class="modal-content" style="max-width:450px;">
@@ -509,6 +553,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     <div class="modal-body" id="orderModalBodyContent" style="text-align:center;"></div>
   </div>
 </div>
+
 <!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
   <div class="modal-content" style="max-width:340px">
@@ -521,6 +566,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
+
 <!-- MAHSULOT QO'SHISH MODALI -->
 <div class="modal" id="productModal">
   <div class="modal-content">
@@ -576,6 +622,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
+
 <div class="toast-container" id="toastContainer"></div>
  
 <script>
@@ -586,14 +633,7 @@ const manifestData = {
   "display": "standalone",
   "background_color": "#f8f9fc",
   "theme_color": "#ff2d55",
-  "icons": [
-    {
-      "src": "https://cdn-icons-png.flaticon.com/512/3081/3081559.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ]
+  "icons": [{ "src": "https://cdn-icons-png.flaticon.com/512/3081/3081559.png", "sizes": "512x512", "type": "image/png" }]
 };
 const stringManifest = JSON.stringify(manifestData);
 const blob = new Blob([stringManifest], {type: 'application/json'});
@@ -601,22 +641,16 @@ const manifestURL = URL.createObjectURL(blob);
 document.querySelector('link[rel="manifest"]').setAttribute('href', manifestURL);
 
 let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-});
-
+window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
 function installPwaApp() {
   if (deferredPrompt) {
     deferredPrompt.prompt();
     deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') {
-        showToast("Ilova muvaffaqiyatli o'rnatildi!");
-      }
+      if (choiceResult.outcome === 'accepted') { showToast("Ilova muvaffaqiyatli o'rnatildi!"); }
       deferredPrompt = null;
     });
   } else {
-    showToast("Brauzer menyusidan 'Ilovani o'rnatish' yoki 'Asosiy ekranga qo'shish'ni tanlang", "error");
+    showToast("Brauzer menyusidan 'Ilovani o'rnatish'ni tanlang", "error");
   }
 }
 
@@ -632,6 +666,7 @@ const firebaseConfig = {
 try { firebase.initializeApp(firebaseConfig); } catch(e) {}
 const db = firebase.firestore();
 const rtdb = firebase.database();
+
 const userStatusRef = rtdb.ref('status/online');
 rtdb.ref('.info/connected').on('value', (snap) => {
   if (snap.val() === true) {
@@ -645,6 +680,7 @@ rtdb.ref('status/online').on('value', (snap) => {
   if(document.getElementById('onlineCountBadge')) document.getElementById('onlineCountBadge').textContent = count;
   if(document.getElementById('statOnline')) document.getElementById('statOnline').textContent = count;
 });
+
 function trackTotalVisitors() {
   const visitorRef = rtdb.ref('stats/totalVisitors');
   if (!sessionStorage.getItem('visited_tracked')) {
@@ -656,8 +692,8 @@ function trackTotalVisitors() {
     if(document.getElementById('statVisitors')) document.getElementById('statVisitors').textContent = total;
   });
 }
-let settings = {yuanRate:2150, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:45};
 
+let settings = {yuanRate:2150, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:45};
 let products = JSON.parse(localStorage.getItem('cdv_products_cache') || "[]");
 let orders = [];
 let cart = JSON.parse(localStorage.getItem('cdv_cart') || "[]");
@@ -686,6 +722,23 @@ function openModal(id){ let el = document.getElementById(id); if(el) el.classLis
 function closeModal(id){ let el = document.getElementById(id); if(el) el.classList.remove('show'); }
 
 window.addEventListener('load', () => {
+  // Telegram Mini App integratsiyasini tekshirish va avtomatik tanish
+  if (window.Telegram && window.Telegram.WebApp) {
+    const tg = window.Telegram.WebApp;
+    tg.expand();
+    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
+      const tgUser = tg.initDataUnsafe.user;
+      if (!currentUser) {
+        currentUser = {
+          name: tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : ''),
+          phone: tgUser.id.toString(),
+          cashback: 0
+        };
+        localStorage.setItem('cdv_user', JSON.stringify(currentUser));
+      }
+    }
+  }
+
   renderProducts();
   renderCatalogProducts();
   renderProfileContent();
@@ -694,6 +747,7 @@ window.addEventListener('load', () => {
   updateCartUI();
   setupChatListeners();
   setupAdminNotifications();
+  updateReferralUI();
 });
 
 function switchPage(pageId, el){
@@ -712,8 +766,10 @@ function switchPage(pageId, el){
     renderProfileCart();
     renderMyOrdersList();
     loadUserChat();
+    updateReferralUI();
   }
 }
+
 function switchProfileTab(tabName, el){
   document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
   if(el) el.classList.add('active');
@@ -722,8 +778,45 @@ function switchProfileTab(tabName, el){
   
   if(tabName === 'cart') renderProfileCart();
   if(tabName === 'orders') renderMyOrdersList();
+  if(tabName === 'referral') updateReferralUI();
   if(tabName === 'help') loadUserChat();
 }
+
+// ⚡ AI LINK ORQALI NARX HISOBLASH FUNKSIYASI
+function calculateAiLinkPrice(){
+  let link = document.getElementById('aiProductLink').value.trim();
+  let yuan = parseFloat(document.getElementById('aiProductYuan').value) || 0;
+  let resBox = document.getElementById('aiResultBox');
+  if(!link || yuan <= 0){
+    showToast("Havola va yuan narxini kiriting!", "error");
+    return;
+  }
+  let estimatedWeight = 0.5; // standart taxminiy og'irlik
+  let chinaCost = yuan * settings.yuanRate;
+  let shippingCost = estimatedWeight * settings.aviaRate * settings.usdRate;
+  let finalPrice = Math.round((chinaCost + shippingCost) * (1 + settings.markup / 100));
+  
+  resBox.classList.remove('hidden');
+  resBox.innerHTML = `✅ <b>AI Hisob-kitobi:</b><br>Asl narxi: ${Math.round(chinaCost).toLocaleString()} so'm | Taxminiy yetkazish (~0.5kg): ${Math.round(shippingCost).toLocaleString()} so'm<br><b>Yakuniy taxminiy narx: ${formatPrice(finalPrice)}</b>`;
+}
+
+// ⚡ KESHBEK VA REFERAL FUNKSIYALARI
+function updateReferralUI(){
+  if(!currentUser) return;
+  let phoneKey = currentUser.phone.replace(/[^0-9]/g, '');
+  let refLink = `https://t.me/ChinaDirectVodilBot?start=ref_${phoneKey}`;
+  document.getElementById('refLinkText').textContent = refLink;
+  let cbBalance = currentUser.cashback || 0;
+  document.getElementById('userCashbackBalance').textContent = formatPrice(cbBalance);
+}
+
+function copyReferralLink(){
+  let linkText = document.getElementById('refLinkText').textContent;
+  navigator.clipboard.writeText(linkText).then(() => {
+    showToast("Taklif havolasi nusxalandi!");
+  });
+}
+
 function fetchDataFromServer(){
   db.collection("products").onSnapshot((snapshot) => {
     let loadedProducts = [];
@@ -743,6 +836,7 @@ function fetchDataFromServer(){
       renderCatalogProducts();
     }
   }).catch(e => {});
+
   db.collection("orders").onSnapshot((snapshot) => {
     let loadedOrders = [];
     snapshot.forEach((doc) => { loadedOrders.push({ id: doc.id, ...doc.data() }); });
@@ -752,6 +846,7 @@ function fetchDataFromServer(){
     if(isAdmin) renderAdmin();
   }, (err) => {});
 }
+
 function logAdminNotification(text){
   let notifRef = rtdb.ref('admin_notifications');
   notifRef.push({text, time: new Date().toLocaleTimeString()});
@@ -784,6 +879,7 @@ function calculatePrice(p){
   return finalPrice;
 }
 function formatPrice(price){ return (price || 0).toLocaleString('uz-UZ') + " so'm"; }
+
 function renderProducts(){
   let grid = document.getElementById('homeProductsGrid');
   if(!grid) return;
@@ -986,11 +1082,7 @@ function openCheckout(){
 function togglePaymentSection(){
   let method = document.getElementById('paymentMethod').value;
   let box = document.getElementById('onlinePaymentBox');
-  if(method === 'Click' || method === 'Payme'){
-    box.classList.remove('hidden');
-  } else {
-    box.classList.add('hidden');
-  }
+  if(method === 'Click' || method === 'Payme'){ box.classList.remove('hidden'); } else { box.classList.add('hidden'); }
 }
 function handleCheckoutSubmit(e){
   e.preventDefault();
@@ -1001,12 +1093,9 @@ function handleCheckoutSubmit(e){
   let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
   
   let receiptInput = document.getElementById('receiptFileInput');
-  
-  if(payment === 'Click' || payment === 'Payme'){
-    if(!receiptInput.files || receiptInput.files.length === 0){
-      showToast("Onlayn to'lov uchun chek rasmini yuklash majburiy!", "error");
-      return;
-    }
+  if((payment === 'Click' || payment === 'Payme') && (!receiptInput.files || receiptInput.files.length === 0)){
+    showToast("Onlayn to'lov uchun chek rasmini yuklash majburiy!", "error");
+    return;
   }
   let processOrder = (receiptBase64 = "") => {
     let orderCode = 'CDV-' + Math.floor(1000 + Math.random() * 9000);
@@ -1018,6 +1107,13 @@ function handleCheckoutSubmit(e){
       createdAt: firebase.firestore.FieldValue.serverTimestamp()
     };
     db.collection("orders").add(newOrder).then(() => {
+      // ⚡ Keshbek qo'shish (Xarid summasining 5%i keshbek bo'lib qaytadi)
+      if(currentUser){
+        let gainedCb = Math.round(total * 0.05);
+        currentUser.cashback = (currentUser.cashback || 0) + gainedCb;
+        localStorage.setItem('cdv_user', JSON.stringify(currentUser));
+      }
+
       closeModal('checkoutModal');
       document.getElementById('successOrderId').textContent = orderCode;
       openModal('successModal');
@@ -1041,9 +1137,7 @@ function handleCheckoutSubmit(e){
       }
     };
     reader.readAsDataURL(receiptInput.files[0]);
-  } else {
-    processOrder("");
-  }
+  } else { processOrder(""); }
 }
 function searchTrackOrder(){
   let val = document.getElementById('trackInput').value.trim().toLowerCase();
@@ -1152,7 +1246,7 @@ function handleAuthSubmit(e){
   e.preventDefault();
   let name = document.getElementById('authName').value.trim();
   let phone = document.getElementById('authPhone').value.trim();
-  currentUser = { name, phone };
+  currentUser = { name, phone, cashback: 0 };
   localStorage.setItem('cdv_user', JSON.stringify(currentUser));
   
   logAdminNotification(`"${name}" (${phone}) tizimga kirdi.`);
@@ -1160,6 +1254,7 @@ function handleAuthSubmit(e){
   renderProfileContent();
   renderMyOrdersList();
   updateProfileNotificationBadge();
+  updateReferralUI();
   showToast("Xush kelibsiz, " + name + "!");
 }
 function logoutUser(){
