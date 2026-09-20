@@ -27,14 +27,12 @@ html, body { overflow-x: hidden; max-width: 100%; }
 }
 body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-color);color:var(--text-main);line-height:1.5; padding-bottom: 85px;}
 .container{max-width:1200px;margin:0 auto;padding:0 16px;width:100%}
-
 header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.03);border-bottom:1px solid var(--border-color);padding:14px 0;}
 .header-content{display:flex;flex-direction:column;gap:10px}
 .header-top{display:flex;justify-content:space-between;align-items:center;width:100%}
 .logo{font-size:1.2rem;font-weight:900;display:flex;align-items:center;gap:6px;color:var(--brand-dark);text-decoration:none;letter-spacing:-0.5px}
 .logo span.accent {color: var(--brand-red);}
 .header-actions{display:flex;gap:8px;align-items:center;overflow-x:auto;width:100%;padding-bottom:2px}
-
 .btn{padding:9px 18px;border:none;border-radius:14px;cursor:pointer;font-size:0.85rem;font-weight:600;transition:all 0.25s ease;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
 .btn-primary{background:var(--brand-red);color:white;box-shadow:0 4px 14px rgba(255, 45, 85, 0.3)}
 .btn-primary:hover{background:var(--brand-red-hover);transform: translateY(-1px);box-shadow:0 6px 18px rgba(255, 45, 85, 0.4)}
@@ -44,7 +42,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
 .btn-outline{background:transparent;border:1.5px solid var(--border-color);color:var(--text-main)}
 .btn-outline:hover{border-color:var(--brand-red);color:var(--brand-red);background:#fff5f7}
 .btn-sm{padding:6px 14px;font-size:0.78rem;border-radius:10px}
-
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-top:1px solid var(--border-color);display:flex;justify-content:space-around;align-items:center;padding:10px 0;z-index:250;box-shadow:0 -6px 25px rgba(0,0,0,0.05)}
 .nav-item{display:flex;flex-direction:column;align-items:center;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:0.68rem;font-weight:600;transition:all 0.2s;width:25%;position:relative}
 .nav-item span.nav-icon{font-size:1.35rem;margin-bottom:2px;transition:transform 0.2s}
@@ -52,40 +49,33 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
 .nav-item.active span.nav-icon{transform:scale(1.1)}
 .nav-cart-badge{position:absolute;top:0;right:22%;background:var(--brand-gold);color:#111;font-size:0.6rem;font-weight:800;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
 .profile-badge{position:absolute;top:0;right:22%;background:var(--brand-red);color:white;font-size:0.6rem;font-weight:800;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-
 .hero{background:linear-gradient(135deg, #18181b 0%, #271720 100%);padding:28px 20px;border-radius:20px;margin:16px 0;color:white;box-shadow:var(--shadow-md)}
 .hero h1{font-size:1.5rem;color:white;margin-bottom:6px;font-weight:800;letter-spacing:-0.5px}
 .hero h1 span {color: var(--brand-red);}
 .hero p{color:#d4d4d8;font-size:0.88rem}
-
 .controls{background:white;padding:12px 16px;border-radius:16px;border:1px solid var(--border-color);margin-bottom:16px;box-shadow:var(--shadow-sm)}
 .controls-content{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .search-box{flex:1;min-width:240px;position:relative}
 .search-box input{width:100%;padding:10px 16px 10px 40px;border:1.5px solid var(--border-color);border-radius:14px;font-size:0.9rem;background:#f8f9fc;transition:all 0.2s}
 .search-box input:focus{outline:none;border-color:var(--brand-red);background:white;box-shadow:0 0 0 4px rgba(255, 45, 85, 0.08)}
 .search-box::before{content:"🔍";position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:0.85rem}
-
 .category-filter{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;width:100%;scrollbar-width:none}
 .category-filter::-webkit-scrollbar{display:none}
 .category-chip{padding:8px 16px;background:#f4f4f6;border-radius:12px;cursor:pointer;white-space:nowrap;font-weight:600;font-size:0.82rem;transition:all 0.2s;color:var(--text-main);border:1px solid transparent}
 .category-chip:hover{background:#e4e4e7}
 .category-chip.active{background:var(--brand-dark);color:white;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
-
 .products-section{padding:0 0 40px}
 .section-title{font-size:1.2rem;font-weight:800;margin-bottom:14px;color:var(--text-main);letter-spacing:-0.5px}
 .products-grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:12px;}
 @media(min-width:768px){.products-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}}
-
 .product-card{background:var(--card-bg);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);transition:all 0.3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;border:1px solid var(--border-color);position:relative}
 .product-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);border-color:#e4e4e7}
 .product-image-wrap{width:100%;height:185px;background:#f8f9fc;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:pointer}
 .product-image-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
 .product-card:hover .product-image-wrap img{transform:scale(1.06)}
-
 .wishlist-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.9);backdrop-filter:blur(4px);border:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;font-size:0.95rem;box-shadow:0 3px 8px rgba(0,0,0,0.08);transition:transform 0.2s}
 .wishlist-btn:hover{transform:scale(1.15)}
 .wishlist-btn.active{color:var(--brand-red)}
-
 .product-info{padding:12px 14px;flex:1;display:flex;flex-direction:column}
 .product-name{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;height:2.7em;cursor:pointer;color:var(--text-main)}
 .product-name:hover {color: var(--brand-red);}
@@ -93,18 +83,15 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
 .product-price{font-size:1.05rem;font-weight:800;color:var(--brand-dark)}
 .product-footer{display:flex;gap:6px;margin-top:10px}
 .product-footer .btn{flex:1;justify-content:center;padding:7px;font-size:0.75rem;border-radius:12px}
-
 .detail-slider-container{position:relative;width:100%;height:270px;background:#f8f9fc;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border:1px solid var(--border-color)}
 .detail-slider-container img{width:100%;height:100%;object-fit:cover}
 .slider-nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);color:white;border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
 .slider-nav-btn:hover{background:rgba(0,0,0,0.7)}
 .slider-prev{left:10px}
 .slider-next{right:10px}
-
 .profile-tabs{display:flex;gap:6px;background:white;padding:6px;border-radius:16px;margin-bottom:16px;border:1px solid var(--border-color);overflow-x:auto}
 .profile-tab{flex:1;padding:10px 12px;border:none;background:transparent;border-radius:12px;cursor:pointer;font-weight:600;color:var(--text-muted);font-size:0.8rem;white-space:nowrap;transition:all 0.2s;text-align:center}
 .profile-tab.active{background:var(--brand-red);color:white;box-shadow:0 4px 12px rgba(255,45,85,0.25)}
-
 .cart-item{display:flex;gap:12px;padding:12px;background:white;border-radius:16px;margin-bottom:10px;align-items:center;border:1px solid var(--border-color);box-shadow:var(--shadow-sm)}
 .cart-item-image{width:56px;height:56px;border-radius:12px;background:#f8f9fc;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:1px solid var(--border-color)}
 .cart-item-image img{width:100%;height:100%;object-fit:cover}
@@ -115,10 +102,8 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
 .cart-item-qty{display:flex;align-items:center;gap:8px;margin-top:6px}
 .qty-btn{width:26px;height:26px;border:1px solid var(--border-color);background:white;border-radius:50%;cursor:pointer;font-weight:700;font-size:0.8rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
 .qty-btn:hover{border-color:var(--brand-red);color:var(--brand-red)}
-
 .overlay{position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:299;display:none;backdrop-filter:blur(4px)}
 .overlay.show{display:block}
-
 .modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:400;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(5px)}
 .modal.show{display:flex}
 .modal-content{background:white;border-radius:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);animation:modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)}
@@ -132,13 +117,11 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .close-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--text-muted);width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background 0.2s}
 .close-btn:hover{background:#f4f4f6;color:var(--text-main)}
-
 .multi-upload-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
 .upload-thumb{height:85px;border:2px dashed #d4d4d8;border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fafafa;position:relative;overflow:hidden;transition:border-color 0.2s}
 .upload-thumb:hover{border-color:var(--brand-red)}
 .upload-thumb img{width:100%;height:100%;object-fit:cover}
 .remove-thumb{position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:white;border:none;width:22px;height:22px;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-
 .tabs{display:flex;gap:6px;background:white;padding:6px;border-radius:16px;margin-bottom:16px;border:1px solid var(--border-color);overflow-x:auto}
 .tab{padding:8px 16px;border:none;background:transparent;border-radius:12px;cursor:pointer;font-weight:600;color:var(--text-muted);font-size:0.85rem;white-space:nowrap;transition:all 0.2s}
 .tab.active{background:var(--brand-dark);color:white}
@@ -150,7 +133,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
 .admin-table{width:100%;border-collapse:collapse;font-size:0.85rem}
 .admin-table th,.admin-table td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-color)}
 .admin-table th{background:#f8f9fc;font-weight:700;color:var(--text-main)}
-
 .tracking-stepper{display:flex;justify-content:space-between;margin:25px 0 15px 0;position:relative}
 .tracking-stepper::before{content:'';position:absolute;top:14px;left:8%;right:8%;height:3px;background:var(--border-color);z-index:1}
 .tracking-progress{position:absolute;top:14px;left:8%;height:3px;background:#10b981;z-index:1;transition:width 0.4s ease}
@@ -196,7 +178,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     <div class="products-grid" id="homeProductsGrid"></div>
   </div>
 </div>
-
 <!-- 2. KATALOG / QIDIRISH -->
 <div class="page-section hidden" id="page-catalog">
   <div class="container" style="padding-top:12px;">
@@ -219,7 +200,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     <div class="products-grid" id="catalogProductsGrid"></div>
   </div>
 </div>
-
 <!-- 3. SEVIMLILAR -->
 <div class="page-section hidden" id="page-wishlist">
   <div class="container" style="padding-top: 20px;">
@@ -227,7 +207,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     <div class="products-grid" id="wishlistProductsGrid"></div>
   </div>
 </div>
-
 <!-- 4. PROFIL VA ICHKI BO'LIMLAR -->
 <div class="page-section hidden" id="page-profile">
   <div class="container" style="padding-top: 20px; max-width: 650px;">
@@ -239,11 +218,9 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
       <button type="button" class="profile-tab" onclick="switchProfileTab('orders', this)">Buyurtmalar</button>
       <button type="button" class="profile-tab" onclick="switchProfileTab('help', this)">Yordam</button>
     </div>
-
     <div id="profileTabMain" class="profile-tab-content">
       <div style="background:white; padding:24px; border-radius:24px; border:1px solid var(--border-color); box-shadow:var(--shadow-sm);" id="profileCardContent"></div>
     </div>
-
     <div id="profileTabCart" class="profile-tab-content hidden">
       <div style="background:white; padding:20px; border-radius:24px; border:1px solid var(--border-color); box-shadow:var(--shadow-sm);">
         <h3 style="margin-bottom:12px; font-size:1.05rem;">Sizning savatingiz</h3>
@@ -256,7 +233,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         </div>
       </div>
     </div>
-
     <div id="profileTabOrders" class="profile-tab-content hidden">
       <div style="background:white; padding:20px; border-radius:24px; border:1px solid var(--border-color); box-shadow:var(--shadow-sm); margin-bottom:16px;">
         <div class="form-group" style="margin-bottom:0">
@@ -267,7 +243,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
           </div>
         </div>
       </div>
-
       <div id="trackResult" class="hidden" style="background:white; padding:16px; border-radius:18px; border:1px solid var(--border-color); margin-bottom:16px; box-shadow:var(--shadow-sm);">
         <div style="display:flex;justify-content:space-between;align-items:center; margin-bottom: 10px;">
           <strong id="trackOrderCode" style="font-size:0.95rem">---</strong>
@@ -283,13 +258,11 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         </div>
         <div class="order-details" id="trackOrderItems"></div>
       </div>
-
       <h3 style="font-size:1rem; margin-bottom:10px;">Mening buyurtmalarim tarixi:</h3>
       <div id="myOrdersListContainer">
         <p style="color:var(--text-muted); font-size:0.85rem;">Yuklanmoqda...</p>
       </div>
     </div>
-
     <!-- YORDAM / CHAT BO'LIMI -->
     <div id="profileTabHelp" class="profile-tab-content hidden">
       <div style="background:white; border-radius:24px; border:1px solid var(--border-color); display:flex; flex-direction:column; height:420px; overflow:hidden; box-shadow:var(--shadow-sm);">
@@ -302,10 +275,8 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         </div>
       </div>
     </div>
-
   </div>
 </div>
-
 <!-- ADMIN VIEW -->
 <div id="adminView" class="hidden">
   <div class="container" style="padding-top:20px;padding-bottom:40px">
@@ -317,7 +288,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         Hozircha xabarlar yo'q.
       </div>
     </div>
-
     <div class="tabs">
       <button type="button" class="tab active" onclick="switchAdminTab('stats', this)">Statistika</button>
       <button type="button" class="tab" onclick="switchAdminTab('products', this)">Mahsulotlar</button>
@@ -335,7 +305,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         <div class="stat-card"><div class="stat-value" id="statRevenue">0 so'm</div><div class="stat-label">Tushum</div></div>
       </div>
     </div>
-
     <div id="admin-tab-products" class="admin-tab-content hidden">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
         <h3>Mahsulotlar ro'yxati</h3>
@@ -348,7 +317,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         </table>
       </div>
     </div>
-
     <div id="admin-tab-orders" class="admin-tab-content hidden">
       <h3 style="margin-bottom:14px">Buyurtmalar boshqaruvi</h3>
       <div class="admin-table-wrap">
@@ -358,7 +326,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         </table>
       </div>
     </div>
-
     <div id="admin-tab-chat" class="admin-tab-content hidden">
       <h3 style="margin-bottom:14px">Mijozlar bilan yordam / Chat</h3>
       <div style="display:grid; grid-template-columns: 250px 1fr; gap:12px; background:white; padding:16px; border-radius:20px; border:1px solid var(--border-color); height:480px; box-shadow:var(--shadow-sm);">
@@ -376,7 +343,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         </div>
       </div>
     </div>
-
     <div id="admin-tab-settings" class="admin-tab-content hidden">
       <div style="background:white;padding:24px;border-radius:20px;border:1px solid var(--border-color);box-shadow:var(--shadow-sm)">
         <h3 style="margin-bottom:14px;font-size:1rem">Valyuta va Tariflar</h3>
@@ -394,7 +360,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
-
 <!-- PASTKI NAVIGATSIYA MENYUSI -->
 <nav class="bottom-nav">
   <button type="button" class="nav-item active" onclick="switchPage('home', this)">
@@ -416,7 +381,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     <span class="profile-badge hidden" id="profileNotifBadge">!</span>
   </button>
 </nav>
-
 <!-- MAHSULOT TAFSILOTLARI -->
 <div class="modal" id="productDetailModal">
   <div class="modal-content" style="max-width:500px;">
@@ -433,12 +397,10 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
       
       <div style="font-size:1.3rem; font-weight:800; color:var(--brand-dark); margin-bottom:4px;" id="detailPrice">0 so'm</div>
       <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;" id="detailCategoryWeight"></div>
-
       <div class="form-group">
         <label>Razmer yoki o'lchamingizni kiriting (masalan: M, 42):</label>
         <input type="text" id="customSizeInput" placeholder="Masalan: L yoki 41-razmer" value="Standard">
       </div>
-
       <div class="form-group">
         <label>Miqdori (nechtaligi):</label>
         <div style="display:flex; align-items:center; gap:12px;">
@@ -447,17 +409,14 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
           <button type="button" class="qty-btn" onclick="changeDetailQty(1)">+</button>
         </div>
       </div>
-
       <div style="background:#f8f9fc; padding:12px; border-radius:14px; border:1px solid var(--border-color); margin-bottom:14px;">
         <label style="font-size:0.72rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:2px;">TAVSIF:</label>
         <p id="detailDesc" style="font-size:0.85rem; white-space:pre-wrap; color:var(--text-main);">Tavsif mavjud emas</p>
       </div>
-
       <button type="button" class="btn btn-primary w-full" onclick="addDetailToCartAndCheckout()">Savatga qo'shish va Zakaz qilish</button>
     </div>
   </div>
 </div>
-
 <!-- RO'YXATDAN O'TISH MODALI -->
 <div class="modal" id="authModal">
   <div class="modal-content" style="max-width:440px">
@@ -477,7 +436,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
-
 <!-- CHECKOUT MODAL (CHEK YUKLASH BILAN) -->
 <div class="modal" id="checkoutModal">
   <div class="modal-content">
@@ -496,7 +454,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
             <option value="Naqd">💵 Mahsulot kelganda naqd to'lash</option>
           </select>
         </div>
-
         <!-- ONLAYN TO'LOV VA CHEK YUKLASH QISMI -->
         <div id="onlinePaymentBox" style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:14px; padding:14px; margin-bottom:14px;">
           <div style="font-size:0.85rem; font-weight:700; color:var(--brand-red); margin-bottom:6px;">💳 Onlayn To'lov Rekvizitlari:</div>
@@ -506,7 +463,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
             <input type="file" id="receiptFileInput" accept="image/*" style="padding:6px; background:white;">
           </div>
         </div>
-
         <div style="background:#f8f9fc;padding:14px;border-radius:14px;margin-bottom:16px;font-size:0.95rem;border:1px solid var(--border-color)">
           Jami to'lov: <span id="checkoutTotal" style="font-weight:800;color:var(--brand-red)">0 so'm</span>
         </div>
@@ -515,7 +471,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
-
 <!-- SUCCESS MODAL -->
 <div class="modal" id="successModal">
   <div class="modal-content">
@@ -527,7 +482,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
-
 <!-- CHEK KORISH MODALI (ADMIN UCHUN) -->
 <div class="modal" id="receiptModal">
   <div class="modal-content" style="max-width:400px; text-align:center;">
@@ -537,7 +491,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
-
 <!-- BUYURTMA TAFSILOTI MODALI -->
 <div class="modal" id="orderDetailModal">
   <div class="modal-content" style="max-width:450px;">
@@ -545,7 +498,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     <div class="modal-body" id="orderModalBodyContent" style="text-align:center;"></div>
   </div>
 </div>
-
 <!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
   <div class="modal-content" style="max-width:340px">
@@ -558,7 +510,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
     </div>
   </div>
 </div>
-
 <!-- MAHSULOT QO'SHISH MODALI -->
 <div class="modal" id="productModal">
   <div class="modal-content">
@@ -573,7 +524,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
           <div class="upload-thumb" onclick="triggerThumbUpload(2)"><span>📷+</span></div>
         </div>
         <input type="file" id="thumbInput" accept="image/*" style="display:none" onchange="handleThumbSelect(event)">
-
         <div class="form-group"><label>Nomi</label><input type="text" id="productName" required></div>
         <div class="form-row">
           <div class="form-group">
@@ -599,24 +549,22 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
             </select>
           </div>
         </div>
-
         <div style="background:#f8f9fc;padding:12px;border-radius:14px;margin-bottom:14px;font-size:0.82rem;border:1px solid var(--border-color); color:var(--text-main);">
           <div style="font-weight:700; margin-bottom:4px; color:var(--brand-red);">📊 Kalkulyatsiya:</div>
           <div>Asl Xitoy narxi: <span id="adminCalcChinaSum">0 so'm</span></div>
           <div>Yetkazish: <span id="adminCalcShippingSum">0 so'm</span></div>
+          <div style="color:var(--brand-dark); font-weight:700;">Xitoy narxi + Yetkazish: <span id="adminCalcBasePlusShipping">0 so'm</span></div>
           <div>Ustama (<span id="adminCalcMarkupLabel">45</span>%): <span id="adminCalcMarkupSum">0 so'm</span></div>
           <div style="border-top:1px solid var(--border-color); margin-top:6px; padding-top:6px; font-weight:800; font-size:0.95rem;">
             Yakuniy narx: <span id="modalCalcPrice" style="color:var(--brand-red)">0 so'm</span>
           </div>
         </div>
-
         <div class="form-group"><label>Tavsif</label><textarea id="productDesc" rows="3"></textarea></div>
         <button type="submit" class="btn btn-primary w-full">Saqlash</button>
       </form>
     </div>
   </div>
 </div>
-
 <div class="toast-container" id="toastContainer"></div>
  
 <script>
@@ -629,12 +577,9 @@ const firebaseConfig = {
   messagingSenderId: "183932106361",
   appId: "1:183932106361:web:21200df1542f2ee06bbda3"
 };
-
 try { firebase.initializeApp(firebaseConfig); } catch(e) {}
-
 const db = firebase.firestore();
 const rtdb = firebase.database();
-
 const userStatusRef = rtdb.ref('status/online');
 rtdb.ref('.info/connected').on('value', (snap) => {
   if (snap.val() === true) {
@@ -648,7 +593,6 @@ rtdb.ref('status/online').on('value', (snap) => {
   if(document.getElementById('onlineCountBadge')) document.getElementById('onlineCountBadge').textContent = count;
   if(document.getElementById('statOnline')) document.getElementById('statOnline').textContent = count;
 });
-
 function trackTotalVisitors() {
   const visitorRef = rtdb.ref('stats/totalVisitors');
   if (!sessionStorage.getItem('visited_tracked')) {
@@ -660,7 +604,6 @@ function trackTotalVisitors() {
     if(document.getElementById('statVisitors')) document.getElementById('statVisitors').textContent = total;
   });
 }
-
 let settings = {yuanRate:2150, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:45};
 let products = JSON.parse(localStorage.getItem('cdv_products_cache') || "[]");
 let orders = [];
@@ -669,7 +612,6 @@ let wishlist = JSON.parse(localStorage.getItem('cdv_wishlist') || "[]");
 let currentUser = JSON.parse(localStorage.getItem('cdv_user') || "null");
 let isAdmin = false;
 const ADMIN_PASS = "admin123";
-
 let currentImages = ["", "", ""];
 let activeUploadIndex = 0;
 let detailCurrentImages = [];
@@ -677,7 +619,6 @@ let detailActiveIndex = 0;
 let detailCurrentProduct = null;
 let selectedQty = 1;
 let activeChatUserPhone = null;
-
 function showToast(msg, type='success'){
   let container = document.getElementById('toastContainer');
   if(!container) return;
@@ -687,10 +628,8 @@ function showToast(msg, type='success'){
   container.appendChild(toast);
   setTimeout(() => toast.remove(), 3000);
 }
-
 function openModal(id){ let el = document.getElementById(id); if(el) el.classList.add('show'); }
 function closeModal(id){ let el = document.getElementById(id); if(el) el.classList.remove('show'); }
-
 window.addEventListener('load', () => {
   renderProfileContent();
   renderProducts();
@@ -700,7 +639,6 @@ window.addEventListener('load', () => {
   setupChatListeners();
   setupAdminNotifications();
 });
-
 function switchPage(pageId, el){
   if(isAdmin) { toggleAdminView(); }
   document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
@@ -709,7 +647,6 @@ function switchPage(pageId, el){
   
   document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => btn.classList.remove('active'));
   if(el) el.classList.add('active');
-
   if(pageId === 'home') renderProducts();
   if(pageId === 'catalog') renderCatalogProducts();
   if(pageId === 'wishlist') renderWishlistProducts();
@@ -720,7 +657,6 @@ function switchPage(pageId, el){
     loadUserChat();
   }
 }
-
 function switchProfileTab(tabName, el){
   document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
   if(el) el.classList.add('active');
@@ -731,7 +667,6 @@ function switchProfileTab(tabName, el){
   if(tabName === 'orders') renderMyOrdersList();
   if(tabName === 'help') loadUserChat();
 }
-
 function fetchDataFromServer(){
   db.collection("products").onSnapshot((snapshot) => {
     let loadedProducts = [];
@@ -751,7 +686,6 @@ function fetchDataFromServer(){
       renderCatalogProducts();
     }
   }).catch(e => {});
-
   db.collection("orders").onSnapshot((snapshot) => {
     let loadedOrders = [];
     snapshot.forEach((doc) => { loadedOrders.push({ id: doc.id, ...doc.data() }); });
@@ -761,12 +695,10 @@ function fetchDataFromServer(){
     if(isAdmin) renderAdmin();
   }, (err) => {});
 }
-
 function logAdminNotification(text){
   let notifRef = rtdb.ref('admin_notifications');
   notifRef.push({text, time: new Date().toLocaleTimeString()});
 }
-
 function setupAdminNotifications(){
   rtdb.ref('admin_notifications').on('value', (snap) => {
     let data = snap.val();
@@ -777,7 +709,6 @@ function setupAdminNotifications(){
     box.innerHTML = list.map(n => `<div style="padding:4px 0; border-bottom:1px solid #ffe6ea;">⏰ [${n.time}] — <b>${n.text}</b></div>`).join('');
   });
 }
-
 function updateProfileNotificationBadge(){
   let badge = document.getElementById('profileNotifBadge');
   if(!badge) return;
@@ -788,7 +719,6 @@ function updateProfileNotificationBadge(){
     badge.classList.remove('hidden');
   } else { badge.classList.add('hidden'); }
 }
-
 function calculatePrice(p){
   let chinaCost = (parseFloat(p.priceYuan) || 0) * settings.yuanRate;
   let shippingRate = p.shipping === 'avia' ? settings.aviaRate : settings.avtoRate;
@@ -796,9 +726,7 @@ function calculatePrice(p){
   let finalPrice = Math.round((chinaCost + shippingCost) * (1 + settings.markup / 100));
   return finalPrice;
 }
-
 function formatPrice(price){ return (price || 0).toLocaleString('uz-UZ') + " so'm"; }
-
 function renderProducts(){
   let grid = document.getElementById('homeProductsGrid');
   if(!grid) return;
@@ -808,7 +736,6 @@ function renderProducts(){
   }
   grid.innerHTML = products.map(p => createProductCardHTML(p)).join('');
 }
-
 function renderCatalogProducts(){
   let grid = document.getElementById('catalogProductsGrid');
   if(!grid) return;
@@ -817,14 +744,12 @@ function renderCatalogProducts(){
   let filtered = products;
   if(activeCategory !== 'all') filtered = filtered.filter(p => p.category === activeCategory);
   if(search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
-
   if(filtered.length === 0){
     grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)"><h3>Bunday nomdagi mahsulot topilmadi</h3></div>';
     return;
   }
   grid.innerHTML = filtered.map(p => createProductCardHTML(p)).join('');
 }
-
 let activeCategory = 'all';
 function filterCategory(cat, el){
   activeCategory = cat;
@@ -832,7 +757,6 @@ function filterCategory(cat, el){
   if(el) el.classList.add('active');
   renderCatalogProducts();
 }
-
 function renderWishlistProducts(){
   let grid = document.getElementById('wishlistProductsGrid');
   if(!grid) return;
@@ -843,7 +767,6 @@ function renderWishlistProducts(){
   }
   grid.innerHTML = favProducts.map(p => createProductCardHTML(p)).join('');
 }
-
 function toggleWishlist(productId, event){
   event.stopPropagation();
   let index = wishlist.indexOf(productId);
@@ -852,13 +775,11 @@ function toggleWishlist(productId, event){
   localStorage.setItem('cdv_wishlist', JSON.stringify(wishlist));
   renderProducts(); renderCatalogProducts(); renderWishlistProducts();
 }
-
 function createProductCardHTML(p){
   let price = calculatePrice(p);
   let imgs = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
   let firstImg = imgs.length > 0 ? imgs[0] : '';
   let isFav = wishlist.includes(p.id);
-
   return `<div class="product-card" id="prod-card-${p.id}">
     <div class="product-image-wrap" onclick="openProductDetail('${p.id}')">
       ${firstImg ? `<img src="${firstImg}">` : '<div style="opacity:0.2">📦</div>'}
@@ -876,7 +797,6 @@ function createProductCardHTML(p){
     </div>
   </div>`;
 }
-
 function openProductDetail(productId){
   let p = products.find(prod => prod.id === productId);
   if(!p) return;
@@ -884,18 +804,15 @@ function openProductDetail(productId){
   detailCurrentImages = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
   detailActiveIndex = 0;
   selectedQty = 1;
-
   document.getElementById('detailTitle').textContent = p.name;
   document.getElementById('detailPrice').textContent = formatPrice(calculatePrice(p));
   document.getElementById('detailCategoryWeight').textContent = `Kategoriya: ${p.category}`;
   document.getElementById('detailDesc').textContent = p.desc || "Tavsif mavjud emas.";
   document.getElementById('detailQtyVal').textContent = selectedQty;
   document.getElementById('customSizeInput').value = 'Standard';
-
   updateDetailImageView();
   openModal('productDetailModal');
 }
-
 function updateDetailImageView(){
   let imgEl = document.getElementById('detailMainImg');
   if(!imgEl) return;
@@ -904,19 +821,16 @@ function updateDetailImageView(){
     imgEl.style.display = 'block';
   } else { imgEl.style.display = 'none'; }
 }
-
 function slideDetailImg(direction){
   if(detailCurrentImages.length <= 1) return;
   detailActiveIndex = (detailActiveIndex + direction + detailCurrentImages.length) % detailCurrentImages.length;
   updateDetailImageView();
 }
-
 function changeDetailQty(delta){
   selectedQty += delta;
   if(selectedQty < 1) selectedQty = 1;
   document.getElementById('detailQtyVal').textContent = selectedQty;
 }
-
 function addDetailToCartAndCheckout(){
   if(!detailCurrentProduct) return;
   let p = detailCurrentProduct;
@@ -926,7 +840,6 @@ function addDetailToCartAndCheckout(){
   let existing = cart.find(i => i.cartItemId === cartItemId);
   let imgs = detailCurrentImages.length > 0 ? detailCurrentImages[0] : '';
   let finalPrice = calculatePrice(p);
-
   if(existing){
     existing.qty += selectedQty;
   } else {
@@ -949,14 +862,12 @@ function addDetailToCartAndCheckout(){
   switchPage('profile', profileBtn);
   switchProfileTab('cart', document.querySelectorAll('.profile-tab')[1]);
 }
-
 function removeFromCart(cartItemId){ 
   cart = cart.filter(i => i.cartItemId !== cartItemId); 
   localStorage.setItem('cdv_cart', JSON.stringify(cart)); 
   updateCartUI(); 
   renderProfileCart();
 }
-
 function updateQty(cartItemId, delta){
   let item = cart.find(i => i.cartItemId === cartItemId);
   if(!item) return;
@@ -964,7 +875,6 @@ function updateQty(cartItemId, delta){
   if(item.qty <= 0) removeFromCart(cartItemId);
   else { localStorage.setItem('cdv_cart', JSON.stringify(cart)); updateCartUI(); renderProfileCart(); }
 }
-
 function updateCartUI(){
   let totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
   let bottomBadge = document.getElementById('bottomCartBadge');
@@ -975,13 +885,11 @@ function updateCartUI(){
     totalQty > 0 ? (bottomBadge.textContent = totalQty, bottomBadge.classList.remove('hidden')) : bottomBadge.classList.add('hidden');
   }
 }
-
 function renderProfileCart(){
   updateCartUI();
   let body = document.getElementById('profileCartBody');
   let footer = document.getElementById('profileCartFooter');
   if(!body || !footer) return;
-
   if(cart.length === 0){
     body.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted)"><h3>Savatingiz bo\'sh</h3></div>';
     footer.classList.add('hidden');
@@ -1006,7 +914,6 @@ function renderProfileCart(){
   `).join('');
   document.getElementById('profileCartTotal').textContent = formatPrice(cart.reduce((sum, i) => sum + (i.price * i.qty), 0));
 }
-
 function openCheckout(){
   if(cart.length === 0) return;
   let totalSum = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
@@ -1019,7 +926,6 @@ function openCheckout(){
   togglePaymentSection();
   openModal('checkoutModal');
 }
-
 function togglePaymentSection(){
   let method = document.getElementById('paymentMethod').value;
   let box = document.getElementById('onlinePaymentBox');
@@ -1029,7 +935,6 @@ function togglePaymentSection(){
     box.classList.add('hidden');
   }
 }
-
 function handleCheckoutSubmit(e){
   e.preventDefault();
   let name = document.getElementById('customerName').value;
@@ -1046,11 +951,9 @@ function handleCheckoutSubmit(e){
       return;
     }
   }
-
   let processOrder = (receiptBase64 = "") => {
     let orderCode = 'CDV-' + Math.floor(1000 + Math.random() * 9000);
     let initialStatus = (payment === 'Click' || payment === 'Payme') ? "To'landi (Avtomatik tasdiqlandi)" : "Tasdiqlandi";
-
     let newOrder = {
       code: orderCode, name, phone, payment, address,
       items: cart, total, status: initialStatus,
@@ -1067,7 +970,6 @@ function handleCheckoutSubmit(e){
       logAdminNotification(`Yangi buyurtma keldi: ${orderCode} (${name}, ${formatPrice(total)})`);
     });
   };
-
   if(receiptInput.files && receiptInput.files[0]){
     let reader = new FileReader();
     reader.onload = function(event){
@@ -1086,7 +988,6 @@ function handleCheckoutSubmit(e){
     processOrder("");
   }
 }
-
 function searchTrackOrder(){
   let val = document.getElementById('trackInput').value.trim().toLowerCase();
   if(!val) return;
@@ -1110,12 +1011,10 @@ function searchTrackOrder(){
   }
   document.getElementById('trackOrderItems').textContent = found.items.map(i => `${i.name} [Razmer: ${i.size}] x ${i.qty}`).join('\n');
 }
-
 function openReceiptModal(imgUrl){
   document.getElementById('receiptModalImg').src = imgUrl;
   openModal('receiptModal');
 }
-
 function openOrderDetailsModal(orderId){
   let o = orders.find(item => item.id === orderId);
   if(!o) return;
@@ -1130,7 +1029,6 @@ function openOrderDetailsModal(orderId){
       </div>
     </div>
   `).join('');
-
   document.getElementById('orderModalBodyContent').innerHTML = `
     <div style="font-weight:700; color:var(--brand-red); margin-bottom:10px;">Holati: ${o.status}</div>
     <div style="font-size:0.85rem; margin-bottom:12px; text-align:left;">
@@ -1144,7 +1042,6 @@ function openOrderDetailsModal(orderId){
   `;
   openModal('orderDetailModal');
 }
-
 function renderMyOrdersList(){
   let container = document.getElementById('myOrdersListContainer');
   if(!container) return;
@@ -1164,7 +1061,6 @@ function renderMyOrdersList(){
     </div>
   `).join('');
 }
-
 function renderProfileContent(){
   let card = document.getElementById('profileCardContent');
   if(!card) return;
@@ -1195,7 +1091,6 @@ function renderProfileContent(){
     `;
   }
 }
-
 function handleAuthSubmit(e){
   e.preventDefault();
   let name = document.getElementById('authName').value.trim();
@@ -1210,7 +1105,6 @@ function handleAuthSubmit(e){
   updateProfileNotificationBadge();
   showToast("Xush kelibsiz, " + name + "!");
 }
-
 function logoutUser(){
   localStorage.removeItem('cdv_user');
   currentUser = null;
@@ -1219,17 +1113,15 @@ function logoutUser(){
   updateProfileNotificationBadge();
   showToast("Tizimdan chiqib ketdingiz");
 }
-
 function openAuthModal(){ openModal('authModal'); }
 
-// CHAT / YORDAM TIZIMI (To'liq tuzatildi)
+// CHAT / YORDAM TIZIMI
 function setupChatListeners(){
   rtdb.ref('chats').on('value', (snap) => {
     if(isAdmin) renderAdminChatUsers();
     if(currentUser) loadUserChatMessages(snap.val());
   });
 }
-
 function sendChatMessage(){
   if(!currentUser) { showToast("Avval profilga kiring", "error"); openAuthModal(); return; }
   let input = document.getElementById('chatInputMsg');
@@ -1241,7 +1133,6 @@ function sendChatMessage(){
   });
   input.value = '';
 }
-
 function loadUserChatMessages(chatsData){
   if(!currentUser) return;
   let chatId = currentUser.phone.replace(/[^0-9]/g, '');
@@ -1259,7 +1150,6 @@ function loadUserChatMessages(chatsData){
   `).join('');
   box.scrollTop = box.scrollHeight;
 }
-
 function loadUserChat(){
   if(!currentUser) {
     document.getElementById('chatMessagesBox').innerHTML = '<div style="text-align:center; padding:20px;"><p>Chatdan foydalanish uchun kiring</p><button class="btn btn-primary btn-sm" onclick="openAuthModal()" style="margin-top:10px;">Kirish</button></div>';
@@ -1267,7 +1157,6 @@ function loadUserChat(){
   }
   rtdb.ref('chats').once('value', (snap) => { loadUserChatMessages(snap.val()); });
 }
-
 function renderAdminChatUsers(){
   rtdb.ref('chats').once('value', (snap) => {
     let data = snap.val();
@@ -1283,7 +1172,6 @@ function renderAdminChatUsers(){
     }).join('');
   });
 }
-
 function selectAdminChat(chatId){
   activeChatUserPhone = chatId;
   renderAdminChatUsers();
@@ -1300,7 +1188,6 @@ function selectAdminChat(chatId){
     box.scrollTop = box.scrollHeight;
   });
 }
-
 function sendAdminReply(){
   if(!activeChatUserPhone) { showToast("Mijozni tanlang", "error"); return; }
   let input = document.getElementById('adminReplyInput');
@@ -1311,7 +1198,6 @@ function sendAdminReply(){
   });
   input.value = '';
 }
-
 function toggleAdminView(){
   if(isAdmin){
     isAdmin = false;
@@ -1320,7 +1206,6 @@ function toggleAdminView(){
     document.getElementById('adminBtn').textContent = '🔐 Admin';
   } else { openModal('loginModal'); }
 }
-
 function handleLoginSubmit(e){
   e.preventDefault();
   let pass = document.getElementById('adminPassword').value;
@@ -1335,7 +1220,6 @@ function handleLoginSubmit(e){
     showToast('Xush kelibsiz Admin!');
   } else { showToast("Parol noto'g'ri!", 'error'); }
 }
-
 function switchAdminTab(tabName, el){
   document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
   if(el) el.classList.add('active');
@@ -1343,7 +1227,6 @@ function switchAdminTab(tabName, el){
   document.getElementById('admin-tab-' + tabName).classList.remove('hidden');
   if(tabName === 'chat') renderAdminChatUsers();
 }
-
 function renderAdmin(){
   document.getElementById('statProducts').textContent = products.length;
   document.getElementById('statOrders').textContent = orders.length;
@@ -1365,7 +1248,6 @@ function renderAdmin(){
       </td>
     </tr>`;
   }).join('');
-
   document.getElementById('adminOrdersTable').innerHTML = orders.map(o => `
     <tr>
       <td><b>${o.code}</b></td>
@@ -1389,7 +1271,6 @@ function renderAdmin(){
     </tr>
   `).join('');
 }
-
 function openAddProductModal(){
   document.getElementById('productModalTitle').textContent = "Yangi mahsulot";
   document.getElementById('productId').value = '';
@@ -1402,7 +1283,6 @@ function openAddProductModal(){
   renderThumbnails();
   openModal('productModal');
 }
-
 function triggerThumbUpload(index){ activeUploadIndex = index; document.getElementById('thumbInput').click(); }
 function handleThumbSelect(e){
   let file = e.target.files[0];
@@ -1430,26 +1310,23 @@ function renderThumbnails(){
     </div>
   `).join('');
 }
-
 function updateAdminCalcPrice(){
   let yuan = parseFloat(document.getElementById('productPriceYuan').value) || 0;
   let weight = parseFloat(document.getElementById('productWeight').value) || 0;
   let shipping = document.getElementById('productShipping').value;
-
   let chinaCost = yuan * settings.yuanRate;
   let shippingRate = shipping === 'avia' ? settings.aviaRate : settings.avtoRate;
   let shippingCost = weight * shippingRate * settings.usdRate;
   let baseSum = chinaCost + shippingCost;
   let markupSum = baseSum * (settings.markup / 100);
   let finalPrice = Math.round(baseSum + markupSum);
-
   document.getElementById('adminCalcChinaSum').textContent = formatPrice(Math.round(chinaCost));
   document.getElementById('adminCalcShippingSum').textContent = formatPrice(Math.round(shippingCost));
+  document.getElementById('adminCalcBasePlusShipping').textContent = formatPrice(Math.round(baseSum));
   document.getElementById('adminCalcMarkupLabel').textContent = settings.markup;
   document.getElementById('adminCalcMarkupSum').textContent = formatPrice(Math.round(markupSum));
   document.getElementById('modalCalcPrice').textContent = formatPrice(finalPrice);
 }
-
 function handleProductSubmit(e){
   e.preventDefault();
   let id = document.getElementById('productId').value;
@@ -1466,7 +1343,6 @@ function handleProductSubmit(e){
   let promise = id ? db.collection("products").doc(id).set(data, {merge: true}) : db.collection("products").add(data);
   promise.then(() => { closeModal('productModal'); showToast("Saqlandi!"); });
 }
-
 function editProduct(id){
   let p = products.find(prod => prod.id === id);
   if(!p) return;
@@ -1486,11 +1362,9 @@ function editProduct(id){
   updateAdminCalcPrice();
   openModal('productModal');
 }
-
 function deleteProduct(id){ if(confirm("O'chirilsinmi?")) db.collection("products").doc(id).delete().then(() => showToast("O'chirildi!")); }
 function updateOrderStatus(id, status){ db.collection("orders").doc(id).update({status}).then(() => showToast("Yangilandi!")); }
 function deleteOrder(id){ if(confirm("O'chirilsinmi?")) db.collection("orders").doc(id).delete().then(() => showToast("O'chirildi!")); }
-
 function saveSettings(){
   let newSettings = {
     yuanRate: parseFloat(document.getElementById('rateYuan').value),
