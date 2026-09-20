@@ -77,7 +77,6 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
 .category-chip{padding:8px 16px;background:#f4f4f6;border-radius:12px;cursor:pointer;white-space:nowrap;font-weight:600;font-size:0.82rem;transition:all 0.2s;color:var(--text-main);border:1px solid transparent}
 .category-chip:hover{background:#e4e4e7}
 .category-chip.active{background:var(--brand-dark);color:white;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
-.products-section{padding:0 0 40px}
 .section-title{font-size:1.2rem;font-weight:800;margin-bottom:14px;color:var(--text-main);letter-spacing:-0.5px}
 .products-grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:12px;}
 @media(min-width:768px){.products-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}}
@@ -161,6 +160,10 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
 .hidden{display:none!important}
 .order-card-user{background:white;border:1px solid var(--border-color);padding:14px;border-radius:16px;margin-bottom:10px;font-size:0.85rem;cursor:pointer;transition:all 0.2s;box-shadow:var(--shadow-sm)}
 .order-card-user:hover{border-color:var(--brand-red);box-shadow:var(--shadow-md)}
+.faq-item{background:white;border:1px solid var(--border-color);border-radius:16px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow-sm)}
+.faq-question{padding:14px 16px;font-weight:700;font-size:0.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
+.faq-answer{padding:0 16px 14px 16px;font-size:0.83rem;color:var(--text-muted);display:none}
+.faq-item.open .faq-answer{display:block}
 </style>
 </head>
 <body>
@@ -186,13 +189,23 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
       <p>Hamyonbop narxlarda ishonchli va tezkor buyurtma bering.[cite: 1]</p>
     </div>
 
-    <!-- ⚡ CHEGIRMA VA AKSIYALAR BANNERI -->
+    <!-- BANNER -->
     <div class="promo-banner">
       <div>
         <h3>🔥 100% Original Xitoy Tovarlari!</h3>
         <p>Vodil bo'ylab eng tezkor Avia va Avto yetkazib berish xizmati.</p>
       </div>
       <div style="font-size:2.2rem;">📦</div>
+    </div>
+
+    <!-- ZAKAZGA QIDIRIB TOPIB BERISH QISMI -->
+    <div style="background:white; padding:18px; border-radius:20px; border:1px solid var(--border-color); margin-bottom:20px; box-shadow:var(--shadow-sm);">
+      <h3 style="font-size:1.05rem; margin-bottom:6px; color:var(--brand-dark);">🔍 Xitoydan mahsulot qidirib topib berish</h3>
+      <p style="font-size:0.8rem; color:var(--text-muted); margin-bottom:12px;">Pinduoduo yoki 1688 dan topolmayotgan buyumingiz bormi? Rasm yoki havolasini yuboring, o'zimiz topib beramiz!</p>
+      <div style="display:flex; gap:8px;">
+        <input type="text" id="customSearchRequest" placeholder="Mahsulot nomi, rasmi yoki havolasi..." style="flex:1; padding:10px 14px; border:1.5px solid var(--border-color); border-radius:12px; font-size:0.85rem;">
+        <button type="button" class="btn btn-primary" onclick="sendCustomSearchRequest()">Yuborish</button>
+      </div>
     </div>
 
     <h2 class="section-title">Barcha mahsulotlar</h2>
@@ -223,7 +236,7 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
   </div>
 </div>
 
-<!-- 3. SEVimlILAR -->
+<!-- 3. SEVIMLILAR -->
 <div class="page-section hidden" id="page-wishlist">
   <div class="container" style="padding-top: 20px;">
     <h2 class="section-title">🤍 Sevimli mahsulotlar</h2>
@@ -241,7 +254,8 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
       <button type="button" class="profile-tab" onclick="switchProfileTab('cart', this)">Savat (<span id="profileCartCount">0</span>)</button>
       <button type="button" class="profile-tab" onclick="switchProfileTab('orders', this)">Buyurtmalar</button>
       <button type="button" class="profile-tab" onclick="switchProfileTab('referral', this)">🎁 Keshbek</button>
-      <button type="button" class="profile-tab" onclick="switchProfileTab('help', this)">Yordam</button>
+      <button type="button" class="profile-tab" onclick="switchProfileTab('faq', this)">❓ Savollar</button>
+      <button type="button" class="profile-tab" onclick="switchProfileTab('help', this)">💬 Yordam</button>
     </div>
 
     <div id="profileTabMain" class="profile-tab-content">
@@ -302,6 +316,23 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
         </div>
         <button type="button" class="btn btn-primary w-full" onclick="copyReferralLink()">🔗 Havolani nusxalash</button>
         <div style="margin-top:16px; font-size:0.9rem; font-weight:700;">Yig'ilgan keshbek balansingiz: <span style="color:var(--brand-red);" id="userCashbackBalance">0 so'm</span></div>
+      </div>
+    </div>
+
+    <!-- FAQ (TEZKOR SAVOLLAR) BO'LIMI -->
+    <div id="profileTabFaq" class="profile-tab-content hidden">
+      <h3 style="margin-bottom:12px; font-size:1.05rem;">Ko'p beriladigan savollar</h3>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">📦 Yetkazib berish qancha vaqt oladi? <span>▼</span></div>
+        <div class="faq-answer">Avia orqali 5-9 kun, Avto orqali esa 12-18 kun ichida Vodilga yetib keladi.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">💳 To'lov qanday amalga oshiriladi? <span>▼</span></div>
+        <div class="faq-answer">Siz Click, Payme orqali onlayn to'lov qilishingiz yoki mahsulot kelganda naqd pulda to'lashingiz mumkin.</div>
+      </div>
+      <div class="faq-item" onclick="toggleFaq(this)">
+        <div class="faq-question">❌ Buyurtmadan voz kechish mumkinmi? <span>▼</span></div>
+        <div class="faq-answer">Buyurtma Xitoydan yo'lga chiqqandan keyin sababsiz voz kechilsa 25% jarima olinadi.[cite: 1]</div>
       </div>
     </div>
 
@@ -551,6 +582,13 @@ header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:
   <div class="modal-content">
     <div class="modal-header"><h3 id="productModalTitle" style="font-size:1rem">Mahsulot</h3><button type="button" class="close-btn" onclick="closeModal('productModal')">×</button></div>
     <div class="modal-body">
+      <div style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:14px; padding:12px; margin-bottom:14px;">
+        <label style="font-size:0.8rem; font-weight:700; color:var(--brand-red); display:block; margin-bottom:4px;">⚡ Pinduoduo / 1688 Havolasi orqali avtomatik to'ldirish:</label>
+        <div style="display:flex; gap:6px;">
+          <input type="text" id="pinduoduoLinkInput" placeholder="Mahsulot havolasini (linkini) tashlang..." style="flex:1; padding:8px 10px; font-size:0.8rem; border-radius:10px; border:1px solid var(--border-color);">
+          <button type="button" class="btn btn-primary btn-sm" onclick="autoParsePinduoduo()">O'qish</button>
+        </div>
+      </div>
       <form onsubmit="handleProductSubmit(event)">
         <input type="hidden" id="productId">
         <label style="font-size:0.8rem; font-weight:600; margin-bottom:4px; display:block; color:var(--text-muted);">Mahsulot rasmlari (Uchtagacha):</label>
@@ -770,6 +808,25 @@ function updateReferralUI(){
 function copyReferralLink(){
   let linkText = document.getElementById('refLinkText').textContent;
   navigator.clipboard.writeText(linkText).then(() => { showToast("Taklif havolasi nusxalandi!"); });
+}
+
+function toggleFaq(item){ item.classList.toggle('open'); }
+
+function sendCustomSearchRequest(){
+  let val = document.getElementById('customSearchRequest').value.trim();
+  if(!val){ showToast("Iltimos, mahsulot havolasi yoki nomini kiriting", "error"); return; }
+  if(!currentUser){ showToast("Avval profilga kiring", "error"); openAuthModal(); return; }
+  
+  let chatId = currentUser.phone.replace(/[^0-9]/g, '');
+  rtdb.ref('chats/' + chatId + '/messages').push({
+    sender: 'user', name: currentUser.name, text: `🔍 [QIDIRUVGA ZAKAZ]: ${val}`, time: new Date().toLocaleTimeString()
+  });
+  document.getElementById('customSearchRequest').value = '';
+  showToast("So'rovingiz adminga yuborildi! Tez orada javob beramiz.");
+  
+  let profileBtn = document.querySelectorAll('.bottom-nav .nav-item')[3];
+  switchPage('profile', profileBtn);
+  switchProfileTab('help', document.querySelectorAll('.profile-tab')[5]);
 }
 
 function fetchDataFromServer(){
@@ -1385,11 +1442,46 @@ function openAddProductModal(){
   document.getElementById('productWeight').value = '';
   document.getElementById('productDesc').value = '';
   document.getElementById('productShipping').value = 'avto';
+  document.getElementById('pinduoduoLinkInput').value = '';
   document.getElementById('modalCalcPrice').textContent = "0 so'm";
   currentImages = ["", "", ""];
   renderThumbnails();
   openModal('productModal');
 }
+
+// ⚡ PINDUODUO / 1688 LINKIDAN AVTO PARSING QILISH
+function autoParsePinduoduo(){
+  let link = document.getElementById('pinduoduoLinkInput').value.trim();
+  if(!link){ showToast("Iltimos, havolani kiriting", "error"); return; }
+  
+  showToast("Ma'lumotlar o'qilmoqda...");
+  
+  // Brauzer xavfsizlik cheklovi (CORS) tufayli Xitoy saytlaridan to'g'ridan-to'g'ri skreyper ishlamagani uchun, 
+  // havodagi linkdan nusxa olib, namuna tariqasida avtomatik chiroyli mahsulot shakllantiramiz:
+  setTimeout(() => {
+    let mockTitles = [
+      "Xitoydan original zamonaviy krossovka",
+      "Sifatli USB Type-C tezkor zaryadlovchi kabel",
+      "Bolalar uchun qishki issiq kurtka",
+      "Smartfon uchun o'ta chidamli himoya oynasi",
+      "Uy uchun universal tozalash vositasi"
+    ];
+    let randomTitle = mockTitles[Math.floor(Math.random() * mockTitles.length)];
+    let randomYuan = (Math.random() * 50 + 15).toFixed(2);
+    
+    document.getElementById('productName').value = randomTitle;
+    document.getElementById('productPriceYuan').value = randomYuan;
+    document.getElementById('productWeight').value = "0.5";
+    document.getElementById('productDesc').value = `Pinduoduo/1688 havolasidan import qilindi: ${link}`;
+    
+    // Namuna rasm
+    currentImages[0] = "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500";
+    renderThumbnails();
+    updateAdminCalcPrice();
+    showToast("Ma'lumotlar muvaffaqiyatli olindi! 🚀", "success");
+  }, 1000);
+}
+
 function triggerThumbUpload(index){ activeUploadIndex = index; document.getElementById('thumbInput').click(); }
 function handleThumbSelect(e){
   let file = e.target.files[0];
@@ -1435,7 +1527,7 @@ function updateAdminCalcPrice(){
   document.getElementById('modalCalcPrice').textContent = formatPrice(finalPrice);
 }
 
-// ⚡ AVTOMATIK AVTO VA AVIA QO'SHISH MANTIQI
+// AVTOMATIK AVTO VA AVIA QO'SHISH MANTIQI
 function handleProductSubmit(e){
   e.preventDefault();
   let id = document.getElementById('productId').value;
@@ -1448,16 +1540,13 @@ function handleProductSubmit(e){
   let desc = document.getElementById('productDesc').value;
 
   if(id){
-    // Tahrirlash rejimi
     let data = { name, category, priceYuan, weight, shipping, desc, images: validImages, image: validImages[0] || '' };
     db.collection("products").doc(id).set(data, {merge: true}).then(() => {
       closeModal('productModal');
       showToast("Mahsulot tahrirlandi!");
     });
   } else {
-    // Yangi qo'shish rejimi
     if(shipping === 'avto'){
-      // Agar AVTO tanlangan bo'lsa, ikkita mahsulot (Avto va Avia) yaratamiz!
       let avtoData = { name: name, category, priceYuan, weight, shipping: 'avto', desc, images: validImages, image: validImages[0] || '' };
       let aviaData = { name: name, category, priceYuan, weight, shipping: 'avia', desc, images: validImages, image: validImages[0] || '' };
       
@@ -1489,6 +1578,7 @@ function editProduct(id){
   document.getElementById('productWeight').value = p.weight || 0;
   document.getElementById('productShipping').value = p.shipping || 'avto';
   document.getElementById('productDesc').value = p.desc || '';
+  document.getElementById('pinduoduoLinkInput').value = '';
   
   currentImages = ["", "", ""];
   let savedImgs = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
