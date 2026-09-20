@@ -43,7 +43,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .btn-outline:hover{border-color:var(--brand-red);color:var(--brand-red)}
 .btn-sm{padding:6px 12px;font-size:0.8rem;border-radius:10px}
 
-/* Bottom Navigation Bar (Pastdagi menyu) */
+/* Bottom Navigation Bar */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:#ffffff;border-top:1px solid var(--border-color);display:flex;justify-content:space-around;align-items:center;padding:8px 0;z-index:250;box-shadow:0 -4px 20px rgba(0,0,0,0.06)}
 .nav-item{display:flex;flex-direction:column;align-items:center;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:0.7rem;font-weight:600;transition:color 0.2s;width:25%;position:relative}
 .nav-item span.nav-icon{font-size:1.3rem;margin-bottom:2px}
@@ -104,7 +104,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
 .product-footer{display:flex;gap:6px;margin-top:8px}
 .product-footer .btn{flex:1;justify-content:center;padding:7px;font-size:0.75rem;border-radius:12px}
 
-/* Cart & Sidebar */
+/* Cart Sidebar */
 .cart-sidebar{position:fixed;top:0;right:-400px;width:100%;max-width:400px;height:100vh;background:white;box-shadow:-5px 0 25px rgba(0,0,0,0.15);z-index:300;transition:right 0.3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column}
 .cart-sidebar.open{right:0}
 .cart-header{padding:16px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center}
@@ -197,9 +197,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </header>
  
-<!-- ASOSIY QISMLAR (Tablar orqali boshqariladi) -->
-
-<!-- 1. BOSH SAHIFA -->
+<!-- BOSH SAHIFA -->
 <div class="page-section" id="page-home">
   <div class="hero">
     <div class="container">
@@ -213,7 +211,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </div>
 
-<!-- 2. KATALOG / QIDIRISH -->
+<!-- KATALOG / QIDIRISH -->
 <div class="page-section hidden" id="page-catalog">
   <div class="controls" style="position:static; margin-top: 10px;">
     <div class="container controls-content">
@@ -236,7 +234,7 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
   </div>
 </div>
 
-<!-- 3. BUYURTMALAR (Kuzatish va Tarix) -->
+<!-- BUYURTMALAR -->
 <div class="page-section hidden" id="page-orders">
   <div class="container" style="padding-top: 20px;">
     <h2 class="section-title">📦 Buyurtmalar va Kuzatish</h2>
@@ -266,18 +264,18 @@ header{background:rgba(255, 255, 255, 0.95);backdrop-filter: blur(10px);position
       <div class="order-details" id="trackOrderItems"></div>
     </div>
 
-    <h3 style="font-size:1.1rem; margin-bottom:10px;">Mening buyurtmalarim tarixi:</h3>
+    <h3 style="font-size:1.1rem; margin-bottom:10px;">Ming buyurtmalarim tarixi:</h3>
     <div id="myOrdersListContainer">
       <p style="color:var(--text-muted); font-size:0.85rem;">Yuklanmoqda...</p>
     </div>
   </div>
 </div>
 
-<!-- 4. PROFIL -->
+<!-- BOYITILGAN PROFIL SAHIFA -->
 <div class="page-section hidden" id="page-profile">
-  <div class="container" style="padding-top: 20px; max-width: 500px;">
+  <div class="container" style="padding-top: 20px; max-width: 520px;">
     <h2 class="section-title">👤 Shaxsiy Profil</h2>
-    <div style="background:white; padding:20px; border-radius:16px; border:1px solid var(--border-color);" id="profileCardContent">
+    <div style="background:white; padding:24px; border-radius:20px; border:1px solid var(--border-color); box-shadow:0 4px 15px rgba(0,0,0,0.03);" id="profileCardContent">
       <!-- Dinamik to'ldiriladi -->
     </div>
   </div>
@@ -601,11 +599,8 @@ window.addEventListener('load', () => {
   trackTotalVisitors();
 });
 
-// Sahifalararo o'tish (Navigatsiya)
 function switchPage(pageId, el){
-  if(isAdmin) {
-    toggleAdminView(); // Admin holatidan chiqish
-  }
+  if(isAdmin) { toggleAdminView(); }
   document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
   document.getElementById('page-' + pageId).classList.remove('hidden');
   
@@ -662,7 +657,6 @@ function calculatePrice(p){
 
 function formatPrice(price){ return (price || 0).toLocaleString('uz-UZ') + " so'm"; }
 
-// 1. Bosh sahifa mahsulotlarini render qilish
 function renderProducts(){
   let grid = document.getElementById('homeProductsGrid');
   if(!grid) return;
@@ -673,7 +667,6 @@ function renderProducts(){
   grid.innerHTML = products.slice(0, 8).map(p => createProductCardHTML(p)).join('');
 }
 
-// 2. Katalog mahsulotlarini render qilish (Qidiruv va Kategoriya bilan)
 function renderCatalogProducts(){
   let grid = document.getElementById('catalogProductsGrid');
   if(!grid) return;
@@ -689,7 +682,6 @@ function renderCatalogProducts(){
   grid.innerHTML = filtered.map(p => createProductCardHTML(p)).join('');
 }
 
-// Mahsulot kartochkasi shabloni
 function createProductCardHTML(p){
   let calc = calculatePrice(p);
   let shippingLabel = p.shipping === 'avia' ? '✈️ Avia' : '🚛 Avto';
@@ -746,7 +738,6 @@ function filterCategory(cat, el){
   renderCatalogProducts();
 }
 
-// Mahsulot tafsilotlari
 function openProductDetail(productId){
   let p = products.find(prod => prod.id === productId);
   if(!p) return;
@@ -786,7 +777,6 @@ function slideDetailImg(direction){
   updateDetailImageView();
 }
 
-// Savat va Buyurtmalar
 function addToCart(productId){
   let product = products.find(p => p.id === productId);
   if(!product) return;
@@ -882,7 +872,6 @@ function handleCheckoutSubmit(e){
   });
 }
 
-// Buyurtmalarni kuzatish va chiqazish
 function searchTrackOrder(){
   let val = document.getElementById('trackInput').value.trim().toLowerCase();
   if(!val) return;
@@ -925,28 +914,65 @@ function renderMyOrdersList(){
   `).join('');
 }
 
-// Profil bo'limi
-renderProfileContent = function(){
+// BOYLITILGAN PROFIL FUNKSIYASI
+function renderProfileContent(){
   let card = document.getElementById('profileCardContent');
   if(!card) return;
   if(currentUser){
+    let myOrdersCount = orders.filter(o => o.phone && o.phone.includes(currentUser.phone)).length;
     card.innerHTML = `
-      <div style="text-align:center; margin-bottom:16px;">
-        <div style="font-size:2.5rem; margin-bottom:6px;">👤</div>
-        <h3 style="font-size:1.1rem;">${currentUser.name}</h3>
-        <p style="color:var(--text-muted); font-size:0.85rem;">${currentUser.phone}</p>
+      <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:16px;">
+        <div style="width:60px; height:60px; background:#fff5f7; color:var(--brand-red); font-size:1.8rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; border:2px solid var(--brand-red);">
+          ${currentUser.name.charAt(0).toUpperCase()}
+        </div>
+        <div>
+          <h3 style="font-size:1.15rem; font-weight:800; color:var(--brand-dark);">${currentUser.name}</h3>
+          <p style="color:var(--text-muted); font-size:0.85rem;">📞 ${currentUser.phone}</p>
+          <p style="color:var(--brand-red); font-size:0.75rem; font-weight:700; margin-top:2px;">ID: CDV-${Math.abs(currentUser.phone.hashCode ? currentUser.phone.hashCode() : 5788)}</p>
+        </div>
       </div>
-      <button class="btn btn-outline w-full" onclick="logoutUser()" style="margin-bottom:10px;">Chiqish</button>
+
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:20px;">
+        <div style="background:#fafafa; padding:12px; border-radius:14px; border:1px solid var(--border-color); text-align:center;">
+          <div style="font-size:1.2rem; font-weight:800; color:var(--brand-red);">${myOrdersCount} ta</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Buyurtmalarim</div>
+        </div>
+        <div style="background:#fafafa; padding:12px; border-radius:14px; border:1px solid var(--border-color); text-align:center;">
+          <div style="font-size:1.2rem; font-weight:800; color:var(--brand-gold);">0 so'm</div>
+          <div style="font-size:0.75rem; color:var(--text-muted); font-weight:600;">Keshbek / Bonus</div>
+        </div>
+      </div>
+
+      <div style="display:flex; flex-direction:column; gap:8px; margin-bottom:16px;">
+        <button class="btn btn-light w-full" style="justify-content:flex-start;" onclick="switchPage('orders', document.querySelectorAll('.bottom-nav .nav-item')[2])">📦 Mening buyurtmalarim tarixi</button>
+        <a href="https://t.me/chinadirectvodil" target="_blank" class="btn btn-light w-full" style="justify-content:flex-start; text-decoration:none;">💬 Telegram kanalimizga o'tish</a>
+      </div>
+
+      <button class="btn btn-outline w-full" onclick="logoutUser()">Tizimdan chiqish</button>
     `;
   } else {
     card.innerHTML = `
-      <div style="text-align:center; padding:10px 0;">
-        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:14px;">Tizimga kirmagansiz. Ma'lumotlaringizni saqlash uchun kiring.</p>
+      <div style="text-align:center; padding:20px 0;">
+        <div style="font-size:3rem; margin-bottom:10px;">👤</div>
+        <h3 style="font-size:1.1rem; margin-bottom:6px;">Tizimga kirmagansiz</h3>
+        <p style="color:var(--text-muted); font-size:0.85rem; margin-bottom:20px;">Buyurtmalaringizni kuzatish va shaxsiy kabinetingizni ochish uchun kiring.</p>
         <button class="btn btn-primary w-full" onclick="openAuthModal()">Kirish / Ro'yxatdan o'tish</button>
       </div>
     `;
   }
 }
+
+// Qo'shimcha yordamchi funksiya
+String.prototype.hashCode = function() {
+  let hash = 0, i, chr;
+  if (this.length === 0) return hash;
+  for (i = 0; i < this.length; i++) {
+    chr   = this.charCodeAt(i);
+    hash  = ((hash << 5) - hash) + chr;
+    hash |= 0; 
+  }
+  return hash;
+};
 
 function handleAuthSubmit(e){
   e.preventDefault();
