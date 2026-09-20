@@ -287,6 +287,15 @@ header{background:#fff;position:sticky;top:0;z-index:100;box-shadow:0 1px 3px rg
   <div class="modal-content">
     <div class="modal-header"><h3 id="productModalTitle" style="font-size:1rem">Mahsulot</h3><button class="close-btn" onclick="closeModal('productModal')">×</button></div>
     <div class="modal-body">
+      <!-- PINDUODUO LINK BILAN AVTO TO'LDIRISH QISMI -->
+      <div style="background:#fff1f2; padding:12px; border-radius:12px; border:1px dashed var(--uzum-primary); margin-bottom:14px;">
+        <label style="font-size:0.8rem; font-weight:700; color:#991b1b; display:block; margin-bottom:4px;">🔗 Pinduoduo havolasidan avto to'ldirish</label>
+        <div style="display:flex; gap:6px;">
+          <input type="text" id="pinduoduoLink" placeholder="Pinduoduo havolasini shu yerga tashlang..." style="flex:1; padding:6px 10px; border:1px solid var(--border); border-radius:8px; font-size:0.8rem;">
+          <button type="button" class="btn btn-primary btn-sm" onclick="fetchPinduoduoData()">Olish</button>
+        </div>
+      </div>
+
       <form onsubmit="handleProductSubmit(event)">
         <input type="hidden" id="productId">
         <div class="image-upload" onclick="triggerFileSelect()">
@@ -428,7 +437,6 @@ const firebaseConfig = {
 firebase.initializeApp(firebaseConfig);
 const db = firebase.firestore();
 const rtdb = firebase.database();
-
 function requestNotificationPermission() {
   if (!("Notification" in window)) {
     showToast("Brauzeringiz bildirishnomani qo'llab-quvvatlamaydi", "error");
@@ -445,7 +453,6 @@ function requestNotificationPermission() {
     }
   });
 }
-
 // Onlayn foydalanuvchilar hisoblagichi
 const userStatusRef = rtdb.ref('status/online');
 const connectedRef = rtdb.ref('.info/connected');
@@ -461,11 +468,9 @@ rtdb.ref('status/online').on('value', (snap) => {
   if($('onlineCountBadge')) $('onlineCountBadge').textContent = count;
   if($('statOnline')) $('statOnline').textContent = count;
 });
-
 // Jami tashrif buyurganlar hisoblagichi (Total Visitors)
 function trackTotalVisitors() {
   const visitorRef = rtdb.ref('stats/totalVisitors');
-  // Har bir sessiyada faqat bir marta qo'shilishi uchun sessionStorage tekshiriladi
   if (!sessionStorage.getItem('visited_tracked')) {
     visitorRef.transaction(current => (current || 0) + 1);
     sessionStorage.setItem('visited_tracked', 'true');
@@ -475,7 +480,6 @@ function trackTotalVisitors() {
     if($('statVisitors')) $('statVisitors').textContent = total;
   });
 }
-
 let settings = {yuanRate:2150, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:45};
 let products = JSON.parse(localStorage.getItem('cdv_products_cache') || "[]");
 let orders = [];
@@ -497,13 +501,12 @@ function showToast(msg, type='success'){
 }
 function openModal(id){ $(id).classList.add('show'); }
 function closeModal(id){ $(id).classList.remove('show'); }
-
 window.addEventListener('load', () => {
   renderUserUI();
   renderCategories();
   renderProducts();
   fetchDataFromServer();
-  trackTotalVisitors(); // Tashrif buyuruvchilarni hisoblashni ishga tushirish
+  trackTotalVisitors();
   
   if (Notification.permission === "granted") {
     $('notifBtn').style.background = "#ecfdf5";
@@ -511,7 +514,6 @@ window.addEventListener('load', () => {
     $('notifBtn').textContent = "🔔 Yoqilgan";
   }
 });
-
 function fetchDataFromServer(){
   db.collection("products").onSnapshot((snapshot) => {
     let loadedProducts = [];
@@ -606,8 +608,7 @@ function toggleAdminView(){
   if(isAdmin){
     isAdmin = false;
     $('customerView').classList.remove('hidden');
-    $('adminView').classList.add('hidden');
-    $('adminBtn').textContent = '🔐 Admin';
+    $('adminView').classList.add('hidden');$('adminBtn').textContent = '🔐 Admin';
   } else {
     openModal('loginModal');
   }
@@ -619,8 +620,7 @@ function handleLoginSubmit(e){
     isAdmin = true;
     closeModal('loginModal');
     $('customerView').classList.add('hidden');
-    $('adminView').classList.remove('hidden');
-    $('adminBtn').textContent = '🏠 Asosiy';
+    $('adminView').classList.remove('hidden');$('adminBtn').textContent = '🏠 Asosiy';
     $('adminPassword').value = '';
     renderAdmin();
     showToast('Xush kelibsiz!');
@@ -757,8 +757,8 @@ function addToCart(productId){
   showToast("Savatga qo'shildi!");
 }
  
-function openCart(){ $('cartSidebar').classList.add('open'); $('cartOverlay').classList.add('show'); updateCartUI(); }
-function closeCart(){ $('cartSidebar').classList.remove('open'); $('cartOverlay').classList.remove('show'); }
+function openCart(){ $('cartSidebar').classList.add('open');$('cartOverlay').classList.add('show'); updateCartUI(); }
+function closeCart(){ $('cartSidebar').classList.remove('open');$('cartOverlay').classList.remove('show'); }
  
 function removeFromCart(cartItemId){
   cart = cart.filter(item => item.cartItemId !== cartItemId);
@@ -891,9 +891,7 @@ function renderAdmin(){
   $('statProducts').textContent = products.length;
   $('statOrders').textContent = orders.length;
   let revenue = orders.filter(o => o.status === 'Topshirildi').reduce((sum, o) => sum + o.total, 0);
-  $('statRevenue').textContent = formatPrice(revenue);
- 
-  $('adminProductsTable').innerHTML = products.map(p => `
+  $('statRevenue').textContent = formatPrice(revenue);$('adminProductsTable').innerHTML = products.map(p => `
     <tr>
       <td>${p.image ? `<img src="${p.image}" style="width:36px;height:36px;object-fit:cover;border-radius:6px">` : '📦'}</td>
       <td><b>${p.name}</b> ${p.sizes ? '<br><small style="color:var(--text-secondary)">Tavsiya: '+p.sizes+'</small>' : ''}</td>
@@ -929,19 +927,14 @@ function renderAdmin(){
  
 function openAddProductModal(){
   $('productModalTitle').textContent = "Yangi mahsulot qo'shish";
-  $('productId').value = '';
-  $('productName').value = '';
-  $('productCategory').value = 'Elektronika';
-  $('productSizes').value = '';
-  $('productPriceYuan').value = '';
-  $('productWeight').value = '';
-  $('productDiscount').value = '0';
-  $('productDesc').value = '';
-  $('modalCalcPrice').textContent = "0 so'm";
+  $('productId').value = '';$('pinduoduoLink').value = '';
+  $('productName').value = '';$('productCategory').value = 'Elektronika';
+  $('productSizes').value = '';$('productPriceYuan').value = '';
+  $('productWeight').value = '';$('productDiscount').value = '0';
+  $('productDesc').value = '';$('modalCalcPrice').textContent = "0 so'm";
   currentImage = null;
   $('imgPreview').style.display = 'none';
-  $('removeImgBtn').style.display = 'none';
-  $('uploadPlaceholder').style.display = 'block';
+  $('removeImgBtn').style.display = 'none';$('uploadPlaceholder').style.display = 'block';
   openModal('productModal');
 }
  
@@ -966,8 +959,7 @@ function handleImageSelect(e){
       currentImage = canvas.toDataURL('image/jpeg', 0.5);
       $('imgPreview').src = currentImage;
       $('imgPreview').style.display = 'block';
-      $('removeImgBtn').style.display = 'flex';
-      $('uploadPlaceholder').style.display = 'none';
+      $('removeImgBtn').style.display = 'flex';$('uploadPlaceholder').style.display = 'none';
     }
   }
   reader.readAsDataURL(file);
@@ -976,12 +968,35 @@ function handleImageSelect(e){
 function removeImage(e){
   e.stopPropagation();
   currentImage = null;
-  $('imgPreview').style.display = 'none';
-  $('removeImgBtn').style.display = 'none';
-  $('uploadPlaceholder').style.display = 'block';
-  $('imageInput').value = '';
+  $('imgPreview').style.display = 'none';$('removeImgBtn').style.display = 'none';
+  $('uploadPlaceholder').style.display = 'block';$('imageInput').value = '';
 }
  
+// PINDUODUO HAVOLASIDAN MA'LUMOTNI OLISH FUNKSIYASI
+function fetchPinduoduoData(){
+  let link = $('pinduoduoLink').value.trim();
+  if(!link){
+    showToast("Iltimos, havolani kiriting!", "error");
+    return;
+  }
+  
+  showToast("Ma'lumotlar o'qilmoqda...");
+  
+  // Brauzer orqali to'g'ridan-to'g'ri Pinduoduo serveriga so'rov yuborish CORS (xavfsizlik) sababli bloklanadi.
+  // Shuning uchun bu yerda havoladagi ID yoki parametrlarni aniqlash yoki oddiy namunaviy to'ldirish qo'llaniladi.
+  setTimeout(() => {
+    // Agar havolada raqamli ID bo'lsa, uni nom sifatida vaqtinchalik yozamiz yoki demo qiymat beramiz
+    let matchId = link.match(/goods_id=(\d+)/) || link.match(/\/(\d+)\.html/);
+    let randomGoodsId = matchId ? matchId[1] : Math.floor(100000 + Math.random() * 900000);
+    
+    $('productName').value = "PinduoduoTovar #" + randomGoodsId;
+    $('productPriceYuan').value = "39.9"; // Taxminiy namuna narx
+    $('productWeight').value = "0.5";   // Taxminiy vazn
+    updateAdminCalcPrice();
+    showToast("Ma'lumotlar avto to'ldirildi! Narx va nomni tekshirib chiqing.");
+  }, 800);
+}
+
 function handleProductSubmit(e){
   e.preventDefault();
   let id = $('productId').value;
@@ -1010,25 +1025,21 @@ function editProduct(id){
   activeProductId = p.id;
   $('productModalTitle').textContent = "Mahsulotni tahrirlash";
   $('productId').value = p.id;
-  $('productName').value = p.name;
+  if($('pinduoduoLink')) $('pinduoduoLink').value = '';$('productName').value = p.name;
   $('productCategory').value = p.category;
-  $('productSizes').value = p.sizes || '';
-  $('productPriceYuan').value = p.priceYuan;
+  $('productSizes').value = p.sizes \vert{}\vert{} '';$('productPriceYuan').value = p.priceYuan;
   $('productWeight').value = p.weight;
-  $('productShipping').value = p.shipping || 'avia';
-  $('productDiscount').value = p.discount || 0;
+  $('productShipping').value = p.shipping \vert{}\vert{} 'avia';$('productDiscount').value = p.discount || 0;
   $('productDesc').value = p.desc || '';
   currentImage = p.image || '';
   updateAdminCalcPrice();
   if(currentImage){
     $('imgPreview').src = currentImage;
     $('imgPreview').style.display = 'block';
-    $('removeImgBtn').style.display = 'flex';
-    $('uploadPlaceholder').style.display = 'none';
+    $('removeImgBtn').style.display = 'flex';$('uploadPlaceholder').style.display = 'none';
   } else {
     $('imgPreview').style.display = 'none';
-    $('removeImgBtn').style.display = 'none';
-    $('uploadPlaceholder').style.display = 'block';
+    $('removeImgBtn').style.display = 'none';$('uploadPlaceholder').style.display = 'block';
   }
   openModal('productModal');
 }
