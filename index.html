@@ -43,14 +43,29 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-
 header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.03);border-bottom:1px solid var(--border-color);padding:12px 0;}
 .header-content{display:flex;flex-direction:column;gap:8px}
 .header-top{display:flex;justify-content:space-between;align-items:center;width:100%}
-.logo{font-size:1.0rem;font-weight:900;display:flex;align-items:center;gap:8px;color:var(--brand-dark);text-decoration:none;letter-spacing:-0.5px}
-.logo img { width: 32px; height: 32px; border-radius: 50%; object-fit: cover; }
+.logo{font-size:0.95rem;font-weight:900;display:flex;align-items:center;gap:8px;color:var(--brand-dark);text-decoration:none;letter-spacing:-0.5px}
+
+/* LOGOTIPNI XITOY VA TURKIYA IKONKALI QILIB YANGILASH */
+.logo-icon-wrap {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--accent-china), var(--accent-turkey));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.9rem;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  flex-shrink: 0;
+}
+
 .logo span.accent {color: var(--brand-red);}
 
 /* HILPIRAB TURGAN BAYROQLAR ANIMATSIYASI */
 .flags-ticker {
   display: flex;
-  gap: 12px;
+  gap: 10px;
   align-items: center;
   font-size: 1.1rem;
   background: #fff5f7;
@@ -130,7 +145,6 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 .product-footer{display:flex;gap:6px;margin-top:10px}
 .product-footer .btn{flex:1;justify-content:center;padding:7px;font-size:0.75rem;border-radius:12px}
 
-/* 1-RASM MUAMMOSINI HAL QILISH: SLAYDER RASMI TO'LIQ VA CHIROYLI CHIQISHI UCHUN FONNI OQ QILIB, TO'LIQ SIG'DIRISH */
 .detail-slider-container{
   position:relative;
   width:100%;
@@ -235,7 +249,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
   <div class="container header-content">
     <div class="header-top">
       <a href="#" class="logo">
-        <img src="logo.png" alt="Logo">
+        <div class="logo-icon-wrap">🇨🇳🇹🇷</div>
         CHINA-TURKEY <span class="accent">EXPRESS VODIL</span>
       </a>
       <!-- 3 TA DAVLAT BAYROQLARI HILPIRAB TURISHI -->
@@ -450,7 +464,6 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
         </table>
       </div>
     </div>
-    <!-- SOTUVCHILAR ARIZALARI ADMIN TAB -->
     <div id="admin-tab-sellers" class="admin-tab-content hidden">
       <h3 style="margin-bottom:14px">Kelib tushgan sotuvchi arizalari</h3>
       <div class="admin-table-wrap">
@@ -524,7 +537,6 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
       <div style="font-size:1.3rem; font-weight:800; color:var(--brand-dark); margin-bottom:4px;" id="detailPrice">0 so'm</div>
       <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:10px;" id="detailCategoryWeight"></div>
       
-      <!-- O'lchamlar jadvali -->
       <div style="margin-bottom:14px;">
         <button type="button" class="btn btn-outline btn-sm" onclick="alert('O\'lchamlar jadvali:\n• S: 42-44\n• M: 46-48\n• L: 50-52\n• XL: 54+')">📏 O'lchamlar jadvali (Size Guide)</button>
       </div>
@@ -544,7 +556,6 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
         <label style="font-size:0.72rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:2px;">TAVSIF:</label>
         <p id="detailDesc" style="font-size:0.85rem; white-space:pre-wrap; color:var(--text-main);">Tavsif mavjud emas</p>
       </div>
-      <!-- Mahsulotga izoh va reyting -->
       <div style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:14px; padding:12px; margin-bottom:14px;">
         <label style="font-size:0.8rem; font-weight:700; color:var(--brand-red); margin-bottom:6px; display:block;">⭐ Mahsulotga baho va izoh qoldirish:</label>
         <div style="display:flex; gap:6px; margin-bottom:6px;">
