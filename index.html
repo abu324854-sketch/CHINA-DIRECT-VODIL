@@ -6,14 +6,14 @@
 <title>China-Turkey Express Vodil</title>
 <!-- Telegram WebApp SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<!-- PWA Manifest va Yangilangan Shaxsiy Logo -->
-<link rel="manifest" href="manifest.json">
+<!-- PWA Manifest va Chiroyli Logo -->
+<link rel="manifest" href="manifest.json?v=3">
 <meta name="theme-color" content="#ff2d55">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="China-Turkey Vodil">
-<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%23121214'/%3E%3Ccircle cx='256' cy='256' r='180' fill='%23ff2d55' opacity='0.15'/%3E%3Cpath d='M100 220h312l-60 120H160z' fill='%23ffb800'/%3E%3Ctext x='256' y='210' font-size='65' text-anchor='middle' font-family='sans-serif'%3E🇨🇳🇹🇷🇺🇿%3E%3C/text%3E%3Ctext x='256' y='295' font-size='42' font-weight='900' fill='white' text-anchor='middle' font-family='sans-serif'%3EXPRESS%3E%3C/text%3E%3Ctext x='256' y='350' font-size='38' font-weight='900' fill='%23ffb800' text-anchor='middle' font-family='sans-serif'%3EVODIL%3E%3C/text%3E%3C/svg%3E">
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%23121214'/%3E%3Ccircle cx='256' cy='256' r='180' fill='%23ff2d55' opacity='0.15'/%3E%3Cpath d='M100 220h312l-60 120H160z' fill='%23ffb800'/%3E%3Ctext x='256' y='210' font-size='65' text-anchor='middle' font-family='sans-serif'%3E🇨🇳🇹🇷🇺🇿%3E%3C/text%3E%3Ctext x='256' y='295' font-size='42' font-weight='900' fill='white' text-anchor='middle' font-family='sans-serif'%3EXPRESS%3E%3C/text%3E%3Ctext x='256' y='350' font-size='38' font-weight='900' fill='%23ffb800' text-anchor='middle' font-family='sans-serif'%3EVODIL%3E%3C/text%3E%3C/svg%3E">
+<link rel="apple-touch-icon" href="logo.png?v=3">
+<link rel="icon" type="image/png" href="logo.png?v=3">
 <!-- Cropper.js -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
@@ -252,7 +252,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
         <div class="logo-icon-wrap">🇨🇳🇹🇷🇺🇿</div>
         CHINA-TURKEY <span class="accent">EXPRESS VODIL</span>
       </a>
-      <!-- 4 TA DAVLAT BAYROQLARI HILPIRAB TURISHI -->
+      <!-- Davlat bayroqlari -->
       <div class="flags-ticker">
         <span class="flag-item" title="Xitoy">🇨🇳</span>
         <span class="flag-item" title="Turkiya">🇹🇷</span>
@@ -796,6 +796,17 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 <div class="toast-container" id="toastContainer"></div>
  
 <script>
+const svgLogoDataUri = "data:image/svg+xml;utf8," + encodeURIComponent(`
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512">
+  <rect width="512" height="512" rx="110" fill="#121214"/>
+  <circle cx="256" cy="256" r="180" fill="#ff2d55" opacity="0.2"/>
+  <path d="M80 200h352l-50 140H130z" fill="#ffb800"/>
+  <text x="256" y="175" font-size="52" text-anchor="middle">🇨🇳 🇹🇷 🇺🇿</text>
+  <text x="256" y="270" font-size="48" font-weight="900" fill="white" text-anchor="middle" font-family="Arial">EXPRESS</text>
+  <text x="256" y="340" font-size="44" font-weight="900" fill="#ffb800" text-anchor="middle" font-family="Arial">VODIL</text>
+</svg>
+`);
+
 const manifestData = {
   "name": "China-Turkey Express Vodil",
   "short_name": "China-Turkey Vodil",
@@ -805,17 +816,14 @@ const manifestData = {
   "background_color": "#f8f9fc",
   "theme_color": "#ff2d55",
   "icons": [
-    { 
-      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%23121214'/%3E%3Ccircle cx='256' cy='256' r='180' fill='%23ff2d55' opacity='0.15'/%3E%3Cpath d='M100 220h312l-60 120H160z' fill='%23ffb800'/%3E%3Ctext x='256' y='210' font-size='65' text-anchor='middle' font-family='sans-serif'%3E🇨🇳🇹🇷🇺🇿%3E%3C/text%3E%3Ctext x='256' y='295' font-size='42' font-weight='900' fill='white' text-anchor='middle' font-family='sans-serif'%3EXPRESS%3E%3C/text%3E%3Ctext x='256' y='350' font-size='38' font-weight='900' fill='%23ffb800' text-anchor='middle' font-family='sans-serif'%3EVODIL%3E%3C/text%3E%3C/svg%3E", 
-      "sizes": "192x192 512x512", 
-      "type": "image/svg+xml" 
-    }
+    { "src": svgLogoDataUri, "sizes": "192x192 512x512", "type": "image/svg+xml" }
   ]
 };
 const stringManifest = JSON.stringify(manifestData);
 const blob = new Blob([stringManifest], {type: 'application/json'});
 const manifestURL = URL.createObjectURL(blob);
 document.querySelector('link[rel="manifest"]').setAttribute('href', manifestURL);
+
 let deferredPrompt;
 window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
 function installPwaApp() {
