@@ -1,1618 +1,306 @@
 <!DOCTYPE html>
 <html lang="uz">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>CHINA DIRECT VODIL — Vodilning Rasmiy Xitoy Bozori</title>
-<!-- Telegram WebApp SDK -->
-<script src="https://telegram.org/js/telegram-web-app.js"></script>
-<!-- PWA Manifest va Rasmli Ikonka -->
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#ff2d55">
-<meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="CHINA DIRECT VODIL">
-<link rel="apple-touch-icon" href="https://cdn-icons-png.flaticon.com/512/3081/3081559.png">
-<link rel="icon" type="image/png" href="https://cdn-icons-png.flaticon.com/512/3081/3081559.png">
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
-<script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
-<style>
-html, body { overflow-x: hidden; max-width: 100%; }
-*{margin:0;padding:0;box-sizing:border-box}
-:root{
-  --brand-red: #ff2d55;
-  --brand-red-hover: #e02044;
-  --brand-dark: #121214;
-  --brand-gold: #ffb800;
-  --bg-color: #f8f9fc;
-  --card-bg: #ffffff;
-  --text-main: #18181b;
-  --text-muted: #71717a;
-  --border-color: #f1f1f5;
-  --shadow-sm: 0 2px 12px rgba(0,0,0,0.03);
-  --shadow-md: 0 8px 30px rgba(0,0,0,0.06);
-}
-body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-color);color:var(--text-main);line-height:1.5; padding-bottom: 85px;}
-.container{max-width:1200px;margin:0 auto;padding:0 16px;width:100%}
-header{background:rgba(255, 255, 255, 0.9);backdrop-filter: blur(12px);position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.03);border-bottom:1px solid var(--border-color);padding:14px 0;}
-.header-content{display:flex;flex-direction:column;gap:10px}
-.header-top{display:flex;justify-content:space-between;align-items:center;width:100%}
-.logo{font-size:1.1rem;font-weight:900;display:flex;align-items:center;gap:6px;color:var(--brand-dark);text-decoration:none;letter-spacing:-0.5px}
-.logo span.accent {color: var(--brand-red);}
-.header-actions{display:flex;gap:6px;align-items:center;overflow-x:auto;width:100%;padding-bottom:2px}
-.btn{padding:9px 18px;border:none;border-radius:14px;cursor:pointer;font-size:0.85rem;font-weight:600;transition:all 0.25s ease;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
-.btn-primary{background:var(--brand-red);color:white;box-shadow:0 4px 14px rgba(255, 45, 85, 0.3)}
-.btn-primary:hover{background:var(--brand-red-hover);transform: translateY(-1px);box-shadow:0 6px 18px rgba(255, 45, 85, 0.4)}
-.btn-light{background:#f4f4f6;color:var(--text-main)}
-.btn-light:hover{background:#e4e4e7}
-.btn-danger{background:#ff3b30;color:white}
-.btn-outline{background:transparent;border:1.5px solid var(--border-color);color:var(--text-main)}
-.btn-outline:hover{border-color:var(--brand-red);color:var(--brand-red);background:#fff5f7}
-.btn-sm{padding:6px 12px;font-size:0.75rem;border-radius:10px}
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-top:1px solid var(--border-color);display:flex;justify-content:space-around;align-items:center;padding:10px 0;z-index:250;box-shadow:0 -6px 25px rgba(0,0,0,0.05)}
-.nav-item{display:flex;flex-direction:column;align-items:center;background:none;border:none;cursor:pointer;color:var(--text-muted);font-size:0.68rem;font-weight:600;transition:all 0.2s;width:25%;position:relative}
-.nav-item span.nav-icon{font-size:1.35rem;margin-bottom:2px;transition:transform 0.2s}
-.nav-item.active{color:var(--brand-red)}
-.nav-item.active span.nav-icon{transform:scale(1.1)}
-.nav-cart-badge{position:absolute;top:0;right:22%;background:var(--brand-gold);color:#111;font-size:0.6rem;font-weight:800;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 2px 5px rgba(0,0,0,0.1)}
-.profile-badge{position:absolute;top:0;right:22%;background:var(--brand-red);color:white;font-size:0.6rem;font-weight:800;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.hero{background:linear-gradient(135deg, #18181b 0%, #271720 100%);padding:24px 20px;border-radius:20px;margin:16px 0;color:white;box-shadow:var(--shadow-md)}
-.hero h1{font-size:1.3rem;color:white;margin-bottom:6px;font-weight:800;letter-spacing:-0.5px}
-.hero h1 span {color: var(--brand-red);}
-.hero p{color:#d4d4d8;font-size:0.82rem}
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CHINA & TURKEY DIRECT VODIL</title>
+    <style>
+        :root {
+            --primary-color: #2c3e50;
+            --accent-china: #e74c3c;
+            --accent-turkey: #27ae60;
+            --bg-color: #f8f9fa;
+        }
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            margin: 0;
+            padding: 0;
+            color: #333;
+        }
+        header {
+            background: linear-gradient(135deg, #1e3c72, #2a5298);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        header h1 {
+            margin: 0;
+            font-size: 24px;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 0 15px;
+        }
+        .card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            margin-bottom: 20px;
+        }
+        .rates-box {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        .rate-card {
+            background: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 5px solid var(--primary-color);
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .rate-card.china { border-left-color: var(--accent-china); }
+        .rate-card.turkey { border-left-color: var(--accent-turkey); }
+        
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            margin: 8px 0;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            background-color: #2980b9;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #2471a3;
+        }
+        .paste-zone {
+            border: 2px dashed #3498db;
+            padding: 15px;
+            text-align: center;
+            border-radius: 4px;
+            background: #ecf0f1;
+            cursor: pointer;
+            margin: 8px 0;
+            color: #555;
+        }
+        .paste-zone:focus {
+            border-color: #2980b9;
+            background: #e8f4f8;
+            outline: none;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+        .product-card {
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            padding: 15px;
+            border-top: 4px solid #ddd;
+        }
+        .product-card.china-border { border-top-color: var(--accent-china); }
+        .product-card.turkey-border { border-top-color: var(--accent-turkey); }
 
-.promo-banner{background:linear-gradient(135deg, #ff2d55 0%, #ff6b8b 100%);padding:18px 20px;border-radius:20px;margin-bottom:16px;color:white;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow-md)}
-.promo-banner h3{font-size:1.05rem;font-weight:800;margin-bottom:4px;}
-.promo-banner p{font-size:0.8rem;opacity:0.9;}
-
-.controls{background:white;padding:12px 16px;border-radius:16px;border:1px solid var(--border-color);margin-bottom:16px;box-shadow:var(--shadow-sm)}
-.controls-content{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
-.search-box{flex:1;min-width:240px;position:relative}
-.search-box input{width:100%;padding:10px 16px 10px 40px;border:1.5px solid var(--border-color);border-radius:14px;font-size:0.9rem;background:#f8f9fc;transition:all 0.2s}
-.search-box input:focus{outline:none;border-color:var(--brand-red);background:white;box-shadow:0 0 0 4px rgba(255, 45, 85, 0.08)}
-.search-box::before{content:"🔍";position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:0.85rem}
-.category-filter{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;width:100%;scrollbar-width:none}
-.category-filter::-webkit-scrollbar{display:none}
-.category-chip{padding:8px 16px;background:#f4f4f6;border-radius:12px;cursor:pointer;white-space:nowrap;font-weight:600;font-size:0.82rem;transition:all 0.2s;color:var(--text-main);border:1px solid transparent}
-.category-chip:hover{background:#e4e4e7}
-.category-chip.active{background:var(--brand-dark);color:white;box-shadow:0 4px 12px rgba(0,0,0,0.15)}
-.section-title{font-size:1.2rem;font-weight:800;margin-bottom:14px;color:var(--text-main);letter-spacing:-0.5px}
-.products-grid{display:grid;grid-template-columns:repeat(2, 1fr);gap:12px;}
-@media(min-width:768px){.products-grid{grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:16px;}}
-.product-card{background:var(--card-bg);border-radius:18px;overflow:hidden;box-shadow:var(--shadow-sm);transition:all 0.3s cubic-bezier(0.4,0,0.2,1);display:flex;flex-direction:column;border:1px solid var(--border-color);position:relative}
-.product-card:hover{transform:translateY(-5px);box-shadow:var(--shadow-md);border-color:#e4e4e7}
-.product-image-wrap{width:100%;height:185px;background:#f8f9fc;display:flex;align-items:center;justify-content:center;overflow:hidden;position:relative;cursor:pointer}
-.product-image-wrap img{width:100%;height:100%;object-fit:cover;transition:transform 0.5s ease}
-.product-card:hover .product-image-wrap img{transform:scale(1.06)}
-.shipping-badge{position:absolute;top:10px;left:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);color:white;padding:4px 8px;border-radius:8px;font-size:0.7rem;font-weight:700;z-index:3;}
-.wishlist-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.9);backdrop-filter:blur(4px);border:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3;font-size:0.95rem;box-shadow:0 3px 8px rgba(0,0,0,0.08);transition:transform 0.2s}
-.wishlist-btn:hover{transform:scale(1.15)}
-.wishlist-btn.active{color:var(--brand-red)}
-.product-info{padding:12px 14px;flex:1;display:flex;flex-direction:column}
-.product-name{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;height:2.7em;cursor:pointer;color:var(--text-main)}
-.product-name:hover {color: var(--brand-red);}
-.product-price-box{margin-top:auto}
-.product-price{font-size:1.05rem;font-weight:800;color:var(--brand-dark)}
-.product-footer{display:flex;gap:6px;margin-top:10px}
-.product-footer .btn{flex:1;justify-content:center;padding:7px;font-size:0.75rem;border-radius:12px}
-.detail-slider-container{position:relative;width:100%;height:270px;background:#f8f9fc;border-radius:16px;overflow:hidden;display:flex;align-items:center;justify-content:center;margin-bottom:14px;border:1px solid var(--border-color)}
-.detail-slider-container img{width:100%;height:100%;object-fit:cover}
-.slider-nav-btn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(0,0,0,0.5);backdrop-filter:blur(4px);color:white;border:none;width:34px;height:34px;border-radius:50%;cursor:pointer;font-size:0.9rem;display:flex;align-items:center;justify-content:center;transition:background 0.2s}
-.slider-nav-btn:hover{background:rgba(0,0,0,0.7)}
-.slider-prev{left:10px}
-.slider-next{right:10px}
-.profile-tabs{display:flex;gap:6px;background:white;padding:6px;border-radius:16px;margin-bottom:16px;border:1px solid var(--border-color);overflow-x:auto}
-.profile-tab{flex:1;padding:10px 12px;border:none;background:transparent;border-radius:12px;cursor:pointer;font-weight:600;color:var(--text-muted);font-size:0.8rem;white-space:nowrap;transition:all 0.2s;text-align:center}
-.profile-tab.active{background:var(--brand-red);color:white;box-shadow:0 4px 12px rgba(255,45,85,0.25)}
-.cart-item{display:flex;gap:12px;padding:12px;background:white;border-radius:16px;margin-bottom:10px;align-items:center;border:1px solid var(--border-color);box-shadow:var(--shadow-sm)}
-.cart-item-image{width:56px;height:56px;border-radius:12px;background:#f8f9fc;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0;border:1px solid var(--border-color)}
-.cart-item-image img{width:100%;height:100%;object-fit:cover}
-.cart-item-info{flex:1}
-.cart-item-name{font-size:0.85rem;font-weight:600;margin-bottom:2px}
-.cart-item-size {font-size: 0.75rem; color: var(--brand-red); font-weight: 700; margin-bottom: 2px;}
-.cart-item-price{font-size:0.85rem;color:var(--brand-dark);font-weight:700}
-.cart-item-qty{display:flex;align-items:center;gap:8px;margin-top:6px}
-.qty-btn{width:26px;height:26px;border:1px solid var(--border-color);background:white;border-radius:50%;cursor:pointer;font-weight:700;font-size:0.8rem;display:flex;align-items:center;justify-content:center;transition:all 0.2s}
-.qty-btn:hover{border-color:var(--brand-red);color:var(--brand-red)}
-.modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:400;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(5px)}
-.modal.show{display:flex}
-.modal-content{background:white;border-radius:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25);animation:modalIn 0.3s cubic-bezier(0.16, 1, 0.3, 1)}
-@keyframes modalIn { from{transform:scale(0.95);opacity:0} to{transform:scale(1);opacity:1} }
-.modal-header{padding:18px 20px;border-bottom:1px solid var(--border-color);display:flex;justify-content:space-between;align-items:center}
-.modal-body{padding:20px}
-.form-group{margin-bottom:14px}
-.form-group label{display:block;margin-bottom:6px;font-weight:600;font-size:0.82rem;color:var(--text-muted)}
-.form-group input,.form-group textarea,.form-group select{width:100%;padding:11px 14px;border:1.5px solid var(--border-color);border-radius:14px;font-size:0.9rem;font-family:inherit;background:#f8f9fc;transition:all 0.2s}
-.form-group input:focus,.form-group textarea:focus,.form-group select:focus{outline:none;border-color:var(--brand-red);background:white;box-shadow:0 0 0 4px rgba(255, 45, 85, 0.08)}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.close-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--text-muted);width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%;transition:background 0.2s}
-.close-btn:hover{background:#f4f4f6;color:var(--text-main)}
-.multi-upload-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:14px}
-.upload-thumb{height:85px;border:2px dashed #d4d4d8;border-radius:14px;display:flex;align-items:center;justify-content:center;cursor:pointer;background:#fafafa;position:relative;overflow:hidden;transition:border-color 0.2s}
-.upload-thumb:hover{border-color:var(--brand-red)}
-.upload-thumb img{width:100%;height:100%;object-fit:cover}
-.remove-thumb{position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);color:white;border:none;width:22px;height:22px;border-radius:50%;font-size:11px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-.tabs{display:flex;gap:6px;background:white;padding:6px;border-radius:16px;margin-bottom:16px;border:1px solid var(--border-color);overflow-x:auto}
-.tab{padding:8px 16px;border:none;background:transparent;border-radius:12px;cursor:pointer;font-weight:600;color:var(--text-muted);font-size:0.85rem;white-space:nowrap;transition:all 0.2s}
-.tab.active{background:var(--brand-dark);color:white}
-.admin-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(170px,1fr));gap:12px;margin-bottom:16px}
-.stat-card{background:white;padding:16px;border-radius:16px;border:1px solid var(--border-color);box-shadow:var(--shadow-sm)}
-.stat-value{font-size:1.35rem;font-weight:800;color:var(--brand-red)}
-.stat-label{color:var(--text-muted);font-size:0.78rem;font-weight:600;margin-top:2px}
-.admin-table-wrap{background:white;border-radius:16px;overflow:hidden;border:1px solid var(--border-color);overflow-x:auto;box-shadow:var(--shadow-sm)}
-.admin-table{width:100%;border-collapse:collapse;font-size:0.85rem}
-.admin-table th,.admin-table td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-color)}
-.admin-table th{background:#f8f9fc;font-weight:700;color:var(--text-main)}
-.tracking-stepper{display:flex;justify-content:space-between;margin:25px 0 15px 0;position:relative}
-.tracking-stepper::before{content:'';position:absolute;top:14px;left:8%;right:8%;height:3px;background:var(--border-color);z-index:1}
-.tracking-progress{position:absolute;top:14px;left:8%;height:3px;background:#10b981;z-index:1;transition:width 0.4s ease}
-.step-item{position:relative;z-index:2;background:white;display:flex;flex-direction:column;align-items:center;width:20%}
-.step-icon{width:28px;height:28px;border-radius:50%;background:#f4f4f6;border:2px solid var(--border-color);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:0.72rem;margin-bottom:4px}
-.step-item.active .step-icon{background:#10b981;border-color:#10b981;color:white}
-.step-item.current .step-icon{background:var(--brand-red);border-color:var(--brand-red);color:white}
-.step-label{font-size:0.58rem;font-weight:600;color:var(--text-muted);text-align:center;line-height:1.1}
-
-.push-banner-container{position:fixed;top:15px;right:15px;left:15px;max-width:420px;margin:0 auto;z-index:9999;display:flex;flex-direction:column;gap:10px;pointer-events:none}
-.push-sms-card{background:rgba(18, 18, 20, 0.95);backdrop-filter:blur(12px);color:white;padding:14px 18px;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,0.3);border:1px solid rgba(255,255,255,0.15);pointer-events:auto;animation:slideDown 0.3s cubic-bezier(0.16, 1, 0.3, 1);display:flex;align-items:flex-start;gap:12px}
-@keyframes slideDown { from{transform:translateY(-30px);opacity:0} to{transform:translateY(0);opacity:1} }
-.push-sms-icon{font-size:1.5rem;flex-shrink:0}
-.push-sms-content{flex:1}
-.push-sms-title{font-size:0.85rem;font-weight:700;color:var(--brand-red);margin-bottom:2px;display:flex;justify-content:space-between}
-.push-sms-time{font-size:0.7rem;color:#a1a1aa}
-.push-sms-text{font-size:0.82rem;color:#f4f4f5;line-height:1.4}
-
-.toast-container{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:500;display:flex;flex-direction:column;gap:8px}
-.toast{background:var(--brand-dark);color:white;padding:10px 20px;border-radius:14px;box-shadow:0 10px 25px rgba(0,0,0,0.2);font-size:0.85rem;font-weight:600;border:1px solid rgba(255,255,255,0.1)}
-.toast.success{background:#10b981}
-.toast.error{background:var(--brand-red)}
-.order-details{background:#f8f9fc;border-radius:12px;padding:12px;margin:12px 0;font-family:monospace;font-size:0.8rem;white-space:pre-wrap;border:1px solid var(--border-color)}
-.hidden{display:none!important}
-.order-card-user{background:white;border:1px solid var(--border-color);padding:14px;border-radius:16px;margin-bottom:10px;font-size:0.85rem;cursor:pointer;transition:all 0.2s;box-shadow:var(--shadow-sm)}
-.order-card-user:hover{border-color:var(--brand-red);box-shadow:var(--shadow-md)}
-.faq-item{background:white;border:1px solid var(--border-color);border-radius:16px;margin-bottom:10px;overflow:hidden;box-shadow:var(--shadow-sm)}
-.faq-question{padding:14px 16px;font-weight:700;font-size:0.9rem;cursor:pointer;display:flex;justify-content:space-between;align-items:center}
-.faq-answer{padding:0 16px 14px 16px;font-size:0.83rem;color:var(--text-muted);display:none}
-.faq-item.open .faq-answer{display:block}
-</style>
+        .product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 4px;
+            background: #eee;
+            margin-bottom: 10px;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 4px;
+            font-size: 12px;
+            color: white;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .badge-china { background-color: var(--accent-china); }
+        .badge-turkey { background-color: var(--accent-turkey); }
+    </style>
 </head>
 <body>
- 
-<header>
-  <div class="container header-content">
-    <div class="header-top">
-      <a href="#" class="logo"><span>🇨🇳</span> CHINA DIRECT <span class="accent">VODIL</span> <span>🇺🇿</span></a>
-    </div>
-    <div class="header-actions">
-      <button type="button" class="btn btn-primary btn-sm" onclick="installPwaApp()">📱 Ilovani o'rnatish</button>
-      <button type="button" class="btn btn-light btn-sm" style="cursor:default; background:#fff5f7; color:var(--brand-red);">🟢 Onlayn: <span id="onlineCountBadge" style="font-weight:800; margin-left:2px;">1.000.000+</span></button>
-      <button type="button" class="btn btn-outline btn-sm" id="adminBtn" onclick="toggleAdminView()">🔐 Admin</button>
-    </div>
-  </div>
-</header>
- 
-<!-- 1. BOSH SAHIFA -->
-<div class="page-section" id="page-home">
-  <div class="container">
-    <div class="hero">
-      <h1>Vodil uchun to'g'ridan-to'g'ri <span>China Direct tovarlar!</span></h1>
-      <p>Hamyonbop narxlarda ishonchli va tezkor buyurtma bering.</p>
-    </div>
 
-    <div class="promo-banner">
-      <div>
-        <h3>🔥 100% Original Xitoy Tovarlari!</h3>
-        <p>Vodil bo'ylab eng tezkor Avia va Avto yetkazib berish xizmati.</p>
-      </div>
-      <div style="font-size:2.2rem;">📦</div>
-    </div>
+    <header>
+        <h1>CHINA & TURKEY DIRECT VODIL 🇹🇷🇨🇳</h1>
+        <p>Xitoy va Turkiyadan to'g'ridan-to'g'ri buyurtmalar va yetkazib berish</p>
+    </header>
 
-    <h2 class="section-title">Barcha mahsulotlar</h2>
-    <div class="products-grid" id="homeProductsGrid"></div>
-  </div>
-</div>
-
-<!-- 2. KATALOG -->
-<div class="page-section hidden" id="page-catalog">
-  <div class="container" style="padding-top:12px;">
-    <div class="controls">
-      <div class="controls-content">
-        <div class="search-box">
-          <input type="text" id="searchInput" placeholder="Mahsulot nomini yozib qidiring..." oninput="renderCatalogProducts()">
-        </div>
-      </div>
-    </div>
-    <div class="category-filter" id="categoryFilter" style="margin-bottom: 16px;">
-      <div class="category-chip active" onclick="filterCategory('all', this)">Barchasi</div>
-      <div class="category-chip" onclick="filterCategory('Elektronika', this)">Elektronika</div>
-      <div class="category-chip" onclick="filterCategory('Telefon aksessuarlari', this)">Telefon aksessuarlari</div>
-      <div class="category-chip" onclick="filterCategory('Kiyim', this)">Kiyim</div>
-      <div class="category-chip" onclick="filterCategory('Poyabzal', this)">Poyabzal</div>
-      <div class="category-chip" onclick="filterCategory('Uy jihozlari', this)">Uy jihozlari</div>
-    </div>
-    <h2 class="section-title">Katalog va Qidiruv</h2>
-    <div class="products-grid" id="catalogProductsGrid"></div>
-  </div>
-</div>
-
-<!-- 3. SEVIMLILAR -->
-<div class="page-section hidden" id="page-wishlist">
-  <div class="container" style="padding-top: 20px;">
-    <h2 class="section-title">🤍 Sevimli mahsulotlar</h2>
-    <div class="products-grid" id="wishlistProductsGrid"></div>
-  </div>
-</div>
-
-<!-- 4. PROFIL -->
-<div class="page-section hidden" id="page-profile">
-  <div class="container" style="padding-top: 20px; max-width: 650px;">
-    <h2 class="section-title">👤 Shaxsiy kabinet</h2>
-    
-    <div class="profile-tabs">
-      <button type="button" class="profile-tab active" onclick="switchProfileTab('main', this)">Profil</button>
-      <button type="button" class="profile-tab" onclick="switchProfileTab('cart', this)">Savat (<span id="profileCartCount">0</span>)</button>
-      <button type="button" class="profile-tab" onclick="switchProfileTab('orders', this)">Buyurtmalar</button>
-      <button type="button" class="profile-tab" onclick="switchProfileTab('referral', this)">🎁 Keshbek</button>
-      <button type="button" class="profile-tab" onclick="switchProfileTab('faq', this)">❓ Savollar</button>
-      <button type="button" class="profile-tab" onclick="switchProfileTab('help', this)">💬 Yordam</button>
-    </div>
-
-    <div id="profileTabMain" class="profile-tab-content">
-      <div style="background:white; padding:24px; border-radius:24px; border:1px solid var(--border-color); box-shadow:var(--shadow-sm);" id="profileCardContent"></div>
-    </div>
-
-    <div id="profileTabCart" class="profile-tab-content hidden">
-      <div style="background:white; padding:20px; border-radius:24px; border:1px solid var(--border-color); box-shadow:var(--shadow-sm);">
-        <h3 style="margin-bottom:12px; font-size:1.05rem;">Sizning savatingiz</h3>
-        <div id="profileCartBody" style="max-height:350px; overflow-y:auto; margin-bottom:12px;"></div>
-        <div id="profileCartFooter" class="hidden" style="border-top:1px solid var(--border-color); padding-top:12px;">
-          <div style="display:flex; justify-content:space-between; font-size:1.05rem; font-weight:800; margin-bottom:12px;">
-            <span>Jami:</span><span id="profileCartTotal">0 so'm</span>
-          </div>
-          <button type="button" class="btn btn-primary w-full" onclick="openCheckout()">Rasmiylashtirish</button>
-        </div>
-      </div>
-    </div>
-
-    <div id="profileTabOrders" class="profile-tab-content hidden">
-      <div style="background:white; padding:20px; border-radius:24px; border:1px solid var(--border-color); box-shadow:var(--shadow-sm); margin-bottom:16px;">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Buyurtma kodi yoki telefon raqamingiz</label>
-          <div style="display:flex;gap:8px; margin-top: 6px;">
-            <input type="text" id="trackInput" placeholder="Masalan: CDV-1234..." style="flex:1; padding:10px 14px; border:1.5px solid var(--border-color); border-radius:12px; font-size:0.9rem;">
-            <button type="button" class="btn btn-primary" onclick="searchTrackOrder()">Izlash</button>
-          </div>
-        </div>
-      </div>
-      <div id="trackResult" class="hidden" style="background:white; padding:16px; border-radius:18px; border:1px solid var(--border-color); margin-bottom:16px; box-shadow:var(--shadow-sm);">
-        <div style="display:flex;justify-content:space-between;align-items:center; margin-bottom: 10px;">
-          <strong id="trackOrderCode" style="font-size:0.95rem">---</strong>
-          <span class="status-badge" id="trackStatusBadge" style="font-weight:700; color:var(--brand-red);">Tasdiqlandi</span>
-        </div>
-        <div class="tracking-stepper">
-          <div class="tracking-progress" id="trackProgressBar" style="width:0%"></div>
-          <div class="step-item" id="step1"><div class="step-icon">1</div><div class="step-label">Tasdiqlandi</div></div>
-          <div class="step-item" id="step2"><div class="step-icon">2</div><div class="step-label">Yig'ilyapti</div></div>
-          <div class="step-item" id="step3"><div class="step-icon">3</div><div class="step-label">Yo'lda</div></div>
-          <div class="step-item" id="step4"><div class="step-icon">4</div><div class="step-label">Keldi</div></div>
-          <div class="step-item" id="step5"><div class="step-icon">5</div><div class="step-label">Topshirildi</div></div>
-        </div>
-        <div class="order-details" id="trackOrderItems"></div>
-      </div>
-      <h3 style="font-size:1rem; margin-bottom:10px;">Mening buyurtmalarim tarixi:</h3>
-      <div id="myOrdersListContainer">
-        <p style="color:var(--text-muted); font-size:0.85rem;">Yuklanmoqda...</p>
-      </div>
-    </div>
-
-    <div id="profileTabReferral" class="profile-tab-content hidden">
-      <div style="background:white; padding:22px; border-radius:24px; border:1px solid var(--border-color); box-shadow:var(--shadow-sm); text-align:center;">
-        <div style="font-size:2.5rem; margin-bottom:8px;">🎁</div>
-        <h3 style="font-size:1.1rem; margin-bottom:6px;">Do'stingizni taklif qiling va Keshbek oling!</h3>
-        <p style="font-size:0.83rem; color:var(--text-muted); margin-bottom:16px;">100.000 so'mdan qimmat xaridlardan <b>2% keshbek</b> balansingizga yig'iladi.</p>
-        <div style="background:#f8f9fc; padding:12px; border-radius:14px; border:1px solid var(--border-color); margin-bottom:14px; font-size:0.85rem; word-break:break-all;">
-          <b id="refLinkText">https://t.me/ChinaDirectVodilBot?start=ref_000</b>
-        </div>
-        <button type="button" class="btn btn-primary w-full" onclick="copyReferralLink()">🔗 Havolani nusxalash</button>
-        <div style="margin-top:16px; font-size:0.9rem; font-weight:700;">Yig'ilgan keshbek balansingiz: <span style="color:var(--brand-red);" id="userCashbackBalance">0 so'm</span></div>
-      </div>
-    </div>
-
-    <div id="profileTabFaq" class="profile-tab-content hidden">
-      <h3 style="margin-bottom:12px; font-size:1.05rem;">Ko'p beriladigan savollar</h3>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-question">📦 Yetkazib berish qancha vaqt oladi? <span>▼</span></div>
-        <div class="faq-answer">Avia orqali 5-9 kun, Avto orqali esa 12-18 kun ichida Vodilga yetib keladi.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-question">💳 To'lov qanday amalga oshiriladi? <span>▼</span></div>
-        <div class="faq-answer">Siz Click, Payme orqali onlayn to'lov qilishingiz yoki mahsulot kelganda naqd pulda to'lashingiz mumkin.</div>
-      </div>
-      <div class="faq-item" onclick="toggleFaq(this)">
-        <div class="faq-question">❌ Buyurtmadan voz kechish mumkinmi? <span>▼</span></div>
-        <div class="faq-answer">Buyurtma Xitoydan yo'lga chiqqandan keyin sababsiz voz kechilsa 25% jarima olinadi.</div>
-      </div>
-    </div>
-
-    <div id="profileTabHelp" class="profile-tab-content hidden">
-      <div style="background:white; border-radius:24px; border:1px solid var(--border-color); display:flex; flex-direction:column; height:420px; overflow:hidden; box-shadow:var(--shadow-sm);">
-        <div id="chatMessagesBox" style="flex:1; padding:16px; overflow-y:auto; display:flex; flex-direction:column; gap:10px; background:#f8f9fc;">
-          <div style="text-align:center; color:var(--text-muted); font-size:0.8rem;">Assalomu alaykum! Savolingizni yozing, admin tez orada javob beradi.</div>
-        </div>
-        <div style="padding:12px 16px; background:white; border-top:1px solid var(--border-color); display:flex; gap:8px;">
-          <input type="text" id="chatInputMsg" placeholder="Xabaringizni yozing..." style="flex:1; padding:10px 14px; border:1.5px solid var(--border-color); border-radius:14px; font-size:0.9rem;" onkeydown="if(event.key==='Enter') sendChatMessage()">
-          <button type="button" class="btn btn-primary" onclick="sendChatMessage()">Yuborish</button>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ADMIN VIEW -->
-<div id="adminView" class="hidden">
-  <div class="container" style="padding-top:20px;padding-bottom:40px">
-    <h2 class="section-title">Boshqaruv paneli</h2>
-    
-    <div style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:18px; padding:16px; margin-bottom:16px; box-shadow:var(--shadow-sm);">
-      <h3 style="font-size:0.95rem; color:var(--brand-red); margin-bottom:8px;">🔔 Admin Bildirishnomalari</h3>
-      <div id="adminLiveNotifications" style="max-height:100px; overflow-y:auto; font-size:0.85rem; color:var(--text-main);">Hozircha xabarlar yo'q.</div>
-    </div>
-    <div class="tabs">
-      <button type="button" class="tab active" onclick="switchAdminTab('stats', this)">Statistika</button>
-      <button type="button" class="tab" onclick="switchAdminTab('products', this)">Mahsulotlar</button>
-      <button type="button" class="tab" onclick="switchAdminTab('orders', this)">Buyurtmalar</button>
-      <button type="button" class="tab" onclick="switchAdminTab('chat', this)">Chat / Yordam</button>
-      <button type="button" class="tab" onclick="switchAdminTab('settings', this)">Sozlamalar</button>
-    </div>
-    
-    <div id="admin-tab-stats" class="admin-tab-content">
-      <div class="admin-grid">
-        <div class="stat-card"><div class="stat-value" id="statOnline">1</div><div class="stat-label">🟢 Onlayn</div></div>
-        <div class="stat-card"><div class="stat-value" id="statVisitors">0</div><div class="stat-label">👥 Tashriflar</div></div>
-        <div class="stat-card"><div class="stat-value" id="statProducts">0</div><div class="stat-label">Jami mahsulot</div></div>
-        <div class="stat-card"><div class="stat-value" id="statOrders">0</div><div class="stat-label">Buyurtmalar</div></div>
-        <div class="stat-card"><div class="stat-value" id="statRevenue">0 so'm</div><div class="stat-label">Tushum</div></div>
-      </div>
-    </div>
-    <div id="admin-tab-products" class="admin-tab-content hidden">
-      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <h3>Mahsulotlar ro'yxati</h3>
-        <button type="button" class="btn btn-primary btn-sm" onclick="openAddProductModal()">+ Qo'shish</button>
-      </div>
-      <div class="admin-table-wrap">
-        <table class="admin-table">
-          <thead><tr><th>Rasm</th><th>Nomi</th><th>Kategoriya</th><th>Yetkazish</th><th>Yakuniy Narx</th><th>Amallar</th></tr></thead>
-          <tbody id="adminProductsTable"></tbody>
-        </table>
-      </div>
-    </div>
-    <div id="admin-tab-orders" class="admin-tab-content hidden">
-      <h3 style="margin-bottom:14px">Buyurtmalar boshqaruvi</h3>
-      <div class="admin-table-wrap">
-        <table class="admin-table">
-          <thead><tr><th>ID</th><th>Mijoz</th><th>Razmer</th><th>Summa</th><th>To'lov / Chek</th><th>Holati</th><th>Amallar</th></tr></thead>
-          <tbody id="adminOrdersTable"></tbody>
-        </table>
-      </div>
-    </div>
-    <div id="admin-tab-chat" class="admin-tab-content hidden">
-      <h3 style="margin-bottom:14px">Mijozlar bilan yordam / Chat</h3>
-      <div style="display:grid; grid-template-columns: 250px 1fr; gap:12px; background:white; padding:16px; border-radius:20px; border:1px solid var(--border-color); height:480px; box-shadow:var(--shadow-sm);">
-        <div id="adminChatUsersList" style="border-right:1px solid var(--border-color); overflow-y:auto; padding-right:8px;">
-          <p style="font-size:0.8rem; color:var(--text-muted)">Mijozlar yuklanmoqda...</p>
-        </div>
-        <div style="display:flex; flex-direction:column; height:100%;">
-          <div id="adminActiveChatBox" style="flex:1; overflow-y:auto; padding:10px; display:flex; flex-direction:column; gap:8px; background:#f8f9fc; border-radius:12px; margin-bottom:8px; border:1px solid var(--border-color);">
-            <p style="text-align:center; color:var(--text-muted); font-size:0.80rem;">Mijozni tanlang</p>
-          </div>
-          <div style="display:flex; gap:6px;">
-            <input type="text" id="adminReplyInput" placeholder="Javob yozing..." style="flex:1; padding:8px 12px; border:1.5px solid var(--border-color); border-radius:12px; font-size:0.85rem;" onkeydown="if(event.key==='Enter') sendAdminReply()">
-            <button type="button" class="btn btn-primary btn-sm" onclick="sendAdminReply()">Yuborish</button>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div id="admin-tab-settings" class="admin-tab-content hidden">
-      <div style="background:white;padding:24px;border-radius:20px;border:1px solid var(--border-color);box-shadow:var(--shadow-sm)">
-        <h3 style="margin-bottom:14px;font-size:1rem">Valyuta va Tariflar</h3>
-        <div class="form-row">
-          <div class="form-group"><label>1 Yuan (so'm)</label><input type="number" id="rateYuan" value="2150"></div>
-          <div class="form-group"><label>1 USD (so'm)</label><input type="number" id="rateUsd" value="12700"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>Avia ($/kg)</label><input type="number" id="rateAvia" value="9.5" step="0.1"></div>
-          <div class="form-group"><label>Avto ($/kg)</label><input type="number" id="rateAvto" value="6" step="0.1"></div>
-        </div>
-        <div class="form-group"><label>Ustama foiz (%)</label><input type="number" id="rateMarkup" value="45"></div>
-        <button type="button" class="btn btn-primary w-full" onclick="saveSettings()">Saqlash</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- PASTKI NAVIGATSIYA -->
-<nav class="bottom-nav">
-  <button type="button" class="nav-item active" onclick="switchPage('home', this)"><span class="nav-icon">🏠</span><span>Asosiy</span></button>
-  <button type="button" class="nav-item" onclick="switchPage('catalog', this)"><span class="nav-icon">🔍</span><span>Katalog</span></button>
-  <button type="button" class="nav-item" onclick="switchPage('wishlist', this)"><span class="nav-icon">🤍</span><span>Sevimlilar</span></button>
-  <button type="button" class="nav-item" onclick="switchPage('profile', this)">
-    <span class="nav-icon">👤</span><span>Profil</span>
-    <span class="nav-cart-badge hidden" id="bottomCartBadge">0</span>
-    <span class="profile-badge hidden" id="profileNotifBadge">!</span>
-  </button>
-</nav>
-
-<!-- MAHSULOT TAFSILOTLARI -->
-<div class="modal" id="productDetailModal">
-  <div class="modal-content" style="max-width:500px;">
-    <div class="modal-header">
-      <h3 id="detailTitle" style="font-size:1.05rem; font-weight:700">Mahsulot tafsilotlari</h3>
-      <button type="button" class="close-btn" onclick="closeModal('productDetailModal')">×</button>
-    </div>
-    <div class="modal-body">
-      <div class="detail-slider-container">
-        <img id="detailMainImg" src="" alt="Mahsulot rasmi">
-        <button type="button" class="slider-nav-btn slider-prev" onclick="slideDetailImg(-1)">❮</button>
-        <button type="button" class="slider-nav-btn slider-next" onclick="slideDetailImg(1)">❯</button>
-      </div>
-      <div style="font-size:1.3rem; font-weight:800; color:var(--brand-dark); margin-bottom:4px;" id="detailPrice">0 so'm</div>
-      <div style="font-size:0.85rem; color:var(--text-muted); margin-bottom:14px;" id="detailCategoryWeight"></div>
-      <div class="form-group">
-        <label>Razmer yoki o'lchamingizni kiriting (masalan: M, 42):</label>
-        <input type="text" id="customSizeInput" placeholder="Masalan: L yoki 41-razmer" value="Standard">
-      </div>
-      <div class="form-group">
-        <label>Miqdori (nechtaligi):</label>
-        <div style="display:flex; align-items:center; gap:12px;">
-          <button type="button" class="qty-btn" onclick="changeDetailQty(-1)">−</button>
-          <span id="detailQtyVal" style="font-size:1.1rem; font-weight:800;">1</span>
-          <button type="button" class="qty-btn" onclick="changeDetailQty(1)">+</button>
-        </div>
-      </div>
-      <div style="background:#f8f9fc; padding:12px; border-radius:14px; border:1px solid var(--border-color); margin-bottom:14px;">
-        <label style="font-size:0.72rem; font-weight:700; color:var(--text-muted); display:block; margin-bottom:2px;">TAVSIF:</label>
-        <p id="detailDesc" style="font-size:0.85rem; white-space:pre-wrap; color:var(--text-main);">Tavsif mavjud emas</p>
-      </div>
-      <button type="button" class="btn btn-primary w-full" onclick="addDetailToCartAndCheckout()">Savatga qo'shish va Zakaz qilish</button>
-    </div>
-  </div>
-</div>
-
-<!-- AUTH MODAL -->
-<div class="modal" id="authModal">
-  <div class="modal-content" style="max-width:440px">
-    <div class="modal-header"><h3 style="font-size:1rem">Tizimga kirish va Xizmat Shartlari</h3><button type="button" class="close-btn" onclick="closeModal('authModal')">×</button></div>
-    <div class="modal-body">
-      <div style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:14px; padding:12px; margin-bottom:14px; font-size:0.78rem; color:#4a1525; max-height:160px; overflow-y:auto; line-height:1.5;">
-        <b>📜 "CHINA DIRECT VODIL" — FOYDALANISH VA BUYURTMA BERISH QOIDALARI:</b><br><br>
-        <b>1. Buyurtma berish:</b> Xorijiy omborlardan zakaz asosida olib kelinadi.<br>
-        <b>2. Qaytarish shartlari:</b> Sifatli mahsulotlar o'lchami to'g'ri kelmaganda <b>qaytarib olinmaydi</b>.<br>
-        <b>3. Jarima:</b> Buyurtma kelgach sababsiz bosh tortilsa <b>25% jarima</b> olinadi.
-      </div>
-      <form onsubmit="handleAuthSubmit(event)">
-        <div class="form-group"><label>Ismingiz</label><input type="text" id="authName" placeholder="Ism-sharifingiz" required></div>
-        <div class="form-group"><label>Telefon raqam</label><input type="tel" id="authPhone" placeholder="+998 90 123 45 67" required></div>
-        <button type="submit" class="btn btn-primary w-full">Kirish</button>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- CHECKOUT MODAL -->
-<div class="modal" id="checkoutModal">
-  <div class="modal-content">
-    <div class="modal-header"><h3 style="font-size:1rem">Buyurtmani rasmiylashtirish va To'lov</h3><button type="button" class="close-btn" onclick="closeModal('checkoutModal')">×</button></div>
-    <div class="modal-body">
-      <form onsubmit="handleCheckoutSubmit(event)">
-        <div class="form-group"><label>Ismingiz</label><input type="text" id="customerName" required placeholder="Ism"></div>
-        <div class="form-group"><label>Telefon raqam</label><input type="tel" id="customerPhone" required placeholder="+998 90 123 45 67"></div>
-        <div class="form-group"><label>Yetkazish manzili</label><input type="text" id="customerAddress" required placeholder="Manzil"></div>
-        <div class="form-group">
-          <label>To'lov usuli</label>
-          <select id="paymentMethod" onchange="togglePaymentSection()" style="width:100%; padding:11px 14px; border-radius:14px; border:1.5px solid var(--border-color); background:#f8f9fc;">
-            <option value="Click">💙 Click orqali onlayn to'lov</option>
-            <option value="Payme">💜 Payme orqali onlayn to'lov</option>
-            <option value="Naqd">💵 Mahsulot kelganda naqd to'lash</option>
-          </select>
-        </div>
-        <div id="onlinePaymentBox" style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:14px; padding:14px; margin-bottom:14px;">
-          <div style="font-size:0.85rem; font-weight:700; color:var(--brand-red); margin-bottom:6px;">💳 Onlayn To'lov Rekvizitlari:</div>
-          <p style="font-size:0.8rem; margin-bottom:8px;">Karta: <b>4413 5976 0554 2354</b> (A. Fattoxov)<br>To'lov summasi: <b id="checkoutExactPrice">0 so'm</b></p>
-          <div class="form-group" style="margin-bottom:0;">
-            <label style="color:var(--brand-red);">To'lov cheki skrinshotini yuklang (Majburiy!):</label>
-            <input type="file" id="receiptFileInput" accept="image/*" style="padding:6px; background:white;">
-          </div>
-        </div>
-        <div style="background:#f8f9fc;padding:14px;border-radius:14px;margin-bottom:16px;font-size:0.95rem;border:1px solid var(--border-color)">
-          Jami to'lov: <span id="checkoutTotal" style="font-weight:800;color:var(--brand-red)">0 so'm</span>
-        </div>
-        <button type="submit" class="btn btn-primary w-full">Zakazni yakunlash</button>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- SUCCESS MODAL -->
-<div class="modal" id="successModal">
-  <div class="modal-content">
-    <div class="modal-body" style="text-align:center; padding:30px 20px;">
-      <div style="font-size:3rem; margin-bottom:10px;">🎉</div>
-      <h3 style="margin-bottom:6px;">Buyurtma muvaffaqiyatli rasmiylashtirildi!</h3>
-      <div style="font-size:1.4rem;font-weight:800;color:var(--brand-red);margin:10px 0" id="successOrderId">---</div>
-      <button type="button" class="btn btn-primary w-full" style="margin-top:10px;" onclick="closeModal('successModal')">Yopish</button>
-    </div>
-  </div>
-</div>
-
-<!-- RECEIPT MODAL -->
-<div class="modal" id="receiptModal">
-  <div class="modal-content" style="max-width:400px; text-align:center;">
-    <div class="modal-header"><h3>To'lov cheki</h3><button type="button" class="close-btn" onclick="closeModal('receiptModal')">×</button></div>
-    <div class="modal-body">
-      <img id="receiptModalImg" src="" style="width:100%; border-radius:12px; max-height:400px; object-fit:contain; border:1px solid var(--border-color);">
-    </div>
-  </div>
-</div>
-
-<!-- ORDER DETAIL MODAL -->
-<div class="modal" id="orderDetailModal">
-  <div class="modal-content" style="max-width:450px;">
-    <div class="modal-header"><h3 id="modalOrderCodeTitle">Buyurtma tafsilotlari</h3><button type="button" class="close-btn" onclick="closeModal('orderDetailModal')">×</button></div>
-    <div class="modal-body" id="orderModalBodyContent" style="text-align:center;"></div>
-  </div>
-</div>
-
-<!-- LOGIN MODAL -->
-<div class="modal" id="loginModal">
-  <div class="modal-content" style="max-width:340px">
-    <div class="modal-header"><h3 style="font-size:1rem">Admin kirish</h3><button type="button" class="close-btn" onclick="closeModal('loginModal')">×</button></div>
-    <div class="modal-body">
-      <form onsubmit="handleLoginSubmit(event)">
-        <div class="form-group"><label>Parol</label><input type="password" id="adminPassword" required></div>
-        <button type="submit" class="btn btn-primary w-full">Kirish</button>
-      </form>
-    </div>
-  </div>
-</div>
-
-<!-- PRODUCT MODAL -->
-<div class="modal" id="productModal">
-  <div class="modal-content">
-    <div class="modal-header"><h3 id="productModalTitle" style="font-size:1rem">Mahsulot</h3><button type="button" class="close-btn" onclick="closeModal('productModal')">×</button></div>
-    <div class="modal-body">
-      <div style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:14px; padding:12px; margin-bottom:14px;">
-        <label style="font-size:0.8rem; font-weight:700; color:var(--brand-red); display:block; margin-bottom:4px;">⚡ Pinduoduo / 1688 Havolasi orqali avtomatik to'ldirish:</label>
-        <div style="display:flex; gap:6px;">
-          <input type="text" id="pinduoduoLinkInput" placeholder="Mahsulot havolasini (linkini) tashlang..." style="flex:1; padding:8px 10px; font-size:0.8rem; border-radius:10px; border:1px solid var(--border-color);">
-          <button type="button" class="btn btn-primary btn-sm" onclick="autoParsePinduoduo()">O'qish</button>
-        </div>
-      </div>
-      <form onsubmit="handleProductSubmit(event)">
-        <input type="hidden" id="productId">
-        <label style="font-size:0.8rem; font-weight:600; margin-bottom:4px; display:block; color:var(--text-muted);">Mahsulot rasmlari (Uchtagacha):</label>
-        <div class="multi-upload-grid" id="multiUploadGrid">
-          <div class="upload-thumb" onclick="triggerThumbUpload(0)"><span>📷+</span></div>
-          <div class="upload-thumb" onclick="triggerThumbUpload(1)"><span>📷+</span></div>
-          <div class="upload-thumb" onclick="triggerThumbUpload(2)"><span>📷+</span></div>
-        </div>
-        <input type="file" id="thumbInput" accept="image/*" style="display:none" onchange="handleThumbSelect(event)">
-        <div class="form-group"><label>Nomi</label><input type="text" id="productName" required></div>
-        <div class="form-row">
-          <div class="form-group">
-            <label>Kategoriya</label>
-            <select id="productCategory" required>
-              <option value="Elektronika">Elektronika</option>
-              <option value="Telefon aksessuarlari">Telefon aksessuarlari</option>
-              <option value="Kiyim">Kiyim</option>
-              <option value="Poyabzal">Poyabzal</option>
-              <option value="Uy jihozlari">Uy jihozlari</option>
-              <option value="Boshqa">Boshqa</option>
-            </select>
-          </div>
-          <div class="form-group"><label>Xitoy narxi (yuan)</label><input type="number" id="productPriceYuan" required min="0" step="0.01" oninput="updateAdminCalcPrice()"></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>Og'irligi (kg)</label><input type="number" id="productWeight" required min="0" step="0.01" oninput="updateAdminCalcPrice()"></div>
-          <div class="form-group">
-            <label>Yetkazish usuli</label>
-            <select id="productShipping" onchange="updateAdminCalcPrice()">
-              <option value="avto">🚛 Avto ($6/kg)</option>
-              <option value="avia">✈️ Avia ($9.5/kg)</option>
-            </select>
-          </div>
-        </div>
-        <div style="background:#f8f9fc;padding:12px;border-radius:14px;margin-bottom:14px;font-size:0.82rem;border:1px solid var(--border-color); color:var(--text-main);">
-          <div style="font-weight:700; margin-bottom:4px; color:var(--brand-red);">📊 Kalkulyatsiya:</div>
-          <div>Asl Xitoy narxi: <span id="adminCalcChinaSum">0 so'm</span></div>
-          <div>Yetkazish: <span id="adminCalcShippingSum">0 so'm</span></div>
-          <div style="color:var(--brand-dark); font-weight:700;">Xitoy narxi + Yetkazish: <span id="adminCalcBasePlusShipping">0 so'm</span></div>
-          <div>Ustama (<span id="adminCalcMarkupLabel">45</span>%): <span id="adminCalcMarkupSum">0 so'm</span></div>
-          <div style="border-top:1px solid var(--border-color); margin-top:6px; padding-top:6px; font-weight:800; font-size:0.95rem;">
-            Yakuniy narx: <span id="modalCalcPrice" style="color:var(--brand-red)">0 so'm</span>
-          </div>
-        </div>
-        <div class="form-group"><label>Tavsif</label><textarea id="productDesc" rows="3"></textarea></div>
-        <button type="submit" class="btn btn-primary w-full">Saqlash</button>
-      </form>
-    </div>
-  </div>
-</div>
-
-<div class="push-banner-container" id="pushBannerContainer"></div>
-<div class="toast-container" id="toastContainer"></div>
- 
-<script>
-const manifestData = {
-  "name": "CHINA DIRECT VODIL",
-  "short_name": "Vodil China",
-  "start_url": "./",
-  "display": "standalone",
-  "background_color": "#f8f9fc",
-  "theme_color": "#ff2d55",
-  "icons": [{ "src": "https://cdn-icons-png.flaticon.com/512/3081/3081559.png", "sizes": "512x512", "type": "image/png" }]
-};
-const stringManifest = JSON.stringify(manifestData);
-const blob = new Blob([stringManifest], {type: 'application/json'});
-const manifestURL = URL.createObjectURL(blob);
-document.querySelector('link[rel="manifest"]').setAttribute('href', manifestURL);
-
-let deferredPrompt;
-window.addEventListener('beforeinstallprompt', (e) => { e.preventDefault(); deferredPrompt = e; });
-function installPwaApp() {
-  if (deferredPrompt) {
-    deferredPrompt.prompt();
-    deferredPrompt.userChoice.then((choiceResult) => {
-      if (choiceResult.outcome === 'accepted') { showToast("Ilova muvaffaqiyatli o'rnatildi!"); }
-      deferredPrompt = null;
-    });
-  } else { showToast("Brauzer menyusidan 'Ilovani o'rnatish'ni tanlang", "error"); }
-}
-
-const firebaseConfig = {
-  apiKey: "AIzaSyD4m_9D31jA3SskvN91xS4Xz7I-Q11a-0A",
-  authDomain: "china-direct-vodil.firebaseapp.com",
-  databaseURL: "https://china-direct-vodil-default-rtdb.firebaseio.com",
-  projectId: "china-direct-vodil",
-  storageBucket: "china-direct-vodil.appspot.com",
-  messagingSenderId: "183932106361",
-  appId: "1:183932106361:web:21200df1542f2ee06bbda3"
-};
-try { firebase.initializeApp(firebaseConfig); } catch(e) {}
-const db = firebase.firestore();
-const rtdb = firebase.database();
-
-const userStatusRef = rtdb.ref('status/online');
-rtdb.ref('.info/connected').on('value', (snap) => {
-  if (snap.val() === true) {
-    let con = userStatusRef.push();
-    con.onDisconnect().remove();
-    con.set(true);
-  }
-});
-rtdb.ref('status/online').on('value', (snap) => {
-  let count = snap.numChildren() || 1;
-  if(document.getElementById('onlineCountBadge')) document.getElementById('onlineCountBadge').textContent = count;
-  if(document.getElementById('statOnline')) document.getElementById('statOnline').textContent = count;
-});
-
-function trackTotalVisitors() {
-  const visitorRef = rtdb.ref('stats/totalVisitors');
-  if (!sessionStorage.getItem('visited_tracked')) {
-    visitorRef.transaction(current => (current || 0) + 1);
-    sessionStorage.setItem('visited_tracked', 'true');
-  }
-  visitorRef.on('value', (snap) => {
-    let total = snap.val() || 0;
-    if(document.getElementById('statVisitors')) document.getElementById('statVisitors').textContent = total;
-  });
-}
-
-let settings = {yuanRate:2150, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:45};
-let products = JSON.parse(localStorage.getItem('cdv_products_cache') || "[]");
-let orders = [];
-let cart = JSON.parse(localStorage.getItem('cdv_cart') || "[]");
-let wishlist = JSON.parse(localStorage.getItem('cdv_wishlist') || "[]");
-let currentUser = JSON.parse(localStorage.getItem('cdv_user') || "null");
-let isAdmin = false;
-const ADMIN_PASS = "admin123";
-let currentImages = ["", "", ""];
-let activeUploadIndex = 0;
-let detailCurrentImages = [];
-let detailActiveIndex = 0;
-let detailCurrentProduct = null;
-let selectedQty = 1;
-let activeChatUserPhone = null;
-
-function showToast(msg, type='success'){
-  let container = document.getElementById('toastContainer');
-  if(!container) return;
-  let toast = document.createElement('div');
-  toast.className = 'toast ' + type;
-  toast.textContent = msg;
-  container.appendChild(toast);
-  setTimeout(() => toast.remove(), 3000);
-}
-
-function showPushSmsNotification(title, message){
-  let container = document.getElementById('pushBannerContainer');
-  if(!container) return;
-  let card = document.createElement('div');
-  card.className = 'push-sms-card';
-  card.innerHTML = `
-    <div class="push-sms-icon">💬</div>
-    <div class="push-sms-content">
-      <div class="push-sms-title"><span>${title}</span> <span class="push-sms-time">Hozir</span></div>
-      <div class="push-sms-text">${message}</div>
-    </div>
-  `;
-  container.appendChild(card);
-  
-  try {
-    let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    let osc = audioCtx.createOscillator();
-    let gain = audioCtx.createGain();
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.frequency.value = 800; gain.gain.value = 0.1;
-    osc.start(); setTimeout(() => osc.stop(), 150);
-  } catch(e) {}
-
-  setTimeout(() => {
-    card.style.transition = 'opacity 0.4s, transform 0.4s';
-    card.style.opacity = '0';
-    card.style.transform = 'translateY(-20px)';
-    setTimeout(() => card.remove(), 400);
-  }, 5000);
-}
-
-function openModal(id){ let el = document.getElementById(id); if(el) el.classList.add('show'); }
-function closeModal(id){ let el = document.getElementById(id); if(el) el.classList.remove('show'); }
-
-window.addEventListener('load', () => {
-  if (window.Telegram && window.Telegram.WebApp) {
-    const tg = window.Telegram.WebApp;
-    tg.expand();
-    if (tg.initDataUnsafe && tg.initDataUnsafe.user) {
-      const tgUser = tg.initDataUnsafe.user;
-      if (!currentUser) {
-        currentUser = {
-          name: tgUser.first_name + (tgUser.last_name ? ' ' + tgUser.last_name : ''),
-          phone: tgUser.id.toString(),
-          cashback: 0
-        };
-        localStorage.setItem('cdv_user', JSON.stringify(currentUser));
-      }
-    }
-  }
-
-  renderProducts();
-  renderCatalogProducts();
-  renderProfileContent();
-  fetchDataFromServer();
-  trackTotalVisitors();
-  updateCartUI();
-  setupChatListeners();
-  setupAdminNotifications();
-  setupClientOrderStatusListener();
-  updateReferralUI();
-});
-
-function switchPage(pageId, el){
-  if(isAdmin) { toggleAdminView(); }
-  document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
-  let target = document.getElementById('page-' + pageId);
-  if(target) target.classList.remove('hidden');
-  
-  document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => btn.classList.remove('active'));
-  if(el) el.classList.add('active');
-  if(pageId === 'home') renderProducts();
-  if(pageId === 'catalog') renderCatalogProducts();
-  if(pageId === 'wishlist') renderWishlistProducts();
-  if(pageId === 'profile') {
-    renderProfileContent();
-    renderProfileCart();
-    renderMyOrdersList();
-    loadUserChat();
-    updateReferralUI();
-  }
-}
-
-function switchProfileTab(tabName, el){
-  document.querySelectorAll('.profile-tab').forEach(t => t.classList.remove('active'));
-  if(el) el.classList.add('active');
-  document.querySelectorAll('.profile-tab-content').forEach(c => c.classList.add('hidden'));
-  document.getElementById('profileTab' + tabName.charAt(0).toUpperCase() + tabName.slice(1)).classList.remove('hidden');
-  
-  if(tabName === 'cart') renderProfileCart();
-  if(tabName === 'orders') renderMyOrdersList();
-  if(tabName === 'referral') updateReferralUI();
-  if(tabName === 'help') loadUserChat();
-}
-
-function updateReferralUI(){
-  if(!currentUser) return;
-  let phoneKey = currentUser.phone.replace(/[^0-9]/g, '');
-  let refLink = `https://t.me/ChinaDirectVodilBot?start=ref_${phoneKey}`;
-  document.getElementById('refLinkText').textContent = refLink;
-  let cbBalance = currentUser.cashback || 0;
-  document.getElementById('userCashbackBalance').textContent = formatPrice(cbBalance);
-}
-
-function copyReferralLink(){
-  let linkText = document.getElementById('refLinkText').textContent;
-  navigator.clipboard.writeText(linkText).then(() => { showToast("Taklif havolasi nusxalandi!"); });
-}
-
-function toggleFaq(item){ item.classList.toggle('open'); }
-
-function fetchDataFromServer(){
-  db.collection("products").onSnapshot((snapshot) => {
-    let loadedProducts = [];
-    snapshot.forEach((doc) => { loadedProducts.push({ id: doc.id, ...doc.data() }); });
-    products = loadedProducts;
-    localStorage.setItem('cdv_products_cache', JSON.stringify(products));
-    renderProducts();
-    renderCatalogProducts();
-    renderWishlistProducts();
-    if(isAdmin) renderAdmin();
-  }, (err) => {});
-  
-  db.collection("settings").doc("general").get().then((docSnap) => {
-    if (docSnap.exists) {
-      settings = docSnap.data();
-      renderProducts();
-      renderCatalogProducts();
-    }
-  }).catch(e => {});
-
-  db.collection("orders").onSnapshot((snapshot) => {
-    let loadedOrders = [];
-    snapshot.forEach((doc) => { loadedOrders.push({ id: doc.id, ...doc.data() }); });
-    orders = loadedOrders;
-    renderMyOrdersList();
-    updateProfileNotificationBadge();
-    if(isAdmin) renderAdmin();
-  }, (err) => {});
-}
-
-function logAdminNotification(text){
-  let notifRef = rtdb.ref('admin_notifications');
-  notifRef.push({text, time: new Date().toLocaleTimeString()});
-  if(isAdmin) {
-    showPushSmsNotification("🔔 Yangi bildirishnoma", text);
-  }
-}
-
-function setupAdminNotifications(){
-  rtdb.ref('admin_notifications').on('child_added', (snap) => {
-    let n = snap.val();
-    let box = document.getElementById('adminLiveNotifications');
-    if(!box) return;
-    if(isAdmin) {
-      showPushSmsNotification("📦 China Direct Admin", n.text);
-    }
-  });
-}
-
-let previousOrdersState = {};
-function setupClientOrderStatusListener(){
-  db.collection("orders").onSnapshot((snapshot) => {
-    snapshot.docChanges().forEach((change) => {
-      let data = change.doc.data();
-      let orderId = change.doc.id;
-      if (change.type === "modified") {
-        let oldStatus = previousOrdersState[orderId];
-        let newStatus = data.status;
-        if (oldStatus && oldStatus !== newStatus && currentUser && data.phone && data.phone.includes(currentUser.phone)) {
-          showPushSmsNotification(`📦 Buyurtma holati o'zgardi (${data.code})`, `Yangi status: ${newStatus}`);
-        }
-      }
-      previousOrdersState[orderId] = data.status;
-    });
-  });
-}
-
-function updateProfileNotificationBadge(){
-  let badge = document.getElementById('profileNotifBadge');
-  if(!badge) return;
-  if(!currentUser){ badge.classList.add('hidden'); return; }
-  let activeOrders = orders.filter(o => o.phone && o.phone.includes(currentUser.phone) && o.status !== 'Topshirildi');
-  if(activeOrders.length > 0){
-    badge.textContent = activeOrders.length;
-    badge.classList.remove('hidden');
-  } else { badge.classList.add('hidden'); }
-}
-function calculatePrice(p){
-  let chinaCost = (parseFloat(p.priceYuan) || 0) * settings.yuanRate;
-  let shippingRate = p.shipping === 'avia' ? settings.aviaRate : settings.avtoRate;
-  let shippingCost = (parseFloat(p.weight) || 0) * shippingRate * settings.usdRate;
-  let finalPrice = Math.round((chinaCost + shippingCost) * (1 + settings.markup / 100));
-  return finalPrice;
-}
-function formatPrice(price){ return (price || 0).toLocaleString('uz-UZ') + " so'm"; }
-
-function renderProducts(){
-  let grid = document.getElementById('homeProductsGrid');
-  if(!grid) return;
-  if(!products || products.length === 0){
-    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)"><h3>Mahsulotlar topilmadi</h3></div>';
-    return;
-  }
-  grid.innerHTML = products.map(p => createProductCardHTML(p)).join('');
-}
-function renderCatalogProducts(){
-  let grid = document.getElementById('catalogProductsGrid');
-  if(!grid) return;
-  let searchInput = document.getElementById('searchInput');
-  let search = searchInput ? searchInput.value.toLowerCase().trim() : '';
-  let filtered = products;
-  if(activeCategory !== 'all') filtered = filtered.filter(p => p.category === activeCategory);
-  if(search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
-  if(filtered.length === 0){
-    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)"><h3>Bunday nomdagi mahsulot topilmadi</h3></div>';
-    return;
-  }
-  grid.innerHTML = filtered.map(p => createProductCardHTML(p)).join('');
-}
-let activeCategory = 'all';
-function filterCategory(cat, el){
-  activeCategory = cat;
-  document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
-  if(el) el.classList.add('active');
-  renderCatalogProducts();
-}
-function renderWishlistProducts(){
-  let grid = document.getElementById('wishlistProductsGrid');
-  if(!grid) return;
-  let favProducts = products.filter(p => wishlist.includes(p.id));
-  if(favProducts.length === 0){
-    grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)"><h3>Sevimlilar ro\'yxati bo\'sh 🤍</h3></div>';
-    return;
-  }
-  grid.innerHTML = favProducts.map(p => createProductCardHTML(p)).join('');
-}
-function toggleWishlist(productId, event){
-  event.stopPropagation();
-  let index = wishlist.indexOf(productId);
-  if(index > -1){ wishlist.splice(index, 1); showToast("Sevimlilardan olib tashlandi"); }
-  else { wishlist.push(productId); showToast("Sevimlilarga qo'shildi! 🤍"); }
-  localStorage.setItem('cdv_wishlist', JSON.stringify(wishlist));
-  renderProducts(); renderCatalogProducts(); renderWishlistProducts();
-}
-function createProductCardHTML(p){
-  let price = calculatePrice(p);
-  let imgs = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
-  let firstImg = imgs.length > 0 ? imgs[0] : '';
-  let isFav = wishlist.includes(p.id);
-  let shippingText = p.shipping === 'avto' ? '🚛 Avto' : '✈️ Avia';
-  
-  return `<div class="product-card" id="prod-card-${p.id}">
-    <div class="product-image-wrap" onclick="openProductDetail('${p.id}')">
-      ${firstImg ? `<img src="${firstImg}" loading="lazy">` : '<div style="opacity:0.2">📦</div>'}
-      <div class="shipping-badge">${shippingText}</div>
-      <button type="button" class="wishlist-btn ${isFav ? 'active' : ''}" onclick="toggleWishlist('${p.id}', event)">${isFav ? '❤️' : '🤍'}</button>
-    </div>
-    <div class="product-info">
-      <div class="product-name" onclick="openProductDetail('${p.id}')">${p.name}</div>
-      <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:6px;">${p.category}</div>
-      <div class="product-price-box">
-        <div class="product-price">${formatPrice(price)}</div>
-      </div>
-      <div class="product-footer">
-        <button type="button" class="btn btn-primary" onclick="openProductDetail('${p.id}')">Tanlash va Zakaz</button>
-      </div>
-    </div>
-  </div>`;
-}
-function openProductDetail(productId){
-  let p = products.find(prod => prod.id === productId);
-  if(!p) return;
-  detailCurrentProduct = p;
-  detailCurrentImages = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
-  detailActiveIndex = 0;
-  selectedQty = 1;
-  document.getElementById('detailTitle').textContent = p.name;
-  document.getElementById('detailPrice').textContent = formatPrice(calculatePrice(p));
-  document.getElementById('detailCategoryWeight').textContent = `Kategoriya: ${p.category} | Yetkazish: ${p.shipping === 'avto' ? '🚛 Avto' : '✈️ Avia'}`;
-  document.getElementById('detailDesc').textContent = p.desc || "Tavsif mavjud emas.";
-  document.getElementById('detailQtyVal').textContent = selectedQty;
-  document.getElementById('customSizeInput').value = 'Standard';
-  updateDetailImageView();
-  openModal('productDetailModal');
-}
-function updateDetailImageView(){
-  let imgEl = document.getElementById('detailMainImg');
-  if(!imgEl) return;
-  if(detailCurrentImages.length > 0){
-    imgEl.src = detailCurrentImages[detailActiveIndex];
-    imgEl.style.display = 'block';
-  } else { imgEl.style.display = 'none'; }
-}
-function slideDetailImg(direction){
-  if(detailCurrentImages.length <= 1) return;
-  detailActiveIndex = (detailActiveIndex + direction + detailCurrentImages.length) % detailCurrentImages.length;
-  updateDetailImageView();
-}
-function changeDetailQty(delta){
-  selectedQty += delta;
-  if(selectedQty < 1) selectedQty = 1;
-  document.getElementById('detailQtyVal').textContent = selectedQty;
-}
-function addDetailToCartAndCheckout(){
-  if(!detailCurrentProduct) return;
-  let p = detailCurrentProduct;
-  let sizeInput = document.getElementById('customSizeInput');
-  let customSize = sizeInput ? sizeInput.value.trim() || 'Standard' : 'Standard';
-  let cartItemId = p.id + '-' + customSize;
-  let existing = cart.find(i => i.cartItemId === cartItemId);
-  let imgs = detailCurrentImages.length > 0 ? detailCurrentImages[0] : '';
-  let finalPrice = calculatePrice(p);
-  if(existing){
-    existing.qty += selectedQty;
-  } else {
-    cart.push({
-      cartItemId,
-      id: p.id,
-      name: p.name,
-      size: customSize,
-      price: finalPrice,
-      image: imgs,
-      qty: selectedQty
-    });
-  }
-  localStorage.setItem('cdv_cart', JSON.stringify(cart));
-  updateCartUI();
-  closeModal('productDetailModal');
-  showToast("Savatga qo'shildi!");
-  
-  let profileBtn = document.querySelectorAll('.bottom-nav .nav-item')[3];
-  switchPage('profile', profileBtn);
-  switchProfileTab('cart', document.querySelectorAll('.profile-tab')[1]);
-}
-function removeFromCart(cartItemId){ 
-  cart = cart.filter(i => i.cartItemId !== cartItemId); 
-  localStorage.setItem('cdv_cart', JSON.stringify(cart)); 
-  updateCartUI(); 
-  renderProfileCart();
-}
-function updateQty(cartItemId, delta){
-  let item = cart.find(i => i.cartItemId === cartItemId);
-  if(!item) return;
-  item.qty += delta;
-  if(item.qty <= 0) removeFromCart(cartItemId);
-  else { localStorage.setItem('cdv_cart', JSON.stringify(cart)); updateCartUI(); renderProfileCart(); }
-}
-function updateCartUI(){
-  let totalQty = cart.reduce((sum, i) => sum + i.qty, 0);
-  let bottomBadge = document.getElementById('bottomCartBadge');
-  let profileCartCountSpan = document.getElementById('profileCartCount');
-  
-  if(profileCartCountSpan) profileCartCountSpan.textContent = totalQty;
-  if(bottomBadge){
-    totalQty > 0 ? (bottomBadge.textContent = totalQty, bottomBadge.classList.remove('hidden')) : bottomBadge.classList.add('hidden');
-  }
-}
-function renderProfileCart(){
-  updateCartUI();
-  let body = document.getElementById('profileCartBody');
-  let footer = document.getElementById('profileCartFooter');
-  if(!body || !footer) return;
-  if(cart.length === 0){
-    body.innerHTML = '<div style="text-align:center; padding:30px; color:var(--text-muted)"><h3>Savatingiz bo\'sh</h3></div>';
-    footer.classList.add('hidden');
-    return;
-  }
-  footer.classList.remove('hidden');
-  body.innerHTML = cart.map(item => `
-    <div class="cart-item">
-      <div class="cart-item-image">${item.image ? `<img src="${item.image}">` : '📦'}</div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-size">Razmer: ${item.size}</div>
-        <div class="cart-item-price">${formatPrice(item.price * item.qty)}</div>
-        <div class="cart-item-qty">
-          <button type="button" class="qty-btn" onclick="updateQty('${item.cartItemId}', -1)">−</button>
-          <span>${item.qty}</span>
-          <button type="button" class="qty-btn" onclick="updateQty('${item.cartItemId}', 1)">+</button>
-        </div>
-      </div>
-      <button type="button" class="close-btn" onclick="removeFromCart('${item.cartItemId}')">×</button>
-    </div>
-  `).join('');
-  document.getElementById('profileCartTotal').textContent = formatPrice(cart.reduce((sum, i) => sum + (i.price * i.qty), 0));
-}
-function openCheckout(){
-  if(cart.length === 0) return;
-  let totalSum = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-  document.getElementById('checkoutTotal').textContent = formatPrice(totalSum);
-  document.getElementById('checkoutExactPrice').textContent = formatPrice(totalSum);
-  if(currentUser){ 
-    document.getElementById('customerName').value = currentUser.name; 
-    document.getElementById('customerPhone').value = currentUser.phone; 
-  }
-  togglePaymentSection();
-  openModal('checkoutModal');
-}
-function togglePaymentSection(){
-  let method = document.getElementById('paymentMethod').value;
-  let box = document.getElementById('onlinePaymentBox');
-  if(method === 'Click' || method === 'Payme'){ box.classList.remove('hidden'); } else { box.classList.add('hidden'); }
-}
-function handleCheckoutSubmit(e){
-  e.preventDefault();
-  let name = document.getElementById('customerName').value;
-  let phone = document.getElementById('customerPhone').value;
-  let address = document.getElementById('customerAddress').value;
-  let payment = document.getElementById('paymentMethod').value;
-  let total = cart.reduce((sum, i) => sum + (i.price * i.qty), 0);
-  
-  let receiptInput = document.getElementById('receiptFileInput');
-  if((payment === 'Click' || payment === 'Payme') && (!receiptInput.files || receiptInput.files.length === 0)){
-    showToast("Onlayn to'lov uchun chek rasmini yuklash majburiy!", "error");
-    return;
-  }
-  let processOrder = (receiptBase64 = "") => {
-    let orderCode = 'CDV-' + Math.floor(1000 + Math.random() * 9000);
-    let initialStatus = (payment === 'Click' || payment === 'Payme') ? "To'landi (Avtomatik tasdiqlandi)" : "Tasdiqlandi";
-    let newOrder = {
-      code: orderCode, name, phone, payment, address,
-      items: cart, total, status: initialStatus,
-      receiptImage: receiptBase64,
-      createdAt: firebase.firestore.FieldValue.serverTimestamp()
-    };
-    db.collection("orders").add(newOrder).then(() => {
-      if(currentUser){
-        let gainedCb = total > 100000 ? Math.round(total * 0.02) : 0;
+    <div class="container">
         
-        if(gainedCb > 0) {
-          currentUser.cashback = (currentUser.cashback || 0) + gainedCb;
-          localStorage.setItem('cdv_user', JSON.stringify(currentUser));
+        <!-- Valyuta kurslari paneli -->
+        <div class="rates-box">
+            <div class="rate-card china">
+                <h3>🇨🇳 Xitoy (Yuan / CNY)</h3>
+                <p>1 Yuan kursi: <input type="number" id="cnyRate" value="1850"></p>
+            </div>
+            <div class="rate-card turkey">
+                <h3>🇹🇷 Turkiya (Lira / TRY)</h3>
+                <p>1 Lira kursi: <input type="number" id="tryRate" value="410"></p>
+            </div>
+        </div>
+
+        <!-- Mahsulot qo'shish / Kalkulyator -->
+        <div class="card">
+            <h2>Yangi Mahsulot Qo'shish</h2>
+            <label>Yo'nalishni tanlang:</label>
+            <select id="originSelect">
+                <option value="china">Xitoy</option>
+                <option value="turkey">Turkiya</option>
+            </select>
+
+            <label>Mahsulot nomi:</label>
+            <input type="text" id="prodName" placeholder="Masalan: Kurtka yoki Oyoq kiyim">
+
+            <label>Mahsulot narxi (Valyutada: Yuan yoki Lira):</label>
+            <input type="number" id="prodPrice" placeholder="Masalan: 100">
+
+            <label>Mahsulot rasmi (Fayl tanlang YOKI shu yerga bosib <b>Ctrl + V</b> qiling):</label>
+            <input type="file" id="prodImageFile" accept="image/*" style="margin-bottom: 5px;">
+            <div id="pasteArea" class="paste-zone" tabindex="0">
+                📋 Rasmni shu yerga bosing va <b>Ctrl + V</b> ni bosing
+            </div>
+            <img id="imagePreview" style="max-width: 100px; display: none; margin-top: 5px; border-radius: 4px;" alt="Oldindan ko'rish">
+
+            <button onclick="calculateAndAddProduct()">Mahsulotni Qo'shish</button>
+        </div>
+
+        <!-- Mahsulotlar ro'yxati -->
+        <h2>Buyurtma va Mahsulotlar Katalogi</h2>
+        <div class="product-grid" id="productGrid">
+            <!-- Dinamik mahsulotlar shu yerga qo'shiladi -->
+        </div>
+
+    </div>
+
+    <script>
+        let uploadedImageBase64 = "";
+
+        let products = [
+            { name: "Xitoy Krossovka", origin: "china", priceLocal: 120, localPriceFormatted: "120 Yuan (CNY)", priceSum: 222000, image: "" },
+            { name: "Turkiya Kostyumi", origin: "turkey", priceLocal: 750, localPriceFormatted: "750 Lira (TRY)", priceSum: 307500, image: "" }
+        ];
+
+        // Fayl tanlanganda o'qish
+        document.getElementById('prodImageFile').addEventListener('change', function(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    uploadedImageBase64 = event.target.result;
+                    showPreview(uploadedImageBase64);
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+
+        // Ctrl + V (paste) hodisasini ushlash
+        const pasteArea = document.getElementById('pasteArea');
+        pasteArea.addEventListener('paste', function(e) {
+            const items = e.clipboardData.items;
+            for (let i = 0; i < items.length; i++) {
+                if (items[i].type.indexOf('image') !== -1) {
+                    const blob = items[i].getAsFile();
+                    const reader = new FileReader();
+                    reader.onload = function(event) {
+                        uploadedImageBase64 = event.target.result;
+                        showPreview(uploadedImageBase64);
+                        pasteArea.innerText = "✅ Rasm muvaffaqiyatli qo'shildi!";
+                        pasteArea.style.borderColor = "#27ae60";
+                    };
+                    reader.readAsDataURL(blob);
+                    e.preventDefault();
+                    break;
+                }
+            }
+        });
+
+        function showPreview(src) {
+            const preview = document.getElementById('imagePreview');
+            preview.src = src;
+            preview.style.display = 'block';
         }
-      }
 
-      closeModal('checkoutModal');
-      document.getElementById('successOrderId').textContent = orderCode;
-      openModal('successModal');
-      cart = []; localStorage.removeItem('cdv_cart'); updateCartUI(); renderProfileCart();
-      renderMyOrdersList();
-      updateProfileNotificationBadge();
-      
-      logAdminNotification(`Yangi buyurtma: ${orderCode} (${name}, ${formatPrice(total)})`);
-    });
-  };
-  if(receiptInput.files && receiptInput.files[0]){
-    let reader = new FileReader();
-    reader.onload = function(event){
-      let img = new Image();
-      img.src = event.target.result;
-      img.onload = function(){
-        let canvas = document.createElement('canvas');
-        let scale = Math.min(1, 500 / img.width);
-        canvas.width = img.width * scale; canvas.height = img.height * scale;
-        let ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-        processOrder(canvas.toDataURL('image/jpeg', 0.6));
-      }
-    };
-    reader.readAsDataURL(receiptInput.files[0]);
-  } else { processOrder(""); }
-}
-function searchTrackOrder(){
-  let val = document.getElementById('trackInput').value.trim().toLowerCase();
-  if(!val) return;
-  let found = orders.find(o => (o.code && o.code.toLowerCase() === val) || (o.phone && o.phone.includes(val)));
-  let resDiv = document.getElementById('trackResult');
-  if(!found){ showToast("Topilmadi", 'error'); resDiv.classList.add('hidden'); return; }
-  resDiv.classList.remove('hidden');
-  document.getElementById('trackOrderCode').textContent = found.code + " (" + found.name + ")";
-  document.getElementById('trackStatusBadge').textContent = found.status || 'Tasdiqlandi';
-  let steps = ['Tasdiqlandi', "Yig'ilyapti", "Xitoydan O'zbekistonga yo'lga chiqdi", 'Buyurtma keldi', 'Topshirildi'];
-  let currentIdx = steps.indexOf(found.status || 'Tasdiqlandi');
-  if(currentIdx === -1) currentIdx = 0;
-  document.getElementById('trackProgressBar').style.width = (currentIdx / (steps.length - 1)) * 100 + '%';
-  for(let i=1; i<=5; i++){
-    let st = document.getElementById('step' + i);
-    if(st){
-      st.className = 'step-item';
-      if(i - 1 < currentIdx) st.classList.add('active');
-      else if(i - 1 === currentIdx) st.classList.add('current');
-    }
-  }
-  document.getElementById('trackOrderItems').textContent = found.items.map(i => `${i.name} [Razmer: ${i.size}] x ${i.qty}`).join('\n');
-}
-function openReceiptModal(imgUrl){
-  document.getElementById('receiptModalImg').src = imgUrl;
-  openModal('receiptModal');
-}
-function openOrderDetailsModal(orderId){
-  let o = orders.find(item => item.id === orderId);
-  if(!o) return;
-  document.getElementById('modalOrderCodeTitle').textContent = `Buyurtma: ${o.code}`;
-  let itemsHTML = o.items.map(i => `
-    <div style="display:flex; align-items:center; gap:10px; background:#f8f9fc; padding:10px; border-radius:12px; margin-bottom:8px; text-align:left; border:1px solid var(--border-color);">
-      ${i.image ? `<img src="${i.image}" style="width:45px; height:45px; object-fit:cover; border-radius:8px;">` : '📦'}
-      <div style="flex:1; font-size:0.8rem;">
-        <b>${i.name}</b><br>
-        Razmer: <b style="color:var(--brand-red);">${i.size}</b> | Miqdor: ${i.qty} ta<br>
-        <b>Narx: ${formatPrice(i.price * i.qty)}</b>
-      </div>
-    </div>
-  `).join('');
-  document.getElementById('orderModalBodyContent').innerHTML = `
-    <div style="font-weight:700; color:var(--brand-red); margin-bottom:10px;">Holati: ${o.status}</div>
-    <div style="font-size:0.85rem; margin-bottom:12px; text-align:left;">
-      <b>Mijoz:</b> ${o.name}<br><b>Telefon:</b> ${o.phone}<br><b>Manzil:</b> ${o.address}<br><b>To'lov:</b> ${o.payment}
-    </div>
-    <div style="font-size:0.85rem; font-weight:700; margin-bottom:6px; text-align:left;">Mahsulotlar:</div>
-    <div style="max-height:180px; overflow-y:auto; margin-bottom:12px;">${itemsHTML}</div>
-    <div style="font-size:1rem; font-weight:800; border-top:1px solid var(--border-color); padding-top:10px; text-align:right;">
-      Jami: ${formatPrice(o.total)}
-    </div>
-  `;
-  openModal('orderDetailModal');
-}
-function renderMyOrdersList(){
-  let container = document.getElementById('myOrdersListContainer');
-  if(!container) return;
-  if(!currentUser){
-    container.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem;">Buyurtmalarni ko\'rish uchun kiring.</p>';
-    return;
-  }
-  let myOrders = orders.filter(o => o.phone && o.phone.includes(currentUser.phone));
-  if(myOrders.length === 0){
-    container.innerHTML = '<p style="color:var(--text-muted); font-size:0.85rem;">Sizda hali buyurtmalar yo\'q.</p>';
-    return;
-  }
-  container.innerHTML = myOrders.map(o => `
-    <div class="order-card-user" onclick="openOrderDetailsModal('${o.id}')">
-      <div style="display:flex;justify-content:space-between"><b>Kod: ${o.code}</b><span style="color:var(--brand-red);font-weight:bold">${o.status}</span></div>
-      <div style="margin-top:6px; font-size:0.80rem; color:var(--text-muted);">Summa: ${formatPrice(o.total)} | To'lov: ${o.payment}</div>
-    </div>
-  `).join('');
-}
-function renderProfileContent(){
-  let card = document.getElementById('profileCardContent');
-  if(!card) return;
-  if(currentUser){
-    let activeOrdersCount = orders.filter(o => o.phone && o.phone.includes(currentUser.phone) && o.status !== 'Topshirildi').length;
-    card.innerHTML = `
-      <div style="display:flex; align-items:center; gap:16px; margin-bottom:20px; border-bottom:1px solid var(--border-color); padding-bottom:16px;">
-        <div style="width:60px; height:60px; background:#fff5f7; color:var(--brand-red); font-size:1.8rem; border-radius:50%; display:flex; align-items:center; justify-content:center; font-weight:800; border:2px solid var(--brand-red);">
-          ${currentUser.name.charAt(0).toUpperCase()}
-        </div>
-        <div>
-          <h3 style="font-size:1.15rem; font-weight:800; color:var(--brand-dark);">${currentUser.name}</h3>
-          <p style="color:var(--text-muted); font-size:0.85rem;">📞 ${currentUser.phone}</p>
-        </div>
-      </div>
-      <div style="background:#fff5f7; border:1px solid #ffd1d9; border-radius:14px; padding:12px; margin-bottom:16px; font-size:0.85rem; color:#4a1525;">
-        🔔 <b>Bildirishnoma:</b> Sizda <b>${activeOrdersCount} ta</b> faol buyurtma mavjud.
-      </div>
-      <button type="button" class="btn btn-outline w-full" onclick="logoutUser()">Tizimdan chiqish</button>
-    `;
-  } else {
-    card.innerHTML = `
-      <div style="text-align:center; padding:20px 0;">
-        <div style="font-size:3rem; margin-bottom:10px;">👤</div>
-        <h3 style="font-size:1.1rem; margin-bottom:6px;">Tizimga kirmagansiz</h3>
-        <button type="button" class="btn btn-primary w-full" style="margin-top:10px;" onclick="openAuthModal()">Kirish / Ro'yxatdan o'tish</button>
-      </div>
-    `;
-  }
-}
-function handleAuthSubmit(e){
-  e.preventDefault();
-  let name = document.getElementById('authName').value.trim();
-  let phone = document.getElementById('authPhone').value.trim();
-  currentUser = { name, phone, cashback: 0 };
-  localStorage.setItem('cdv_user', JSON.stringify(currentUser));
-  
-  logAdminNotification(`"${name}" (${phone}) tizimga kirdi.`);
-  closeModal('authModal');
-  renderProfileContent();
-  renderMyOrdersList();
-  updateProfileNotificationBadge();
-  updateReferralUI();
-  showToast("Xush kelibsiz, " + name + "!");
-}
-function logoutUser(){
-  localStorage.removeItem('cdv_user');
-  currentUser = null;
-  renderProfileContent();
-  renderMyOrdersList();
-  updateProfileNotificationBadge();
-  showToast("Tizimdan chiqib ketdingiz");
-}
-function openAuthModal(){ openModal('authModal'); }
+        function renderProducts() {
+            const grid = document.getElementById('productGrid');
+            grid.innerHTML = '';
+            
+            products.forEach(p => {
+                const isChina = p.origin === 'china';
+                const badgeClass = isChina ? 'badge-china' : 'badge-turkey';
+                const cardBorderClass = isChina ? 'china-border' : 'turkey-border';
+                const badgeText = isChina ? 'Xitoy' : 'Turkiya';
+                
+                const card = document.createElement('div');
+                card.className = `product-card ${cardBorderClass}`;
+                
+                let imgTag = p.image ? `<img src="${p.image}" class="product-img" alt="Mahsulot rasmi">` : `<div class="product-img" style="display:flex; align-items:center; justify-content:center; color:#aaa;">Rasm yo'q</div>`;
 
-// CHAT TIZIMI
-function setupChatListeners(){
-  rtdb.ref('chats').on('value', (snap) => {
-    if(isAdmin) renderAdminChatUsers();
-    if(currentUser) loadUserChatMessages(snap.val());
-  });
-}
-function sendChatMessage(){
-  if(!currentUser) { showToast("Avval profilga kiring", "error"); openAuthModal(); return; }
-  let input = document.getElementById('chatInputMsg');
-  let text = input.value.trim();
-  if(!text) return;
-  let chatId = currentUser.phone.replace(/[^0-9]/g, '');
-  rtdb.ref('chats/' + chatId + '/messages').push({
-    sender: 'user', name: currentUser.name, text, time: new Date().toLocaleTimeString()
-  });
-  input.value = '';
-}
-function loadUserChatMessages(chatsData){
-  if(!currentUser) return;
-  let chatId = currentUser.phone.replace(/[^0-9]/g, '');
-  let box = document.getElementById('chatMessagesBox');
-  if(!box) return;
-  if(!chatsData || !chatsData[chatId] || !chatsData[chatId].messages){
-    box.innerHTML = '<div style="text-align:center; color:var(--text-muted); font-size:0.8rem;">Hozircha xabarlar yo\'q. Savolingizni yozing!</div>';
-    return;
-  }
-  let msgs = Object.values(chatsData[chatId].messages);
-  box.innerHTML = msgs.map(m => `
-    <div style="align-self: ${m.sender==='user'?'flex-end':'flex-start'}; background: ${m.sender==='user'?'var(--brand-red)':'#f4f4f6'}; color: ${m.sender==='user'?'white':'var(--text-main)'}; padding:9px 14px; border-radius:14px; max-width:80%; font-size:0.85rem; box-shadow:0 2px 5px rgba(0,0,0,0.03);">
-      <b>${m.sender==='user'?'Siz':'Admin'}:</b> ${m.text}
-    </div>
-  `).join('');
-  box.scrollTop = box.scrollHeight;
-}
-function loadUserChat(){
-  if(!currentUser) {
-    document.getElementById('chatMessagesBox').innerHTML = '<div style="text-align:center; padding:20px;"><p>Chatdan foydalanish uchun kiring</p><button class="btn btn-primary btn-sm" onclick="openAuthModal()" style="margin-top:10px;">Kirish</button></div>';
-    return;
-  }
-  rtdb.ref('chats').once('value', (snap) => { loadUserChatMessages(snap.val()); });
-}
-function renderAdminChatUsers(){
-  rtdb.ref('chats').once('value', (snap) => {
-    let data = snap.val();
-    let listEl = document.getElementById('adminChatUsersList');
-    if(!listEl) return;
-    if(!data) { listEl.innerHTML = '<p style="font-size:0.8rem; color:var(--text-muted)">Mijozlar yo\'q</p>'; return; }
-    listEl.innerHTML = Object.keys(data).map(chatId => {
-      let lastMsgObj = data[chatId].messages ? Object.values(data[chatId].messages).pop() : {};
-      let clientName = lastMsgObj.name || chatId;
-      return `<div onclick="selectAdminChat('${chatId}')" style="padding:10px; border-bottom:1px solid #f1f1f5; cursor:pointer; background:${activeChatUserPhone===chatId?'#fff5f7':'transparent'}; border-radius:10px; margin-bottom:4px;">
-        <b>${clientName}</b><br><span style="font-size:0.75rem; color:var(--text-muted);">${lastMsgObj.text || 'Xabar...'}</span>
-      </div>`;
-    }).join('');
-  });
-}
-function selectAdminChat(chatId){
-  activeChatUserPhone = chatId;
-  renderAdminChatUsers();
-  rtdb.ref('chats/' + chatId + '/messages').on('value', (snap) => {
-    let data = snap.val();
-    let box = document.getElementById('adminActiveChatBox');
-    if(!box) return;
-    if(!data) { box.innerHTML = '<p style="text-align:center; color:var(--text-muted); font-size:0.80rem;">Xabarlar yo\'q</p>'; return; }
-    box.innerHTML = Object.values(data).map(m => `
-      <div style="align-self: ${m.sender==='admin'?'flex-end':'flex-start'}; background: ${m.sender==='admin'?'var(--brand-dark)':'white'}; color: ${m.sender==='admin'?'white':'var(--text-main)'}; padding:9px 14px; border-radius:14px; max-width:80%; font-size:0.85rem; border:1px solid var(--border-color);">
-        <b>${m.sender==='admin'?'Admin':m.name}:</b> ${m.text}
-      </div>
-    `).join('');
-    box.scrollTop = box.scrollHeight;
-  });
-}
-function sendAdminReply(){
-  if(!activeChatUserPhone) { showToast("Mijozni tanlang", "error"); return; }
-  let input = document.getElementById('adminReplyInput');
-  let text = input.value.trim();
-  if(!text) return;
-  rtdb.ref('chats/' + activeChatUserPhone + '/messages').push({
-    sender: 'admin', name: 'Admin', text, time: new Date().toLocaleTimeString()
-  });
-  input.value = '';
-}
-function toggleAdminView(){
-  if(isAdmin){
-    isAdmin = false;
-    document.getElementById('adminView').classList.add('hidden');
-    switchPage('home', document.querySelector('.bottom-nav .nav-item'));
-    document.getElementById('adminBtn').textContent = '🔐 Admin';
-  } else { openModal('loginModal'); }
-}
-function handleLoginSubmit(e){
-  e.preventDefault();
-  let pass = document.getElementById('adminPassword').value;
-  if(pass === ADMIN_PASS){
-    isAdmin = true;
-    closeModal('loginModal');
-    document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
-    document.getElementById('adminView').classList.remove('hidden');
-    document.getElementById('adminBtn').textContent = '🏠 Asosiy';
-    document.getElementById('adminPassword').value = '';
-    renderAdmin();
-    showToast('Xush kelibsiz Admin!');
-  } else { showToast("Parol noto'g'ri!", 'error'); }
-}
-function switchAdminTab(tabName, el){
-  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-  if(el) el.classList.add('active');
-  document.querySelectorAll('.admin-tab-content').forEach(c => c.classList.add('hidden'));
-  document.getElementById('admin-tab-' + tabName).classList.remove('hidden');
-  if(tabName === 'chat') renderAdminChatUsers();
-}
-function renderAdmin(){
-  document.getElementById('statProducts').textContent = products.length;
-  document.getElementById('statOrders').textContent = orders.length;
-  document.getElementById('statRevenue').textContent = formatPrice(orders.filter(o => o.status.includes('To\'landi') || o.status === 'Topshirildi').reduce((sum, o) => sum + o.total, 0));
-  
-  document.getElementById('adminProductsTable').innerHTML = products.map(p => {
-    let thumb = p.images && p.images[0] ? p.images[0] : p.image;
-    let finalPrice = calculatePrice(p);
-    let shippingText = p.shipping === 'avto' ? '🚛 Avto' : '✈️ Avia';
-    return `<tr>
-      <td>${thumb ? `<img src="${thumb}" style="width:38px;height:38px;object-fit:cover;border-radius:10px">` : '📦'}</td>
-      <td><b>${p.name}</b><br><span style="font-size:0.72rem; color:var(--brand-red); font-weight:700;">${shippingText} (${p.weight} kg)</span></td>
-      <td>${p.category}</td>
-      <td><b style="color:var(--brand-red);">${formatPrice(finalPrice)}</b></td>
-      <td>
-        <button type="button" class="btn btn-outline btn-sm" onclick="editProduct('${p.id}')">Tahrir</button>
-        <button type="button" class="btn btn-danger btn-sm" onclick="deleteProduct('${p.id}')">×</button>
-      </td>
-    </tr>`;
-  }).join('');
-  document.getElementById('adminOrdersTable').innerHTML = orders.map(o => `
-    <tr>
-      <td><b>${o.code}</b></td>
-      <td>${o.name}</td>
-      <td><b style="color:var(--brand-red);">${o.items ? o.items.map(i => i.size).join(', ') : '-'}</b></td>
-      <td>${formatPrice(o.total)}</td>
-      <td>${o.receiptImage ? `<button type="button" class="btn btn-outline btn-sm" onclick="openReceiptModal('${o.receiptImage}')">🧾 Chek</button>` : `<span style="font-size:0.75rem; color:var(--text-muted);">Naqd</span>`}</td>
-      <td>
-        <select onchange="updateOrderStatus('${o.id}', this.value)" style="padding:6px;border-radius:10px;font-size:0.8rem;border:1px solid var(--border-color);background:#f8f9fc;">
-          <option ${o.status.includes('To\'landi') ? 'selected' : ''}>To'landi (Avtomatik tasdiqlandi)</option>
-          <option ${o.status === 'Tasdiqlandi' ? 'selected' : ''}>Tasdiqlandi</option>
-          <option ${o.status === "Yig'ilyapti" ? 'selected' : ''}>Yig'ilyapti</option>
-          <option ${o.status === "Xitoydan O'zbekistonga yo'lga chiqdi" ? 'selected' : ''}>Xitoydan O'zbekistonga yo'lga chiqdi</option>
-          <option ${o.status === 'Buyurtma keldi' ? 'selected' : ''}>Buyurtma keldi</option>
-          <option ${o.status === 'Topshirildi' ? 'selected' : ''}>Topshirildi</option>
-        </select>
-      </td>
-      <td><button type="button" class="btn btn-danger btn-sm" onclick="deleteOrder('${o.id}')">×</button></td>
-    </tr>
-  `).join('');
-}
-function openAddProductModal(){
-  document.getElementById('productModalTitle').textContent = "Yangi mahsulot";
-  document.getElementById('productId').value = '';
-  document.getElementById('productName').value = '';
-  document.getElementById('productPriceYuan').value = '';
-  document.getElementById('productWeight').value = '';
-  document.getElementById('productDesc').value = '';
-  document.getElementById('productShipping').value = 'avto';
-  document.getElementById('modalCalcPrice').textContent = "0 so'm";
-  currentImages = ["", "", ""];
-  renderThumbnails();
-  openModal('productModal');
-}
+                card.innerHTML = `
+                    ${imgTag}
+                    <span class="badge ${badgeClass}">${badgeText}</span>
+                    <h3>${p.name}</h3>
+                    <p>Asl narxi: <b>${p.localPriceFormatted}</b></p>
+                    <p>Hisoblangan narx: <b>${p.priceSum.toLocaleString()} so'm</b></p>
+                `;
+                grid.appendChild(card);
+            });
+        }
 
-function triggerThumbUpload(index){ activeUploadIndex = index; document.getElementById('thumbInput').click(); }
-function handleThumbSelect(e){
-  let file = e.target.files[0];
-  if(!file) return;
-  let reader = new FileReader();
-  reader.onload = function(event){
-    let img = new Image();
-    img.src = event.target.result;
-    img.onload = function(){
-      let canvas = document.createElement('canvas');
-      let scale = Math.min(1, 400 / img.width);
-      canvas.width = img.width * scale; canvas.height = img.height * scale;
-      let ctx = canvas.getContext('2d'); ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
-      currentImages[activeUploadIndex] = canvas.toDataURL('image/jpeg', 0.6);
-      renderThumbnails();
-    }
-  }
-  reader.readAsDataURL(file); e.target.value = '';
-}
-function removeThumb(index, event){ event.stopPropagation(); currentImages[index] = ""; renderThumbnails(); }
-function renderThumbnails(){
-  document.getElementById('multiUploadGrid').innerHTML = currentImages.map((img, i) => `
-    <div class="upload-thumb" onclick="triggerThumbUpload(${i})">
-      ${img ? `<img src="${img}"><button type="button" class="remove-thumb" onclick="removeThumb(${i}, event)">×</button>` : '<span>📷+</span>'}
-    </div>
-  `).join('');
-}
-function updateAdminCalcPrice(){
-  let yuan = parseFloat(document.getElementById('productPriceYuan').value) || 0;
-  let weight = parseFloat(document.getElementById('productWeight').value) || 0;
-  let shipping = document.getElementById('productShipping').value;
-  let chinaCost = yuan * settings.yuanRate;
-  let shippingRate = shipping === 'avia' ? settings.aviaRate : settings.avtoRate;
-  let shippingCost = weight * shippingRate * settings.usdRate;
-  let baseSum = chinaCost + shippingCost;
-  let markupSum = baseSum * (settings.markup / 100);
-  let finalPrice = Math.round(baseSum + markupSum);
-  document.getElementById('adminCalcChinaSum').textContent = formatPrice(Math.round(chinaCost));
-  document.getElementById('adminCalcShippingSum').textContent = formatPrice(Math.round(shippingCost));
-  document.getElementById('adminCalcBasePlusShipping').textContent = formatPrice(Math.round(baseSum));
-  document.getElementById('adminCalcMarkupLabel').textContent = settings.markup;
-  document.getElementById('adminCalcMarkupSum').textContent = formatPrice(Math.round(markupSum));
-  document.getElementById('modalCalcPrice').textContent = formatPrice(finalPrice);
-}
+        function calculateAndAddProduct() {
+            const origin = document.getElementById('originSelect').value;
+            const name = document.getElementById('prodName').value;
+            const price = parseFloat(document.getElementById('prodPrice').value);
 
-function handleProductSubmit(e){
-  e.preventDefault();
-  let id = document.getElementById('productId').value;
-  let validImages = currentImages.filter(img => img !== "");
-  let name = document.getElementById('productName').value;
-  let category = document.getElementById('productCategory').value;
-  let priceYuan = parseFloat(document.getElementById('productPriceYuan').value) || 0;
-  let weight = parseFloat(document.getElementById('productWeight').value) || 0;
-  let shipping = document.getElementById('productShipping').value;
-  let desc = document.getElementById('productDesc').value;
+            if (!name || isNaN(price)) {
+                alert("Iltimos, mahsulot nomi va narxini to'g'ri to'ldiring!");
+                return;
+            }
 
-  if(id){
-    let data = { name, category, priceYuan, weight, shipping, desc, images: validImages, image: validImages[0] || '' };
-    db.collection("products").doc(id).set(data, {merge: true}).then(() => {
-      closeModal('productModal');
-      showToast("Mahsulot tahrirlandi!");
-    });
-  } else {
-    if(shipping === 'avto'){
-      let avtoData = { name: name, category, priceYuan, weight, shipping: 'avto', desc, images: validImages, image: validImages[0] || '' };
-      let aviaData = { name: name, category, priceYuan, weight, shipping: 'avia', desc, images: validImages, image: validImages[0] || '' };
-      
-      Promise.all([
-        db.collection("products").add(avtoData),
-        db.collection("products").add(aviaData)
-      ]).then(() => {
-        closeModal('productModal');
-        showToast("Mahsulot Avto va Avia shaklida avtomatik qo'shildi!");
-      });
-    } else {
-      let data = { name, category, priceYuan, weight, shipping, desc, images: validImages, image: validImages[0] || '' };
-      db.collection("products").add(data).then(() => {
-        closeModal('productModal');
-        showToast("Mahsulot qo'shildi!");
-      });
-    }
-  }
-}
+            let cnyRate = parseFloat(document.getElementById('cnyRate').value);
+            let tryRate = parseFloat(document.getElementById('tryRate').value);
 
-function editProduct(id){
-  let p = products.find(prod => prod.id === id);
-  if(!p) return;
-  document.getElementById('productModalTitle').textContent = "Mahsulotni tahrirlash";
-  document.getElementById('productId').value = p.id;
-  document.getElementById('productName').value = p.name;
-  document.getElementById('productCategory').value = p.category;
-  document.getElementById('productPriceYuan').value = p.priceYuan || 0;
-  document.getElementById('productWeight').value = p.weight || 0;
-  document.getElementById('productShipping').value = p.shipping || 'avto';
-  document.getElementById('productDesc').value = p.desc || '';
-  
-  currentImages = ["", "", ""];
-  let savedImgs = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
-  savedImgs.forEach((img, idx) => { if(idx < 3) currentImages[idx] = img; });
-  renderThumbnails();
-  updateAdminCalcPrice();
-  openModal('productModal');
-}
-function deleteProduct(id){ if(confirm("O'chirilsinmi?")) db.collection("products").doc(id).delete().then(() => showToast("O'chirildi!")); }
-function updateOrderStatus(id, status){ 
-  db.collection("orders").doc(id).update({status}).then(() => showToast("Status yangilandi!")); 
-}
-function deleteOrder(id){ if(confirm("O'chirilsinmi?")) db.collection("orders").doc(id).delete().then(() => showToast("O'chirildi!")); }
-function saveSettings(){
-  let newSettings = {
-    yuanRate: parseFloat(document.getElementById('rateYuan').value),
-    usdRate: parseFloat(document.getElementById('rateUsd').value),
-    aviaRate: parseFloat(document.getElementById('rateAvia').value),
-    avtoRate: parseFloat(document.getElementById('rateAvto').value),
-    markup: parseFloat(document.getElementById('rateMarkup').value)
-  };
-  db.collection("settings").doc("general").set(newSettings).then(() => {
-    settings = newSettings;
-    showToast("Sozlamalar saqlandi!");
-    renderProducts();
-    renderCatalogProducts();
-  });
-}
-</script>
+            let calculatedSum = 0;
+            let localFormatted = '';
+
+            if (origin === 'china') {
+                calculatedSum = price * cnyRate;
+                localFormatted = price + ' Yuan (CNY)';
+            } else {
+                calculatedSum = price * tryRate;
+                localFormatted = price + ' Lira (TRY)';
+            }
+
+            products.unshift({
+                name: name,
+                origin: origin,
+                priceLocal: price,
+                localPriceFormatted: localFormatted,
+                priceSum: Math.round(calculatedSum),
+                image: uploadedImageBase64
+            });
+
+            // Formani tozalash
+            document.getElementById('prodName').value = '';
+            document.getElementById('prodPrice').value = '';
+            document.getElementById('prodImageFile').value = '';
+            document.getElementById('imagePreview').style.display = 'none';
+            pasteArea.innerText = "📋 Rasmni shu yerga bosing va Ctrl + V ni bosing";
+            pasteArea.style.borderColor = "#3498db";
+            uploadedImageBase64 = "";
+
+            renderProducts();
+        }
+
+        // Boshlang'ich render
+        renderProducts();
+    </script>
 </body>
 </html>
