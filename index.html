@@ -6,14 +6,14 @@
 <title>China-Turkey Express Vodil</title>
 <!-- Telegram WebApp SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<!-- PWA Manifest va Shaxsiy Logo (Ikonka) -->
+<!-- PWA Manifest va Yangilangan Shaxsiy Logo -->
 <link rel="manifest" href="manifest.json">
 <meta name="theme-color" content="#ff2d55">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="China-Turkey Vodil">
-<link rel="apple-touch-icon" href="logo.png">
-<link rel="icon" type="image/png" href="logo.png">
+<link rel="apple-touch-icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%23121214'/%3E%3Ccircle cx='256' cy='256' r='180' fill='%23ff2d55' opacity='0.15'/%3E%3Cpath d='M100 220h312l-60 120H160z' fill='%23ffb800'/%3E%3Ctext x='256' y='210' font-size='65' text-anchor='middle' font-family='sans-serif'%3E🇨🇳🇹🇷🇺🇿%3E%3C/text%3E%3Ctext x='256' y='295' font-size='42' font-weight='900' fill='white' text-anchor='middle' font-family='sans-serif'%3EXPRESS%3E%3C/text%3E%3Ctext x='256' y='350' font-size='38' font-weight='900' fill='%23ffb800' text-anchor='middle' font-family='sans-serif'%3EVODIL%3E%3C/text%3E%3C/svg%3E">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%23121214'/%3E%3Ccircle cx='256' cy='256' r='180' fill='%23ff2d55' opacity='0.15'/%3E%3Cpath d='M100 220h312l-60 120H160z' fill='%23ffb800'/%3E%3Ctext x='256' y='210' font-size='65' text-anchor='middle' font-family='sans-serif'%3E🇨🇳🇹🇷🇺🇿%3E%3C/text%3E%3Ctext x='256' y='295' font-size='42' font-weight='900' fill='white' text-anchor='middle' font-family='sans-serif'%3EXPRESS%3E%3C/text%3E%3Ctext x='256' y='350' font-size='38' font-weight='900' fill='%23ffb800' text-anchor='middle' font-family='sans-serif'%3EVODIL%3E%3C/text%3E%3C/svg%3E">
 <!-- Cropper.js -->
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
@@ -37,6 +37,7 @@ html, body { overflow-x: hidden; max-width: 100%; }
   --shadow-md: 0 8px 30px rgba(0,0,0,0.06);
   --accent-china: #e74c3c;
   --accent-turkey: #27ae60;
+  --accent-uzb: #0099ff;
 }
 body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-color);color:var(--text-main);line-height:1.5; padding-bottom: 85px;}
 .container{max-width:1200px;margin:0 auto;padding:0 16px;width:100%}
@@ -45,27 +46,26 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 .header-top{display:flex;justify-content:space-between;align-items:center;width:100%}
 .logo{font-size:0.95rem;font-weight:900;display:flex;align-items:center;gap:8px;color:var(--brand-dark);text-decoration:none;letter-spacing:-0.5px}
 
-/* LOGOTIPNI XITOY VA TURKIYA IKONKALI QILIB YANGILASH */
 .logo-icon-wrap {
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: linear-gradient(135deg, var(--accent-china), var(--accent-turkey));
+  width: 40px;
+  height: 40px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, var(--brand-dark), var(--brand-red));
   display: flex;
   align-items: center;
   justify-content: center;
   color: white;
-  font-size: 0.9rem;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.15);
+  font-size: 0.8rem;
+  box-shadow: 0 4px 12px rgba(255,45,85,0.25);
   flex-shrink: 0;
+  border: 1.5px solid rgba(255,255,255,0.2);
 }
 
 .logo span.accent {color: var(--brand-red);}
 
-/* HILPIRAB TURGAN BAYROQLAR ANIMATSIYASI */
 .flags-ticker {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   align-items: center;
   font-size: 1.1rem;
   background: #fff5f7;
@@ -249,14 +249,15 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
   <div class="container header-content">
     <div class="header-top">
       <a href="#" class="logo">
-        <div class="logo-icon-wrap">🇨🇳🇹🇷</div>
+        <div class="logo-icon-wrap">🇨🇳🇹🇷🇺🇿</div>
         CHINA-TURKEY <span class="accent">EXPRESS VODIL</span>
       </a>
-      <!-- 3 TA DAVLAT BAYROQLARI HILPIRAB TURISHI -->
+      <!-- 4 TA DAVLAT BAYROQLARI HILPIRAB TURISHI -->
       <div class="flags-ticker">
         <span class="flag-item" title="Xitoy">🇨🇳</span>
         <span class="flag-item" title="Turkiya">🇹🇷</span>
         <span class="flag-item" title="O'zbekiston">🇺🇿</span>
+        <span class="flag-item" title="Vodil (Fergana)">📍</span>
       </div>
     </div>
     <div class="header-actions">
@@ -798,14 +799,17 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 const manifestData = {
   "name": "China-Turkey Express Vodil",
   "short_name": "China-Turkey Vodil",
-  "description": "Xitoy va Turkiyadan Vodilga tovarlar yetkazib berish xizmati",
+  "description": "Xitoy, Turkiya va O'zbekistondan Vodilga tovarlar yetkazib berish xizmati",
   "start_url": "./",
   "display": "standalone",
   "background_color": "#f8f9fc",
   "theme_color": "#ff2d55",
   "icons": [
-    { "src": "logo.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "logo.png", "sizes": "512x512", "type": "image/png" }
+    { 
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='110' fill='%23121214'/%3E%3Ccircle cx='256' cy='256' r='180' fill='%23ff2d55' opacity='0.15'/%3E%3Cpath d='M100 220h312l-60 120H160z' fill='%23ffb800'/%3E%3Ctext x='256' y='210' font-size='65' text-anchor='middle' font-family='sans-serif'%3E🇨🇳🇹🇷🇺🇿%3E%3C/text%3E%3Ctext x='256' y='295' font-size='42' font-weight='900' fill='white' text-anchor='middle' font-family='sans-serif'%3EXPRESS%3E%3C/text%3E%3Ctext x='256' y='350' font-size='38' font-weight='900' fill='%23ffb800' text-anchor='middle' font-family='sans-serif'%3EVODIL%3E%3C/text%3E%3C/svg%3E", 
+      "sizes": "192x192 512x512", 
+      "type": "image/svg+xml" 
+    }
   ]
 };
 const stringManifest = JSON.stringify(manifestData);
