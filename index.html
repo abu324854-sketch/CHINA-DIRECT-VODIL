@@ -889,7 +889,7 @@ let products = [
   { id: "ty_010", name: "Derimod Elegant Ayollar Sumkasi", origin: "turkey", category: "Kiyim", priceYuan: 520, weight: 0.6, shipping: "avia", desc: "100% sifatli charm va zamonaviy ko'rinish.", images: ["https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600"] }
 ];
 
-// Qolgan 1000+ tovarlarni dinamik ravishda tizimga kengaytirib qo'shamiz (Avto va Avia, har xil turdagi)
+// 1000+ tovarlarni to'ldirish (Pinduoduo va Trendyol)
 for (let i = 11; i <= 550; i++) {
   products.push({
     id: "pdd_auto_" + i,
@@ -910,7 +910,7 @@ for (let i = 11; i <= 550; i++) {
     name: "Trendyol Original Turk Tovari #" + i,
     origin: "turkey",
     category: i % 3 === 0 ? "Turkiya tekstili" : (i % 3 === 1 ? "Kiyim" : "Poyabzal"),
-    priceYuan: 120 + (i % 400), // Lira kursida hisoblanadi
+    priceYuan: 120 + (i % 400),
     weight: 0.3 + ((i % 18) * 0.1),
     shipping: i % 2 === 0 ? "avia" : "avto",
     desc: "Turkiyaning Trendyol do'konidan maxsus buyurtma asosida olib kelinuvchi mahsulot #" + i,
@@ -935,6 +935,7 @@ let detailCurrentProduct = null;
 let selectedQty = 1;
 let activeChatUserPhone = null;
 let currentSystemGeneratedCode = Math.floor(100000 + Math.random() * 900000);
+
 window.addEventListener('DOMContentLoaded', () => {
   let codeBox = document.getElementById('systemGeneratedCodeBox');
   if(codeBox) {
@@ -1072,15 +1073,18 @@ function copyReferralLink(){
   navigator.clipboard.writeText(linkText).then(() => { showToast("Taklif havolasi nusxalandi!"); });
 }
 function toggleFaq(item){ item.classList.toggle('open'); }
+
 function fetchDataFromServer(){
   db.collection("products").onSnapshot((snapshot) => {
-    if(!snapshot.empty) {
-      let loadedProducts = [];
-      snapshot.forEach((doc) => { loadedProducts.push({ id: doc.id, ...doc.data() }); });
-      if(loadedProducts.length > 50) {
-        products = loadedProducts;
-      }
+    let loadedProducts = [];
+    snapshot.forEach((doc) => { loadedProducts.push({ id: doc.id, ...doc.data() }); });
+    
+    // Agar Firebase'da mahsulotlar yetarli bo'lsa yoki bazamizni o'chirmasligi uchun saqlaymiz
+    if(loadedProducts.length > 50) {
+      products = loadedProducts;
     }
+    
+    localStorage.setItem('cdv_products_cache', JSON.stringify(products));
     renderProducts();
     renderCatalogProducts();
     renderWishlistProducts();
@@ -1168,7 +1172,6 @@ function renderProducts(){
     grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)"><h3>Mahsulotlar topilmadi</h3></div>';
     return;
   }
-  // Bosh sahifada bir nechta mahsulotni ko'rsatish
   let previewList = products.slice(0, 16);
   grid.innerHTML = previewList.map(p => createProductCardHTML(p)).join('');
 }
@@ -1224,7 +1227,7 @@ function createProductCardHTML(p){
   let imgs = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
   let firstImg = imgs.length > 0 ? imgs[0] : '';
   let isFav = wishlist.includes(p.id);
-  let shippingText = p.shipping === 'avto' ? '🚛 Avto' : '✈️ Avia';
+  let shippingText = p.shipping === 'avto' ? '🚛 Avto' : '✈️️ Avia';
   let isTurkey = p.origin === 'turkey';
   let originBadgeText = isTurkey ? '🇹🇷 Turkiya' : '🇨🇳 Xitoy';
   let originBadgeClass = isTurkey ? 'origin-badge turkey' : 'origin-badge china';
@@ -1234,7 +1237,7 @@ function createProductCardHTML(p){
       ${firstImg ? `<img src="${firstImg}" loading="lazy">` : '<div style="opacity:0.2">📦</div>'}
       <div class="${originBadgeClass}">${originBadgeText}</div>
       <div class="shipping-badge">${shippingText}</div>
-      <button type="button" class="wishlist-btn ${isFav ? 'active' : ''}" onclick="toggleWishlist('${p.id}', event)">${isFav ? '❤️️' : '🤍'}</button>
+      <button type="button" class="wishlist-btn ${isFav ? 'active' : ''}" onclick="toggleWishlist('${p.id}', event)">${isFav ? '❤️' : '🤍'}</button>
     </div>
     <div class="product-info">
       <div class="product-name" onclick="openProductDetail('${p.id}')">${p.name}</div>
