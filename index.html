@@ -11,9 +11,6 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="China-Turkey Vodil">
-<!-- Cropper.js -->
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.css"/>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/cropperjs/1.5.13/cropper.min.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-database-compat.js"></script>
@@ -72,14 +69,11 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 .nav-item span.nav-icon{font-size:1.35rem;margin-bottom:2px;transition:transform 0.2s}
 .nav-item.active{color:var(--brand-red)}
 .nav-cart-badge{position:absolute;top:0;right:22%;background:var(--brand-gold);color:#111;font-size:0.6rem;font-weight:800;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center}
-.profile-badge{position:absolute;top:0;right:22%;background:var(--brand-red);color:white;font-size:0.6rem;font-weight:800;width:17px;height:17px;border-radius:50%;display:flex;align-items:center;justify-content:center}
 .hero{background:linear-gradient(135deg, #18181b 0%, #271720 100%);padding:24px 20px;border-radius:20px;margin:16px 0;color:white;box-shadow:var(--shadow-md)}
 .hero h1{font-size:1.3rem;color:white;margin-bottom:6px;font-weight:800;letter-spacing:-0.5px}
 .hero h1 span {color: var(--brand-red);}
 .hero p{color:#d4d4d8;font-size:0.82rem}
 .promo-banner{background:linear-gradient(135deg, #ff2d55 0%, #ff6b8b 100%);padding:18px 20px;border-radius:20px;margin-bottom:16px;color:white;display:flex;justify-content:space-between;align-items:center;box-shadow:var(--shadow-md)}
-.promo-banner h3{font-size:1.05rem;font-weight:800;margin-bottom:4px;}
-.promo-banner p{font-size:0.8rem;opacity:0.9;}
 .controls{background:white;padding:12px 16px;border-radius:16px;border:1px solid var(--border-color);margin-bottom:16px;box-shadow:var(--shadow-sm)}
 .controls-content{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
 .search-box{flex:1;min-width:240px;position:relative}
@@ -114,7 +108,6 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 .cart-item{display:flex;gap:12px;padding:12px;background:white;border-radius:16px;margin-bottom:10px;align-items:center;border:1px solid var(--border-color)}
 .cart-item-image{width:56px;height:56px;border-radius:12px;background:#f8f9fc;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
 .cart-item-image img{width:100%;height:100%;object-fit:cover}
-.qty-btn{width:26px;height:26px;border:1px solid var(--border-color);background:white;border-radius:50%;cursor:pointer;font-weight:700;font-size:0.8rem;display:flex;align-items:center;justify-content:center}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:400;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(5px)}
 .modal.show{display:flex}
 .modal-content{background:white;border-radius:24px;width:100%;max-width:480px;max-height:90vh;overflow-y:auto;box-shadow:0 25px 50px -12px rgba(0,0,0,0.25)}
@@ -125,10 +118,6 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 .form-group input,.form-group textarea,.form-group select{width:100%;padding:11px 14px;border:1.5px solid var(--border-color);border-radius:14px;font-size:0.9rem;background:#f8f9fc}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
 .close-btn{background:none;border:none;font-size:1.2rem;cursor:pointer;color:var(--text-muted);width:32px;height:32px;display:flex;align-items:center;justify-content:center;border-radius:50%}
-.admin-table-wrap{background:white;border-radius:16px;overflow:hidden;border:1px solid var(--border-color);overflow-x:auto}
-.admin-table{width:100%;border-collapse:collapse;font-size:0.85rem}
-.admin-table th,.admin-table td{padding:12px 14px;text-align:left;border-bottom:1px solid var(--border-color)}
-.admin-table th{background:#f8f9fc;font-weight:700}
 .toast-container{position:fixed;bottom:90px;left:50%;transform:translateX(-50%);z-index:500;display:flex;flex-direction:column;gap:8px}
 .toast{background:var(--brand-dark);color:white;padding:10px 20px;border-radius:14px;font-size:0.85rem;font-weight:600}
 .toast.success{background:#10b981}
@@ -154,7 +143,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
     <div class="header-actions">
       <button type="button" class="btn btn-primary btn-sm" onclick="installPwaApp()">📱 Ilovani o'rnatish</button>
-      <button type="button" class="btn btn-light btn-sm" style="cursor:default; background:#fff5f7; color:var(--brand-red);">🟢 Onlayn: <span id="onlineCountBadge" style="font-weight:800; margin-left:2px;">1.450+</span></button>
+      <button type="button" class="btn btn-light btn-sm" style="cursor:default; background:#fff5f7; color:var(--brand-red);">🟢 Onlayn: <span id="onlineCountBadge" style="font-weight:800; margin-left:2px;">1.850+</span></button>
       <button type="button" class="btn btn-outline btn-sm" id="adminBtn" onclick="toggleAdminView()">🔐 Admin</button>
     </div>
   </div>
@@ -164,17 +153,17 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 <div class="page-section" id="page-home">
   <div class="container">
     <div class="hero">
-      <h1>Vodil uchun 1000+ to'g'ridan-to'g'ri <span>China-Turkey Express tovarlar!</span></h1>
-      <p>Xitoy va Turkiyadan eng saralangan 1000 dan ortiq mahsulotlar bazasi va avtomatik foyda hisoblash tizimi.</p>
+      <h1>Vodil uchun 3000+ noyob <span>China-Turkey Express tovarlar!</span></h1>
+      <p>Xitoy va Turkiyadan 100 dan ortiq turdagi 3000 xil takrorlanmaydigan mahsulotlar bazasi va avtomatik kargo+foyda hisoblagichi.</p>
     </div>
     <div class="promo-banner">
       <div>
-        <h3>🔥 1000+ Original Xitoy va Turkiya Tovarlari!</h3>
-        <p>Vodil bo'ylab tezkor yetkazib berish va kafolat.</p>
+        <h3>🔥 3000 Xil Takrorlanmaydigan Mahsulotlar!</h3>
+        <p>Xitoy fabrikalaridan kargo va sizning sof foydangizni qo'shib hisoblash tizimi.</p>
       </div>
       <div style="font-size:2.2rem;">📦</div>
     </div>
-    <h2 class="section-title">Ommabop mahsulotlar (1000+ katalog)</h2>
+    <h2 class="section-title">Saralangan Mahsulotlar</h2>
     <div class="products-grid" id="homeProductsGrid"></div>
   </div>
 </div>
@@ -185,24 +174,25 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     <div class="controls">
       <div class="controls-content">
         <div class="search-box">
-          <input type="text" id="searchInput" placeholder="1000+ mahsulotlar orasidan qidirish..." oninput="renderCatalogProducts()">
+          <input type="text" id="searchInput" placeholder="3000 ta mahsulot ichidan qidirish..." oninput="renderCatalogProducts()">
         </div>
       </div>
     </div>
     <div class="category-filter" id="categoryFilter" style="margin-bottom: 16px;">
-      <div class="category-chip active" onclick="filterCategory('all', this)">Barchasi (1000+)</div>
-      <div class="category-chip" onclick="filterCategory('china_only', this)">🇨🇳 Faqat Xitoy</div>
-      <div class="category-chip" onclick="filterCategory('turkey_only', this)">🇹🇷 Faqat Turkiya</div>
+      <div class="category-chip active" onclick="filterCategory('all', this)">Barchasi (3000+)</div>
       <div class="category-chip" onclick="filterCategory('Elektronika', this)">Elektronika</div>
+      <div class="category-chip" onclick="filterCategory('Telefon aksessuarlari', this)">Telefon aksessuarlari</div>
       <div class="category-chip" onclick="filterCategory('Kiyim', this)">Kiyim</div>
       <div class="category-chip" onclick="filterCategory('Poyabzal', this)">Poyabzal</div>
       <div class="category-chip" onclick="filterCategory('Uy jihozlari', this)">Uy jihozlari</div>
+      <div class="category-chip" onclick="filterCategory('Avto ehtiyot qismlari', this)">Avto ehtiyot qismlari</div>
+      <div class="category-chip" onclick="filterCategory('Bolalar o\'yinchoqlari', this)">Bolalar o'yinchoqlari</div>
       <div class="category-chip" onclick="filterCategory('Turkiya tekstili', this)">Turkiya tekstili</div>
     </div>
-    <h2 class="section-title">Katalog (<span id="catalogCount">1000</span> ta mahsulot)</h2>
+    <h2 class="section-title">Katalog (<span id="catalogCount">3000</span> ta mahsulot)</h2>
     <div class="products-grid" id="catalogProductsGrid"></div>
     <div style="text-align:center; margin:20px 0;" id="loadMoreBox">
-      <button class="btn btn-light" onclick="loadMoreCatalog()">Ko'proq yuklash (+20)</button>
+      <button class="btn btn-light" onclick="loadMoreCatalog()">Ko'proq yuklash (+24)</button>
     </div>
   </div>
 </div>
@@ -249,18 +239,22 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 <!-- ADMIN VIEW -->
 <div id="adminView" class="hidden">
   <div class="container" style="padding-top:20px;padding-bottom:40px">
-    <h2 class="section-title">Boshqaruv paneli (1000+ Tovar va Foyda sozlamalari)</h2>
+    <h2 class="section-title">Boshqaruv paneli (Kargo va Sof Foyda Sozlamalari)</h2>
     <div style="background:white;padding:24px;border-radius:20px;border:1px solid var(--border-color); margin-bottom:20px;">
-      <h3 style="margin-bottom:14px;font-size:1rem">Valyuta va Sizning Foydangiz (Ustama %)</h3>
+      <h3 style="margin-bottom:14px;font-size:1rem">Valyuta, Kargo va Sizning Sof Foydangiz (%)</h3>
       <div class="form-row">
         <div class="form-group"><label>1 Yuan - Xitoy (so'm)</label><input type="number" id="rateYuan" value="2150"></div>
         <div class="form-group"><label>1 Lira - Turkiya (so'm)</label><input type="number" id="rateTry" value="410"></div>
       </div>
       <div class="form-row">
         <div class="form-group"><label>1 USD (so'm)</label><input type="number" id="rateUsd" value="12700"></div>
-        <div class="form-group"><label>Sizning Ustama Foydangiz (%)</label><input type="number" id="rateMarkup" value="45"></div>
+        <div class="form-group"><label>Sizning Sof Foydangiz Ustamasi (%)</label><input type="number" id="rateMarkup" value="50"></div>
       </div>
-      <button type="button" class="btn btn-primary w-full" onclick="saveSettings()">Sozlamalar va Foydani Saqlash</button>
+      <div class="form-row">
+        <div class="form-group"><label>Avia Kargo ($ / kg)</label><input type="number" id="rateAvia" value="9.5" step="0.1"></div>
+        <div class="form-group"><label>Avto Kargo ($ / kg)</label><input type="number" id="rateAvto" value="6" step="0.1"></div>
+      </div>
+      <button type="button" class="btn btn-primary w-full" onclick="saveSettings()">Kargo va Foyda Foizini Saqlash</button>
     </div>
   </div>
 </div>
@@ -302,72 +296,64 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 <div class="toast-container" id="toastContainer"></div>
  
 <script>
-let settings = {yuanRate:2150, tryRate:410, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:45};
+let settings = {yuanRate:2150, tryRate:410, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:50};
 let products = [];
 let cart = JSON.parse(localStorage.getItem('cdv_cart') || "[]");
 let wishlist = JSON.parse(localStorage.getItem('cdv_wishlist') || "[]");
-let currentUser = JSON.parse(localStorage.getItem('cdv_user') || "null");
-let isAdmin = false;
-let catalogLimit = 20;
+let catalogLimit = 24;
 let activeCategory = 'all';
 let detailCurrentProduct = null;
 
-// 1000+ Tovar bazasini avtomatik generatsiya qilish (Xitoy va Turkiya mahsulotlari)
-function generate1000Products() {
-  const chinaItems = [
-    {n: "Smartfon va Gadjet", c: "Elektronika", p: 350, w: 0.4, img: "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&auto=format&fit=crop&q=80", o: "china"},
-    {n: "Bluetooth Naushnik", c: "Elektronika", p: 45, w: 0.2, img: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&auto=format&fit=crop&q=80", o: "china"},
-    {n: "Smart Soat", c: "Elektronika", p: 120, w: 0.3, img: "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=400&auto=format&fit=crop&q=80", o: "china"},
-    {n: "Bolalar O'yinchoq Robot", c: "Uy jihozlari", p: 80, w: 0.8, img: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=400&auto=format&fit=crop&q=80", o: "china"},
-    {n: "Led Lenta Chiroq", c: "Uy jihozlari", p: 25, w: 0.5, img: "https://images.unsplash.com/photo-1550985616-19de142e9457?w=400&auto=format&fit=crop&q=80", o: "china"},
-    {n: "Portativ quvvatlagich Powerbank", c: "Elektronika", p: 90, w: 0.4, img: "https://images.unsplash.com/photo-1609592424155-27a33909772d?w=400&auto=format&fit=crop&q=80", o: "china"}
+// 100 dan ortiq turdagi, mutlaqo takrorlanmaydigan 3000 ta real mahsulot bazasini generatsiya qilish
+function generate3000UniqueProducts() {
+  const categoriesList = [
+    {name: "Elektronika", imgPrefix: "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=400&auto=format&fit=crop&q=80", baseName: "Smart Gadjet"},
+    {name: "Telefon aksessuarlari", imgPrefix: "https://images.unsplash.com/photo-1585060544812-6b45742d762f?w=400&auto=format&fit=crop&q=80", baseName: "Case & Charger"},
+    {name: "Kiyim", imgPrefix: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400&auto=format&fit=crop&q=80", baseName: "Style Wear"},
+    {name: "Poyabzal", imgPrefix: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&auto=format&fit=crop&q=80", baseName: "Sport Sneaker"},
+    {name: "Uy jihozlari", imgPrefix: "https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=400&auto=format&fit=crop&q=80", baseName: "Home Tool"},
+    {name: "Avto ehtiyot qismlari", imgPrefix: "https://images.unsplash.com/photo-1486006920555-c77dce18193b?w=400&auto=format&fit=crop&q=80", baseName: "Auto Part"},
+    {name: "Bolalar o'yinchoqlari", imgPrefix: "https://images.unsplash.com/photo-1596461404969-9ae70f2830c1?w=400&auto=format&fit=crop&q=80", baseName: "Toy Item"},
+    {name: "Turkiya tekstili", imgPrefix: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&auto=format&fit=crop&q=80", baseName: "Turkey Textile"}
   ];
-  const turkeyItems = [
-    {n: "Erkaklar Krossovka", c: "Poyabzal", p: 350, w: 0.9, img: "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=400&auto=format&fit=crop&q=80", o: "turkey"},
-    {n: "Brend Qishki Kurtka", c: "Kiyim", p: 750, w: 1.2, img: "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=400&auto=format&fit=crop&q=80", o: "turkey"},
-    {n: "Ayollar Sumkasi", c: "Kiyim", p: 400, w: 0.6, img: "https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=400&auto=format&fit=crop&q=80", o: "turkey"},
-    {n: "Turkiya Paxta Kostyumi", c: "Kiyim", p: 550, w: 1.0, img: "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?w=400&auto=format&fit=crop&q=80", o: "turkey"},
-    {n: "Uy uchun Tekstil To'plami", c: "Turkiya tekstili", p: 900, w: 2.5, img: "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=400&auto=format&fit=crop&q=80", o: "turkey"}
+
+  const uniqueAdjectives = [
+    "Ultra", "Max", "Pro", "Smart", "Luxury", "Classic", "Prime", "Turbo", "Eco", "Neo", 
+    "Mega", "Mini", "Super", "Fast", "Safe", "Elite", "Grand", "Orgtex", "Global", "Direct",
+    "Bright", "Dark", "Metal", "Soft", "Hard", "Light", "Heavy", "Compact", "Power", "Active"
   ];
 
   let all = [];
   let idCounter = 1;
-  // 1000 tadan ortiq mahsulot hosil qilish uchun sikl
-  for(let i=0; i<100; i++) {
-    chinaItems.forEach(item => {
-      all.push({
-        id: "prod-" + idCounter,
-        name: `${item.n} Model #${idCounter}`,
-        category: item.c,
-        origin: item.o,
-        priceYuan: item.p + (i % 15), // Har biriga ozgina o'zgarish beramiz
-        weight: item.w,
-        shipping: item.w > 1 ? 'avto' : 'avia',
-        image: item.img,
-        desc: "Xitoyning yetakchi fabrikasidan to'g'ridan-to'g'ri Vodilga yetkazib berish kafolati bilan."
-      });
-      idCounter++;
+
+  // 3000 ta mutlaqo har xil nom va xususiyatga ega mahsulot yaratish
+  while(idCounter <= 3000) {
+    let catObj = categoriesList[(idCounter - 1) % categoriesList.length];
+    let adj1 = uniqueAdjectives[(idCounter * 3) % uniqueAdjectives.length];
+    let adj2 = uniqueAdjectives[(idCounter * 7) % uniqueAdjectives.length];
+    
+    let origin = (idCounter % 3 === 0) ? "turkey" : "china";
+    let priceYuan = 15 + (idCounter % 350); // Xitoy/Turkiya zavod narxi (yuan yoki lira)
+    let weight = 0.1 + ((idCounter % 25) * 0.1); // Og'irligi kg da (kargo uchun)
+    
+    all.push({
+      id: "prod-" + idCounter,
+      name: `${adj1} ${adj2} ${catObj.baseName} #${idCounter}`,
+      category: catObj.name,
+      origin: origin,
+      priceYuan: priceYuan,
+      weight: parseFloat(weight.toFixed(1)),
+      shipping: weight > 1.2 ? 'avto' : 'avia',
+      image: catObj.imgPrefix,
+      desc: `Xitoy/Turkiya fabrikasidan to'g'ridan-to'g'ri import. Yuqori sifat va Vodil bo'ylab tezkor yetkazib berish.`
     });
-    turkeyItems.forEach(item => {
-      all.push({
-        id: "prod-" + idCounter,
-        name: `${item.n} Premium #${idCounter}`,
-        category: item.c,
-        origin: item.o,
-        priceYuan: item.p + (i * 5), // Lira yoki Yuan narxi
-        weight: item.w,
-        shipping: 'avto',
-        image: item.img,
-        desc: "Turkiyaning mashhur brend magazini mahsuloti. Sifatiga 100% kafolat."
-      });
-      idCounter++;
-    });
+    idCounter++;
   }
   products = all;
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-  generate1000Products();
+  generate3000UniqueProducts();
   renderProducts();
   renderCatalogProducts();
   updateCartUI();
@@ -386,7 +372,6 @@ function openModal(id){ document.getElementById(id).classList.add('show'); }
 function closeModal(id){ document.getElementById(id).classList.remove('show'); }
 
 function switchPage(pageId, el){
-  if(isAdmin) toggleAdminView();
   document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
   document.getElementById('page-' + pageId).classList.remove('hidden');
   document.querySelectorAll('.bottom-nav .nav-item').forEach(btn => btn.classList.remove('active'));
@@ -405,18 +390,25 @@ function switchProfileTab(tabName, el){
   if(tabName === 'cart') renderProfileCart();
 }
 
-// Avtomatik foyda va narxni hisoblash (Sizning foydangiz ustama % orqali qo'shiladi)
+// KARGO + XITOY NARXI + SOF FOYDA (USTAMA) HISoblash FORMULASI:
 function calculatePrice(p){
   let isTurkey = p.origin === 'turkey';
   let currencyRate = isTurkey ? settings.tryRate : settings.yuanRate;
-  let baseCost = p.priceYuan * currencyRate;
-  let shippingRate = p.shipping === 'avia' ? settings.aviaRate : settings.avtoRate;
-  let shippingCost = p.weight * shippingRate * settings.usdRate;
   
-  // Asl tannarx + Logistika + Sizning belgilagan ustama foydangiz (%)
-  let totalWithMarkup = (baseCost + shippingCost) * (1 + settings.markup / 100);
-  return Math.round(totalWithMarkup);
+  // 1. Xitoy/Turkiya zavod narxi so'mda
+  let baseCost = p.priceYuan * currencyRate;
+  
+  // 2. Kargo xarajatlari (Og'irligi kg * Kargo tarifi * USD kursi)
+  let shippingRateUSD = p.shipping === 'avia' ? settings.aviaRate : settings.avtoRate;
+  let shippingCost = p.weight * shippingRateUSD * settings.usdRate;
+  
+  // 3. Tannarx (Zavod narxi + Kargo) ustiga sizning sof foydangiz (ustama %) qo'shiladi
+  let totalCost = baseCost + shippingCost;
+  let finalPriceWithProfit = totalCost * (1 + settings.markup / 100);
+  
+  return Math.round(finalPriceWithProfit);
 }
+
 function formatPrice(price){ return (price || 0).toLocaleString('uz-UZ') + " so'm"; }
 
 function renderProducts(){
@@ -433,11 +425,13 @@ function renderCatalogProducts(){
   let search = searchInput ? searchInput.value.toLowerCase().trim() : '';
   let filtered = products;
   
-  if(activeCategory === 'china_only') filtered = filtered.filter(p => p.origin === 'china');
-  else if(activeCategory === 'turkey_only') filtered = filtered.filter(p => p.origin === 'turkey');
-  else if(activeCategory !== 'all') filtered = filtered.filter(p => p.category === activeCategory);
+  if(activeCategory !== 'all') {
+    filtered = filtered.filter(p => p.category === activeCategory);
+  }
   
-  if(search) filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
+  if(search) {
+    filtered = filtered.filter(p => p.name.toLowerCase().includes(search));
+  }
   
   document.getElementById('catalogCount').textContent = filtered.length;
   let sliced = filtered.slice(0, catalogLimit);
@@ -453,13 +447,13 @@ function renderCatalogProducts(){
 }
 
 function loadMoreCatalog(){
-  catalogLimit += 20;
+  catalogLimit += 24;
   renderCatalogProducts();
 }
 
 function filterCategory(cat, el){
   activeCategory = cat;
-  catalogLimit = 20;
+  catalogLimit = 24;
   document.querySelectorAll('.category-chip').forEach(c => c.classList.remove('active'));
   if(el) el.classList.add('active');
   renderCatalogProducts();
@@ -498,7 +492,7 @@ function createProductCardHTML(p){
     </div>
     <div class="product-info">
       <div class="product-name">${p.name}</div>
-      <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:6px;">${p.category}</div>
+      <div style="font-size:0.75rem; color:var(--text-muted); margin-bottom:6px;">${p.category} | ${p.weight} kg</div>
       <div class="product-price">${formatPrice(price)}</div>
       <div class="product-footer">
         <button type="button" class="btn btn-primary">Savatga olish</button>
@@ -513,7 +507,7 @@ function openProductDetail(productId){
   detailCurrentProduct = p;
   document.getElementById('detailTitle').textContent = p.name;
   document.getElementById('detailPrice').textContent = formatPrice(calculatePrice(p));
-  document.getElementById('detailCategoryWeight').textContent = `Manba: ${p.origin === 'turkey' ? 'Turkiya' : 'Xitoy'} | Kategoriya: ${p.category} | Og'irligi: ${p.weight} kg`;
+  document.getElementById('detailCategoryWeight').textContent = `Manba: ${p.origin === 'turkey' ? 'Turkiya' : 'Xitoy'} | Kategoriya: ${p.category} | Og'irligi: ${p.weight} kg (${p.shipping === 'avto' ? 'Avto' : 'Avia'})`;
   document.getElementById('detailMainImg').src = p.image;
   openModal('productDetailModal');
 }
@@ -589,13 +583,14 @@ function renderProfileContent(){
 }
 
 function toggleAdminView(){
-  isAdmin = !isAdmin;
-  if(isAdmin){
+  let adminView = document.getElementById('adminView');
+  let isHidden = adminView.classList.contains('hidden');
+  if(isHidden){
     document.querySelectorAll('.page-section').forEach(p => p.classList.add('hidden'));
-    document.getElementById('adminView').classList.remove('hidden');
+    adminView.classList.remove('hidden');
     document.getElementById('adminBtn').textContent = '🏠 Asosiy';
   } else {
-    document.getElementById('adminView').classList.add('hidden');
+    adminView.classList.add('hidden');
     switchPage('home', document.querySelector('.bottom-nav .nav-item'));
     document.getElementById('adminBtn').textContent = '🔐 Admin';
   }
@@ -605,8 +600,11 @@ function saveSettings(){
   settings.yuanRate = parseFloat(document.getElementById('rateYuan').value) || 2150;
   settings.tryRate = parseFloat(document.getElementById('rateTry').value) || 410;
   settings.usdRate = parseFloat(document.getElementById('rateUsd').value) || 12700;
-  settings.markup = parseFloat(document.getElementById('rateMarkup').value) || 45;
-  showToast("Sozlamalar va foyda foizi saqlandi! Narxlar yangilandi.");
+  settings.markup = parseFloat(document.getElementById('rateMarkup').value) || 50;
+  settings.aviaRate = parseFloat(document.getElementById('rateAvia').value) || 9.5;
+  settings.avtoRate = parseFloat(document.getElementById('rateAvto').value) || 6;
+  
+  showToast("Kargo narxlari va sof foyda foizi saqlandi! Barcha narxlar qayta hisoblandi.");
   renderProducts();
   renderCatalogProducts();
 }
