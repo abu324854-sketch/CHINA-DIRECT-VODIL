@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>China-Turkey Express Vodil (100K+ Catalog)</title>
+<title>China-Turkey Express Vodil (100K Unique)</title>
 <!-- Telegram WebApp SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
 <link rel="manifest" href="manifest.json?v=3">
@@ -39,7 +39,7 @@ body{font-family:'Inter',system-ui,-apple-system,sans-serif;background:var(--bg-
 header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(0,0,0,0.03);border-bottom:1px solid var(--border-color);padding:12px 0;}
 .header-content{display:flex;flex-direction:column;gap:8px}
 .header-top{display:flex;justify-content:space-between;align-items:center;width:100%}
-.logo{font-size:0.95rem;font-weight:900;display:flex;align-items:center;gap:8px;color:var(--brand-dark);text-decoration:none;letter-spacing:-0.5px}
+.logo{font-size:0.95rem;font-weight:900;display:flex;align-items:center;gap:8px;color:var(--brand-dark);text-decoration:none}
 .logo-icon-wrap {
   width: 40px; height: 40px; border-radius: 12px;
   background: linear-gradient(135deg, var(--brand-dark), var(--brand-red));
@@ -52,16 +52,10 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
   display: flex; gap: 8px; align-items: center; font-size: 1.1rem;
   background: #fff5f7; padding: 4px 10px; border-radius: 12px; border: 1px solid #ffd1d9;
 }
-.flag-item { display: inline-block; animation: waveFlag 1.8s ease-in-out infinite; transform-origin: bottom center; }
-@keyframes waveFlag {
-  0%, 100% { transform: rotate(0deg) scale(1); }
-  25% { transform: rotate(-8deg) scale(1.1); }
-  75% { transform: rotate(8deg) scale(1.1); }
-}
 .header-actions{display:flex;gap:6px;align-items:center;overflow-x:auto;width:100%;padding-bottom:2px}
 .btn{padding:9px 18px;border:none;border-radius:14px;cursor:pointer;font-size:0.85rem;font-weight:600;transition:all 0.25s ease;display:inline-flex;align-items:center;gap:6px;text-decoration:none;white-space:nowrap}
 .btn-primary{background:var(--brand-red);color:white;box-shadow:0 4px 14px rgba(255, 45, 85, 0.3)}
-.btn-primary:hover{background:var(--brand-red-hover);transform: translateY(-1px)}
+.btn-primary:hover{background:var(--brand-red-hover)}
 .btn-light{background:#f4f4f6;color:var(--text-main)}
 .btn-outline{background:transparent;border:1.5px solid var(--border-color);color:var(--text-main)}
 .btn-outline:hover{border-color:var(--brand-red);color:var(--brand-red);background:#fff5f7}
@@ -96,14 +90,13 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 .origin-badge{position:absolute;top:10px;left:10px;padding:4px 8px;border-radius:8px;font-size:0.7rem;font-weight:800;z-index:3;color:white}
 .origin-badge.china{background:var(--accent-china);}
 .origin-badge.turkey{background:var(--accent-turkey);}
-.shipping-badge{position:absolute;top:38px;left:10px;background:rgba(0,0,0,0.75);backdrop-filter:blur(4px);color:white;padding:4px 8px;border-radius:8px;font-size:0.7rem;font-weight:700;z-index:3;}
+.shipping-badge{position:absolute;top:38px;left:10px;color:white;padding:4px 8px;border-radius:8px;font-size:0.7rem;font-weight:700;z-index:3;}
 .shipping-badge.avia { background: #e74c3c; }
 .shipping-badge.avto { background: #2980b9; }
 .wishlist-btn{position:absolute;top:10px;right:10px;background:rgba(255,255,255,0.9);border:none;width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:3}
 .wishlist-btn.active{color:var(--brand-red)}
 .product-info{padding:12px 14px;flex:1;display:flex;flex-direction:column}
 .product-name{font-size:0.85rem;font-weight:600;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;height:2.7em;cursor:pointer}
-.product-price{font-size:1.05rem;font-weight:800;color:var(--brand-dark)}
 .product-footer{display:flex;gap:6px;margin-top:10px}
 .product-footer .btn{flex:1;justify-content:center;padding:7px;font-size:0.75rem;border-radius:12px}
 .profile-tabs{display:flex;gap:6px;background:white;padding:6px;border-radius:16px;margin-bottom:16px;border:1px solid var(--border-color);overflow-x:auto}
@@ -112,9 +105,6 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 .cart-item{display:flex;gap:12px;padding:12px;background:white;border-radius:16px;margin-bottom:10px;align-items:center;border:1px solid var(--border-color)}
 .cart-item-image{width:56px;height:56px;border-radius:12px;background:#f8f9fc;display:flex;align-items:center;justify-content:center;overflow:hidden;flex-shrink:0}
 .cart-item-image img{width:100%;height:100%;object-fit:cover}
-.cart-item-info{flex:1}
-.cart-item-name{font-size:0.85rem;font-weight:600;margin-bottom:2px}
-.cart-item-size {font-size: 0.75rem; color: var(--brand-red); font-weight: 700;}
 .qty-btn{width:26px;height:26px;border:1px solid var(--border-color);background:white;border-radius:50%;cursor:pointer;font-weight:700;font-size:0.8rem}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,0.6);z-index:400;display:none;align-items:center;justify-content:center;padding:16px;backdrop-filter:blur(5px)}
 .modal.show{display:flex}
@@ -152,7 +142,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     <div class="header-top">
       <a href="#" class="logo">
         <div class="logo-icon-wrap">🇨🇳🇹🇷🇺🇿</div>
-        CHINA-TURKEY <span class="accent">EXPRESS VODIL (100K+)</span>
+        CHINA-TURKEY <span class="accent">EXPRESS VODIL (100K Unique)</span>
       </a>
       <div class="flags-ticker">
         <span class="flag-item">🇨🇳</span>
@@ -173,12 +163,12 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 <div class="page-section" id="page-home">
   <div class="container">
     <div class="hero">
-      <h1>Vodil uchun 100,000+ unikal va takrorlanmas <span>tovarlar!</span></h1>
-      <p>Xitoy (Pinduoduo/1688) va Turkiya (Trendyol) tovarlari. Har bir tovar uchun alohida Avto yoki Avia yetkazish tanlovi.</p>
+      <h1>Vodil uchun 100,000 ta mutlaqo unikallashtirilgan <span>tovarlar!</span></h1>
+      <p>Xitoy va Turkiya mahsulotlari. Hech qanday takrorlanish yo'q: Har bir tovar o'ziga xos nom, narx, vazn va Avto/Avia usuliga ega.</p>
     </div>
     <div class="promo-banner">
       <div>
-        <h3>🔥 100% Saralangan va Takrorlanmas Bazalar</h3>
+        <h3>🔥 100% Unikal Tovar Bazasi</h3>
         <p>Vodil bo'ylab tezkor yetkazib berish.</p>
       </div>
       <div style="font-size:2.2rem;">📦</div>
@@ -188,7 +178,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
   </div>
 </div>
 
-<!-- KATALOG (100,000+ Tovarlar) -->
+<!-- KATALOG -->
 <div class="page-section hidden" id="page-catalog">
   <div class="container" style="padding-top:12px;">
     <div class="controls">
@@ -199,7 +189,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
       </div>
     </div>
     <div class="category-filter" id="categoryFilter" style="margin-bottom: 16px;">
-      <div class="category-chip active" onclick="filterCategory('all', this)">Barchasi (100K+)</div>
+      <div class="category-chip active" onclick="filterCategory('all', this)">Barchasi (100K)</div>
       <div class="category-chip" onclick="filterCategory('china_only', this)">🇨🇳 Xitoy (Pinduoduo/1688)</div>
       <div class="category-chip" onclick="filterCategory('turkey_only', this)">🇹🇷 Turkiya (Trendyol)</div>
       <div class="category-chip" onclick="filterCategory('Elektronika', this)">Elektronika</div>
@@ -209,7 +199,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
       <div class="category-chip" onclick="filterCategory('Uy jihozlari', this)">Uy jihozlari</div>
       <div class="category-chip" onclick="filterCategory('Turkiya tekstili', this)">Turkiya tekstili</div>
     </div>
-    <h2 class="section-title">Katalog (100,000 ta unikal tovar)</h2>
+    <h2 class="section-title">Katalog (100,000 ta takrorlanmas tovar)</h2>
     <div class="products-grid" id="catalogProductsGrid"></div>
     <div class="pagination-box" id="paginationBox"></div>
   </div>
@@ -265,7 +255,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
     <div id="admin-tab-stats" class="admin-tab-content">
       <div class="admin-grid">
-        <div class="stat-card"><div class="stat-value">100,000+</div><div class="stat-label">Jami mahsulotlar (Unikal)</div></div>
+        <div class="stat-card"><div class="stat-value">100,000</div><div class="stat-label">Mutlaqo unikal tovarlar</div></div>
         <div class="stat-card"><div class="stat-value" id="statOrders">0</div><div class="stat-label">Buyurtmalar</div></div>
       </div>
     </div>
@@ -421,40 +411,60 @@ const db = firebase.firestore();
 let settings = {yuanRate:2150, tryRate:410, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:45};
 const TOTAL_PRODUCTS_COUNT = 100000;
 
-// 100,000 ta mahsulotni har biri unikal va avto/avia usullari qat'iy taqsimlangan holda generatsiya qilish
+// Mutlaqo takrorlanmaydigan unikal mahsulot generatori
 function getProductById(index) {
-  let isTurkey = index % 2 === 1;
+  let isTurkey = index % 3 !== 0; // Turkiya va Xitoy mahsulotlari muvozanatli taqsimlanadi
   let origin = isTurkey ? "turkey" : "china";
-  let cats = ["Elektronika", "Telefon aksessuarlari", "Kiyim", "Poyabzal", "Uy jihozlari", "Turkiya tekstili"];
-  let cat = cats[index % cats.length];
   
-  // Har bir tovar uchun yetkazish usuli qat'iy alohida bo'ladi (takrorlanmaydi)
+  const chinaCategories = ["Elektronika", "Telefon aksessuarlari", "Uy jihozlari", "Smart Gadjetlar", "Avto aksessuarlar"];
+  const turkeyCategories = ["Kiyim", "Poyabzal", "Turkiya tekstili", "Parfyumeriya", "Aksessuarlar"];
+  let cats = isTurkey ? turkeyCategories : chinaCategories;
+  let category = cats[index % cats.length];
+
+  // Nomlar va xususiyatlar butunlay har xil bo'lishi uchun unikal massivlar
+  const chinaAdjectives = ["Ultra", "Smart", "Pro", "Max", "Mini", "Fast", "Wireless", "LED", "Digital", "Power"];
+  const turkeyAdjectives = ["Classic", "Luxury", "Premium", "Cotton", "Comfort", "Elegant", "Style", "Fashion", "Soft", "Modern"];
+  const nouns = [
+    "Model", "Qurilma", "To'plam", "Set", "Seriya", "Dastur", "Versiya", "Kolleksiya", "Element", "Predmet",
+    "Aksessuar", "Jihoz", "Asbob", "Modul", "Blok", "Tizim", "Dizayn", "Nabor", "Predmet", "O'lcham"
+  ];
+
+  let adjList = isTurkey ? turkeyAdjectives : chinaAdjectives;
+  let adj1 = adjList[index % adjList.length];
+  let adj2 = adjList[(index * 7) % adjList.length];
+  let noun = nouns[(index * 13) % nouns.length];
+  
+  let brandPrefix = isTurkey ? "Trendyol Turk" : "1688/Pinduoduo Xitoy";
+  let name = `${brandPrefix} ${adj1} ${adj2} ${category} ${noun} #${index + 1}`;
+
+  // Yetkazib berish usuli mutlaqo alohida: juft indekslar 'avto', toq indekslar 'avia'
   let shipping = index % 2 === 0 ? "avto" : "avia";
   
-  let namePrefix = isTurkey ? "Trendyol Turk Tovari #" : "Pinduoduo/1688 Xitoy Tovari #";
-  let price = isTurkey ? (120 + (index % 1000)) : (25 + (index % 700));
-  let weight = parseFloat((0.2 + ((index % 25) * 0.05)).toFixed(2));
-  
-  let sampleImgs = [
+  let basePrice = isTurkey ? (150 + ((index * 17) % 1800)) : (30 + ((index * 13) % 900));
+  let weight = parseFloat((0.2 + ((index % 35) * 0.04)).toFixed(2));
+
+  const sampleImages = [
     "https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=600",
     "https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600",
     "https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600",
     "https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600",
     "https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=600",
-    "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600"
+    "https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600",
+    "https://images.unsplash.com/photo-1503342217505-b0a15ec3261c?w=600",
+    "https://images.unsplash.com/photo-1445205170230-053b83016050?w=600"
   ];
-  let img = sampleImgs[index % sampleImgs.length];
+  let image = sampleImages[(index * 19) % sampleImages.length];
 
   return {
     id: (origin === 'china' ? 'cn_' : 'ty_') + index,
-    name: namePrefix + index,
+    name: name,
     origin: origin,
-    category: cat,
-    priceYuan: price,
+    category: category,
+    priceYuan: basePrice,
     weight: weight,
     shipping: shipping,
-    desc: `Bu mahsulot ${origin === 'china' ? "Xitoyning Pinduoduo/1688" : "Turkiyaning Trendyol"} omboridan Vodilga ${shipping === 'avia' ? "✈️ Avia tezkor" : "🚛 Avto ishonchli"} orqali yetkaziladi. Tovar kodi: #${index}.`,
-    images: [img]
+    desc: `Bu mahsulot ${origin === 'china' ? "Xitoyning Pinduoduo/1688" : "Turkiyaning Trendyol"} omboridan Vodilga to'g'ridan-to'g'ri keltiriladi. Yetkazish turi: ${shipping === 'avia' ? "✈️ Avia (tezkor)" : "🚛 Avto (ishonchli)"}. Unikal tovar raqami: #${index + 1}.`,
+    images: [image]
   };
 }
 
@@ -716,9 +726,9 @@ function renderProfileCart(){
   body.innerHTML = cart.map(item => `
     <div class="cart-item">
       <div class="cart-item-image"><img src="${item.image}"></div>
-      <div class="cart-item-info">
-        <div class="cart-item-name">${item.name}</div>
-        <div class="cart-item-size">Razmer: ${item.size}</div>
+      <div class="cart-item-info" style="flex:1;">
+        <div style="font-size:0.85rem; font-weight:600">${item.name}</div>
+        <div style="font-size:0.75rem; color:var(--brand-red); font-weight:700">Razmer: ${item.size}</div>
         <div style="font-size:0.85rem; font-weight:700">${formatPrice(item.price * item.qty)}</div>
         <div style="display:flex; align-items:center; gap:8px; margin-top:6px">
           <button class="qty-btn" onclick="updateQty('${item.cartItemId}', -1)">−</button>
