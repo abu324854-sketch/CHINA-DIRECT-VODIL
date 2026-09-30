@@ -6,7 +6,6 @@
 <title>China-Turkey Express Vodil</title>
 <!-- Telegram WebApp SDK -->
 <script src="https://telegram.org/js/telegram-web-app.js"></script>
-<!-- PWA Manifest va Chiroyli Logo -->
 <link rel="manifest" href="manifest.json?v=3">
 <meta name="theme-color" content="#ff2d55">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -254,7 +253,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
     <div class="header-actions">
       <button type="button" class="btn btn-primary btn-sm" onclick="installPwaApp()">📱 Ilovani o'rnatish</button>
-      <button type="button" class="btn btn-light btn-sm" style="cursor:default; background:#fff5f7; color:var(--brand-red);">🟢 Onlayn: <span id="onlineCountBadge" style="font-weight:800; margin-left:2px;">1.000.000+</span></button>
+      <button type="button" class="btn btn-light btn-sm" style="cursor:default; background:#fff5f7; color:var(--brand-red);">🟢 Onlayn: <span id="onlineCountBadge" style="font-weight:800; margin-left:2px;">1</span></button>
       <button type="button" class="btn btn-outline btn-sm" id="adminBtn" onclick="toggleAdminView()">🔐 Admin</button>
     </div>
   </div>
@@ -278,6 +277,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     <div class="products-grid" id="homeProductsGrid"></div>
   </div>
 </div>
+
 <!-- 2. KATALOG -->
 <div class="page-section hidden" id="page-catalog">
   <div class="container" style="padding-top:12px;">
@@ -288,7 +288,6 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
         </div>
       </div>
     </div>
-    <!-- Tezkor Filtrlar -->
     <div class="category-filter" id="categoryFilter" style="margin-bottom: 16px;">
       <div class="category-chip active" onclick="filterCategory('all', this)">Barchasi</div>
       <div class="category-chip" onclick="filterCategory('china_only', this)" style="background:#fff0f3; color:var(--accent-china); border:1px solid #ffd1d9;">🇨🇳 Faqat Xitoy</div>
@@ -300,10 +299,11 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
       <div class="category-chip" onclick="filterCategory('Uy jihozlari', this)">Uy jihozlari</div>
       <div class="category-chip" onclick="filterCategory('Turkiya tekstili', this)">Turkiya tekstili</div>
     </div>
-    <h2 class="section-title">Katalog va Qidiruv (1000+ Tovar)</h2>
+    <h2 class="section-title">Katalog va Qidiruv</h2>
     <div class="products-grid" id="catalogProductsGrid"></div>
   </div>
 </div>
+
 <!-- 3. SEVIMLILAR -->
 <div class="page-section hidden" id="page-wishlist">
   <div class="container" style="padding-top: 20px;">
@@ -311,6 +311,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     <div class="products-grid" id="wishlistProductsGrid"></div>
   </div>
 </div>
+
 <!-- 4. PROFIL -->
 <div class="page-section hidden" id="page-profile">
   <div class="container" style="padding-top: 20px; max-width: 650px;">
@@ -409,6 +410,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
   </div>
 </div>
+
 <!-- ADMIN VIEW -->
 <div id="adminView" class="hidden">
   <div class="container" style="padding-top:20px;padding-bottom:40px">
@@ -503,6 +505,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
   </div>
 </div>
+
 <!-- PASTKI NAVIGATSIYA -->
 <nav class="bottom-nav">
   <button type="button" class="nav-item active" onclick="switchPage('home', this)"><span class="nav-icon">🏠</span><span>Asosiy</span></button>
@@ -514,6 +517,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     <span class="profile-badge hidden" id="profileNotifBadge">!</span>
   </button>
 </nav>
+
 <!-- MAHSULOT TAFSILOTLARI -->
 <div class="modal" id="productDetailModal">
   <div class="modal-content" style="max-width:500px;">
@@ -568,6 +572,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
   </div>
 </div>
+
 <!-- AUTH MODAL -->
 <div class="modal" id="authModal">
   <div class="modal-content" style="max-width:440px">
@@ -587,7 +592,8 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
   </div>
 </div>
-<!-- SOTUVCHI BO'LISH SHARTLARI VA ARIZA MODALI -->
+
+<!-- SOTUVCHI MODALI -->
 <div class="modal" id="sellerModal">
   <div class="modal-content" style="max-width:450px;">
     <div class="modal-header"><h3 style="font-size:1rem">🤝 Sotuvchi bo'lish shartlari va Ariza</h3><button type="button" class="close-btn" onclick="closeModal('sellerModal')">×</button></div>
@@ -596,15 +602,12 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
         <b>📜 SOTUVCHI UCHUN QOIDALAR VA SHARTLAR:</b><br><br>
         1. Sotuvchi o'zi yuklagan mahsulotlarning sifati va narxi bo'yicha to'liq mas'uldir.<br>
         2. Har bir sotilgan tovar bo'yicha ma'muriyat bilan kelishilgan tartibda hisob-kitob qilinadi.<br>
-        3. Tizim qoidalarini buzgan sotuvchilar bloklanadi.<br><br>
-        <b>Qanday qilib sotuvchi bo'lish mumkin?</b><br>
-        Shartlarga rozilik bildirib ariza qoldirasiz, keyin adminimizga murojaat qilib maxsus parolni olasiz va parolni kiritib sotuvchi maqomini faollashtirasiz!
+        3. Tizim qoidalarini buzgan sotuvchilar bloklanadi.<br>
       </div>
       <form onsubmit="handleSellerSubmit(event)">
         <div class="form-group"><label>Ism va do'kon nomingiz</label><input type="text" id="sellerStoreName" required placeholder="Masalan: Azizbek (Vodil Shop)"></div>
         <div class="form-group"><label>Telefon raqamingiz</label><input type="tel" id="sellerPhoneInput" required placeholder="+998..."></div>
         <div class="form-group"><label>Parol</label><input type="password" id="sellerPasswordInput" required placeholder="Maxfiy parol o'ylab toping"></div>
-        
         <div id="systemGeneratedCodeBox" style="background:#eef2ff; color:#4f46e5; padding:10px; margin-bottom:12px; font-weight:bold; text-align:center; border-radius:8px; border:1px dashed #c7d2fe; font-size:0.9rem;">
           Tizim kodi generatsiya qilinmoqda...
         </div>
@@ -619,6 +622,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
   </div>
 </div>
+
 <!-- SOTUVCHI PAROLINI KIRITISH MODALI -->
 <div class="modal" id="sellerCodeModal">
   <div class="modal-content" style="max-width:380px;">
@@ -632,6 +636,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
   </div>
 </div>
+
 <!-- CHECKOUT MODAL -->
 <div class="modal" id="checkoutModal">
   <div class="modal-content">
@@ -665,6 +670,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
   </div>
 </div>
+
 <!-- SUCCESS MODAL -->
 <div class="modal" id="successModal">
   <div class="modal-content">
@@ -676,6 +682,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
   </div>
 </div>
+
 <!-- RECEIPT MODAL -->
 <div class="modal" id="receiptModal">
   <div class="modal-content" style="max-width:400px; text-align:center;">
@@ -685,6 +692,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
   </div>
 </div>
+
 <!-- ORDER DETAIL MODAL -->
 <div class="modal" id="orderDetailModal">
   <div class="modal-content" style="max-width:450px;">
@@ -692,6 +700,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     <div class="modal-body" id="orderModalBodyContent" style="text-align:center;"></div>
   </div>
 </div>
+
 <!-- LOGIN MODAL -->
 <div class="modal" id="loginModal">
   <div class="modal-content" style="max-width:340px">
@@ -704,7 +713,8 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
   </div>
 </div>
-<!-- RASMNI FAQAT KERAKLI JOYINI QIRQISH (CROP) MODALI -->
+
+<!-- CROP MODAL -->
 <div class="modal" id="cropModal">
   <div class="modal-content" style="max-width:450px;">
     <div class="modal-header"><h3>Faqat rasmning o'zini belgilang (Qirqish)</h3><button type="button" class="close-btn" onclick="closeModal('cropModal')">×</button></div>
@@ -716,6 +726,7 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
     </div>
   </div>
 </div>
+
 <!-- PRODUCT MODAL -->
 <div class="modal" id="productModal">
   <div class="modal-content">
@@ -862,61 +873,32 @@ function trackTotalVisitors() {
 }
 let settings = {yuanRate:2150, tryRate:410, usdRate:12700, aviaRate:9.5, avtoRate:6, markup:45};
 
-// Pinduoduo va Trendyol platformalaridan 1000+ ta mahsulotlar bazasi (Avto va Avia alohida, 45% foyda bilan)
+// Asl sifatli va turli xil mahsulotlar bazasi (Har biri faqat 1 marta kelishi uchun to'g'rilandi)
 let products = [
-  // --- 🇨🇳 PINDUODUO - XITOY (AVTO VA AVIA) ---
-  { id: "pdd_001", name: "Xiaomi Smart Watch S3 (Pinduoduo Original)", origin: "china", category: "Elektronika", priceYuan: 280, weight: 0.25, shipping: "avia", desc: "Pinduoduo maxsus aksiya narxida. Bluetooth qo'ng'iroq va AMOLED ekran.", images: ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600"] },
+  // --- 🇨🇳 XITOY (Pinduoduo / 1688) ---
+  { id: "pdd_001", name: "Xiaomi Smart Watch S3 AMOLED", origin: "china", category: "Elektronika", priceYuan: 280, weight: 0.25, shipping: "avia", desc: "Bluetooth qo'ng'iroq va AMOLED ekran. Original Xitoy mahsuloti.", images: ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600"] },
   { id: "pdd_002", name: "Baseus GaN 65W Fast Charger Type-C", origin: "china", category: "Telefon aksessuarlari", priceYuan: 68, weight: 0.18, shipping: "avto", desc: "Tezkor quvvatlash adapteri. Sifatli va ishonchli.", images: ["https://images.unsplash.com/photo-1583863788434-e58a36330cf0?w=600"] },
   { id: "pdd_003", name: "Lenovo ThinkPlus LivePods TWS Earbuds", origin: "china", category: "Elektronika", priceYuan: 45, weight: 0.15, shipping: "avia", desc: "Stereo ovoz va uzoq batareya quvvati.", images: ["https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=600"] },
-  { id: "pdd_004", name: "Erkaklar uchun qishki issiq kurtka (Pinduoduo)", origin: "china", category: "Kiyim", priceYuan: 160, weight: 1.2, shipping: "avto", desc: "Issiq qalin va suv o'tkazmaydigan material.", images: ["https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600"] },
-  { id: "pdd_005", name: "Sport yugurish krossovkalari (Xitoy brend)", origin: "china", category: "Poyabzal", priceYuan: 95, weight: 0.8, shipping: "avia", desc: "Yengil va qulay taglikka ega.", images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600"] },
+  { id: "pdd_004", name: "Erkaklar uchun qishki issiq kurtka", origin: "china", category: "Kiyim", priceYuan: 160, weight: 1.2, shipping: "avto", desc: "Issiq qalin va suv o'tkazmaydigan material.", images: ["https://images.unsplash.com/photo-1551028719-00167b16eac5?w=600"] },
+  { id: "pdd_005", name: "Sport yugurish krossovkalari Xitoy", origin: "china", category: "Poyabzal", priceYuan: 95, weight: 0.8, shipping: "avia", desc: "Yengil va qulay taglikka ega.", images: ["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600"] },
   { id: "pdd_006", name: "Xiaomi Mijia avtomatik suv nasosi", origin: "china", category: "Uy jihozlari", priceYuan: 38, weight: 0.35, shipping: "avto", desc: "Idishdagi suvni bir tugma bilan chiqaradi.", images: ["https://images.unsplash.com/photo-1585659722983-380f55fca748?w=600"] },
   { id: "pdd_007", name: "MagSafe Magnitli Chexol iPhone uchun", origin: "china", category: "Telefon aksessuarlari", priceYuan: 22, weight: 0.08, shipping: "avia", desc: "Shaffof va zarbga chidamli.", images: ["https://images.unsplash.com/photo-1603313040373-a00c6d7907f3?w=600"] },
   { id: "pdd_008", name: "Mini Portativ Blender kokteyl uchun", origin: "china", category: "Uy jihozlari", priceYuan: 55, weight: 0.5, shipping: "avto", desc: "USB orqali quvvatlanadi, safarlar uchun qulay.", images: ["https://images.unsplash.com/photo-1570222094114-d074f7e1e8e2?w=600"] },
-  { id: "pdd_009", name: "LED stol chiroqi (Sensorli boshqaruv)", origin: "china", category: "Uy jihozlari", priceYuan: 45, weight: 0.4, shipping: "avto", desc: "Ko'zni charchatmaydigan yorug'lik rejimlari.", images: ["https://images.unsplash.com/photo-1534349762230-e8cadf4c1c5a?w=600"] },
-  { id: "pdd_010", name: "Avtomobil uchun simsiz magnit telefon ushlagich", origin: "china", category: "Telefon aksessuarlari", priceYuan: 35, weight: 0.2, shipping: "avia", desc: "Deftor panelga mustahkam o'rnatiladi.", images: ["https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600"] },
+  { id: "pdd_009", name: "LED stol chiroqi Sensorli boshqaruv", origin: "china", category: "Uy jihozlari", priceYuan: 45, weight: 0.4, shipping: "avto", desc: "Ko'zni charchatmaydigan yorug'lik rejimlari.", images: ["https://images.unsplash.com/photo-1534349762230-e8cadf4c1c5a?w=600"] },
+  { id: "pdd_010", name: "Avtomobil uchun magnit telefon ushlagich", origin: "china", category: "Telefon aksessuarlari", priceYuan: 35, weight: 0.2, shipping: "avia", desc: "Panelga mustahkam o'rnatiladi.", images: ["https://images.unsplash.com/photo-1584438784894-089d6a62b8fa?w=600"] },
 
-  // --- 🇹🇷 TRENDYOL - TURKIYA (AVTO VA AVIA) ---
-  { id: "ty_001", name: "Trendyol Mavi Oversize Paxtali Hoodie", origin: "turkey", category: "Kiyim", priceYuan: 320, weight: 0.65, shipping: "avto", desc: "100% original Turkiya paxtasi, yuqori sifat.", images: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600"] },
+  // --- 🇹🇷 TURKIYA (Trendyol / LC Waikiki) ---
+  { id: "ty_001", name: "Trendyol Oversize Paxtali Hoodie", origin: "turkey", category: "Kiyim", priceYuan: 320, weight: 0.65, shipping: "avto", desc: "100% original Turkiya paxtasi, yuqori sifat.", images: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600"] },
   { id: "ty_002", name: "LC Waikiki Klassik Erkaklar Ko'ylagi", origin: "turkey", category: "Kiyim", priceYuan: 290, weight: 0.45, shipping: "avia", desc: "Trendyol'dan eng ko'p sotilgan modellar.", images: ["https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600"] },
-  { id: "ty_003", name: "Karaca Uy uchun Luks Choyshab To'plami (Tekstil)", origin: "turkey", category: "Turkiya tekstili", priceYuan: 680, weight: 2.5, shipping: "avto", desc: "Qishloq/uy uchun premium sifatli turk tekstili.", images: ["https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=600"] },
-  { id: "ty_004", name: "Koton Ayollar uchun Elegant Krossovka", origin: "turkey", category: "Poyabzal", priceYuan: 410, weight: 0.9, shipping: "avia", desc: "Trendyol xit savdosi, qulay va zamonaviy.", images: ["https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600"] },
-  { id: "ty_005", name: "Madam Coco Keramika Choynak va Finjonlar", origin: "turkey", category: "Uy jihozlari", priceYuan: 250, weight: 1.4, shipping: "avto", desc: "Mehmonlar uchun ajoyib turkcha dizayn.", images: ["https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600"] },
+  { id: "ty_003", name: "Karaca Uy uchun Luks Choyshab To'plami", origin: "turkey", category: "Turkiya tekstili", priceYuan: 680, weight: 2.5, shipping: "avto", desc: "Premium sifatli turk tekstili.", images: ["https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?w=600"] },
+  { id: "ty_004", name: "Koton Ayollar uchun Krossovka", origin: "turkey", category: "Poyabzal", priceYuan: 410, weight: 0.9, shipping: "avia", desc: "Trendyol xit savdosi, qulay va zamonaviy.", images: ["https://images.unsplash.com/photo-1595950653106-6c9ebd614d3a?w=600"] },
+  { id: "ty_005", name: "Madam Coco Keramika Choynak", origin: "turkey", category: "Uy jihozlari", priceYuan: 250, weight: 1.4, shipping: "avto", desc: "Mehmonlar uchun ajoyib turkcha dizayn.", images: ["https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=600"] },
   { id: "ty_006", name: "Defacto Klassik Qora Jinsi", origin: "turkey", category: "Kiyim", priceYuan: 240, weight: 0.7, shipping: "avia", desc: "Elastik va badanga qulay material.", images: ["https://images.unsplash.com/photo-1541099649105-f69ad21f3246?w=600"] },
   { id: "ty_007", name: "English Home Hammom Sochiqlar to'plami", origin: "turkey", category: "Turkiya tekstili", priceYuan: 190, weight: 1.1, shipping: "avto", desc: "Yuqori so'ruvchi yumshoq turk paxtasi.", images: ["https://images.unsplash.com/photo-1616046229478-9901c5536a45?w=600"] },
   { id: "ty_008", name: "Mavi Slim Fit Qishki Kurtka", origin: "turkey", category: "Kiyim", priceYuan: 750, weight: 1.3, shipping: "avia", desc: "Sovuq kunlar uchun issiq va qalin.", images: ["https://images.unsplash.com/photo-1544441893-675973e31985?w=600"] },
-  { id: "ty_009", name: "Trendyol Man Ko'cha uslubidagi sport to'plami", origin: "turkey", category: "Kiyim", priceYuan: 480, weight: 1.0, shipping: "avto", desc: "Kundalik kiyish uchun juda qulay.", images: ["https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600"] },
+  { id: "ty_009", name: "Trendyol Man Ko'cha uslubidagi sport kostyum", origin: "turkey", category: "Kiyim", priceYuan: 480, weight: 1.0, shipping: "avto", desc: "Kundalik kiyish uchun juda qulay.", images: ["https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?w=600"] },
   { id: "ty_010", name: "Derimod Elegant Ayollar Sumkasi", origin: "turkey", category: "Kiyim", priceYuan: 520, weight: 0.6, shipping: "avia", desc: "100% sifatli charm va zamonaviy ko'rinish.", images: ["https://images.unsplash.com/photo-1584917865442-de89df76afd3?w=600"] }
 ];
-
-// 1000+ tovarlarni to'ldirish (Pinduoduo va Trendyol)
-for (let i = 11; i <= 550; i++) {
-  products.push({
-    id: "pdd_auto_" + i,
-    name: "Pinduoduo Smart Universal Tovar #" + i,
-    origin: "china",
-    category: i % 5 === 0 ? "Elektronika" : (i % 5 === 1 ? "Telefon aksessuarlari" : (i % 5 === 2 ? "Kiyim" : (i % 5 === 3 ? "Uy jihozlari" : "Poyabzal"))),
-    priceYuan: 30 + (i % 250),
-    weight: 0.2 + ((i % 15) * 0.1),
-    shipping: i % 2 === 0 ? "avto" : "avia",
-    desc: "Xitoyning Pinduoduo platformasidan to'g'ridan-to'g'ri Vodilga keltiriladigan sifatli mahsulot #" + i,
-    images: ["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=600"]
-  });
-}
-
-for (let i = 11; i <= 550; i++) {
-  products.push({
-    id: "ty_auto_" + i,
-    name: "Trendyol Original Turk Tovari #" + i,
-    origin: "turkey",
-    category: i % 3 === 0 ? "Turkiya tekstili" : (i % 3 === 1 ? "Kiyim" : "Poyabzal"),
-    priceYuan: 120 + (i % 400),
-    weight: 0.3 + ((i % 18) * 0.1),
-    shipping: i % 2 === 0 ? "avia" : "avto",
-    desc: "Turkiyaning Trendyol do'konidan maxsus buyurtma asosida olib kelinuvchi mahsulot #" + i,
-    images: ["https://images.unsplash.com/photo-1556905055-8f358a7a47b2?w=600"]
-  });
-}
 
 let orders = [];
 let sellerApplications = [];
@@ -982,15 +964,6 @@ function showPushSmsNotification(title, message){
     </div>
   `;
   container.appendChild(card);
-  
-  try {
-    let audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    let osc = audioCtx.createOscillator();
-    let gain = audioCtx.createGain();
-    osc.connect(gain); gain.connect(audioCtx.destination);
-    osc.frequency.value = 800; gain.gain.value = 0.1;
-    osc.start(); setTimeout(() => osc.stop(), 150);
-  } catch(e) {}
   setTimeout(() => {
     card.style.transition = 'opacity 0.4s, transform 0.4s';
     card.style.opacity = '0';
@@ -1078,12 +1051,9 @@ function fetchDataFromServer(){
   db.collection("products").onSnapshot((snapshot) => {
     let loadedProducts = [];
     snapshot.forEach((doc) => { loadedProducts.push({ id: doc.id, ...doc.data() }); });
-    
-    // Agar Firebase'da mahsulotlar yetarli bo'lsa yoki bazamizni o'chirmasligi uchun saqlaymiz
-    if(loadedProducts.length > 50) {
+    if(loadedProducts.length > 5) {
       products = loadedProducts;
     }
-    
     localStorage.setItem('cdv_products_cache', JSON.stringify(products));
     renderProducts();
     renderCatalogProducts();
@@ -1098,6 +1068,7 @@ function fetchDataFromServer(){
       renderCatalogProducts();
     }
   }).catch(e => {});
+
   db.collection("orders").onSnapshot((snapshot) => {
     let loadedOrders = [];
     snapshot.forEach((doc) => { loadedOrders.push({ id: doc.id, ...doc.data() }); });
@@ -1106,6 +1077,7 @@ function fetchDataFromServer(){
     updateProfileNotificationBadge();
     if(isAdmin) renderAdmin();
   }, (err) => {});
+
   db.collection("sellerApplications").onSnapshot((snapshot) => {
     let loadedApps = [];
     snapshot.forEach((doc) => { loadedApps.push({ id: doc.id, ...doc.data() }); });
@@ -1116,9 +1088,6 @@ function fetchDataFromServer(){
 function logAdminNotification(text){
   let notifRef = rtdb.ref('admin_notifications');
   notifRef.push({text, time: new Date().toLocaleTimeString()});
-  if(isAdmin) {
-    showPushSmsNotification("🔔 Yangi bildirishnoma", text);
-  }
 }
 function setupAdminNotifications(){
   rtdb.ref('admin_notifications').on('child_added', (snap) => {
@@ -1172,7 +1141,7 @@ function renderProducts(){
     grid.innerHTML = '<div style="grid-column:1/-1; text-align:center; padding:30px; color:var(--text-muted)"><h3>Mahsulotlar topilmadi</h3></div>';
     return;
   }
-  let previewList = products.slice(0, 16);
+  let previewList = products.slice(0, 12);
   grid.innerHTML = previewList.map(p => createProductCardHTML(p)).join('');
 }
 function renderCatalogProducts(){
@@ -1227,7 +1196,7 @@ function createProductCardHTML(p){
   let imgs = p.images && p.images.length > 0 ? p.images : (p.image ? [p.image] : []);
   let firstImg = imgs.length > 0 ? imgs[0] : '';
   let isFav = wishlist.includes(p.id);
-  let shippingText = p.shipping === 'avto' ? '🚛 Avto' : '✈️️ Avia';
+  let shippingText = p.shipping === 'avto' ? '🚛 Avto' : '✈ Avia';
   let isTurkey = p.origin === 'turkey';
   let originBadgeText = isTurkey ? '🇹🇷 Turkiya' : '🇨🇳 Xitoy';
   let originBadgeClass = isTurkey ? 'origin-badge turkey' : 'origin-badge china';
@@ -1299,7 +1268,6 @@ function submitProductReview(){
     text: text,
     time: new Date().toLocaleDateString()
   };
-  
   let reviews = detailCurrentProduct.reviews || [];
   reviews.push(reviewObj);
   detailCurrentProduct.reviews = reviews;
@@ -1617,12 +1585,10 @@ function handleSellerSubmit(e){
     createdAt: new Date().toISOString()
   };
   db.collection("sellerApplications").add(applicationData).then(() => {
-    logAdminNotification(`🤝 Yangi sotuvchi arizasi: ${name} (${phone}). Tizim kodi: ${currentSystemGeneratedCode}`);
+    logAdminNotification(`🤝 Yangi sotuvchi arizasi: ${name} (${phone}).`);
     closeModal('sellerModal');
-    showToast("Arizangiz admin panelga yuborildi! Admindan parolni oling.");
+    showToast("Arizangiz admin panelga yuborildi!");
     openModal('sellerCodeModal');
-  }).catch(err => {
-    showToast("Xatolik yuz berdi!", "error");
   });
 }
 function handleSellerCodeVerify(e){
@@ -1661,6 +1627,7 @@ function logoutUser(){
   showToast("Tizimdan chiqib ketdingiz");
 }
 function openAuthModal(){ openModal('authModal'); }
+
 function setupChatListeners(){
   rtdb.ref('chats').on('value', (snap) => {
     if(isAdmin) renderAdminChatUsers();
@@ -1968,7 +1935,7 @@ function handleProductSubmit(e){
 function editProduct(id){
   let p = products.find(prod => prod.id === id);
   if(!p) return;
-  document.getElementById('productModalTitle').textContent = "Mahsulotni tahrirlash";
+  document.getElementById('productTitle').textContent = "Mahsulotni tahrirlash";
   document.getElementById('productId').value = p.id;
   document.getElementById('productName').value = p.name;
   document.getElementById('productOrigin').value = p.origin || 'china';
