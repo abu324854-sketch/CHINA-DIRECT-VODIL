@@ -1853,16 +1853,15 @@ function handleProductSubmit(e){
     sellerPhone: sellerPhone
   };
   
+  let finishAction = () => {
+    closeModal('productModal');
+    showToast(id ? "Mahsulot tahrirlandi!" : "Mahsulot qo'shildi!");
+  };
+
   if(id){
-    db.collection("products").doc(id).set(data, {merge: true}).then(() => {
-      closeModal('productModal');
-      showToast("Mahsulot tahrirlandi!");
-    });
+    db.collection("products").doc(id).set(data, {merge: true}).then(finishAction);
   } else {
-    db.collection("products").add(data).then(() => {
-      closeModal('productModal');
-      showToast("Mahsulot qo'shildi!");
-    });
+    db.collection("products").add(data).then(finishAction);
   }
 }
 function editProduct(id){
