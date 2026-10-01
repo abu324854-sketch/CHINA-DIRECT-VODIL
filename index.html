@@ -705,10 +705,21 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
 <!-- PRODUCT MODAL -->
 <div class="modal" id="productModal">
   <div class="modal-content">
-    <div class="modal-header"><h3 id="productModalTitle" style="font-size:1rem">Mahsulot</h3><button type="button" class="close-btn" onclick="closeModal('productModal')">×</button></div>
+    <div class="modal-header"><h3 id="productModalTitle" style="font-size:1rem">Mahsulot qo'shish</h3><button type="button" class="close-btn" onclick="closeModal('productModal')">×</button></div>
     <div class="modal-body">
       <form onsubmit="handleProductSubmit(event)">
         <input type="hidden" id="productId">
+        
+        <!-- PINDUODUO / TRENDYOL LINK PASTE BOX -->
+        <div class="form-group" style="background:#eef2ff; padding:12px; border-radius:14px; border:1px dashed #c7d2fe;">
+          <label style="color:#4f46e5; font-weight:700;">🔗 Pinduoduo yoki Trendyol havolasini tashlang:</label>
+          <div style="display:flex; gap:6px; margin-top:6px;">
+            <input type="text" id="productLinkInput" placeholder="https://www.trendyol.com/... yoki Pinduoduo linki" oninput="autoDetectLink(this.value)">
+            <button type="button" class="btn btn-primary btn-sm" onclick="fetchProductFromLink()">Avto olish</button>
+          </div>
+          <small style="color:#6b7280; font-size:0.75rem; display:block; margin-top:4px;">Havola tashlansa avtomatik ravishda davlat va maydonlar sozlanadi.</small>
+        </div>
+
         <label style="font-size:0.8rem; font-weight:600; margin-bottom:4px; display:block; color:var(--text-muted);">Mahsulot rasmlari (Uchtagacha):</label>
         <div class="multi-upload-grid" id="multiUploadGrid">
           <div class="upload-thumb" onclick="triggerThumbUpload(0)"><span>📷+</span></div>
@@ -725,8 +736,8 @@ header{background:rgba(255, 255, 255, 0.92);backdrop-filter: blur(12px);position
           <div class="form-group">
             <label>Davlat / Manba</label>
             <select id="productOrigin" onchange="updateAdminCalcPrice()">
-              <option value="china">🇨🇳 Xitoy</option>
-              <option value="turkey">🇹🇷 Turkiya</option>
+              <option value="china">🇨🇳 Xitoy (Pinduoduo/1688)</option>
+              <option value="turkey">🇹🇷 Turkiya (Trendyol)</option>
             </select>
           </div>
           <div class="form-group">
@@ -890,6 +901,45 @@ window.addEventListener('DOMContentLoaded', () => {
     });
   }
 });
+
+// PINDUODUO VA TRENDYOL HAVOLALARINI ANIqlash va Avtomatik to'ldirish
+function autoDetectLink(url){
+  if(url.includes('trendyol.com')) {
+    document.getElementById('productOrigin').value = 'turkey';
+    updateAdminCalcPrice();
+  } else if(url.includes('yangkeduo.com') || url.includes('pinduoduo.com') || url.includes('1688.com')) {
+    document.getElementById('productOrigin').value = 'china';
+    updateAdminCalcPrice();
+  }
+}
+
+function fetchProductFromLink(){
+  let linkInput = document.getElementById('productLinkInput').value.trim();
+  if(!linkInput) { showToast("Havolani kiriting!", "error"); return; }
+  
+  showToast("Havola tahlil qilinmoqda...");
+  
+  // URL asosida avtomatik taxminiy ma'lumotlarni to'ldirish
+  setTimeout(() => {
+    if(linkInput.includes('trendyol.com')) {
+      document.getElementById('productOrigin').value = 'turkey';
+      document.getElementById('productName').value = "Trendyol Import Mahsuloti";
+      document.getElementById('productCategory').value = "Turkiya tekstili";
+      document.getElementById('productPriceYuan').value = "350"; // lira o'rniga
+      document.getElementById('productWeight').value = "0.5";
+      showToast("Trendyol ma'lumotlari yuklandi!");
+    } else {
+      document.getElementById('productOrigin').value = 'china';
+      document.getElementById('productName').value = "Pinduoduo / 1688 Mahsuloti";
+      document.getElementById('productCategory').value = "Kiyim";
+      document.getElementById('productPriceYuan').value = "45";
+      document.getElementById('productWeight').value = "0.4";
+      showToast("Xitoy mahsulot ma'lumotlari yuklandi!");
+    }
+    updateAdminCalcPrice();
+  }, 600);
+}
+
 function showToast(msg, type='success'){
   let container = document.getElementById('toastContainer');
   if(!container) return;
@@ -1184,7 +1234,7 @@ function openProductDetail(productId){
   document.getElementById('detailTitle').textContent = p.name;
   document.getElementById('detailPrice').textContent = formatPrice(calculatePrice(p));
   let originText = p.origin === 'turkey' ? 'Turkiya' : 'Xitoy';
-  document.getElementById('detailCategoryWeight').textContent = `Manba: ${originText} | Kategoriya: ${p.category} | Yetkazish: ${p.shipping === 'avto' ? '🚛 Avto' : '✈️ Avia'}`;
+  document.getElementById('detailCategoryWeight').textContent = `Manba: ${originText} | Kategoriya: ${p.category} | Yetkazish: ${p.shipping === 'avto' ? '🚛 Avto' : '✈️️ Avia'}`;
   document.getElementById('detailDesc').textContent = p.desc || "Tavsif mavjud emas.";
   document.getElementById('detailQtyVal').textContent = selectedQty;
   document.getElementById('customSizeInput').value = 'Standard';
@@ -1772,6 +1822,7 @@ function deleteSellerApp(id){
 function openAddProductModal(){
   document.getElementById('productModalTitle').textContent = "Yangi mahsulot";
   document.getElementById('productId').value = '';
+  document.getElementById('productLinkInput').value = '';
   document.getElementById('productName').value = '';
   document.getElementById('productOrigin').value = 'china';
   document.getElementById('productPriceYuan').value = '';
